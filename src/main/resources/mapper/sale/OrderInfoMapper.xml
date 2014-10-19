@@ -7,7 +7,7 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="order_status" property="orderStatus" jdbcType="BIT" />
     <result column="shipping_status" property="shippingStatus" jdbcType="BIT" />
-    <result column="pay_status" property="payStatus" jdbcType="BIT" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
     <result column="consignee" property="consignee" jdbcType="VARCHAR" />
     <result column="country" property="country" jdbcType="SMALLINT" />
     <result column="province" property="province" jdbcType="SMALLINT" />
@@ -524,7 +524,7 @@
         shipping_status = #{shippingStatus,jdbcType=BIT},
       </if>
       <if test="payStatus != null" >
-        pay_status = #{payStatus,jdbcType=BIT},
+        pay_status = #{payStatus,jdbcType=INTEGER},
       </if>
       <if test="consignee != null" >
         consignee = #{consignee,jdbcType=VARCHAR},
@@ -703,7 +703,7 @@
       user_id = #{userId,jdbcType=INTEGER},
       order_status = #{orderStatus,jdbcType=BIT},
       shipping_status = #{shippingStatus,jdbcType=BIT},
-      pay_status = #{payStatus,jdbcType=BIT},
+      pay_status = #{payStatus,jdbcType=INTEGER},
       consignee = #{consignee,jdbcType=VARCHAR},
       country = #{country,jdbcType=SMALLINT},
       province = #{province,jdbcType=SMALLINT},

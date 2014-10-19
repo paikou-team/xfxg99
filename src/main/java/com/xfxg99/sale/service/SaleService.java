@@ -248,7 +248,7 @@ public class SaleService {
 		order.setOrderSn(changeTime);
 		order.setOrderStatus(true);
 		order.setShippingStatus(true);
-		order.setPayStatus(true);
+		order.setPayStatus(2);
 		order.setConsignee("……");
 		order.setCountry((short) 1);
 		order.setProvince((short) 26);

@@ -13,7 +13,7 @@ public class OrderInfo {
 
     private Boolean shippingStatus;
 
-    private Boolean payStatus;
+    private Integer payStatus;
 
     private String consignee;
 
@@ -167,11 +167,11 @@ public class OrderInfo {
         this.shippingStatus = shippingStatus;
     }
 
-    public Boolean getPayStatus() {
+    public Integer getPayStatus() {
         return payStatus;
     }
 
-    public void setPayStatus(Boolean payStatus) {
+    public void setPayStatus(Integer payStatus) {
         this.payStatus = payStatus;
     }
 
