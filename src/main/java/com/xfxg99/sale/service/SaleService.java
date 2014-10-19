@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
@@ -46,6 +47,7 @@ public class SaleService {
 
 		return new ListResult<SaleBillVM>(total, ls);
 	}
+
 	public List<SaleBillVM> loadTotalListWithPage(Map<String, Object> map) {
 		List<SaleBillVM> ls = saleBillMapper.loadListWithPage(map);
 		return ls;
@@ -241,11 +243,33 @@ public class SaleService {
 		order.setOrderId(0);
 		order.setUserId(custId);
 		Calendar cal = Calendar.getInstance();
+		String year = Integer.toString(cal.get(Calendar.YEAR));
+		String month = "";
+		if (cal.get(Calendar.MONTH) < 10) {
+			month = "0" + Integer.toString(cal.get(Calendar.MONTH));
+		}
+		String date = "";
+		if (cal.get(Calendar.DATE) < 10) {
+			date = "0" + Integer.toString(cal.get(Calendar.DATE));
+		}
+		Random r = new Random();
+		String subSn = Integer.toString(r.nextInt(99999));
+		if (subSn.length() == 1) {
+			subSn = "0000" + subSn;
+		} else if (subSn.length() == 2) {
+			subSn = "000" + subSn;
+		} else if (subSn.length() == 3) {
+			subSn = "00" + subSn;
+		} else if (subSn.length() == 4) {
+			subSn = "0" + subSn;
+		}
+		String orderSn = year + month + date + subSn;
 		String changeTime = Long.toString(cal.getTimeInMillis());
 		if (changeTime.length() > 10) {
 			changeTime = changeTime.substring(0, 10);
 		}
-		order.setOrderSn(changeTime);
+		// order.setOrderSn(changeTime);
+		order.setOrderSn(orderSn);
 		order.setOrderStatus(true);
 		order.setShippingStatus(true);
 		order.setPayStatus(2);

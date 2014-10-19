@@ -326,6 +326,8 @@ public class SaleController {
 	public @ResponseBody
 	String saveSaleBill(
 			@RequestParam(value = "bill", required = false) String billJson,
+			@RequestParam(value = "verifCode", required = false) String verifCode,
+			
 			HttpServletRequest request) {
 
 		User user = (User) request.getSession().getAttribute("user");
@@ -362,39 +364,47 @@ public class SaleController {
 					result.setMsg("没有验证码!");
 				} else {
 					SmsInfo smsInfo = smss.get(bill.getCustomerPhone());
-					Date cdate = new Date();
-					long interval = cdate.getTime()
-							- smsInfo.getSendTime().getTime();
-
-					int custId = bill.getCustId();
-
-					if (interval / 1000 > 5 * 60) { // 验证码5发分钟内有效
+					if(!smsInfo.getVerifCode().equals(verifCode)){
+						result = new Result<SaleBillVM>(bill);
 						result.setIsSuccess(false);
-						result.setMsg("验证码已经过期!");
-						smss.remove(bill.getCustomerPhone());
-					} else {
-						CustomerVM Customer = new CustomerVM();
-						Customer = saleService.getCustomerInfoById(custId);
-
-						if (Customer == null) {
+						result.setMsg("验证码错误");
+					}
+					else{
+						Date cdate = new Date();
+						long interval = cdate.getTime()
+								- smsInfo.getSendTime().getTime();
+	
+						int custId = bill.getCustId();
+	
+						if (interval / 1000 > 5 * 60) { // 验证码5发分钟内有效
 							result.setIsSuccess(false);
-							result.setMsg("客户信息已经丢失,请联系系统管理员");
-							return result.toJson();
-						}
-
-						BigDecimal bd2 = Customer.getUsermoney();// 李强，你这个代码有漏洞，这行代码应该来讲应该放在事务中，否则在并发下会有问题。
-
-						BigDecimal bd1 = new BigDecimal(bill.calcTotal());
-
-						if (bd1.compareTo(bd2) < 0) {
-							double subMoney = bd2.subtract(bd1).doubleValue();
-							bill.setSaletype(1);
-							saleService.saveSaleBill(bill, user, subMoney);
+							result.setMsg("验证码已经过期!");
 							smss.remove(bill.getCustomerPhone());
-							result = new Result<SaleBillVM>(bill);
 						} else {
-							result = new Result<SaleBillVM>(null, false, true,
-									true, "用户积分余额不足，不能交易，请先充值");
+							
+							CustomerVM Customer = new CustomerVM();
+							Customer = saleService.getCustomerInfoById(custId);
+	
+							if (Customer == null) {
+								result.setIsSuccess(false);
+								result.setMsg("客户信息已经丢失,请联系系统管理员");
+								return result.toJson();
+							}
+	
+							BigDecimal bd2 = Customer.getUsermoney();// 李强，你这个代码有漏洞，这行代码应该来讲应该放在事务中，否则在并发下会有问题。
+	
+							BigDecimal bd1 = new BigDecimal(bill.calcTotal());
+	
+							if (bd1.compareTo(bd2) < 0) {
+								double subMoney = bd2.subtract(bd1).doubleValue();
+								bill.setSaletype(1);
+								saleService.saveSaleBill(bill, user, subMoney);
+								smss.remove(bill.getCustomerPhone());
+								result = new Result<SaleBillVM>(bill);
+							} else {
+								result = new Result<SaleBillVM>(null, false, true,
+										true, "用户积分余额不足，不能交易，请先充值");
+							}
 						}
 					}
 				}

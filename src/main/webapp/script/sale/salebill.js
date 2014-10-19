@@ -452,7 +452,8 @@ function onSaveSaleBill() {
 		dataType : "json",
 		async : false,
 		data : {
-			'bill' : JSON.stringify(m_sale_bill)
+			'bill' : JSON.stringify(m_sale_bill),
+			"verifCode": $('#txtVerifCode').val()
 		},
 		success : function(req) {
 			if (req.isSuccess) {
