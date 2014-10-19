@@ -126,6 +126,7 @@ function loadOrgs() {
 }
 function fillInBlankInfo() {
 	$("#textSaleCustomer").val(parent.m_sale_obj.customerName);
+	$("#txtrealname").val(parent.m_sale_obj.realname);
 	$.ajax({
 		url : 'sale/loadProductListByBillId.do',
 		type : "POST",

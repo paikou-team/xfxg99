@@ -194,6 +194,7 @@ var SaleManage = {
 			m_sale_obj.goodsAmount = obj.goodsAmount;
 			m_sale_obj.saleTime = obj.saleTime;
 			m_sale_obj.recTime = obj.recTime;
+			m_sale_obj.realname = obj.realname;
 		},
 		
 		ShowDialog:function(obj){
