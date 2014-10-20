@@ -131,15 +131,7 @@
             margin-top: 50px;
         }
     </style>
-    <script type="text/javascript">
-        $(function () {
-            $("#txtpassword").keydown(function (e) {
-                if (e.keyCode == 13) {
-                	$("#submitform").submit();
-                }
-            });
-        });
-    </script>
+   
 </head>
   
   <body>

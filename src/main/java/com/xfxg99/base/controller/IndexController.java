@@ -75,15 +75,17 @@ public class IndexController {
 			return s.toJson();
 		}
 	}
-	
+
 	/**
 	 * 退出主页，返回登录页面
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "onExit.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	void onExit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		request.getSession().invalidate();//清除当前用户相关的session对象
+	void onExit(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		request.getSession().invalidate();// 清除当前用户相关的session对象
 		response.sendRedirect("../login.jsp");
 
 	}
@@ -105,41 +107,39 @@ public class IndexController {
 		// HttpSession session = req.getSession();
 		HttpSession session = request.getSession();
 		UserVM u = (UserVM) session.getAttribute("user");
-		//判断用户是否过期（null）
+		// 判断用户是否过期（null）
 		if (u == null) {
 			response.sendRedirect("../index.jsp?optType=1");
 		} else {
-				//根据session中的user的id查出password
-				User user = userService.selectByPrimaryKey(u.getId());
-				String pwd = encryption(password);
-				//输入与原密码是否一致
-				if (!pwd.equals(user.getPassword())) {
-					response.sendRedirect("../index.jsp?optType=2");
-				} else if(password.equals(null) && password.equals("")) {
-					response.sendRedirect("../index.jsp?optType=5");
-				} else if(newPassword.equals(null) && newPassword.equals("")) {
-					response.sendRedirect("../index.jsp?optType=6");
-				} else if(TooNewPassword.equals(null) && TooNewPassword.equals("")) {
-					response.sendRedirect("../index.jsp?optType=7");
+			// 根据session中的user的id查出password
+			User user = userService.selectByPrimaryKey(u.getId());
+			String pwd = encryption(password);
+			// 输入与原密码是否一致
+			if (!pwd.equals(user.getPassword())) {
+				response.sendRedirect("../index.jsp?optType=2");
+			} else if (password.equals(null) && password.equals("")) {
+				response.sendRedirect("../index.jsp?optType=5");
+			} else if (newPassword.equals(null) && newPassword.equals("")) {
+				response.sendRedirect("../index.jsp?optType=6");
+			} else if (TooNewPassword.equals(null) && TooNewPassword.equals("")) {
+				response.sendRedirect("../index.jsp?optType=7");
+			} else {
+				// 两次输入
+				if (!newPassword.equals(TooNewPassword)) {
+					response.sendRedirect("../index.jsp?optType=3");
 				} else {
-					//两次输入
-					if (!newPassword.equals(TooNewPassword)) {
-						response.sendRedirect("../index.jsp?optType=3");
-					} else {
-						String nPwd = encryption(newPassword);
-						
-						user.setPassword(nPwd);
-						Map<String, Object> map = new HashMap<String, Object>();
-						map.put("id", user.getId());
-						map.put("password", nPwd);
-						userService.updatePwdByPrimaryKey(map);
-						response.sendRedirect("../index.jsp?optType=4");
-					}
+					String nPwd = encryption(newPassword);
+
+					user.setPassword(nPwd);
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("id", user.getId());
+					map.put("password", nPwd);
+					userService.updatePwdByPrimaryKey(map);
+					response.sendRedirect("../index.jsp?optType=4");
 				}
 			}
 		}
-		
-	
+	}
 
 	@RequestMapping(value = "loginAction.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -149,19 +149,23 @@ public class IndexController {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		try {
+			if (username.isEmpty()) {
+				response.sendRedirect("../login.jsp?optType=0");
+				return;
+			}
+			if (password.isEmpty()) {
+				response.sendRedirect("../login.jsp?optType=1");
+				return;
+			}
 			HttpSession session = request.getSession();
 			Map<String, Object> map = new HashMap<String, Object>();
 			if (username.trim().length() == 0) {
-				Result<UserVM> s = new Result<UserVM>(null, false, false,
-						false, "用户名不能为空");
-				response.sendRedirect("../login.jsp");
-				// return s.toJson();
+				response.sendRedirect("../login.jsp?optType=0");
+				return;
 			}
 			if (password.trim().length() == 0) {
-				Result<UserVM> s = new Result<UserVM>(null, false, false,
-						false, "密码不能为空");
-				response.sendRedirect("../login.jsp");
-				// return s.toJson();
+				response.sendRedirect("../login.jsp?optType=1");
+				return;
 			}
 			String nPwd = encryption(password);
 			map.put("name", username);
@@ -169,23 +173,18 @@ public class IndexController {
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
 				if (u.getIsUsed() == false) {
-					Result<UserVM> s = new Result<UserVM>(null, false, false,
-							false, "用户已停用");
-					response.sendRedirect("../login.jsp");
+					response.sendRedirect("../login.jsp?optType=2");
+					return;
 				}
 				session.setAttribute("user", u);
-				Result<UserVM> s = new Result<UserVM>(u, true, false, false,
-						"用户登录验证成功");
 				response.sendRedirect("../index.jsp");
 			} else {
-				Result<UserVM> s = new Result<UserVM>(u, false, false, false,
-						"用户登录验证失败，账号或者密码错误，请检查");
-				response.sendRedirect("../login.jsp");
+				response.sendRedirect("../login.jsp?optType=3");
+				return;
 			}
 		} catch (Exception ex) {
-			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
-					"用户登录验证失败，请联系网站管理员");
-			response.sendRedirect("../login.jsp");
+			response.sendRedirect("../login.jsp?optType=4");
+			return;
 		}
 	}
 
