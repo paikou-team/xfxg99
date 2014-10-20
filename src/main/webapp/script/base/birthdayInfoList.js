@@ -97,12 +97,13 @@ $(function() {
 			field : 'sex',
 			align : 'left',
 			width : 60,
+			hidden: true,
 			formatter:function(value,rowData,index){
 				if(value==0||value=="0"){
 					return "男";
-				}else{
+				}else if(value==1||value=="1"){
 					return "女";
-				}
+				} 
 			}
 		},{
 			title : '门店信息',

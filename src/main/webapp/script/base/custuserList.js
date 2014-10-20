@@ -50,10 +50,12 @@ $(function() {
 			align : 'center',
 			width : 150,
 			formatter:function(value,rowData,index){
-				if(value==0||value=="0"){
+				if(value==1||value=="1"){
 					return "男";
-				}else{
+				}else if(value==2||value=="2"){
 					return "女";
+				}else{
+					return "男";
 				}
 			}
 		},{
