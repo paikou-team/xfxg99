@@ -8,6 +8,7 @@
 		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
 		<result column="period" property="period" jdbcType="INTEGER" />
 		<result column="bless_id" property="blessId" jdbcType="INTEGER" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
 		<result column="mobile_phone" property="phone" jdbcType="VARCHAR" />
 		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
 		<result column="bless_description" property="blessDescription" jdbcType="VARCHAR" />
@@ -206,6 +207,7 @@
 			vv.user_name,
 			vv.birthday,
 			vv.email,
+			vv.sex,
 			vv.period,
 			vv.cyear,
 			vv.org_id,
@@ -233,6 +235,7 @@
 					user_name,
 					email,
 					birthday ,
+					sex,
 					org_id,
 					mobile_phone,
 					DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR) as cb1,
