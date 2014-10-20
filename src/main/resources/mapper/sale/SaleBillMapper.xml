@@ -409,17 +409,15 @@
 			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="orgId > 0">
-			and s.org_id = #{orgId,jdbcType=INTEGER}
-		</if>
-		<if test="orgPath != null">
-			and o.path like CONCAT( '%',#{orgPath,jdbcType=VARCHAR},'%')
-		</if>
+			and ( s.org_id = #{orgId,jdbcType=INTEGER} or o.path like CONCAT( '%',#{orgPath,jdbcType=VARCHAR},'%') )
+		</if> 
 		<if test="beginDate != null">
 			and s.sale_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endDate != null">
 			and s.sale_time &lt;=#{endDate,jdbcType=TIMESTAMP}
 		</if>
+		order by s.sale_time desc
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
 		</if>
@@ -440,8 +438,8 @@
 			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="orgId > 0">
-			and s.org_id = #{orgId,jdbcType=INTEGER}
-		</if>
+			and ( s.org_id = #{orgId,jdbcType=INTEGER} or o.path like CONCAT( '%',#{orgPath,jdbcType=VARCHAR},'%') )
+		</if> 
 		<if test="beginDate != null">
 			and s.sale_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
 		</if>
