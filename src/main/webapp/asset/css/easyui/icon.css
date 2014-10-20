@@ -41,7 +41,7 @@
 	background:url('icons/reload.png') no-repeat center center;
 }
 .icon-search{
-	background:url('icons/search.png') no-repeat center center;
+	background:url('icons/tianyi_search.png') no-repeat center center;
 }
 .icon-print{
 	background:url('icons/print.png') no-repeat center center;
@@ -110,28 +110,28 @@
 	background:url('icons/next2.png') no-repeat center center;
 }
 .icon_xfxg_add{
-	background:url('icons/add.png') no-repeat center center;
+	background:url('icons/tianyi_add.png') no-repeat center center;
 }
 .icon_xfxg_edit{
-	background:url('icons/compose-3.png') no-repeat center center;
+	background:url('icons/edit.png') no-repeat center center;
 }
 .icon_xfxg_show{
-	background:url('icons/speech-bubble-right-2.png') no-repeat center center;
+	background:url('icons/edit.png') no-repeat center center;
 }
 .icon_xfxg_save{
 	background:url('icons/notes.png') no-repeat center center;
 }
 .icon_xfxg_search{
-	background:url('icons/search.png') no-repeat center center;
+	background:url('icons/tianyi_search.png') no-repeat center center;
 }
 .icon_xfxg_delete{
-	background:url('icons/delete.png') no-repeat center center;
+	background:url('icons/cancel.png') no-repeat center center;
 }
 .icon_xfxg_confirm{
-	background:url('icons/spam.png') no-repeat center center;
+	background:url('icons/confirm.png') no-repeat center center;
 }
 .icon_xfxg_close{
-	background:url('icons/cross.png') no-repeat center center;
+	background:url('icons/exit.png') no-repeat center center;
 }
 .icon_xfxg_remove{
 	background:url('icons/delete.png') no-repeat center center;
@@ -144,4 +144,12 @@
 }
 .icon_xfxg_message{
 	background:url('icons/message.png') no-repeat center center;
+}
+
+.icon_xfxg_custview{
+	background:url('icons/custview.png') no-repeat center center;
+}
+
+.icon_xfxg_birthday{
+	background:url('icons/birthday.png') no-repeat center center;
 }

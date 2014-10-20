@@ -54,6 +54,18 @@ public class IndexController {
 
 		return funcs.toJson();
 	}
+	
+	@RequestMapping(value = "getAllList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getAllList(HttpServletRequest request) {
+
+		List<SysFunction> ls = sysFunctionService.loadAllSysFunction();
+
+		ListResult<SysFunction> funcs = new ListResult<SysFunction>(ls.size(),
+				ls, true);
+
+		return funcs.toJson();
+	}
 
 	@RequestMapping(value = "isSignIn.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody

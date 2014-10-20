@@ -14,17 +14,28 @@
 	<resultMap id="ViewModelResultMap" type="com.xfxg99.sale.viewmodel.SaleBillVM">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="cust_id" property="custId" jdbcType="INTEGER" />
-		<result column="customerName" property="customerName" jdbcType="VARCHAR" />
-		<result column="mobile_phone" property="customerPhone"
-			jdbcType="VARCHAR" />
+		<result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+		<result column="mobile_phone" property="customerPhone" jdbcType="VARCHAR" />
 		<result column="org_id" property="orgId" jdbcType="INTEGER" />
-		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
 		<result column="pay_id" property="payId" jdbcType="INTEGER" />
 		<result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
 		<result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
 		<result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
 		<result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
+		<collection property="saleGoods" resultMap="GoodsVMMap"/>
 	</resultMap>
+	
+	<resultMap id="GoodsVMMap" type="com.xfxg99.sale.viewmodel.SaleGoodsVM" >
+    <id column="sale_goods_id" property="id" jdbcType="INTEGER" />
+    <result column="sale_id" property="saleId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_number" property="goodsNumber" jdbcType="VARCHAR" />
+    
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+  </resultMap>
 
 
 	<sql id="CustomerVM_Column_List">
@@ -44,10 +55,17 @@
 		s.sale_time as sale_time,
 		s.rec_time as rec_time,
 		s.serial_no as serial_no,
-		o.name as orgName,
-		eu.user_name as customerName,
-		eu.email as customerEmail,
-		eu.mobile_phone as mobile_phone
+		o.name as org_name,
+		eu.user_name as customer_name,
+		eu.email as customer_email,
+		eu.mobile_phone as mobile_phone,
+		sg.id				as	sale_goods_id,
+  		sg.sale_id			as	sale_id,
+  		sg.goods_id			as	goods_id,
+  		g.goods_name		as	goods_name,
+  		sg.goods_number		as	goods_number,
+  		sg.market_price		as	market_price,
+  		sg.goods_price		as	goods_price
 	</sql>
 
 	<sql id="Base_Column_List">
@@ -80,7 +98,7 @@
 		delete from t_sale
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.xfxg99.sale.model.SaleBill">
+	<insert id="insert" parameterType="com.xfxg99.sale.model.SaleBill" useGeneratedKeys="true" keyProperty="id">
 		<selectKey resultType="INTEGER" keyProperty="id">
 			SELECT
 			LAST_INSERT_ID()
@@ -94,7 +112,7 @@
 		#{goodsAmount,jdbcType=DECIMAL}, #{saleTime,jdbcType=TIMESTAMP},
 		#{recTime,jdbcType=TIMESTAMP})
 	</insert>
-	<insert id="insertSelective" parameterType="com.xfxg99.sale.model.SaleBill">
+	<insert id="insertSelective" parameterType="com.xfxg99.sale.model.SaleBill" useGeneratedKeys="true" keyProperty="id">
 		insert into t_sale
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -295,6 +313,8 @@
 		from t_sale as s
 		left join t_organization as o on s.org_id = o.id
 		left join ecs_users as eu on s.cust_id = eu.user_id
+		left join	t_sale_goods	as sg	on	sg.sale_id			=s.id
+  		left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
 		where 1=1
 		<if test="serialNo != null">
 			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
@@ -316,8 +336,10 @@
 		resultType="java.lang.Integer">
 		select count(*)
 		from t_sale as s
-		left join t_organization as o on s.org_id = o.id
-		left join ecs_users as eu on s.cust_id = eu.user_id
+		left join 	t_organization as o 	on 	s.org_id = o.id
+		left join 	ecs_users as eu 		on 	s.cust_id = eu.user_id
+		left join	t_sale_goods	as sg	on	sg.sale_id			=s.id
+  		left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
 		where 1=1
 		<if test="serialNo != null">
 			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
@@ -341,4 +363,15 @@
 			#{item}
 		</foreach>
 	</delete>
+	<select id="loadVMById" parameterType="java.lang.Integer" resultMap="ViewModelResultMap">
+	select 
+  		<include refid="VM_Column_List" />
+  	from t_sale as s
+		left join t_organization as o on s.org_id = o.id
+		left join ecs_users as eu on s.cust_id = eu.user_id
+		left join	t_sale_goods	as sg	on	sg.sale_id			=s.id
+  		left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
+  	where s.id=  #{id,jdbcType=INTEGER}
+  
+  </select>
 </mapper>

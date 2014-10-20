@@ -159,6 +159,15 @@ function onStockSearch(){
 }
 
 function onStockBillAdd(){
+	
+	if(m_stock_type==10 && !checkAuthorize2("shop_stockin_add")){
+		return;
+	}else if(m_stock_type==11 && !checkAuthorize2("shop_stockout_add")){
+		return;
+	}else if(m_stock_type==12 && !checkAuthorize2("shop_transfer_add")){
+		return;
+	}
+	
 	try {
 		m_stock_dlg = art.dialog({
             id: 'dlgStockBillView',
@@ -175,6 +184,15 @@ function onStockBillAdd(){
 }
 
 function onStockConfirm(){
+	
+	if(m_stock_type==10 && !checkAuthorize2("shop_stockin_confirm")){
+		return;
+	}else if(m_stock_type==11 && !checkAuthorize2("shop_stockout_confirm")){
+		return;
+	}else if(m_stock_type==12 && !checkAuthorize2("shop_transfer_confirm")){
+		return;
+	}
+	
 	var row = $("#dgStock").datagrid("getSelected");
 	
 	if(row){
@@ -212,7 +230,16 @@ function onStockBillEdit(){
 }
 
 function onStockDel(){
-var row = $("#dgStock").datagrid("getSelected");
+	
+	if(m_stock_type==10 && !checkAuthorize2("shop_stockin_del")){
+		return;
+	}else if(m_stock_type==11 && !checkAuthorize2("shop_stockout_del")){
+		return;
+	}else if(m_stock_type==12 && !checkAuthorize2("shop_transfer_del")){
+		return;
+	}
+	
+	var row = $("#dgStock").datagrid("getSelected");
 	
 	if(row){
 		

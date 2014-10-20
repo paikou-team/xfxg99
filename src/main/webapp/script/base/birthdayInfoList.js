@@ -85,17 +85,17 @@ $(function() {
 		},{
 			title : '问候',
 			field : 'blessDescription',
-			align : 'right',
+			align : 'left',
 			width : 160
 		},{
 			title : '客户姓名',
 			field : 'name',
-			align : 'center',
+			align : 'left',
 			width : 150
 		},  {
 			title : '性别',
 			field : 'sex',
-			align : 'center',
+			align : 'left',
 			width : 60,
 			formatter:function(value,rowData,index){
 				if(value==0||value=="0"){
@@ -108,17 +108,17 @@ $(function() {
 			title : '门店信息',
 			field : 'orgName',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		},{
 			title : '联系方式',
 			field : 'phone',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		},{
 			title : '出生日期',
 			field : 'birthday',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		}, {
 			title : '电子邮件',
 			field : 'email',
@@ -185,7 +185,7 @@ function onCustomer(){
 				.dialog({
 					id : 'dlgCustUserBill',
 					title : '客户资料',
-					content : "<iframe scrolling='yes' frameborder='0' src='view/base/custuserBill.jsp?optType="+optType+"' style='width:480px;height:380px;overflow:hidden'/>",
+					content : "<iframe scrolling='yes' frameborder='0' src='view/base/custuserBill.jsp?optType=0' style='width:480px;height:380px;overflow:hidden'/>",
 					// content:"123",
 					lock : true,
 					initFn : function() {

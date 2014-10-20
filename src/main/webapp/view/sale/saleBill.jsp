@@ -51,7 +51,7 @@
                             <label>单据日期:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
-                            <input id="dteSaleTime" class="easyui-datetimebox" data-options="required:true,editable:false"   />
+                            <input id="dteSaleTime" class="easyui-datebox" data-options="required:true,editable:false"   />
                         </td>                      
                     </tr>
                     <tr>
@@ -82,7 +82,7 @@
                             
                         </td>
                         <td style="width:60px; text-align: right">
-                    		<label >输入验证码:</label>
+                    		<label id="labelCode" >输入验证码:</label>
                     	</td>
                     	<td style="width: 120px; text-align: left">
                             <input id="txtVerifCode"  class="easyui-validatebox" data-options="required:false" />

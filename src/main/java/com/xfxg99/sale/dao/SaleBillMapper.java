@@ -41,4 +41,6 @@ public interface SaleBillMapper {
 	CustomerVM getCustomerInfoById(int custId);
 
 	void updateUserInfoById(Map<String, Object> map);
+	
+	SaleBillVM loadVMById(Integer id);
 }

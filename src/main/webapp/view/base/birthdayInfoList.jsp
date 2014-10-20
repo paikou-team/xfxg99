@@ -24,11 +24,11 @@
         <div>
             <p> 
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"  click="onCustomer()"
-                    plain="true">客户资料</a>
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_custview"  click="onCustomer()"
+                    plain="true">资料</a>
                 <a id="btnBirthdayRecord" name="btnBirthdayRecord"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
-                    plain="true" >生日祝福</a>
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_birthday"
+                    plain="true" >记录</a>
             </p>
             <div  style="margin-top:10px;">
 		<ul>

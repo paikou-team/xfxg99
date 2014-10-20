@@ -25,7 +25,7 @@ import com.xfxg99.sale.model.OrderInfo;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.model.SaleGoods;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
-import com.xfxg99.sale.viewmodel.StockGoodsVM;
+import com.xfxg99.sale.viewmodel.SaleGoodsVM;
 
 @Service("saleService")
 public class SaleService {
@@ -64,12 +64,12 @@ public class SaleService {
 		Map<String, Object> billNoMap = GeneralUtil.getSerialNoPars(2);
 
 		double goodsAmount = 0.0f;
-		List<StockGoodsVM> glist = new ArrayList<StockGoodsVM>();
+		List<SaleGoodsVM> glist = new ArrayList<SaleGoodsVM>();
 
 		int saleId = 0;
 		int custId = 0;
 		if (bill.getId() == 0) {
-			for (StockGoodsVM sg : bill.getStockGoods()) {
+			for (SaleGoodsVM sg : bill.getSaleGoods()) {
 				if (sg.getGoodsId() > 0) {
 					goodsAmount += sg.getGoodsPrice() * sg.getGoodsNumber();
 				}
@@ -95,15 +95,15 @@ public class SaleService {
 			map.put("saleId", bill.getId());
 			List<Integer> ids = new ArrayList<Integer>();
 
-			for (StockGoodsVM sg : bill.getStockGoods()) {
+			for (SaleGoodsVM sg : bill.getSaleGoods()) {
 				ids.add(sg.getId());
 			}
 			map.put("ids", ids);
 			saleBillMapper.deleteByNotExistId(map);
 		}
 
-		for (StockGoodsVM sg : bill.getStockGoods()) {
-			sg.setStockId(bill.getId());
+		for (SaleGoodsVM sg : bill.getSaleGoods()) {
+			sg.setSaleId(bill.getId());
 			if (sg.getId() == 0) {
 				SaleGoods gs = new SaleGoods();
 
@@ -155,7 +155,7 @@ public class SaleService {
 		saleBillMapper.insertOrderAction(orderaction);
 	}
 
-	private void saveOrderGoods(int orderid, List<StockGoodsVM> glist) {
+	private void saveOrderGoods(int orderid, List<SaleGoodsVM> glist) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < glist.size(); i++) {
 			OrderGoods og = new OrderGoods();
@@ -286,13 +286,13 @@ public class SaleService {
 
 	}
 
-	public ListResult<StockGoodsVM> loadProductListByBillId(
+	public ListResult<SaleGoodsVM> loadProductListByBillId(
 			Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		List<StockGoodsVM> ls = saleGoodsMapper.loadProductListByBillId(map);
+		List<SaleGoodsVM> ls = saleGoodsMapper.loadProductListByBillId(map);
 		int count = saleGoodsMapper.countByBillId(map);
 
-		ListResult<StockGoodsVM> result = new ListResult<StockGoodsVM>(count,
+		ListResult<SaleGoodsVM> result = new ListResult<SaleGoodsVM>(count,
 				ls);
 
 		return result;
@@ -301,5 +301,9 @@ public class SaleService {
 	public CustomerVM getCustomerInfoById(int custId) {
 		// TODO Auto-generated method stub
 		return saleBillMapper.getCustomerInfoById(custId);
+	}
+	
+	public SaleBillVM loadVMById(Integer id){
+		return saleBillMapper.loadVMById(id);
 	}
 }

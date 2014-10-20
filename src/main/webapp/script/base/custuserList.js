@@ -15,23 +15,6 @@ $(function() {
 	
 	viewSwitch();
 	
-	// var optType = args.optType;
-	// if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
-	// $("#ConfirmCharge").hide();
-	// } else if (optType == 1 || optType == "1")// 商务中心--充值记录，只有确认、查看操作
-	// {
-	// $("#AddCharge").hide();
-	// } else {
-	// //$("#ConfirmCharge").hide();
-	// $("#AddCharge").hide();
-	// $("#tb_searchbox").hide();
-	// m_charge_query = {
-	// orgname : "",
-	// custname : "",
-	// username : "",
-	// isconfirm : 2
-	// };
-	// }
 
 	$('#custUserGrid').datagrid({
 		url : 'customer/getcustList.do',
@@ -58,7 +41,7 @@ $(function() {
 		}, {
 			title : '客户姓名',
 			field : 'name',
-			align : 'center',
+			align : 'left',
 			width : 150
 		},  {
 			title : '性别',
@@ -76,17 +59,17 @@ $(function() {
 			title : '门店信息',
 			field : 'orgName',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		},{
 			title : '联系方式',
 			field : 'phone',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		},{
 			title : '出生日期',
 			field : 'birthday',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		}, {
 			title : '电子邮件',
 			field : 'email',

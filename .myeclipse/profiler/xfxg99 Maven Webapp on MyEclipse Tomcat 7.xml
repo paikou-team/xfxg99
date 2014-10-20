@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="profiler.settings.instrument.empty.methods">true</entry>
+<entry key="ProfilerCPUSettings_version">1.0</entry>
+<entry key="ProfilerCPUSettings_profile_runnables">true</entry>
+<entry key="ProfilerCPUSettings_filter_type">2</entry>
+<entry key="ProfilerMemorySettings_track_every">10</entry>
+<entry key="ProfilerMemorySettings_mode">4</entry>
+<entry key="ProfilerCPUSettings_root_classes">com.xfxg99.base.controller.**
+com.xfxg99.base.dao.**
+com.xfxg99.base.model.**
+com.xfxg99.base.service.**
+com.xfxg99.base.viewmodel.**
+com.xfxg99.core.**
+com.xfxg99.sale.controller.**
+com.xfxg99.sale.dao.**
+com.xfxg99.sale.model.**
+com.xfxg99.sale.service.**
+com.xfxg99.sale.viewmodel.**
+com.xfxg99.test.**
+</entry>
+<entry key="ProfilerCPUSettings_filter_value">com.xfxg99.base.controller.*,
+com.xfxg99.base.dao.*,
+com.xfxg99.base.model.*,
+com.xfxg99.base.service.*,
+com.xfxg99.base.viewmodel.*,
+com.xfxg99.core.*,
+com.xfxg99.sale.controller.*,
+com.xfxg99.sale.dao.*,
+com.xfxg99.sale.model.*,
+com.xfxg99.sale.service.*,
+com.xfxg99.sale.viewmodel.*,
+com.xfxg99.test.*</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">true</entry>
+<entry key="ProfilerMemorySettings_stacktraces">-1</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+</properties>

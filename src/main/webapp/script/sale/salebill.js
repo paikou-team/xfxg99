@@ -12,6 +12,12 @@ $(function() {
 	if (args.optType == 1 || args.optType == "1") {
 		$("#tb_operationtb").hide();
 		$("#viewBillInfo").hide();
+		$("#txtVerifCode").hide();
+		$("#btnGetVerifCode").hide();
+		$("#labelCode").hide();
+		$("#dteSaleTime").datebox('disable');
+		$('#txtDescription').attr("disabled", true);
+		
 		fillInBlankInfo();
 	}
 	$('#dgSaleDetail').datagrid({  
@@ -148,7 +154,7 @@ function fillInBlankInfo() {
 	});
 }
 function loadBill(billType, id) {
-	if (id == 0) {
+//	if (id == 0) {
 		$.ajax({
 			url : 'sale/loadBill.do',
 			type : "POST",
@@ -165,7 +171,7 @@ function loadBill(billType, id) {
 				}
 			},
 		});
-	}
+//	}
 }
 
 // 添加商品
@@ -259,7 +265,7 @@ function calcAmount(rowIndex, row) {
 function setBillLockState() {
 	if (m_sale_bill.confirmerId > 0) {
 		$('#cmbSaleDetp').combobox("disable");
-		$("#dteSaleTime").datetimebox('disable');
+		$("#dteSaleTime").datebox('disable');
 		$('#txtDescription').attr("disabled", true);
 
 		$('#btnAddGoods').hide();
@@ -273,7 +279,7 @@ function setBillLockState() {
  */
 function onCheckStockBill() {
 
-	if (m_sale_bill.id == undefined || m_stokc_bill.id == null
+	if (m_sale_bill.id == undefined || m_sale_bill.id == null
 			|| m_sale_bill.id == 0) {
 		$.messager.alert("提示", "请先保存单据!", "info");
 	} else {
@@ -283,7 +289,7 @@ function onCheckStockBill() {
 			dataType : "json",
 			async : false,
 			data : {
-				'id' : m_stokc_bill.id
+				'id' : m_sale_bill.id
 			},
 			success : function(req) {
 				if (req.isSuccess) {
@@ -380,10 +386,14 @@ function stockBill2View(bill) {
 	}
 
 	if (bill.saleTime) {
-		$("#dteSaleTime").datetimebox("setValue", bill.saleTime);
+		$("#dteSaleTime").datebox("setValue", bill.saleTime);
+	}
+	
+	if(bill.customerPhone){
+		$("#txtMobile").val(bill.customerPhone);
 	}
 
-	$("#txtPreparerOrgName").val(bill.preparerOrgName);
+	$("#txtPreparerOrgName").val(bill.orgName);
 	$("#txtPreparerName").val(bill.preparerName);
 	$("#txtPrepareTime").val(bill.recTime);
 	//	
@@ -391,14 +401,14 @@ function stockBill2View(bill) {
 	// $("#txtConfirmerName").val(bill.confirmerName);
 	// $("#txtConfirmTime").val(bill.confirmTime);
 
-	if (bill.stockGoods != undefined && bill.stockGoods != null) {
-		for ( var i = 0; i++; i < bill.stockGoods) {
-			var row = bill.stockGoods[i];
-			row.amount = row.goodsPrice * row.number;
-		}
-
-		$('#dgSaleDetail').datagrid('loadData', bill.stockGoods);
-	}
+//	if (bill.saleGoods != undefined && bill.saleGoods != null) {
+//		for ( var i = 0; i < bill.saleGoods.length;i++) {
+//			var row = bill.saleGoods[i];
+//			row.amount = row.goodsPrice * row.number;
+//		}
+//
+//		$('#dgSaleDetail').datagrid('loadData', bill.saleGoods);
+//	}
 
 }
 
@@ -406,7 +416,7 @@ function view2stockBill() {
 	if (m_saleDetail_rowIndex != undefined) {
 		endEdit(m_saleDetail_rowIndex);
 	}
-	m_sale_bill.billTime = $('#dteSaleTime').datetimebox('getValue');
+	m_sale_bill.billTime = $('#dteSaleTime').datebox('getValue');
 	m_sale_bill.description = $('#txtDescription').val();
 
 	m_sale_bill.custId = $("#txtcustId").val();
@@ -475,8 +485,8 @@ function onSaveSaleBill() {
 	
 	clearTimeInterval(); 
 	
-	var data = $('#dgSaleDetail').datagrid('getData');  
-	m_sale_bill.stockGoods = data.rows;
+	//var data = $('#dgSaleDetail').datagrid('getData');  
+	m_sale_bill.saleGoods = data.rows;
 
 	$.ajax({
 		url : "sale/saveSaleBill.do",

@@ -12,7 +12,7 @@ public class SaleBillVM  extends SaleBill{
 	private String preparerOrgName;
 	private String preparerName;
 	
-	private List<StockGoodsVM>  stockGoods;
+	private List<SaleGoodsVM>  saleGoods;
 	
 	public String getOrgName() {
 		return orgName;
@@ -51,10 +51,25 @@ public class SaleBillVM  extends SaleBill{
 	public void setPreparerName(String preparerName) {
 		this.preparerName = preparerName;
 	}
-	public List<StockGoodsVM> getStockGoods() {
-		return stockGoods;
+	public List<SaleGoodsVM> getSaleGoods() {
+		return saleGoods;
 	}
-	public void setStockGoods(List<StockGoodsVM> stockGoods) {
-		this.stockGoods = stockGoods;
+	public void setSaleGoods(List<SaleGoodsVM> saleGoods) {
+		this.saleGoods = saleGoods;
+	}
+	/**
+	 * 合计金额
+	 * @return
+	 */
+	public double calcTotal(){
+		double amt=0.0d;
+		if(this.saleGoods!=null && this.saleGoods.size()>0){
+			for (SaleGoodsVM sg : this.saleGoods) {
+				if (sg.getGoodsId() > 0) {
+					amt += sg.getGoodsPrice() * sg.getGoodsNumber(); 
+				} 
+			}
+		}
+		return amt;
 	}
 }
