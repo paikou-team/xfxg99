@@ -20,6 +20,7 @@ $(function() {
 		$('#txtDescription').attr("disabled", true);
 		$("#textSaleCustomer").attr("disabled",true);
 		$("#txtMobile").attr("disabled",true);
+		$("#txtrealname").attr("disabled",true);
 		
 //		fillInBlankInfo();
 	}
@@ -128,7 +129,6 @@ function loadOrgs() {
 }
 function fillInBlankInfo() {
 	$("#textSaleCustomer").val(parent.m_sale_obj.customerName);
-	$("#txtrealname").val(parent.m_sale_obj.realname);
 	$.ajax({
 		url : 'sale/loadProductListByBillId.do',
 		type : "POST",
@@ -360,6 +360,7 @@ function stockBill2View(bill) {
 	$("#txtPreparerName").val(bill.preparerName);
 	$("#txtPrepareTime").val(bill.recTime);
 	$('#txtDescription').val(bill.description);
+	$("#txtrealname").val(parent.m_sale_obj.realname);
 
 	if (bill.saleGoods != undefined && bill.saleGoods != null) {
 		for ( var i = 0; i < bill.saleGoods.length;i++) {
