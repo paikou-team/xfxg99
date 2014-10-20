@@ -280,8 +280,8 @@ public class SaleService {
 		order.setBonusId((short) 0);
 		order.setExtensionCode(" ");
 
-		int ordId = saleBillMapper.insertOrderInfo(order);
-
+		saleBillMapper.insertOrderInfo(order);
+		int ordId = order.getOrderId();
 		return ordId;
 
 	}
