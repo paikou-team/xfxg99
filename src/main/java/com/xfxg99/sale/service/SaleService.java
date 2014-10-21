@@ -22,6 +22,7 @@ import com.xfxg99.sale.dao.SaleGoodsMapper;
 import com.xfxg99.sale.model.OrderAction;
 import com.xfxg99.sale.model.OrderGoods;
 import com.xfxg99.sale.model.OrderInfo;
+import com.xfxg99.sale.model.PayLog;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.model.SaleGoods;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
@@ -123,7 +124,21 @@ public class SaleService {
 		saveOrderGoods(orderid, glist);
 		saveOrderAction(orderid, user);
 		saveEcsUserInfo(subMoney, custId);
+		saveEcsCustomerPayInfo(orderid, custId,goodsAmount);
 		saveAccountLog(custId, goodsAmount);
+	}
+
+	private void saveEcsCustomerPayInfo(int orderid, int custId,
+			double goodsAmount) {
+		// TODO Auto-generated method stub
+		PayLog plog = new PayLog();
+		plog.setLogId(0);
+		plog.setOrderId(orderid);
+		java.math.BigDecimal bd1 = new java.math.BigDecimal(goodsAmount);
+		plog.setOrderAmount(bd1);
+		plog.setOrderType(true);
+		plog.setIsPaid(true);
+		saleBillMapper.saveEcsCustomerPayInfo(plog);
 	}
 
 	private void saveEcsUserInfo(double subMoney, int custId) {
@@ -217,9 +232,9 @@ public class SaleService {
 			changeTime = changeTime.substring(0, 10);
 		}
 		order.setOrderSn(changeTime);
-		order.setOrderStatus(false);
-		order.setShippingStatus(false);
-		order.setPayStatus(false);
+		order.setOrderStatus(true);
+		order.setShippingStatus(true);
+		order.setPayStatus(true);
 		order.setConsignee("……");
 		order.setCountry((short) 1);
 		order.setProvince((short) 26);
@@ -234,8 +249,8 @@ public class SaleService {
 		order.setPostscript(" ");
 		order.setShippingId((byte) 5);
 		order.setShippingName("申通快递");
-		order.setPayId((byte) 4);
-		order.setPayName("支付宝");
+		order.setPayId((byte) 1);
+		order.setPayName("积分支付");
 		order.setHowOos("自提货");
 		order.setHowSurplus(" ");
 		order.setPackName(" ");

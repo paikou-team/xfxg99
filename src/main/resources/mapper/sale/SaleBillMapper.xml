@@ -179,6 +179,12 @@
 		#{payPoints,jdbcType=INTEGER},
 		#{changeTime,jdbcType=TIMESTAMP},#{changeDesc,jdbcType=VARCHAR},#{changeType,jdbcType=INTEGER})
 	</insert>
+	 <insert id="saveEcsCustomerPayInfo" parameterType="com.xfxg99.sale.model.PayLog" >
+    insert into ecs_pay_log (log_id, order_id, order_amount, 
+      order_type, is_paid)
+    values (#{logId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{orderAmount,jdbcType=DECIMAL}, 
+      #{orderType,jdbcType=BIT}, #{isPaid,jdbcType=BIT})
+  </insert>
 	<insert id="insertOrderInfo" parameterType="com.xfxg99.sale.model.OrderInfo">
 		<selectKey resultType="INTEGER" keyProperty="id">
 			SELECT

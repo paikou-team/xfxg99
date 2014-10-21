@@ -124,7 +124,7 @@ public class RechargeController {
 
 				// String s = now.getTime();
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("userId", user.getId());
+				map.put("userId", charge.getCustId());
 				map.put("custId", charge.getCustId());
 				map.put("userMoney", charge.getMoney());
 				map.put("frozenMoney", 0.00);
