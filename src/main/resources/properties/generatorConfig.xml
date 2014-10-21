@@ -35,22 +35,12 @@
             <property name="enableSubPackages" value="true"/>  
         </javaClientGenerator>  
 
-
  
- 
-	       
-
-	       <table tableName="ecs_order_goods" domainObjectName="OrderGoods"
+	       <table tableName="ecs_pay_log" domainObjectName="PayLog"
            enableSelectByExample="false"
 	       enableDeleteByExample="false"
 	       enableCountByExample="false"
-	       enableUpdateByExample="false"/> 
-
-	       <table tableName="ecs_order_action" domainObjectName="OrderAction"
-           enableSelectByExample="false"
-	       enableDeleteByExample="false"
-	       enableCountByExample="false"
-	       enableUpdateByExample="false"/> 
+	       enableUpdateByExample="false"/>  
 
     </context>  
 </generatorConfiguration>  
