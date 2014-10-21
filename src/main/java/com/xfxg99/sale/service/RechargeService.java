@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
    
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.core.ListResult;
@@ -73,4 +74,11 @@ public class RechargeService {
 		// TODO Auto-generated method stub
 		rechargeMapper.updateOrgIdByPrimaryKey(map);
 	}  
+	
+	@Transactional
+	public void saveRecharge(Map<String, Object> map){
+		rechargeMapper.insertAccountLog(map);
+		rechargeMapper.updateCustomerMoney(map);
+	}
+	
 }

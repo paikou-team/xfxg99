@@ -125,6 +125,7 @@ public class RechargeController {
 				// String s = now.getTime();
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("userId", user.getId());
+				map.put("custId", charge.getCustId());
 				map.put("userMoney", charge.getMoney());
 				map.put("frozenMoney", 0.00);
 				map.put("rankPoints", 0);
@@ -132,7 +133,7 @@ public class RechargeController {
 				map.put("changeTime", changeTime);
 				map.put("changeDesc", "用户充值，充值金额" + charge.getMoney());
 				map.put("changeType", 2);
-				rechargeService.insertAccountLog(map);
+				rechargeService.saveRecharge(map);
 
 				Result<Recharge> s = new Result<Recharge>(null, true, false,
 						false, "保存成功");

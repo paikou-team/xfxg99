@@ -251,7 +251,7 @@ public class SaleController {
 							smss.remove(bill.getCustomerPhone());
 							result = new Result<SaleBillVM>(bill);
 						} else {
-							result = new Result<SaleBillVM>(null, false, true, true,"当前选择用户，积分余额不足，不能交易，请先充值");
+							result = new Result<SaleBillVM>(null, false, true, true,"用户积分余额不足，不能交易，请先充值");
 						}
 					} 
 				}

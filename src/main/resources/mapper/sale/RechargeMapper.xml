@@ -307,4 +307,11 @@
 		#{rechargeDesc,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<update id="updateCustomerMoney" parameterType="java.util.Map">
+		update ecs_users
+			set user_money =user_money + #{userMoney,jdbcType=DECIMAL}
+		where user_id=#{custId,jdbcType=INTEGER}
+	</update>
+	
 </mapper>

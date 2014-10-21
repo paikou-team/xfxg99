@@ -39,4 +39,6 @@ public interface RechargeMapper {
 	void updateOrgIdByPrimaryKey(Map<String, Object> map);
      
 	
+	void updateCustomerMoney(Map<String,Object> map);
+	
 }
