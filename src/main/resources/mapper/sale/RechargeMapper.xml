@@ -93,7 +93,12 @@
 			tjr_name 		as recUser
 		from ecs_users
 		where 1=1
-		and mobile_phone is not null and mobile_phone !=''
+		
+		<if  test="typeId ==1">
+		
+			and mobile_phone is not null and mobile_phone !=''
+		</if>
+		
 		<if test="name !=null">
 			and user_name like CONCAT('%','${name}','%' )
 		</if>

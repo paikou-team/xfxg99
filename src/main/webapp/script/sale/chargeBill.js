@@ -97,7 +97,7 @@ var ChargeBillManage = {
 	},
 	InitCustGrid : function() {
 		$('#custUserGrid').datagrid({
-			url : 'charge/getcustList.do',
+			url : 'charge/getcustList.do?typeId=0',
 			fitColumns : true,
 			rownumbers : true,
 			resizable : true,

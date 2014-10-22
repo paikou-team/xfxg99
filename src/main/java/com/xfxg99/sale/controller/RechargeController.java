@@ -200,6 +200,7 @@ public class RechargeController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "phone", required = false) String phone,
 			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "typeId", required = false) Integer typeId,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request) throws Exception {
 
@@ -210,6 +211,7 @@ public class RechargeController {
 		map.put("pageSize", rows);
 		map.put("name", name);
 		map.put("phone", phone);
+		map.put("typeId", typeId);
 
 		ListResult<CustomerVM> rs = rechargeService
 				.loadrechargeCustUserlist(map);

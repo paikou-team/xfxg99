@@ -495,7 +495,7 @@ function SelectCustUser() {
 var CustomerSelectManage = {
 	InitCustGrid : function() {
 		$('#custUserGrid').datagrid({
-			url : 'charge/getcustList.do',
+			url : 'charge/getcustList.do?typeId=1',
 			fitColumns : true,
 			rownumbers : true,
 			resizable : true,

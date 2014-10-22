@@ -214,7 +214,7 @@ public class SaleService {
 			changeTime = changeTime.substring(0, 10);
 		}
 		map.put("userId", custId);
-		map.put("userMoney", goodsAmount);
+		map.put("userMoney", goodsAmount*-1);
 		map.put("frozenMoney", 0.00);
 		map.put("rankPoints", 0);
 		map.put("payPoints", 0);
