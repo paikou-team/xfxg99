@@ -560,7 +560,9 @@ function printSaleBill(){
 	try{
 		var myDate = new Date();
 		var orgname = $("#cmbSaleDetp").combobox("getText");
+		var serialNo = $("#txtSerialNo").val();
 		$("#lbl_orgName").html(orgname+"欢迎您！");
+		$("#lbl_saleSerialNo").html(serialNo);
 		$("#lbl_saleTime").html(myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
 				+ myDate.getDate() + " " + myDate.getHours() + ":"
 				+ myDate.getMinutes());
@@ -573,10 +575,10 @@ function printSaleBill(){
 			for(var i = 0; i<goodsList.length;i++){
 				var obj = goodsList[i];
 				var goodsName = obj.goodsName;
-				if(goodsName.length>7){
-					goodsName = goodsName.substring(0,7)+"…";
-				}
-				productHtml+="<tr><td style='text-align:left;'><label>"+goodsName+"</label></td><td style='text-align:left;'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
+//				if(goodsName.length>7){
+//					goodsName = goodsName.substring(0,7)+"…";
+//				}
+				productHtml+="<tr><td style='text-align:left;width:95px'><label>"+goodsName+"</label></td><td style='text-align:center;width:30px'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
 				totalCount +=Number(obj.goodsNumber);
 				totalAmout +=obj.amount;
 			}

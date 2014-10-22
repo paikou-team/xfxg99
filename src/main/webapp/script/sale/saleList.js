@@ -91,6 +91,7 @@ function packQuery(){
 	m_sale_query.beginTime = $('#dteBeginTime').datebox('getValue');
 	m_sale_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_sale_query.serialNo = $('#txtSerialNo').val();
+	m_sale_query.saletype = 1;
 }
 
 function onSaleSearch(){

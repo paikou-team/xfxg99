@@ -324,11 +324,11 @@ function checkStockBill() {
 		return false;
 	}
 	
-	if(m_customer.phone ==undefined || m_customer.phone==""){
-		$.messager.alert("提示", "客户必须绑定手机号码!", "info");
-		return false;
-	}
-	
+//	if(m_customer.phone ==undefined || m_customer.phone==""){
+//		$.messager.alert("提示", "客户必须绑定手机号码!", "info");
+//		return false;
+//	}
+//	
 	if (m_sale_bill.billType == 10 && !m_sale_bill.orgId > 0) {
 		$.messager.alert("提示", "请选择销售部门!", "error");
 		return false;
@@ -426,7 +426,7 @@ function SelectCustUser() {
 var CustomerSelectManage = {
 	InitCustGrid : function() {
 		$('#custUserGrid').datagrid({
-			url : 'charge/getcustList.do?typeId=1',
+			url : 'charge/getcustList.do?typeId=0',
 			fitColumns : true,
 			rownumbers : true,
 			resizable : true,
@@ -490,7 +490,9 @@ function printSaleBill(){
 	try{
 		var myDate = new Date();
 		var orgname = $("#cmbSaleDetp").combobox("getText");
+		var serialNo = $("#txtSerialNo").val();
 		$("#lbl_orgName").html(orgname+"欢迎您！");
+		$("#lbl_saleSerialNo").html(serialNo);
 		$("#lbl_saleTime").html(myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
 				+ myDate.getDate() + " " + myDate.getHours() + ":"
 				+ myDate.getMinutes());
@@ -503,10 +505,10 @@ function printSaleBill(){
 			for(var i = 0; i<goodsList.length;i++){
 				var obj = goodsList[i];
 				var goodsName = obj.goodsName;
-				if(goodsName.length>5){
-					goodsName = goodsName.substring(0,5)+"…";
-				}
-				productHtml+="<tr><td style='text-align:left;'><label>"+goodsName+"</label></td><td style='text-align:left;'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
+//				if(goodsName.length>5){
+//					goodsName = goodsName.substring(0,5)+"…";
+//				}
+				productHtml+="<tr><td style='text-align:left;width:95px'><label>"+goodsName+"</label></td><td style='text-align:center;width:30px'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
 				totalCount +=Number(obj.goodsNumber);
 				totalAmout +=obj.amount;
 			}

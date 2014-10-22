@@ -75,6 +75,7 @@ public class SaleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		int orgId = joQuery.getInt("orgId");
+		int saletype = joQuery.getInt("saletype");
 
 		if (user.getIsAllDataPermission() == false) {
 			if (user.getOrgId() != orgId) {
@@ -93,6 +94,7 @@ public class SaleController {
 		page = page == 0 ? 1 : page;
 
 		map.put("orgId", orgId);
+		map.put("saletype", saletype);
 		map.put("beginDate", beginTime);
 		map.put("endDate", endTime);
 		map.put("pageStart", (page - 1) * rows);
@@ -234,13 +236,12 @@ public class SaleController {
 			
 			BigDecimal bd1 = new BigDecimal(bill.calcTotal());
 			
-			if (bd1.compareTo(bd2) < 0) {
+			 
 				double subMoney = bd2.subtract(bd1).doubleValue();
+				bill.setSaletype(2);
 				saleService.saveSaleBill(bill, user, subMoney); 
 				result = new Result<SaleBillVM>(bill);
-			} else {
-				result = new Result<SaleBillVM>(null, false, true, true,"用户积分余额不足，不能交易，请先充值");
-			}
+			 
 			 
 		} catch (Exception ex) { 
 			result = new Result<SaleBillVM>(null, false, true, true,ex.getMessage());
@@ -310,7 +311,8 @@ public class SaleController {
 						BigDecimal bd1 = new BigDecimal(bill.calcTotal());
 						
 						if (bd1.compareTo(bd2) < 0) {
-							double subMoney = bd2.subtract(bd1).doubleValue();
+							double subMoney = bd2.subtract(bd1).doubleValue(); 
+							bill.setSaletype(1);
 							saleService.saveSaleBill(bill, user, subMoney);
 							smss.remove(bill.getCustomerPhone());
 							result = new Result<SaleBillVM>(bill);

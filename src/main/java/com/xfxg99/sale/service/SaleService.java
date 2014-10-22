@@ -63,6 +63,10 @@ public class SaleService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> billNoMap = GeneralUtil.getSerialNoPars(2);
+		int saleType = 1;
+		if (bill.getSaletype() != null && bill.getSaletype() > 1) {
+			saleType = bill.getSaletype();
+		}
 
 		double goodsAmount = 0.0f;
 		List<SaleGoodsVM> glist = new ArrayList<SaleGoodsVM>();
@@ -89,6 +93,7 @@ public class SaleService {
 			bs.setRecTime(bill.getRecTime());
 			bs.setPreparerOrgId(bill.getPreparerOrgId());
 			bs.setPreparerId(bill.getPreparerId());
+			bs.setSaletype(bill.getSaletype());
 			bs.setDescription(bill.getDescription());
 			// saleBillMapper.insert(bill);
 			saleBillMapper.insert(bs);
@@ -126,9 +131,11 @@ public class SaleService {
 		int orderid = saveOrderInfo(custId, goodsAmount);
 		saveOrderGoods(orderid, glist);
 		saveOrderAction(orderid, user);
-		saveEcsUserInfo(subMoney, custId);
-		saveEcsCustomerPayInfo(orderid, custId,goodsAmount);
-		saveAccountLog(custId, goodsAmount);
+		if (saleType != 2) {
+			saveEcsUserInfo(subMoney, custId);
+			saveAccountLog(custId, goodsAmount);
+			saveEcsCustomerPayInfo(orderid, custId, goodsAmount);
+		}
 	}
 
 	private void saveEcsCustomerPayInfo(int orderid, int custId,
@@ -147,7 +154,7 @@ public class SaleService {
 	private void saveEcsUserInfo(double subMoney, int custId) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", custId); 
+		map.put("id", custId);
 		map.put("usermoney", subMoney);
 		saleBillMapper.updateUserInfoById(map);
 	}
@@ -214,7 +221,7 @@ public class SaleService {
 			changeTime = changeTime.substring(0, 10);
 		}
 		map.put("userId", custId);
-		map.put("userMoney", goodsAmount*-1);
+		map.put("userMoney", goodsAmount * -1);
 		map.put("frozenMoney", 0.00);
 		map.put("rankPoints", 0);
 		map.put("payPoints", 0);
@@ -310,8 +317,7 @@ public class SaleService {
 		List<SaleGoodsVM> ls = saleGoodsMapper.loadProductListByBillId(map);
 		int count = saleGoodsMapper.countByBillId(map);
 
-		ListResult<SaleGoodsVM> result = new ListResult<SaleGoodsVM>(count,
-				ls);
+		ListResult<SaleGoodsVM> result = new ListResult<SaleGoodsVM>(count, ls);
 
 		return result;
 	}
@@ -320,8 +326,8 @@ public class SaleService {
 		// TODO Auto-generated method stub
 		return saleBillMapper.getCustomerInfoById(custId);
 	}
-	
-	public SaleBillVM loadVMById(Integer id){
+
+	public SaleBillVM loadVMById(Integer id) {
 		return saleBillMapper.loadVMById(id);
 	}
 }

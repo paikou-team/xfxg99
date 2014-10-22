@@ -26,7 +26,7 @@
         </p>
         <p style="margin-top: -1px; margin-bottom: 0px">
         <span id="tb_operationtb">
-        	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_add" plain="true" onclick="onAddGoods()">添加</a>
+        	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_add" plain="true" onclick="onAddGoods()">添加商品</a>
         	<a id="btnDelGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete" plain="true" onclick="onDelGoods()">删除</a>
             <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save" plain="true" onclick="onSaveSaleBill()">保存</a>
             <!--<a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onCheckStockBill()">确认</a>-->
@@ -142,7 +142,7 @@
 	 <div style="display:none">
 	     <div id="div_printSaleBill">
 	     <!--startprint-->
-	     	<table style="text-align:center;font-size:14px;">
+	     	<table style="text-align:center;font-size:14px;width:120px;">
 	     		<tr>
 	     			<td colspan="3">
 	     				<img alt="logo" src="resource/icon/menu/titleblack.png">
@@ -159,13 +159,16 @@
 	     			</td>
 	     		</tr>
 	     		<tr>
-	     			<td>业务日期：</td><td colspan="2"><label id="lbl_saleTime"></label></td> 
+	     			<td>客户名称：</td><td colspan="2"><label id="lbl_customerName"></label></td> 
 	     		</tr>
 	     		<tr>
 	     			<td>业务类型：</td><td colspan="2">商品消费</td> 
 	     		</tr>
 	     		<tr>
-	     			<td>客户名称：</td><td colspan="2"><label id="lbl_customerName"></label></td> 
+	     			<td>业务日期：</td><td colspan="2"><label id="lbl_saleTime"></label></td> 
+	     		</tr>
+	     		<tr>
+	     			<td>单据编号：</td><td colspan="2"><label id="lbl_saleSerialNo"></label></td> 
 	     		</tr>
 	     		<tr>
 	     			<td colspan="3">
@@ -188,20 +191,15 @@
 	     			<td colspan="3">
 	     				—————————————————
 	     			</td>
-	     		</tr>
+	     		</tr> 
 	     		<tr>
 	     			<td colspan="3">
-	     				电话：028-88888888 
+	     				投诉电话：028-83139235
 	     			</td>
 	     		</tr>
 	     		<tr>
 	     			<td colspan="3">
-	     				投诉电话：028-88888888
-	     			</td>
-	     		</tr>
-	     		<tr>
-	     			<td colspan="3">
-	     				欢迎访问欣雨禾官网了解更多产品咨询！
+	     				欢迎访问幸福享购官方商城了解更多产品信息！
 	     			</td>
 	     		</tr>
 	     		<tr>

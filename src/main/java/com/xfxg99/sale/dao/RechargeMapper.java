@@ -34,11 +34,12 @@ public interface RechargeMapper {
 
 	List<CustomerVM> loadrechargeCustUserlist(Map<String, Object> map);
 
-	int getCustUserCount();
+	int getCustUserCount(Map<String, Object> map);
 
 	void updateOrgIdByPrimaryKey(Map<String, Object> map);
      
 	
 	void updateCustomerMoney(Map<String,Object> map);
+ 
 	
 }

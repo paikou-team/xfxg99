@@ -26,6 +26,8 @@ public class SaleBill {
     private Integer preparerId;
 
     private String description;
+    
+    private Integer saletype;
 
     public Integer getId() {
         return id;
@@ -113,5 +115,13 @@ public class SaleBill {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getSaletype() {
+		return saletype;
+	}
+
+	public void setSaletype(Integer saletype) {
+		this.saletype = saletype;
 	}
 }

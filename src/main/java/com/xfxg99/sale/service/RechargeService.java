@@ -62,14 +62,13 @@ public class RechargeService {
 			Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		
-		int count=rechargeMapper.getCustUserCount();
+		int count=rechargeMapper.getCustUserCount(map); 
 		List<CustomerVM> ls=rechargeMapper.loadrechargeCustUserlist(map);
 		
 		ListResult<CustomerVM> result=new ListResult<CustomerVM>(count,ls);
 		
 		return result; 
-	}
-
+	} 
 	public void updateOrgIdByPrimaryKey(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		rechargeMapper.updateOrgIdByPrimaryKey(map);

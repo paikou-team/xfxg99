@@ -112,15 +112,23 @@
 			#{pageSize,jdbcType=INTEGER}
 		</if>
 	</select>
-	<select id="getCustUserCount" resultType="java.lang.Integer">
+	<select id="getCustUserCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(*) from
 		ecs_users
 		where 1=1
 
+		<if  test="typeId ==1">
+		
+			and mobile_phone is not null and mobile_phone !=''
+		</if>
 		<if test="name !=null">
 			and user_name like CONCAT('%','${name}','%' )
 		</if>
-	</select>
+		<if test="phone !=null">
+			and mobile_phone like CONCAT('%','${phone}','%' )
+		</if>
+		
+	</select> 
 
 
 	<select id="selectOrganList" resultType="com.xfxg99.base.viewmodel.CustomerVM">

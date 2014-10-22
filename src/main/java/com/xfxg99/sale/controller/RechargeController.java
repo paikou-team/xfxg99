@@ -27,7 +27,7 @@ import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
-import com.xfxg99.sale.model.Recharge; 
+import com.xfxg99.sale.model.Recharge;
 import com.xfxg99.sale.service.RechargeService;
 import com.xfxg99.sale.viewmodel.RechargeVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
@@ -38,11 +38,11 @@ import com.xfxg99.sale.viewmodel.StockBillVM;
 public class RechargeController {
 
 	@Resource(name = "rechargeService")
-	protected RechargeService rechargeService; 
+	protected RechargeService rechargeService;
 
 	@Resource(name = "organizationService")
 	protected OrganizationService orgService;
-	
+
 	@RequestMapping(value = "getList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getList(
@@ -51,22 +51,21 @@ public class RechargeController {
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request) throws Exception {
 
-		ListResult<RechargeVM> result=new ListResult<RechargeVM>();
-		
-		UserVM user =(UserVM)request.getSession().getAttribute("user");
-		
-		if(user ==null){
+		ListResult<RechargeVM> result = new ListResult<RechargeVM>();
+
+		UserVM user = (UserVM) request.getSession().getAttribute("user");
+
+		if (user == null) {
 			result.setIsSuccess(false);
 			result.setMsg("请重新登录");
 			return result.toJson();
 		}
-		
-		
+
 		JSONObject joQuery = JSONObject.fromObject(query);
 		String orgname = joQuery.getString("orgname");
 		String custname = joQuery.getString("custname");
 		int isConfirm = Integer.parseInt(joQuery.getString("isconfirm"));
-		//String confirmname = joQuery.getString("username");
+		// String confirmname = joQuery.getString("username");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -76,11 +75,11 @@ public class RechargeController {
 		map.put("orgname", orgname);
 		map.put("custname", custname);
 		map.put("isConfirm", isConfirm);
-		if(!user.getIsAllDataPermission()){
-			Organization org=orgService.getOrganization(user.getOrgId());
+		if (!user.getIsAllDataPermission()) {
+			Organization org = orgService.getOrganization(user.getOrgId());
 			map.put("userOrgPath", org.getPath());
 		}
-		//map.put("confirmname", confirmname);
+		// map.put("confirmname", confirmname);
 
 		result = rechargeService.loadrechargelist(map);
 
@@ -116,12 +115,11 @@ public class RechargeController {
 
 				int custId = charge.getCustId();
 				int orgId = charge.getOrgId();
-				
-				
+
 				Map<String, Object> maps = new HashMap<String, Object>();
 				maps.put("userId", custId);
 				maps.put("orgId", orgId);
-				
+
 				rechargeService.updateOrgIdByPrimaryKey(maps);
 
 				// String s = now.getTime();
@@ -136,18 +134,18 @@ public class RechargeController {
 				map.put("changeDesc", "用户充值，充值金额" + charge.getMoney());
 				map.put("changeType", 2);
 				rechargeService.saveRecharge(map);
-//
-//
-//				
-//				Socket client = new Socket("192.168.1.87", 9100); 
-//				OutputStream output = client.getOutputStream();
-//				byte[] chars = "strings".getBytes();
-//				output.write(chars);
-//				output.flush();
-//				client.close();
-//				
-//				
-				
+				//
+				//
+				//
+				// Socket client = new Socket("192.168.1.87", 9100);
+				// OutputStream output = client.getOutputStream();
+				// byte[] chars = "strings".getBytes();
+				// output.write(chars);
+				// output.flush();
+				// client.close();
+				//
+				//
+
 				Result<Recharge> s = new Result<Recharge>(null, true, false,
 						false, "保存成功");
 				return s.toJson();
@@ -194,8 +192,7 @@ public class RechargeController {
 				isSessionExpired = true;
 				message = "Session过期，请重新登录";
 			}
-			
-			
+
 			Result<Recharge> s = new Result<Recharge>(charge, isSuccess,
 					isSessionExpired, isTimeout, message);
 			return s.toJson();
@@ -227,10 +224,7 @@ public class RechargeController {
 		map.put("name", name);
 		map.put("phone", phone);
 		map.put("typeId", typeId);
-
-		ListResult<CustomerVM> rs = rechargeService
-				.loadrechargeCustUserlist(map);
-
+		ListResult<CustomerVM> rs = rechargeService.loadrechargeCustUserlist(map); 
 		return rs.toJson();
 	}
 
