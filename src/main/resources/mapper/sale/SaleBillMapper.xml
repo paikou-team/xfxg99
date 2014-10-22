@@ -237,8 +237,8 @@
     values (#{logId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{orderAmount,jdbcType=DECIMAL}, 
       #{orderType,jdbcType=BIT}, #{isPaid,jdbcType=BIT})
   </insert>
-	<insert id="insertOrderInfo" parameterType="com.xfxg99.sale.model.OrderInfo" >
-		<selectKey resultType="INTEGER" keyProperty="order_id">
+	<insert id="insertOrderInfo" parameterType="com.xfxg99.sale.model.OrderInfo"  useGeneratedKeys="true" keyProperty="id">
+		<selectKey resultType="INTEGER" keyProperty="id">
 			SELECT
 			LAST_INSERT_ID()
 		</selectKey>
