@@ -101,7 +101,7 @@ function packQuery(){
 	m_sale_query.serialNo = $('#txtSerialNo').val();
 	m_sale_query.saletype = 2;	
 	var organId = $("#cmbSaleDept").combobox("getValue");
-	if(organId==undefined||organId ==""){
+	if(organId==undefined||organId ==""||organId == 0 || organId =="0"){
 		m_sale_query.orgId = m_cashsale_orgId;
 	}else{
 		m_sale_query.orgId = $("#cmbSaleDept").combobox("getValue");

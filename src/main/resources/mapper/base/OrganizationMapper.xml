@@ -165,6 +165,11 @@
   </select>
   
   
+  <select id="getOrganList" resultMap="BaseResultMap"  parameterType="java.lang.Integer" >
+	select 
+    	<include refid="Base_Column_List" />
+    from t_organization where id = #{parentId,jdbcType=INTEGER} 
+  </select>
   <select id="loadOrganizationByCondition"  parameterType="java.util.Map"  resultMap="BaseResultMap">
 	select 
     	<include refid="Base_Column_List" />

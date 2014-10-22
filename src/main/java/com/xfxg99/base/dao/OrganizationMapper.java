@@ -29,4 +29,6 @@ public interface OrganizationMapper {
     List<Organization> loadStockOrg();
 
 	List<Organization> loadOrganizationByCondition(Map<String, Object> map);
+
+	List<Organization> getOrganList(Integer parentId);
 }
