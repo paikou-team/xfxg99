@@ -49,7 +49,8 @@ $(function () {
 
 
 function loadOrgs(){
-	var orgs=loadStockOrg();
+//	var orgs=loadStockOrg();
+	var orgs =  loadAllOrg();
 	var a={id:0,name:'全部'};
 	orgs.splice(0, 0, a );
 	$("#cmbSaleDept").combobox('loadData',orgs);

@@ -55,6 +55,24 @@ function loadStockOrg() {
 	});
 	return orgs;
 }
+
+function loadAllOrg() {
+
+	var orgs = [];
+
+	$.ajax({
+		url : 'organization/getList.do',
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				orgs = req.rows;
+			}
+		}
+	});
+	return orgs;
+}
 function getCurrentUser() {
 	var user = {};
 	$.ajax({

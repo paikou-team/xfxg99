@@ -77,8 +77,6 @@ public class OrganizationController {
 			{
 				if(newId)
 				{
-//					Integer id = organizationService.getMaxId();
-//					organization.setId(id);
 	                String path = organization.getPath();
 	                organization.setPath(path + organization.getId());
 	                result = organizationService.saveOrganization(organization);
