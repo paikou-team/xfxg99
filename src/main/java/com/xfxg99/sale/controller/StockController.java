@@ -90,7 +90,7 @@ public class StockController {
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		map.put("confirmState", confirmState);
-		if (!user.getIsAllDataPermission()) {
+		if (user.getIsAllDataPermission()) {
 			Organization org = orgService.getOrganization(user.getOrgId());
 			map.put("userOrgPath", org.getPath());
 		}

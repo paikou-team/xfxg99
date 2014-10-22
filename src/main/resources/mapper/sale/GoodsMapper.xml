@@ -29,7 +29,7 @@
   		count(*)
   	from ecs_goods as g
   	left join ecs_category as cat  on g.cat_id=cat.cat_id 
-  	where 1=1 
+  	where 1=1  and g.is_delete = false
   	<if test="goodsName != null" >
   	and goods_name like CONCAT( '%',#{goodsName,jdbcType=VARCHAR},'%')
   	</if>  
@@ -40,7 +40,7 @@
   		<include refid="Base_Column_List" />
   	from ecs_goods as g
   	left join ecs_category as cat  on g.cat_id=cat.cat_id 
-  	where 1=1 
+  	where 1=1 and g.is_delete = false
   	<if test="goodsName != null" >
   	and goods_name like CONCAT( '%',#{goodsName,jdbcType=VARCHAR},'%')
   	</if>  

@@ -91,11 +91,11 @@ public class RechargeController {
 		
 		Organization og = new Organization();
 		og = organizationService.getOrganization(orgId);
-
-		if (!user.getIsAllDataPermission()) {
+		
+//		if (!user.getIsAllDataPermission()) {
 			map.put("orgPath", og.getPath());
 			map.put("orgId", orgId);
-		}
+//		}
 
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
