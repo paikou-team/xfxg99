@@ -43,14 +43,14 @@ public class GoodsController {
 			){
 		
 		JSONObject joQuery = JSONObject.fromObject(query);
-		String goodsName=null;
+		String goodsName="";
 		if(joQuery.containsKey("goodsName")){
 			goodsName = joQuery.getString("goodsName").trim();
 			
 		}
 		
 		if(goodsName == null || goodsName.length()==0){
-			goodsName=null;
+			goodsName="";
 		}
 			
 		

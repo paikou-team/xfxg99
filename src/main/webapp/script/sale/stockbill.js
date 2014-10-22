@@ -131,7 +131,7 @@ function onAddGoods(){
 		m_goodsListDlg = art.dialog({
             id: 'dlgGoodsList',
             title: '商品信息',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/goodsList.jsp?callType=2&pageSize=8' style='width:520px;height:400px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/goodsList.jsp?callType=2&pageSize=10' style='width:520px;height:400px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {

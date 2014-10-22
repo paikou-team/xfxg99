@@ -196,7 +196,7 @@ var ChargeManage = {
 	},
 	ConfirmCharge : function() {
 		
-		if(!checkAuthorize2("cust_recharge_add")){
+		if(!checkAuthorize2("biz_recharge_confirm")){
 			return;
 		}
 		
