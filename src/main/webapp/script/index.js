@@ -145,6 +145,9 @@ function onTreeMenuDblClick(row) {
 	case "shop_sale":
 		src = "view/sale/saleList.jsp";
 		break;
+	case "shop_cash_sale":
+		src = "view/sale/cashsaleList.jsp";
+		break;
 
 	}
 	if(user.isAllDataPermission == false){

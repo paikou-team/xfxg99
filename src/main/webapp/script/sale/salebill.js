@@ -116,9 +116,8 @@ $(function() {
 
 	CustomerSelectManage.InitCustGrid();
 	$("#btnSearchCustUser").bind("click", CustomerSelectManage.SearchCustUser);
-
-});
-
+	
+}); 
 function loadOrgs() {
 //	var orgs = loadStockOrg();
 	var orgs = loadAllOrg();
@@ -425,9 +424,7 @@ function checkStockBill() {
 
 }
 
-function onSaveSaleBill() {
-	printSaleBill();
-	return;
+function onSaveSaleBill() { 
 	view2stockBill();
 
 	if (!checkStockBill()) {

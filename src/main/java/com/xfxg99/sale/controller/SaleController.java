@@ -193,7 +193,61 @@ public class SaleController {
 
 		return bill;
 	}
+	
+	//现金支付方式保存，不进行验证码验证
+	@RequestMapping(value = "saveCashSaleBill.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String saveCashSaleBill(
+			@RequestParam(value = "bill", required = false) String billJson,
+			HttpServletRequest request) {
 
+		User user = (User) request.getSession().getAttribute("user");
+
+		Result<SaleBillVM> result = null;
+
+		if (user == null) {
+			result = new Result<SaleBillVM>(null, false, true, false, "请从新登录");
+			return result.toJson();
+		}
+
+		try{
+			JSONObject jObj = JSONObject.fromObject(billJson);
+
+			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+			classMap.put("saleGoods", SaleGoodsVM.class);
+
+			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
+			 
+			result=new Result<SaleBillVM>(null); 
+				 
+			int custId = bill.getCustId(); 
+			CustomerVM Customer = new CustomerVM();
+			Customer = saleService.getCustomerInfoById(custId);
+
+			if(Customer==null){
+				result.setIsSuccess(false);
+				result.setMsg("客户信息已经丢失,请联系系统管理员");
+				return result.toJson();
+			}
+			
+			BigDecimal bd2 = Customer.getUsermoney();
+			
+			BigDecimal bd1 = new BigDecimal(bill.calcTotal());
+			
+			if (bd1.compareTo(bd2) < 0) {
+				double subMoney = bd2.subtract(bd1).doubleValue();
+				saleService.saveSaleBill(bill, user, subMoney); 
+				result = new Result<SaleBillVM>(bill);
+			} else {
+				result = new Result<SaleBillVM>(null, false, true, true,"用户积分余额不足，不能交易，请先充值");
+			}
+			 
+		} catch (Exception ex) { 
+			result = new Result<SaleBillVM>(null, false, true, true,ex.getMessage());
+		}
+		return result.toJson();
+	}
+	
 	@RequestMapping(value = "saveSaleBill.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String saveSaleBill(

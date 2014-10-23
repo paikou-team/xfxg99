@@ -52,7 +52,8 @@
                         </td>
                         <td style="width: 100px; text-align: left">
                             <input id="dteSaleTime" class="easyui-datebox" data-options="required:true,editable:false"   />
-                        </td>                      
+                           
+                        </td>         
                     </tr>
                     <tr>
                     	<td style="width:60px; text-align: right">
