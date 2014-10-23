@@ -342,7 +342,7 @@ function setPlace(lng,lat){
 	baidumap.clearOverlays();    //清除地图上所有覆盖物
 
 	var pp = new BMap.Point(lng,lat);   //获取第一个智能搜索的结果
-	baidumap.centerAndZoom(pp, 12);
+	baidumap.centerAndZoom(pp, 14);
 	baidumap.addOverlay(new BMap.Marker(pp));    //添加标注
 //	baidumap.setCenter(pp); 
 	baidumap.panTo(pp);
