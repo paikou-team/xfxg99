@@ -208,7 +208,6 @@ public class CustomerController {
 			result= new Result<BirthdayInfo>(null,false,false,false,ex.getMessage());
 			return result.toJson();
 		}
-		
 	}
 	
 	@RequestMapping(value = "saveBirthdayInfo.do", produces = "application/json;charset=UTF-8")
@@ -232,9 +231,5 @@ public class CustomerController {
 			result= new Result<BirthdayInfo>(null,false,false,false,ex.getMessage());
 			return result.toJson();
 		}
-		
 	}
-	
-	
-
 }
