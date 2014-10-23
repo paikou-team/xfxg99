@@ -11,7 +11,7 @@ $(function () {
         textField: 'name',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_stock_query.stockInOrgId = record.id; }
+        onSelect: selectInDept 
     });
 	
     $("#cmbStockOutDept").combobox({
@@ -19,7 +19,7 @@ $(function () {
         textField: 'name',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_stock_query.stockOutOrgId = record.id; }
+        onSelect: selectOutDept
     });
 	
     $("#cmbState").combobox({
@@ -27,7 +27,7 @@ $(function () {
         textField: 'label',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_stock_query.confirmState = record.value; },
+        onSelect: selectState,
         data:[{
         	label:'全部',
         	value:0
@@ -91,7 +91,15 @@ function setOrgEnable(){
 		break;
 	}
 }
-
+function selectInDept(record) {
+	m_stock_query.stockInOrgId = record.id; 
+}
+function  selectOutDept (record) { 
+	m_stock_query.stockOutOrgId = record.id; 
+}
+function selectState (record) { 
+	m_stock_query.confirmState = record.value; 
+}
 function setStockConfirmState(){
 	$("#cmbState").combobox('select',0);
 }

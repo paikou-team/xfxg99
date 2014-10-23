@@ -68,7 +68,7 @@ $(function () {
 		textField : 'name',
 		panelHeight : "auto",
 		multiple : false,
-		onSelect:function (record) { m_stock_bill.stockInOrgId = record.id; }
+		onSelect: selectInDetps
 	});
 	
 	$("#cmbStockOutDetp").combobox({
@@ -76,7 +76,7 @@ $(function () {
 		textField : 'name',
 		panelHeight : "auto",
 		multiple : false,
-		onSelect:function (record) { m_stock_bill.stockOutOrgId = record.id; }
+		onSelect: selectOutDepts
 	});
 	
 	var billType=args["billType"];
@@ -87,7 +87,12 @@ $(function () {
 	loadBill(billType,id);
 	setOrgEnable();
 });
-
+function selectInDetps (record) {
+	m_stock_bill.stockInOrgId = record.id;
+}
+function selectOutDepts (record) { 
+	m_stock_bill.stockOutOrgId = record.id;
+}
 function setOrgEnable(){
 	switch(m_stock_bill.billType){
 	case 10:

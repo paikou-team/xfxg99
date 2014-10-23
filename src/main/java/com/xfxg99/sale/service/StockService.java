@@ -98,4 +98,9 @@ public class StockService {
 	public List<InventoryVM> loadInventoryList(Map<String,Object> map){
 		return stockBillMapper.loadInventoryList(map);
 	}
+
+	public int loadInventoryCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return stockBillMapper.loadInventoryCount(map);
+	}
 }

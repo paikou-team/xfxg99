@@ -99,6 +99,11 @@ function onSaleSearch(){
 }
 
 function onSaleBillAdd(){
+
+	if(!checkAuthorize2("shop_sale_add")){
+		return;
+	}
+	
 	try {
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',

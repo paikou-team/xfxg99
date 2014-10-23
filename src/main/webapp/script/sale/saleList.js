@@ -1,9 +1,10 @@
 var m_sale_query={};
 var m_sale_dlg;
+var m_sale_orgId;
 var m_sale_obj = {};
 $(function () {
 	var args = getUrlArgs();
-	
+	m_sale_orgId = args.orgId;
     $("#cmbSaleDept").combobox({
         valueField: 'id',
         textField: 'name',
@@ -92,6 +93,7 @@ function packQuery(){
 	m_sale_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_sale_query.serialNo = $('#txtSerialNo').val();
 	m_sale_query.saletype = 1;
+	m_sale_query.orgId = m_sale_orgId;
 }
 
 function onSaleSearch(){
@@ -99,6 +101,9 @@ function onSaleSearch(){
 }
 
 function onSaleBillAdd(){
+	if(!checkAuthorize2("shop_cash_sale_add")){
+		return;
+	}
 	try {
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',

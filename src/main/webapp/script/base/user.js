@@ -14,7 +14,7 @@ $(function () {
         resizable: true,
         pagination: true,
         pageNumber: 1,
-        pageSize: 20,
+        pageSize: 10,
         nowrap: false,
         idField: 'id',
         singleSelect: true,
@@ -34,7 +34,7 @@ $(function () {
 	
 	$('#functionTree').tree({
 		checkbox : true,
-		cascadeCheck : true
+		cascadeCheck : false
 	});
 	    	
 	$("#AddUser").bind("click", UserManage.AddUser);

@@ -1,6 +1,6 @@
 var m_index_user;
 var m_changePwd_dlg;
-
+var m_index_orgId;
 var m_index_iconStyles = {};
 
 $(function() {
@@ -8,6 +8,7 @@ $(function() {
 	var obj = getCurrentUser();
 	$("#labOrgName").text(obj.orgName);
 	$("#userName").text(obj.name);
+	m_index_orgId = obj.orgId;
 	var args = getUrlArgs();
 	if(args.optType==1||args.optType=="1"){ 
 		$.messager.confirm("系统提示", "页面过期，请重新登录！", function(r) {
@@ -118,7 +119,7 @@ function onTreeMenuDblClick(row) {
 		src = "view/sale/stockList.jsp?billType=11";
 		break;
 	case "shop_inventory":
-		src="view/sale/inventory.jsp";
+		src="view/sale/inventory.jsp?orgId="+m_index_orgId;
 		break;
 	case "shop_transfer":
 		src = "view/sale/stockList.jsp?billType=12";
@@ -143,10 +144,10 @@ function onTreeMenuDblClick(row) {
 		src = "view/base/user.jsp?optType=1";
 		break;
 	case "shop_sale":
-		src = "view/sale/saleList.jsp";
+		src = "view/sale/saleList.jsp?orgId="+m_index_orgId;
 		break;
 	case "shop_cash_sale":
-		src = "view/sale/cashsaleList.jsp";
+		src = "view/sale/cashsaleList.jsp?orgId="+m_index_orgId;
 		break;
 
 	}

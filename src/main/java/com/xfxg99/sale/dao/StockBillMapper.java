@@ -36,4 +36,6 @@ public interface StockBillMapper {
     int getBillConfirmerId(Integer id);
     
     List<InventoryVM> loadInventoryList(Map<String,Object> map);
+
+	int loadInventoryCount(Map<String, Object> map);
 }

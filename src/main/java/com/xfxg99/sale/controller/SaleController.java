@@ -82,7 +82,8 @@ public class SaleController {
 				result = new Result<SaleBill>(null, false, true, false,
 						"没有权限读取部门数据!");
 				return result.toJson();
-			}
+			} 
+			map.put("orgId", orgId);
 		}
 
 		String beginTime = joQuery.getString("beginTime");
@@ -93,7 +94,6 @@ public class SaleController {
 
 		page = page == 0 ? 1 : page;
 
-		map.put("orgId", orgId);
 		map.put("saletype", saletype);
 		map.put("beginDate", beginTime);
 		map.put("endDate", endTime);

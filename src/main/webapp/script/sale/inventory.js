@@ -5,20 +5,20 @@ $(function () {
 	//var args = getUrlArgs();
 	
 	m_inventory_user = getCurrentUser();
-	
-	
+	var args = getUrlArgs();
+	m_inventory_query.orgId = args.orgId;
+	loadOrgs();
+	setDept();
+    packQuery();
+
     $("#cmbDept").combobox({
         valueField: 'id',
         textField: 'name',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_inventory_query.orgId = record.id; }
+        onSelect: selectDept
     });
 	
-	loadOrgs();
-	setDept();
-    packQuery();
-    
 	$('#dgInventory').datagrid({
 		url:'stock/loadInventoryList.do',
 		queryParams : {
@@ -27,7 +27,7 @@ $(function () {
         fitColumns: true,
         rownumbers: true,
         resizable: true,
-        pagination: false,
+        pagination: true,
         pageNumber: 1,
         pageSize: 10,
         nowrap: false,
@@ -57,7 +57,9 @@ function setDept(){
 		$("#cmbDept").combobox('select',m_inventory_user.orgId);
 	}
 }
-
+function selectDept(record) {
+	 m_inventory_query.orgId = record.id;
+}
 function loadOrgs(){
 	var orgs=loadStockOrg();
 	var a={id:0,name:'全部'};
