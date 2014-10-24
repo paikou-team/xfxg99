@@ -1,10 +1,11 @@
 package com.xfxg99.sale.controller;
- 
-import java.math.BigDecimal; 
+
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
-
 
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 
@@ -82,21 +81,25 @@ public class SaleController {
 				result = new Result<SaleBill>(null, false, true, false,
 						"没有权限读取部门数据!");
 				return result.toJson();
-			} 
+			}
 			map.put("orgId", orgId);
 		}
 
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime");
-		if(endTime !=null && endTime !=" " && endTime.length()>0 )
-			endTime += " 23:59:59"; 
+		if (endTime != null && endTime != " " && endTime.length() > 0)
+			endTime += " 23:59:59";
 		String serialNo = joQuery.getString("serialNo");
 
 		page = page == 0 ? 1 : page;
 
 		map.put("saletype", saletype);
-		map.put("beginDate", beginTime);
-		map.put("endDate", endTime);
+		if (!"".equals(beginTime)) {
+			map.put("beginDate", beginTime);
+		}
+		if (!"".equals(beginTime)) {
+			map.put("endDate", endTime);
+		}
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("serialNo", serialNo);
@@ -104,6 +107,73 @@ public class SaleController {
 		ListResult<SaleBillVM> ls = saleService.loadListWithPage(map);
 
 		return ls.toJson();
+	}
+
+	@RequestMapping(value = "getTotalPriceInfo.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getTotalPriceInfo(
+			@RequestParam(value = "saleQuery", required = false) String query,
+			HttpServletRequest request) {
+
+		Result<SaleBill> result = new Result<SaleBill>();
+		try {
+			UserVM user = (UserVM) request.getSession().getAttribute("user");
+
+			if (user == null) {
+				result = new Result<SaleBill>(null, false, true, false,
+						"请从新登录!");
+				return result.toJson();
+			}
+
+			JSONObject joQuery = JSONObject.fromObject(query);
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			int orgId = joQuery.getInt("orgId");
+			int saletype = joQuery.getInt("saletype");
+
+			if (user.getIsAllDataPermission() == false) {
+				if (user.getOrgId() != orgId) {
+					result = new Result<SaleBill>(null, false, true, false,
+							"没有权限读取部门数据!");
+					return result.toJson();
+				}
+				map.put("orgId", orgId);
+			}
+
+			String beginTime = joQuery.getString("beginTime");
+			String endTime = joQuery.getString("endTime");
+			if (endTime != null && endTime != " " && endTime.length() > 0)
+				endTime += " 23:59:59";
+			String serialNo = joQuery.getString("serialNo");
+
+			map.put("saletype", saletype);
+			if (!"".equals(beginTime)) {
+				map.put("beginDate", beginTime);
+			}
+			if (!"".equals(beginTime)) {
+				map.put("endDate", endTime);
+			}
+			map.put("serialNo", serialNo);
+
+			List<SaleBillVM> ls = saleService.loadTotalListWithPage(map);
+			double totalPrice = 0;
+
+			if (ls.size() > 0) {
+				for (SaleBillVM sb : ls) {
+					if (sb.getGoodsAmount() != null) {
+						totalPrice += sb.getGoodsAmount().doubleValue();
+					}
+				}
+			}
+			BigDecimal b = new BigDecimal(totalPrice);
+			double f = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			String totalp = Double.toString(f);
+			result = new Result<SaleBill>(null, true, false, false, totalp);
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<SaleBill>(null, true, false, false, "");
+			return result.toJson();
+		}
 	}
 
 	/**
@@ -131,7 +201,7 @@ public class SaleController {
 		if (id == 0) {// 新建一个单据
 			bill = this.newSaleBill(billType, user);
 		} else {// 从数据库读取一个单据
-			 bill = saleService.loadVMById(id);
+			bill = saleService.loadVMById(id);
 		}
 
 		result.setData(bill);
@@ -191,12 +261,11 @@ public class SaleController {
 		bill.setPreparerOrgName(u.getOrgName());
 		bill.setPreparerId(u.getId());
 		bill.setPreparerName(u.getName());
-		
 
 		return bill;
 	}
-	
-	//现金支付方式保存，不进行验证码验证
+
+	// 现金支付方式保存，不进行验证码验证
 	@RequestMapping(value = "saveCashSaleBill.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String saveCashSaleBill(
@@ -212,43 +281,43 @@ public class SaleController {
 			return result.toJson();
 		}
 
-		try{
+		try {
 			JSONObject jObj = JSONObject.fromObject(billJson);
 
 			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 			classMap.put("saleGoods", SaleGoodsVM.class);
 
-			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
-			 
-			result=new Result<SaleBillVM>(null); 
-				 
-			int custId = bill.getCustId(); 
+			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj,
+					SaleBillVM.class, classMap);
+
+			result = new Result<SaleBillVM>(null);
+
+			int custId = bill.getCustId();
 			CustomerVM Customer = new CustomerVM();
 			Customer = saleService.getCustomerInfoById(custId);
 
-			if(Customer==null){
+			if (Customer == null) {
 				result.setIsSuccess(false);
 				result.setMsg("客户信息已经丢失,请联系系统管理员");
 				return result.toJson();
 			}
-			
+
 			BigDecimal bd2 = Customer.getUsermoney();
-			
+
 			BigDecimal bd1 = new BigDecimal(bill.calcTotal());
-			
-			 
-				double subMoney = bd2.subtract(bd1).doubleValue();
-				bill.setSaletype(2);
-				saleService.saveSaleBill(bill, user, subMoney); 
-				result = new Result<SaleBillVM>(bill);
-			 
-			 
-		} catch (Exception ex) { 
-			result = new Result<SaleBillVM>(null, false, true, true,ex.getMessage());
+
+			double subMoney = bd2.subtract(bd1).doubleValue();
+			bill.setSaletype(2);
+			saleService.saveSaleBill(bill, user, subMoney);
+			result = new Result<SaleBillVM>(bill);
+
+		} catch (Exception ex) {
+			result = new Result<SaleBillVM>(null, false, true, true,
+					ex.getMessage());
 		}
 		return result.toJson();
 	}
-	
+
 	@RequestMapping(value = "saveSaleBill.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String saveSaleBill(
@@ -264,66 +333,71 @@ public class SaleController {
 			return result.toJson();
 		}
 
-		try{
+		try {
 			JSONObject jObj = JSONObject.fromObject(billJson);
 
 			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 			classMap.put("saleGoods", SaleGoodsVM.class);
 
-			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
-			
+			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj,
+					SaleBillVM.class, classMap);
+
 			@SuppressWarnings("unchecked")
-			Map<String,SmsInfo>  smss =(Map<String,SmsInfo>)request.getSession().getAttribute("verifCodes");
-			
-			result=new Result<SaleBillVM>(null);
-			
-			if(smss==null){
+			Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request
+					.getSession().getAttribute("verifCodes");
+
+			result = new Result<SaleBillVM>(null);
+
+			if (smss == null) {
 				result.setIsSuccess(false);
 				result.setMsg("没有正确的验证码!");
-			}else{
-				if(!smss.containsKey(bill.getCustomerPhone())){
-					result=new Result<SaleBillVM>(bill);
+			} else {
+				if (!smss.containsKey(bill.getCustomerPhone())) {
+					result = new Result<SaleBillVM>(bill);
 					result.setIsSuccess(false);
 					result.setMsg("没有验证码!");
-				}else{
-					SmsInfo smsInfo=smss.get(bill.getCustomerPhone());
-					Date cdate=new Date();
-					long interval =cdate.getTime()- smsInfo.getSendTime().getTime();
-					
+				} else {
+					SmsInfo smsInfo = smss.get(bill.getCustomerPhone());
+					Date cdate = new Date();
+					long interval = cdate.getTime()
+							- smsInfo.getSendTime().getTime();
+
 					int custId = bill.getCustId();
 
-					if(interval/1000 > 5*60){ //验证码5发分钟内有效
+					if (interval / 1000 > 5 * 60) { // 验证码5发分钟内有效
 						result.setIsSuccess(false);
 						result.setMsg("验证码已经过期!");
 						smss.remove(bill.getCustomerPhone());
-					}else{
+					} else {
 						CustomerVM Customer = new CustomerVM();
 						Customer = saleService.getCustomerInfoById(custId);
 
-						if(Customer==null){
+						if (Customer == null) {
 							result.setIsSuccess(false);
 							result.setMsg("客户信息已经丢失,请联系系统管理员");
 							return result.toJson();
 						}
-						
-						BigDecimal bd2 = Customer.getUsermoney();//李强，你这个代码有漏洞，这行代码应该来讲应该放在事务中，否则在并发下会有问题。
-						
+
+						BigDecimal bd2 = Customer.getUsermoney();// 李强，你这个代码有漏洞，这行代码应该来讲应该放在事务中，否则在并发下会有问题。
+
 						BigDecimal bd1 = new BigDecimal(bill.calcTotal());
-						
+
 						if (bd1.compareTo(bd2) < 0) {
-							double subMoney = bd2.subtract(bd1).doubleValue(); 
+							double subMoney = bd2.subtract(bd1).doubleValue();
 							bill.setSaletype(1);
 							saleService.saveSaleBill(bill, user, subMoney);
 							smss.remove(bill.getCustomerPhone());
 							result = new Result<SaleBillVM>(bill);
 						} else {
-							result = new Result<SaleBillVM>(null, false, true, true,"用户积分余额不足，不能交易，请先充值");
+							result = new Result<SaleBillVM>(null, false, true,
+									true, "用户积分余额不足，不能交易，请先充值");
 						}
-					} 
+					}
 				}
 			}
-		} catch (Exception ex) { 
-			result = new Result<SaleBillVM>(null, false, true, true,ex.getMessage());
+		} catch (Exception ex) {
+			result = new Result<SaleBillVM>(null, false, true, true,
+					ex.getMessage());
 		}
 		return result.toJson();
 	}
@@ -349,28 +423,29 @@ public class SaleController {
 			result.setIsSuccess(false);
 			result.setMsg("手机号码或者客户id不能为空!");
 			return result.toJson();
-		} 
-		@SuppressWarnings("unchecked") 
-		Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request.getSession().getAttribute("verifCodes");
-		
-		if(smss==null){
-			smss=new HashMap<String,SmsInfo>();
-			request.getSession().setAttribute("verifCodes", smss); 
-		} 
+		}
+		@SuppressWarnings("unchecked")
+		Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request.getSession()
+				.getAttribute("verifCodes");
 
-		try{
-			String verifCode=GeneralUtil.createVerifCode();
-			
-			Sms sms=new Sms();
-			
-			DecimalFormat fmt=new DecimalFormat("0.00");
-			String amountFmt=fmt.format(amount);
-			
-			String message="您消费了"+amountFmt+"元,验证码:"+verifCode;
+		if (smss == null) {
+			smss = new HashMap<String, SmsInfo>();
+			request.getSession().setAttribute("verifCodes", smss);
+		}
+
+		try {
+			String verifCode = GeneralUtil.createVerifCode();
+
+			Sms sms = new Sms();
+
+			DecimalFormat fmt = new DecimalFormat("0.00");
+			String amountFmt = fmt.format(amount);
+
+			String message = "您消费了" + amountFmt + "元,验证码:" + verifCode;
 
 			sms.sendMessage(mobile, message);
-			
-			SmsInfo smsInfo=new SmsInfo(); 
+
+			SmsInfo smsInfo = new SmsInfo();
 			smsInfo.setCustId(custId);
 			smsInfo.setMobile(mobile);
 			smsInfo.setSmsType(1);

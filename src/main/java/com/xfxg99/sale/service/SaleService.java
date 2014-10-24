@@ -46,6 +46,10 @@ public class SaleService {
 
 		return new ListResult<SaleBillVM>(total, ls);
 	}
+	public List<SaleBillVM> loadTotalListWithPage(Map<String, Object> map) {
+		List<SaleBillVM> ls = saleBillMapper.loadListWithPage(map);
+		return ls;
+	}
 
 	public SaleBill selectByPrimaryKey(Integer id) {
 		return saleBillMapper.selectByPrimaryKey(id);

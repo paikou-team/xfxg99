@@ -51,5 +51,8 @@
 		</table>
 	</div>		
 	<div id="dgSale"></div>
+	<div id="statistic">
+		<p><label>累计销售金额(元)：</label><label id="totalPrice"></label></p>
+	</div>
 </body>
 </html>

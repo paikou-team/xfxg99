@@ -46,6 +46,8 @@ $(function () {
                { title: '录入日期', field: 'recTime', align: 'left', width: 100 }
         ]]
     });
+
+	getTotalPriceInfo();
 });
 
 
@@ -96,8 +98,37 @@ function packQuery(){
 	m_sale_query.orgId = m_sale_orgId;
 }
 
+function getTotalPriceInfo(){
+	$.ajax({
+		url : 'sale/getTotalPriceInfo.do',
+		type : "POST",
+		dataType : "json",
+		data : {
+			'saleQuery' : JSON.stringify(m_sale_query)
+		},
+		success : function(req) {
+			if (req.isSuccess) {
+				$("#totalPrice").html(fmoney(req.msg,2)+"元");
+			}else{
+				$.messager.alert("系统提示","获取销售总额失败","error");
+				$("#totalPrice").html("0元");
+			}
+		}
+	});
+}
+function fmoney(s, n) { 
+	n = n > 0 && n <= 20 ? n : 2; 
+	s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + ""; 
+	var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1]; 
+	t = ""; 
+	for (i = 0; i < l.length; i++) { 
+		t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : ""); 
+	} 
+	return t.split("").reverse().join("") + "." + r; 
+}
 function onSaleSearch(){
 	loadSaleBills();
+	getTotalPriceInfo();
 }
 
 function onSaleBillAdd(){
