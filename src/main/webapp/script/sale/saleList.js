@@ -5,6 +5,7 @@ var m_sale_obj = {};
 $(function () {
 	var args = getUrlArgs();
 	m_sale_orgId = args.orgId;
+	m_cashsale_permission = args.permission;
     $("#cmbSaleDept").combobox({
         valueField: 'id',
         textField: 'name',
@@ -53,12 +54,16 @@ $(function () {
 
 function loadOrgs(){
 //	var orgs=loadStockOrg();
-	var orgs =  loadAllOrg();
+	var orgs =  loadAllOrgById(m_sale_orgId);
 	var a={id:0,name:'全部'};
 	orgs.splice(0, 0, a );
 	$("#cmbSaleDept").combobox('loadData',orgs);
 	
-	$("#cmbSaleDept").combobox('select',0);
+	//-$("#cmbSaleDept").combobox('select',0);
+	$("#cmbSaleDept").combobox('setValue',m_sale_orgId);
+//	if(m_cashsale_permission==0){
+//		$("#cmbSaleDept").combobox('disable');
+//	}
 }
 
 function setSaleQueryTime(){
@@ -95,7 +100,12 @@ function packQuery(){
 	m_sale_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_sale_query.serialNo = $('#txtSerialNo').val();
 	m_sale_query.saletype = 1;
-	m_sale_query.orgId = m_sale_orgId;
+	var organId = $("#cmbSaleDept").combobox("getValue");
+	if(organId==undefined||organId ==""){
+		m_sale_query.orgId = m_sale_orgId;
+	}else{
+		m_sale_query.orgId = $("#cmbSaleDept").combobox("getValue");
+	}
 }
 
 function getTotalPriceInfo(){

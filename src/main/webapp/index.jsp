@@ -48,6 +48,7 @@
 				<td>
 					<label style="font-size: 13px; color: white;" id='userName'>
 					</label>
+					<input type="hidden" id="isUserAllDataPermission" />
 				</td>
 			</tr>
 		</table>

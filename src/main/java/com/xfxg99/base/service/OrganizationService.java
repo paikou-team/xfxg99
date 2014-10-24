@@ -1,6 +1,7 @@
 package com.xfxg99.base.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -64,4 +65,9 @@ public class OrganizationService{
 		 
 		 return organizationMapper.loadStockOrg();
 	 }
+
+	public List<Organization> loadOrganizationById(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return organizationMapper.loadOrganizationByCondition(map);
+	}
 }

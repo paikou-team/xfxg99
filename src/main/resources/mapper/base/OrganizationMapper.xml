@@ -163,6 +163,17 @@
     	<include refid="Base_Column_List" />
     from t_organization
   </select>
+  
+  
+  <select id="loadOrganizationByCondition"  parameterType="java.util.Map"  resultMap="BaseResultMap">
+	select 
+    	<include refid="Base_Column_List" />
+    from t_organization
+    where 1=1 
+    	<if test="orgPath != null">
+    		and (id = #{orgId,jdbcType=INTEGER} or path like CONCAT('%',#{orgPath,jdbcType=VARCHAR},'.%' ) )
+    	</if>
+  </select>
   <select id="getParentIdItems" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

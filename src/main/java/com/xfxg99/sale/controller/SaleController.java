@@ -82,8 +82,9 @@ public class SaleController {
 						"没有权限读取部门数据!");
 				return result.toJson();
 			}
-			map.put("orgId", orgId);
 		}
+
+		map.put("orgId", orgId);
 
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime");
@@ -137,8 +138,8 @@ public class SaleController {
 							"没有权限读取部门数据!");
 					return result.toJson();
 				}
-				map.put("orgId", orgId);
 			}
+			map.put("orgId", orgId);
 
 			String beginTime = joQuery.getString("beginTime");
 			String endTime = joQuery.getString("endTime");

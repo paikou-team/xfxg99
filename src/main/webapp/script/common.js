@@ -55,7 +55,21 @@ function loadStockOrg() {
 	});
 	return orgs;
 }
-
+function loadAllOrgById(oId){
+	var orgs = []; 
+	$.ajax({
+		url : 'organization/getOrgListById.do?orgId='+oId,
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				orgs = req.rows;
+			}
+		}
+	});
+	return orgs;
+}
 function loadAllOrg() {
 
 	var orgs = [];

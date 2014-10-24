@@ -1,6 +1,7 @@
 package com.xfxg99.base.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xfxg99.base.model.Organization;
 import com.xfxg99.core.MyBatisRepository;
@@ -26,4 +27,6 @@ public interface OrganizationMapper {
     Integer getMaxId();
     
     List<Organization> loadStockOrg();
+
+	List<Organization> loadOrganizationByCondition(Map<String, Object> map);
 }

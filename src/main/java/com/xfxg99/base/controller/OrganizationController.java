@@ -1,7 +1,9 @@
 package com.xfxg99.base.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest; 
@@ -41,6 +43,23 @@ public class OrganizationController {
 	public @ResponseBody String getList(HttpServletRequest request){
 		
 		List<Organization> ls=organizationService.loadAllOrganization();
+		
+		ListResult<Organization> funcs=new ListResult<Organization>(ls.size(),ls,true);
+		
+		return funcs.toJson();
+	}
+	@RequestMapping(value = "getOrgListById.do")
+	public @ResponseBody String getOrgListById(
+			@RequestParam(value = "orgId", required = false) Integer orgId,
+			HttpServletRequest request){
+		Organization og = new Organization();
+		og = organizationService.getOrganization(orgId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(og!=null){
+			map.put("orgId", orgId);
+			map.put("orgPath", og.getPath());
+		}
+		List<Organization> ls=organizationService.loadOrganizationById(map);
 		
 		ListResult<Organization> funcs=new ListResult<Organization>(ls.size(),ls,true);
 		
