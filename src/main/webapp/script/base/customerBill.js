@@ -34,10 +34,9 @@ $(function() {
 	$("#txtcustemail").val(score.email);
 	$("#txtrecuser").val(score.recUser);
 	$("#txtorgname").val(score.orgName);
+	$("#txtrealname").val(score.realname);
 	// }
-
-	$("#btnSaveCustUserInfo").bind("click",
-			CustUserBillManage.SaveCustUserAction);
+ 
 	$("#btnCancelSave").bind("click", CustUserBillManage.CancelSaveAction);
 
 });

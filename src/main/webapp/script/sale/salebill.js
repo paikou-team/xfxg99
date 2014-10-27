@@ -502,8 +502,7 @@ var CustomerSelectManage = {
 			resizable : true,
 			pagination : true,
 			pageNumber : 1,
-			pageSize : 10,
-			nowrap : false,
+			pageSize : 10, 
 			idField : 'id',
 			height : '99%',
 			width : '99%',
@@ -517,10 +516,15 @@ var CustomerSelectManage = {
 				width : 5,
 				hidden : true
 			}, {
-				title : '客户姓名',
+				title : '注册账号',
 				field : 'name',
 				align : 'center',
 				width : 150
+			}, {
+				title : '真实姓名',
+				field : 'realname',
+				width : 150,
+				align : 'center'
 			}, {
 				title : '联系方式',
 				field : 'phone',
@@ -530,7 +534,8 @@ var CustomerSelectManage = {
 				title : '电子邮件',
 				field : 'email',
 				align : 'left',
-				width : 250
+				width : 250,
+				hidden: true
 			} ] ]
 		});
 	},
@@ -547,11 +552,12 @@ var CustomerSelectManage = {
 		m_customer.id=rowData.id;
 		m_customer.name=rowData.name;
 		m_customer.phone = rowData.phone;
-		
+		m_customer.realname = rowData.realname;
 		$("#txtcustId").val(m_customer.id);
 		$("#textSaleCustomer").val(m_customer.name);
 		$("#lbl_customerName").html(m_customer.name);
 		$("#txtMobile").val(m_customer.phone);
+		$("#txtrealname").val(m_customer.realname);
 		m_selectCustomer_dlg.close();
 	}
 };

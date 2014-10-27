@@ -1,16 +1,22 @@
 var m_charge_dlg;
 var m_charge_type;
-var m_charge_query = {
+var m_charge_orgId;
+var m_charge_query = { 
 	orgname : "",
 	custname : "",
 	//username : "",
-	isconfirm : 0
+	isconfirm : 0,
+	beginTime :"",
+	endTime :""
 };
 var m_charge_object = {};
 $(function() {
 	var args = getUrlArgs();
 
+	setSaleQueryTime();
+	m_charge_orgId = args.orgId;
 	var optType = args.optType;
+	m_charge_query.orgId = m_charge_orgId;
 	if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
 		$("#ConfirmCharge").hide();
 	} else if (optType == 1 || optType == "1")// 商务中心--充值记录，只有确认、查看操作
@@ -20,11 +26,16 @@ $(function() {
 		$("#ConfirmCharge").hide();
 		$("#AddCharge").hide();
 		$("#tb_searchbox").hide();
-		m_charge_query = {
+		$("#p_hasC").hide();
+		$("#p_hasnotC").hide();
+		m_charge_query = { 
+			orgId :m_charge_orgId,
 			orgname : "",
 			custname : "",
 			//username : "",
-			isconfirm : 2
+			isconfirm : 2,
+			beginTime :"",
+			endTime :""
 		};
 	}
 
@@ -63,8 +74,13 @@ $(function() {
 				}
 			}
 		}, {
-			title : '注册用户',
+			title : '注册账号',
 			field : 'custName',
+			width : 150,
+			align : 'left'
+		}, {
+			title : '真实姓名',
+			field : 'realname',
 			width : 150,
 			align : 'left'
 		}, {
@@ -117,17 +133,54 @@ $(function() {
 			}
 		}
 	});
+    $("#sch_orgname").combobox({
+        valueField: 'id',
+        textField: 'name',
+        editable: false,
+        panelHeight: 'auto',
+        onSelect: selectOrgName
+    }); 
+
+	loadOrgs();
+
+	ChargeManage.getTotalChargeInfo();
 	$("#AddCharge").bind("click", ChargeManage.AddCharge);
 	$("#btnSearch").bind("click", ChargeManage.SearchAction);
 	$("#ConfirmCharge").bind("click", ChargeManage.ConfirmCharge);
 	$("#ShowChargeInfo").bind("click", ChargeManage.ShowCharge);
 });
 
+function setSaleQueryTime(){
+	var d=getCurrentTime();
+	
+	var bt=new Date(d);
+	bt.add('d',-7);
+	var et=new Date(d);
+	
+	$("#sch_startTime").datebox('setValue',bt.toSimpleString());
+	$("#sch_endTime").datebox('setValue',et.toSimpleString());
+}
+
+function loadOrgs(){ 
+	var orgs =  loadAllOrgById(m_charge_orgId);
+	var a={id:0,name:'全部'};
+	orgs.splice(0, 0, a );
+	$("#sch_orgname").combobox('loadData',orgs); 
+	$("#sch_orgname").combobox('setValue',m_charge_orgId); 
+}
 function onSelRow(rowIndex, rowData) {
 	ChargeManage.packageObject(rowData);
 	ChargeManage.ShowDialog();
 }
-
+function selectOrgName(record) {
+	if(record.id>0){
+		m_charge_query.orgname = record.name;
+		m_charge_query.orgId = record.id;
+	}else{
+		m_charge_query.orgId = m_charge_orgId
+	}
+	
+}
 var ChargeManage = {
 	AddCharge : function() {
 		
@@ -177,6 +230,7 @@ var ChargeManage = {
 		m_charge_object.rechargeDesc = obj.rechargeDesc;
 		m_charge_object.custEmail = obj.custEmail;
 		m_charge_object.custPhone = obj.custPhone;
+		m_charge_object.realname = obj.realname;
 	},
 	ShowDialog : function() {
 		try {
@@ -252,9 +306,11 @@ var ChargeManage = {
 		$('#chargeGrid').datagrid("reload", {
 			"charge_Query" : json
 		});
-	},
+		ChargeManage.getTotalChargeInfo();
+	}, 
 	packQuery : function() {
-		m_charge_query.orgname = $.trim($("#sch_orgname").val());
+		m_charge_query.beginTime =$("#sch_startTime").datebox("getValue");
+		m_charge_query.endTime = $("#sch_endTime").datebox("getValue");
 		m_charge_query.custname = $.trim($("#sch_custname").val());
 		//m_charge_query.username = $.trim($("#sch_username").val());
 		if ($("#sch_isconfirm").combobox("getValue") == null
@@ -264,5 +320,42 @@ var ChargeManage = {
 		} else {
 			m_charge_query.isconfirm = $("#sch_isconfirm").combobox("getValue");
 		}
+	},
+	getTotalChargeInfo:function(){
+		$.ajax({
+			url : 'charge/getTotalChargeInfo.do',
+			type : "POST",
+			dataType : "json",
+			data : {
+				'charge_Query' : JSON.stringify(m_charge_query)
+			},
+			success : function(req) {
+				if (req.isSuccess) {
+					if(req.msg.length>0){
+						var s = req.msg.split("|");
+
+						$("#totalCharge").html(ChargeManage.fmoney(s[0],2)+"元;");
+						$("#hasConfirmCharge").html(ChargeManage.fmoney(s[2],2)+"元;");
+						$("#unConfirmCharge").html(ChargeManage.fmoney(s[1],2)+"元;");
+					}
+				}else{
+					$.messager.alert("系统提示","获取充值金额信息失败","error");
+					$("#totalCharge").html("0.00元");
+					$("#hasConfirmCharge").html("0.00元");
+					$("#unConfirmCharge").html("0.00元");
+				}
+			}
+		});
+	},
+
+	fmoney:function (s, n) { 
+		n = n > 0 && n <= 20 ? n : 2; 
+		s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + ""; 
+		var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1]; 
+		t = ""; 
+		for (i = 0; i < l.length; i++) { 
+			t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : ""); 
+		} 
+		return t.split("").reverse().join("") + "." + r; 
 	}
 };

@@ -40,8 +40,13 @@ $(function() {
 			width : 5,
 			hidden : true
 		}, {
-			title : '客户姓名',
+			title : '注册账号',
 			field : 'name',
+			align : 'left',
+			width : 150
+		}, {
+			title : '真实姓名',
+			field : 'realname',
 			align : 'left',
 			width : 150
 		},  {
@@ -178,6 +183,7 @@ var CustUserManage = {
 		m_custuser_object.email = obj.email;
 		m_custuser_object.recUser = obj.recUser; 
 		m_custuser_object.orgName = obj.orgName; 
+		m_custuser_object.realname = obj.realname; 
 	},
 	ShowDialog : function(optType) {
 		try {

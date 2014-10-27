@@ -7,6 +7,7 @@ import com.xfxg99.sale.model.SaleBill;;
 public class SaleBillVM  extends SaleBill{
 	private String orgName;
 	private String customerName;
+	private String realname;
 	private String customerEmail;
 	private String customerPhone;
 	private String preparerOrgName;
@@ -71,5 +72,11 @@ public class SaleBillVM  extends SaleBill{
 			}
 		}
 		return amt;
+	}
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 }

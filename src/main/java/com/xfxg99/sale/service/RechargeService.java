@@ -22,10 +22,14 @@ public class RechargeService {
 		
 		int count=rechargeMapper.countByMap(map);
 		List<RechargeVM> ls=rechargeMapper.loadrechargelistWithPage(map);
-		
+		//int count = ls.size();
 		ListResult<RechargeVM> result=new ListResult<RechargeVM>(count,ls);
 		
 		return result;
+	}
+	public List<RechargeVM> loadTotalrechargelist(Map<String, Object> map) {
+		List<RechargeVM> ls=rechargeMapper.loadrechargelistWithPage(map);
+		return ls;
 	}
 
 	public List<CustomerVM> selectCustomerList() {
@@ -79,5 +83,6 @@ public class RechargeService {
 		rechargeMapper.insertAccountLog(map);
 		rechargeMapper.updateCustomerMoney(map);
 	}
+
 	
 }

@@ -63,7 +63,7 @@
                             <input id="cmbSaleDetp" class="easyui-combobox"  disabled="disabled"  data-options="required:true,editable:false"   />
                         </td>
                        	<td style="width:70px; text-align: right">
-                            <label >客户名称:</label>
+                            <label >注册账号:</label>
                         </td> 
                         <td style="width: 120px; text-align: left">
                             <input id="textSaleCustomer" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
@@ -79,6 +79,13 @@
                     	</td>
                     	<td style="width: 100px; text-align: left">
                             <input id="txtMobile" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
+                            
+                        </td> 
+                    	<td style="width:60px; text-align: right">
+                    		<label >真实姓名:</label>
+                    	</td>
+                    	<td style="width: 100px; text-align: left">
+                            <input id="txtrealName" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
                             
                         </td> 
                     </tr>

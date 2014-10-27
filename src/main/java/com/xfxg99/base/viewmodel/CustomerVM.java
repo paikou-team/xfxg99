@@ -11,6 +11,13 @@ public class CustomerVM {
 	 
 	private Integer id; 
 	private String name;
+	private String realname;
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
 	private String email;
 	private String phone;
 	private Integer sex;

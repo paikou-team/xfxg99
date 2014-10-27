@@ -28,8 +28,10 @@ import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.Recharge;
+import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.service.RechargeService;
 import com.xfxg99.sale.viewmodel.RechargeVM;
+import com.xfxg99.sale.viewmodel.SaleBillVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 
 @Scope("prototype")
@@ -42,6 +44,9 @@ public class RechargeController {
 
 	@Resource(name = "organizationService")
 	protected OrganizationService orgService;
+
+	@Resource(name = "organizationService")
+	protected OrganizationService organizationService;
 
 	@RequestMapping(value = "getList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -62,23 +67,41 @@ public class RechargeController {
 		}
 
 		JSONObject joQuery = JSONObject.fromObject(query);
-		String orgname = joQuery.getString("orgname");
+		int orgId = joQuery.getInt("orgId");
+
 		String custname = joQuery.getString("custname");
+		
+		String beginTime  = joQuery.getString("beginTime"); 
+		String endTime  = joQuery.getString("endTime");
+		 
 		int isConfirm = Integer.parseInt(joQuery.getString("isconfirm"));
 		// String confirmname = joQuery.getString("username");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
+		if(!"".equals(beginTime)&&beginTime!=null){
+			map.put("beginDate", beginTime);
+		}
+		
+
+		if(!"".equals(endTime)&&endTime!=null){
+			map.put("endDate", endTime);
+		}
+		
+		Organization og = new Organization();
+		og = organizationService.getOrganization(orgId);
+
+		if (!user.getIsAllDataPermission()) {
+			map.put("orgPath", og.getPath());
+			map.put("orgId", orgId);
+		}
+
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
-		map.put("orgname", orgname);
+
 		map.put("custname", custname);
 		map.put("isConfirm", isConfirm);
-		if (!user.getIsAllDataPermission()) {
-			Organization org = orgService.getOrganization(user.getOrgId());
-			map.put("userOrgPath", org.getPath());
-		}
 		// map.put("confirmname", confirmname);
 
 		result = rechargeService.loadrechargelist(map);
@@ -86,8 +109,71 @@ public class RechargeController {
 		return result.toJson();
 	}
 
+	@RequestMapping(value = "getTotalChargeInfo.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String getTotalChargeInfo(
+			@RequestParam(value = "charge_Query", required = false) String query,
+			HttpServletRequest request) throws Exception {
+
+		Result<RechargeVM> result = new Result<RechargeVM>();
+		try {
+			UserVM user = (UserVM) request.getSession().getAttribute("user");
+
+			if (user == null) {
+				result.setIsSuccess(false);
+				result.setMsg("请重新登录");
+				return result.toJson();
+			}
+
+			JSONObject joQuery = JSONObject.fromObject(query);
+			int orgId = joQuery.getInt("orgId");
+
+			String custname = joQuery.getString("custname");
+			int isConfirm = Integer.parseInt(joQuery.getString("isconfirm"));
+			// String confirmname = joQuery.getString("username");
+
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			Organization og = new Organization();
+			og = organizationService.getOrganization(orgId);
+
+			if (!user.getIsAllDataPermission()) {
+				map.put("orgPath", og.getPath());
+				map.put("orgId", orgId);
+			}
+			map.put("custname", custname);
+			map.put("isConfirm", isConfirm);
+			// map.put("confirmname", confirmname);
+			List<RechargeVM> ls = rechargeService.loadTotalrechargelist(map);
+
+			double totalCharge = 0;
+			double unConfirmCharge = 0;
+			double hasConfirmCharge = 0;
+			if (ls.size() > 0) {
+				for (RechargeVM sb : ls) {
+					if (sb.getMoney() != null) {
+						if (sb.getConfirmUserId() != null) {
+							hasConfirmCharge += sb.getMoney().doubleValue();
+						} else {
+							unConfirmCharge += sb.getMoney().doubleValue();
+						}
+						totalCharge += sb.getMoney().doubleValue();
+					}
+				}
+			}
+			String retMsg = Double.toString(totalCharge) + "|"
+					+ Double.toString(unConfirmCharge) + "|"
+					+ Double.toString(hasConfirmCharge);
+			result = new Result<RechargeVM>(null, true, false, false, retMsg);
+			return result.toJson();
+		} catch (Exception ex) {
+			result = new Result<RechargeVM>(null, true, false, false, "");
+			return result.toJson();
+		}
+	}
+
 	/*
-	 * 保存警员信息逻辑
+	 * 保存充值信息逻辑
 	 */
 	@RequestMapping(value = "saveRechargeObj.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -158,7 +244,7 @@ public class RechargeController {
 	}
 
 	/*
-	 * 保存警员信息逻辑
+	 * 确认充值信息逻辑
 	 */
 	@RequestMapping(value = "confirmRecharge.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -224,7 +310,8 @@ public class RechargeController {
 		map.put("name", name);
 		map.put("phone", phone);
 		map.put("typeId", typeId);
-		ListResult<CustomerVM> rs = rechargeService.loadrechargeCustUserlist(map); 
+		ListResult<CustomerVM> rs = rechargeService
+				.loadrechargeCustUserlist(map);
 		return rs.toJson();
 	}
 

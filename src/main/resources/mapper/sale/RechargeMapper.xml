@@ -20,6 +20,7 @@
 		<result column="org_id" property="orgId" jdbcType="INTEGER" />
 		<result column="cust_id" property="custId" jdbcType="INTEGER" />
 		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
 		<result column="custName" property="custName" jdbcType="VARCHAR" />
 		<result column="custEmail" property="custEmail" jdbcType="VARCHAR" />
 		<result column="custPhone" property="custPhone" jdbcType="VARCHAR" />
@@ -62,12 +63,21 @@
 		left join t_organization as o on o.id = r.org_id
 		where 1=1
 
-		<if test="orgname !=null">
-			and o.name like CONCAT('%','${orgname}','%' )
-		</if>
+			
+		<if test="orgId > 0">
+			and ( o.id = #{orgId,jdbcType=INTEGER} or o.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%') )
+		</if> 
 
 		<if test="isConfirm ==1">
 			and r.confirm_user_id is not null
+		</if>
+
+		<if test="beginDate != null">
+			and r.recharge_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+		</if>
+		
+		<if test="endDate != null">
+			and r.recharge_time &lt;=#{endDate,jdbcType=TIMESTAMP}
 		</if>
 
 		<if test="isConfirm ==2">
@@ -88,6 +98,7 @@
 		select 
 			user_id 		as id,
 			user_name 		as name , 
+			user_real_name  as realname,
 			email 			as email ,
 			mobile_phone 	as phone ,
 			tjr_name 		as recUser
@@ -144,6 +155,7 @@
 		r.cust_id as
 		cust_id,
 		c.user_name as custName,
+		c.user_real_name as realname,
 		c.email as custEmail,
 		c.mobile_phone as
 		custPhone,
@@ -168,10 +180,10 @@
 		left join t_organization as o on o.id =	r.org_id
 
 		where 1=1
-
-		<if test="orgname !=null">
-			and o.name like CONCAT('%','${orgname}','%' )
-		</if>
+			
+		<if test="orgId > 0">
+			and ( o.id = #{orgId,jdbcType=INTEGER} or o.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%') )
+		</if> 
 
 		<if test="isConfirm ==1">
 			and r.confirm_user_id is not null
@@ -181,15 +193,18 @@
 			and r.confirm_user_id is null
 		</if>
 
+		<if test="beginDate != null">
+			and r.recharge_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+		</if>
+		
+		<if test="endDate != null">
+			and r.recharge_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+		</if>
+
 		<if test="custname !=null">
 			and c.user_name like CONCAT('%','${custname}','%' )
 		</if>
-
-		<if test="userOrgPath != null" >
-  			and (o.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or o.path=#{userOrgPath,jdbcType=VARCHAR})
-
-  		</if>
-
+			order by r.recharge_time desc
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},
 			#{pageSize,jdbcType=INTEGER}

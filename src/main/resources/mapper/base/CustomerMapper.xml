@@ -5,6 +5,7 @@
 		<id column="user_id" property="id" jdbcType="INTEGER" />
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="user_name" property="name" jdbcType="VARCHAR" />
+		<result column="user_real_name" property="realname" jdbcType="VARCHAR" />
 		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
 		<result column="period" property="period" jdbcType="INTEGER" />
 		<result column="bless_id" property="blessId" jdbcType="INTEGER" />
@@ -25,6 +26,7 @@
 		s.user_id as user_id,
 		s.email as email,
 		s.user_name as user_name,
+		s.user_real_name as user_real_name,
 		s.birthday as birthday,
 		g.address as address,
 		s.mobile_phone as mobile_phone
@@ -116,6 +118,7 @@
 		select 
 			u.user_id 		as id,
 			u.user_name 	as user_name , 
+			u.user_real_name as user_real_name,
 			u.email 		as email,
 			u.mobile_phone	as mobile_phone ,
 			u.tjr_name 		as rec_user,

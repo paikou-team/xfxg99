@@ -41,7 +41,8 @@ $(function () {
                { title: 'custId', field: 'custId', align: 'left', width: 5, hidden: true },
                { title: '单据号', field: 'serialNo', align: 'left', width: 150 },
                { title: '销售部门', field: 'orgName', align: 'left', width: 150 },
-               { title: '客户名称', field: 'customerName', align: 'left', width: 100 },
+               { title: '注册账号', field: 'customerName', align: 'left', width: 100 },
+               { title: '真实姓名', field: 'realname', align: 'left', width: 100 },
                { title: '金额', field: 'goodsAmount', align: 'right', width: 120 },
                { title: '销售日期', field: 'saleTime', align: 'left', width: 100 },
                { title: '录入日期', field: 'recTime', align: 'left', width: 100 }
@@ -142,8 +143,10 @@ function onSaleSearch(){
 }
 
 function onSaleBillAdd(){
-	if(!checkAuthorize2("shop_cash_sale_add")){
-		return;
+	if(m_cashsale_permission==0){
+		if(!checkAuthorize2("shop_sale_add")){
+			return;
+		}
 	}
 	try {
 		m_sale_dlg = art.dialog({

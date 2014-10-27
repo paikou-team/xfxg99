@@ -112,7 +112,7 @@ function onTreeMenuDblClick(row) {
 		src = "view/base/custuserList.jsp?viewType=1";
 		break;
 	case "cust_recharge":
-		src = "view/sale/chargeList.jsp?optType=0";
+		src = "view/sale/chargeList.jsp?optType=0&orgId="+m_index_orgId;
 		break;
 	case "cust_birthday":
 		src = "view/base/birthdayInfoList.jsp";
@@ -140,10 +140,10 @@ function onTreeMenuDblClick(row) {
 		break;
 
 	case "biz_recharge":
-		src = "view/sale/chargeList.jsp?optType=1";
+		src = "view/sale/chargeList.jsp?optType=1&orgId="+m_index_orgId;
 		break;
 	case "biz_report":
-		src = "view/sale/chargeList.jsp?optType=2";
+		src = "view/sale/chargeList.jsp?optType=2&orgId="+m_index_orgId;
 		break;
 	case "sys_authorize":
 		src = "view/base/user.jsp?optType=1";

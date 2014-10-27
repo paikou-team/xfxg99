@@ -27,7 +27,8 @@
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true">关闭</a> 
 		 </p>
 		 
-		 <p><label>客户姓名：</label><input id="txtcustname" class="easyui-validatebox" readonly="readonly" style="width:324px" /><input id="txtid" type="hidden"/></p>
+		 <p><label>注册账号：</label><input id="txtcustname" class="easyui-validatebox" readonly="readonly" style="width:324px" /><input id="txtid" type="hidden"/></p>
+		 <p><label>真实姓名：</label><input id="txtrealname" type="text" class="easyui-validatebox" readonly="readonly"   style="width:324px" /></p>
 		 <p><label>客户性别：</label><input id="txtcustsex" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '女'},{id: 1,name: '男'},{id: 2,name: '女'}]" style="width:324px"  disabled="disabled" /></p>
 		 <p><label>出生日期：</label><input id="txtcustbirth" class="easyui-datebox" data-options="required:false,editable:false" style="width:324px"   disabled="disabled" /></p> 
 		 <p><label>联系方式：</label><input id="txtcustphone" type="text" class="easyui-validatebox" readonly="readonly"   style="width:324px" /></p> 

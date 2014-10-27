@@ -19,6 +19,7 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="cust_id" property="custId" jdbcType="INTEGER" />
 		<result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+		<result column="user_real_name" property="realname" jdbcType="VARCHAR" />
 		<result column="mobile_phone" property="customerPhone" jdbcType="VARCHAR" />
 		<result column="org_id" property="orgId" jdbcType="INTEGER" />
 		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
@@ -52,6 +53,7 @@
 		s.user_id as id,
 		s.email as email,
 		s.user_name as name,
+		s.user_real_name as user_real_name,
 		s.birthday as birthday,
 		s.user_money as usermoney,
 		s.mobile_phone as phone
@@ -70,6 +72,7 @@
   		s.description		as description,
 		o.name as org_name,
 		eu.user_name as customer_name,
+		eu.user_real_name as user_real_name,
 		eu.email as customer_email,
 		eu.mobile_phone as mobile_phone,
   		po.name				as	preparer_org_name,
@@ -89,6 +92,7 @@
   		s.description		as description,
 		o.name as org_name,
 		eu.user_name as customer_name,
+		eu.user_real_name as user_real_name,
 		eu.email as customer_email,
 		eu.mobile_phone as mobile_phone,
 		sg.id				as	sale_goods_id,
@@ -406,6 +410,9 @@
 		</if>
 		<if test="orgId > 0">
 			and s.org_id = #{orgId,jdbcType=INTEGER}
+		</if>
+		<if test="orgPath != null">
+			and o.path like CONCAT( '%',#{orgPath,jdbcType=VARCHAR},'%')
 		</if>
 		<if test="beginDate != null">
 			and s.sale_time &gt;=#{beginDate,jdbcType=TIMESTAMP}

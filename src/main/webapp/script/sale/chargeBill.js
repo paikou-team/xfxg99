@@ -28,6 +28,7 @@ $(function() {
 		$("#txtcustName").val(score.custName);
 		$("#txtcustEmail").val(score.custEmail);
 		$("#txtcustPhone").val(score.custPhone);
+		$("#txtrealname").val(score.realname);
 		$("#txtmoney").numberbox('setValue', score.money);
 
 		$("#txtmoney").numberbox('disable');
@@ -105,8 +106,7 @@ var ChargeBillManage = {
 			resizable : true,
 			pagination : true,
 			pageNumber : 1,
-			pageSize : 10,
-			nowrap : false,
+			pageSize : 10, 
 			idField : 'id',
 			height : '99%',
 			width : '99%',
@@ -120,10 +120,15 @@ var ChargeBillManage = {
 				width : 5,
 				hidden : true
 			}, {
-				title : '客户姓名',
+				title : '注册账号',
 				field : 'name',
 				align : 'center',
 				width : 150
+			}, {
+				title : '真实姓名',
+				field : 'realname',
+				width : 150,
+				align : 'center'
 			}, {
 				title : '联系方式',
 				field : 'phone',
@@ -133,7 +138,8 @@ var ChargeBillManage = {
 				title : '电子邮件',
 				field : 'email',
 				align : 'left',
-				width : 250
+				width : 250,
+				hidden: true
 			} ] ]
 		});
 	},
@@ -161,6 +167,7 @@ var ChargeBillManage = {
 		$("#txtcustName").val(rowData.name);
 		$("#txtcustPhone").val(rowData.phone);
 		$("#txtcustEmail").val(rowData.email);
+		$("#txtrealname").val(rowData.realname);
 		$("#lbl_customerName").html(rowData.name);
 		m_chargeuser_dlg.close();
 	},

@@ -6,6 +6,7 @@ public class RechargeVM extends Recharge {
  
 	private String orgName;
 	private String userName;
+	private String realname;
 	private String custName;
 	private String custEmail;
 	private String custPhone;
@@ -38,6 +39,12 @@ public class RechargeVM extends Recharge {
 	}
 	public void setCustPhone(String custPhone) {
 		this.custPhone = custPhone;
+	}
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 	
 }

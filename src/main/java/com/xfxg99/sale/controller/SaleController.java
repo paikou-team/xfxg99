@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xfxg99.base.model.Organization;
 import com.xfxg99.base.model.User;
+import com.xfxg99.base.service.OrganizationService;
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 
@@ -47,6 +49,8 @@ public class SaleController {
 	@Resource(name = "billSerialNoService")
 	protected BillSerialNoService billSerialNoService;
 
+	@Resource(name = "organizationService")
+	protected OrganizationService organizationService;
 	/**
 	 * 获取数据列表
 	 * 
@@ -76,15 +80,15 @@ public class SaleController {
 		int orgId = joQuery.getInt("orgId");
 		int saletype = joQuery.getInt("saletype");
 
-		if (user.getIsAllDataPermission() == false) {
-			if (user.getOrgId() != orgId) {
-				result = new Result<SaleBill>(null, false, true, false,
-						"没有权限读取部门数据!");
-				return result.toJson();
-			}
+
+		Organization og = new Organization();
+		og = organizationService.getOrganization(orgId);
+		
+		if (!user.getIsAllDataPermission()) {
+			map.put("orgPath", og.getPath());
+			map.put("orgId", orgId);
 		}
 
-		map.put("orgId", orgId);
 
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime");
@@ -132,14 +136,13 @@ public class SaleController {
 			int orgId = joQuery.getInt("orgId");
 			int saletype = joQuery.getInt("saletype");
 
-			if (user.getIsAllDataPermission() == false) {
-				if (user.getOrgId() != orgId) {
-					result = new Result<SaleBill>(null, false, true, false,
-							"没有权限读取部门数据!");
-					return result.toJson();
-				}
-			}
-			map.put("orgId", orgId);
+			Organization og = new Organization();
+			og = organizationService.getOrganization(orgId);
+			
+			if (!user.getIsAllDataPermission()) {
+				map.put("orgPath", og.getPath());
+				map.put("orgId", orgId);
+			}  
 
 			String beginTime = joQuery.getString("beginTime");
 			String endTime = joQuery.getString("endTime");

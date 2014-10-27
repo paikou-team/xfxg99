@@ -32,9 +32,10 @@
 		 <p><label>充值时间：</label><input id="txtrechargeTime" class="easyui-datetimebox" data-options="required:true,editable:false,showSeconds:false" style="width:324px"  /></p> 
 		 
 		 <p>
-		 	<label>客户姓名：</label><input id="txtcustName" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /><input id="txtcustId" type="hidden"/>
+		 	<label>注册账号：</label><input id="txtcustName" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /><input id="txtcustId" type="hidden"/>
 		 	<a id="btnSelectCustUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">客户选择</a>
 		 </p>	
+		 <p><label>真实姓名：</label><input id="txtrealname" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /> </p>
 		 <p><label>联系方式：</label><input id="txtcustPhone" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /> </p>
 		 <p><label>电子邮件：</label><input id="txtcustEmail" class="easyui-validatebox"  readonly="readonly"    style="width:324px"  /> </p>
 		 <p><label>充值备注：</label><textarea id="txtrechargeDesc" type="textarea" style="width:324px;height:40px" ></textarea></p> 
