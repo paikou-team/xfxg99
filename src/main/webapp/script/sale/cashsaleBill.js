@@ -505,10 +505,11 @@ function printSaleBill(){
 			if(goodsName.length>3){
 				goodsName = goodsName.substring(0,2)+"…";
 			}
-			productHtml+="<tr><td><label>"+goodsName+"</label></td><td><label>"+obj.goodsNumber+"</label></td><td><label>"+obj.goodsPrice+"</label></td></tr>"
+			productHtml+="<tr><td><label>"+goodsName+"</label></td><td><label>"+obj.goodsNumber+"</label></td><td><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
 			totalCount +=Number(obj.goodsNumber);
 			totalAmout +=obj.amount;
 		}
+		totalAmout = fmoney(totalAmout,2);
 		$("#tbl_productList").html(productHtml);
 		$("#lbl_totalcount").html(totalCount);
 		$("#lbl_totalAmount").html(totalAmout);
@@ -522,3 +523,13 @@ function printSaleBill(){
 	}
 	
 }
+function fmoney(s, n) { 
+	n = n > 0 && n <= 20 ? n : 2; 
+	s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + ""; 
+	var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1]; 
+	t = ""; 
+	for (i = 0; i < l.length; i++) { 
+		t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : ""); 
+	} 
+	return t.split("").reverse().join("") + "." + r; 
+} 
