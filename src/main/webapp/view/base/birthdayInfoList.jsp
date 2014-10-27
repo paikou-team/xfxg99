@@ -24,7 +24,7 @@
         <div>
             <p> 
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_custview"  click="onCustomer()"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_custview"
                     plain="true">资料</a>
                 <a id="btnBirthdayRecord" name="btnBirthdayRecord"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_birthday"

@@ -7,7 +7,7 @@
 <base href="<%=basePath%>">
 <script src='<%=basePath%>script/base/customerBill.js'
 	type='text/javascript'></script> 
-<title>充值单据</title>
+<title>客户资料</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">

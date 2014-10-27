@@ -175,6 +175,7 @@ var CustUserManage = {
 		m_custuser_object.phone = obj.phone;
 		m_custuser_object.email = obj.email;
 		m_custuser_object.recUser = obj.recUser; 
+		m_custuser_object.orgName = obj.orgName; 
 	},
 	ShowDialog : function(optType) {
 		try {

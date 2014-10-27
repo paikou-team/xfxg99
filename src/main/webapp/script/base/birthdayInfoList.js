@@ -198,12 +198,12 @@ function onCustomer(){
 
 var CustUserManage = {
 	ShowCustUser : function() {
-		var hasRows = $('#custUserGrid').datagrid('getRows');
+		var hasRows = $('#dgBirthdayInfo').datagrid('getRows');
 		if (hasRows.length == 0) {
 			$.messager.alert('操作提示', "没有可操作数据", "warning");
 			return;
 		}
-		var target = $("#custUserGrid").datagrid("getChecked");
+		var target = $("#dgBirthdayInfo").datagrid("getChecked");
 		if (!target || target.length == 0) {
 			$.messager.alert('操作提示', "请选择操作项!", "warning");
 			return;
@@ -213,7 +213,7 @@ var CustUserManage = {
 			return;
 		}
 		CustUserManage.packageObject(target[0]);
-		CustUserManage.ShowDialog();
+		CustUserManage.ShowDialog(0);
 	},
 	ShowCustUserAction : function(index, rowData) { 
 		CustUserManage.packageObject(rowData);
@@ -227,6 +227,7 @@ var CustUserManage = {
 		m_custuser_object.phone = obj.phone;
 		m_custuser_object.email = obj.email;
 		m_custuser_object.recUser = obj.recUser; 
+		m_custuser_object.orgName = obj.orgName;
 	},
 	ShowDialog : function(optType) {
 		try {
@@ -234,7 +235,7 @@ var CustUserManage = {
 					.dialog({
 						id : 'dlgCustUserBill',
 						title : '客户资料',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/base/custuserBill.jsp?optType="+optType+"' style='width:480px;height:380px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/base/customerBill.jsp?optType="+optType+"' style='width:500px;height:420px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
