@@ -1,30 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xfxg99.base.dao.SysFunctionMapper" >
-  <resultMap id="BaseResultMap" type="com.xfxg99.base.model.SysFunction" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
-    <result column="node_level" property="nodeLevel" jdbcType="INTEGER" />
-    <result column="fullpath" property="fullpath" jdbcType="VARCHAR" />
-    <result column="func_type" property="funcType" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="func_key" property="funcKey" jdbcType="VARCHAR" />
-    <result column="order_no" property="orderNo" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xfxg99.base.dao.SysFunctionMapper">
+
+  <resultMap id="BaseResultMap" type="com.xfxg99.base.model.SysFunction">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="node_level" jdbcType="INTEGER" property="nodeLevel" />
+    <result column="fullpath" jdbcType="VARCHAR" property="fullpath" />
+    <result column="func_type" jdbcType="INTEGER" property="funcType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="func_key" jdbcType="VARCHAR" property="funcKey" />
+    <result column="order_no" jdbcType="INTEGER" property="orderNo" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, parent_id, node_level, fullpath, func_type, name, func_key, order_no
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_function
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_function
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xfxg99.base.model.SysFunction" >
+  <insert id="insert" parameterType="com.xfxg99.base.model.SysFunction">
     insert into t_function (id, parent_id, node_level, 
       fullpath, func_type, name, 
       func_key, order_no)
@@ -32,89 +33,89 @@
       #{fullpath,jdbcType=VARCHAR}, #{funcType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{funcKey,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.xfxg99.base.model.SysFunction" >
+  <insert id="insertSelective" parameterType="com.xfxg99.base.model.SysFunction">
     insert into t_function
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="parentId != null" >
+      <if test="parentId != null">
         parent_id,
       </if>
-      <if test="nodeLevel != null" >
+      <if test="nodeLevel != null">
         node_level,
       </if>
-      <if test="fullpath != null" >
+      <if test="fullpath != null">
         fullpath,
       </if>
-      <if test="funcType != null" >
+      <if test="funcType != null">
         func_type,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="funcKey != null" >
+      <if test="funcKey != null">
         func_key,
       </if>
-      <if test="orderNo != null" >
+      <if test="orderNo != null">
         order_no,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="parentId != null" >
+      <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="nodeLevel != null" >
+      <if test="nodeLevel != null">
         #{nodeLevel,jdbcType=INTEGER},
       </if>
-      <if test="fullpath != null" >
+      <if test="fullpath != null">
         #{fullpath,jdbcType=VARCHAR},
       </if>
-      <if test="funcType != null" >
+      <if test="funcType != null">
         #{funcType,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="funcKey != null" >
+      <if test="funcKey != null">
         #{funcKey,jdbcType=VARCHAR},
       </if>
-      <if test="orderNo!= null" >
+      <if test="orderNo!= null">
         #{orderNo,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.base.model.SysFunction" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.base.model.SysFunction">
     update t_function
-    <set >
-      <if test="parentId != null" >
+    <set>
+      <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="nodeLevel != null" >
+      <if test="nodeLevel != null">
         node_level = #{nodeLevel,jdbcType=INTEGER},
       </if>
-      <if test="fullpath != null" >
+      <if test="fullpath != null">
         fullpath = #{fullpath,jdbcType=VARCHAR},
       </if>
-      <if test="funcType != null" >
+      <if test="funcType != null">
         func_type = #{funcType,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="funcKey != null" >
+      <if test="funcKey != null">
         func_key = #{funcKey,jdbcType=VARCHAR},
       </if>
-      <if test="orderNo != null" >
+      <if test="orderNo != null">
         order_No = #{orderNo,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xfxg99.base.model.SysFunction" >
+  <update id="updateByPrimaryKey" parameterType="com.xfxg99.base.model.SysFunction">
     update t_function
     set parent_id = #{parentId,jdbcType=INTEGER},
       node_level = #{nodeLevel,jdbcType=INTEGER},
@@ -126,11 +127,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="loadAllSysFunction" resultMap="BaseResultMap" >
+  <select id="loadAllSysFunction" resultMap="BaseResultMap">
 	select 
     	<include refid="Base_Column_List" />
     from t_function 
     order by node_level
-  
+ 
   </select>
 </mapper>

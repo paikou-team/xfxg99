@@ -17,6 +17,8 @@ public class SysFunction {
 
     private Integer orderNo;
 
+    private String icon;
+
     public Integer getId() {
         return id;
     }
@@ -79,5 +81,13 @@ public class SysFunction {
 
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

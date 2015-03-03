@@ -21,6 +21,9 @@ function getUrlArgs() {
     }
     return theRequest;
 }
+
+
+
 /**
  * 将后台的org列表转换成tree格式
  * @param items
@@ -40,13 +43,13 @@ function buildTree(items){
     
     for (var i = 0; i < count; i++) {
     	var node = items[i];
-    	node.text = node.shortName;
+    	node.text = node.name;
         node.children=[];
         node.children2=[];
         
         if(node.parentId==rootParent){
         	node.parentObj=rootParent;
-        	node.level=1;
+        	node.nodeLevel=1;
         	ss.push(node);
         }
         
@@ -54,7 +57,7 @@ function buildTree(items){
         	var tmp = items[j];
         	if (tmp.parentId == node.id){
         		tmp.parentObj=node;
-        		tmp.level=node.level+1;
+        		tmp.nodeLevel=node.nodeLevel+1;
         		node.children.push(tmp);
         		node.children2.push(tmp);
         	}
