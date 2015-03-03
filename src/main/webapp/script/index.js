@@ -73,14 +73,14 @@ function buildTreeMenu(items){
 
 function createIconStyle(node){
 	if (node.iconCls == undefined || node.iconCls == null) {
-		if (node.iconUrl != null && node.iconUrl.length > 0) {
+		if (node.icon != null && node.icon.length > 0) {
 			var classId = "icon_main_menu_"  + node.id;
 			var tmpId=m_index_iconStyles[classId];
 			if(tmpId==undefined || tmpId==null){
 				var style = "."
 					+ classId
 					+ "{	background:url('"
-					+ node.icon
+					+ location.href+node.icon
 					+ "');background-size:contain; width:16px; height:16px}";
 				createStyle(style);
 				m_index_iconStyles[classId] = classId;

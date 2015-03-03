@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.xfxg99.base.dao.SysFunctionMapper;
+
 import com.xfxg99.base.model.SysFunction;
 
 /**
@@ -16,7 +17,7 @@ import com.xfxg99.base.model.SysFunction;
  */
 @Service("sysFunctionService")
 public class SysFunctionService{
-
+	
 	@Resource(name="sysFunctionMapper")
 	private SysFunctionMapper sysFunctionMapper;
 	

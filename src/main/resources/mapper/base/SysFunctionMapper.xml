@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xfxg99.base.dao.SysFunctionMapper">
-
   <resultMap id="BaseResultMap" type="com.xfxg99.base.model.SysFunction">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
@@ -11,9 +10,10 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="func_key" jdbcType="VARCHAR" property="funcKey" />
     <result column="order_no" jdbcType="INTEGER" property="orderNo" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, parent_id, node_level, fullpath, func_type, name, func_key, order_no
+    id, parent_id, node_level, fullpath, func_type, name, func_key, order_no, icon
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,10 +28,12 @@
   <insert id="insert" parameterType="com.xfxg99.base.model.SysFunction">
     insert into t_function (id, parent_id, node_level, 
       fullpath, func_type, name, 
-      func_key, order_no)
+      func_key, order_no, icon
+      )
     values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{nodeLevel,jdbcType=INTEGER}, 
       #{fullpath,jdbcType=VARCHAR}, #{funcType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{funcKey,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER})
+      #{funcKey,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.base.model.SysFunction">
     insert into t_function
@@ -60,6 +62,9 @@
       <if test="orderNo != null">
         order_no,
       </if>
+      <if test="icon != null">
+        icon,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -83,8 +88,11 @@
       <if test="funcKey != null">
         #{funcKey,jdbcType=VARCHAR},
       </if>
-      <if test="orderNo!= null">
+      <if test="orderNo != null">
         #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -110,7 +118,10 @@
         func_key = #{funcKey,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null">
-        order_No = #{orderNo,jdbcType=INTEGER},
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -123,9 +134,11 @@
       func_type = #{funcType,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       func_key = #{funcKey,jdbcType=VARCHAR},
-      order_no = #{orderNo,jdbcType=INTEGER}
+      order_no = #{orderNo,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
   
   <select id="loadAllSysFunction" resultMap="BaseResultMap">
 	select 
