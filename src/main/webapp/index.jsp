@@ -1,9 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/view/lib.jsp"%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 	<base href="<%=basePath%>">
+	<script src='<%=basePath%>script/index.js' 	type='text/javascript'></script>
     <title>派蔻营销管理系统</title>
 </head>
 <body>

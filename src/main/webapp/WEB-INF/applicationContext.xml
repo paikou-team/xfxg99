@@ -53,7 +53,7 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.xfxg99" />
-		<property name="mapperLocations" value="classpath:mapper/*.xml" />
+		<property name="mapperLocations" value="classpath*:mapper/**/*.xml" />
 		<property name="configurationProperties">
 			<props>
 				<prop key="dialect">mysql</prop>
@@ -61,17 +61,9 @@
 		</property>
 	</bean>
 
-	
-	<!-- 数据访问mybatis  sql mapping文件配置管理 
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.xfxg99." />
-		<property name="annotationClass"
-			value="com.tianyi.drs.duty.dao.core.MyBatisRepository" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>-->
 	<!-- 数据访问mybatis  sql mapping文件配置管理 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.tianyi.drs" />
+		<property name="basePackage" value="com.xfxg99" />
 		<property name="annotationClass"
 			value="com.xfxg99.core.MyBatisRepository" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />

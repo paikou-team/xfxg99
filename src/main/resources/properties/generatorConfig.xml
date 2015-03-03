@@ -38,7 +38,7 @@
 		 
  
 	       
-		<table tableName="t_organization" domainObjectName="Organization"
+		<table tableName="t_function" domainObjectName="SysFunction"
            enableSelectByExample="false"
 	       enableDeleteByExample="false"
 	       enableCountByExample="false"
