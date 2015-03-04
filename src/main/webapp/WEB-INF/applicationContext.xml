@@ -44,9 +44,9 @@
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="driverClassName" value="org.gjt.mm.mysql.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/paikou?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="url" value="jdbc:mysql://218.244.158.138:3306/paikou?useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="username" value="root" />
-		<property name="password" value="5233750" />
+		<property name="password" value="Paikou123_" />
 	</bean>
 
 	<!-- 数据访问mybatis  配置管理 -->
