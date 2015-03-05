@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.xfxg99.sale.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.xfxg99.sale.model.Goods" >
+    <id column="goods_id" property="id" jdbcType="INTEGER" />
+    <result column="goods_sn" property="sn" jdbcType="VARCHAR" />
+    <result column="goods_name" property="name" jdbcType="VARCHAR" />
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="shop_price" property="shopPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    goods_id, goods_sn, goods_name, market_price, shop_price
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ecs_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+    <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select 
+  		count(*)
+  	from ecs_goods 
+  	where goods_name like CONCAT( '%',#{name,jdbcType=VARCHAR},'%')  
+  </select>
+  
+  <select id="loadListWithPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from ecs_goods 
+  	where goods_name like CONCAT( '%',#{name,jdbcType=VARCHAR},'%')  
+  	order by goods_name
+  	<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  	</if>
+  </select>
+  
+</mapper>
