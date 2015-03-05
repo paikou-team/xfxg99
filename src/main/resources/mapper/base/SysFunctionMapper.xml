@@ -145,6 +145,15 @@
     	<include refid="Base_Column_List" />
     from t_function 
     order by node_level
+  </select>
+  
+  <select id="loadMainMenu" resultMap="BaseResultMap">
+	select 
+    	<include refid="Base_Column_List" />
+    from t_function 
+    where node_level in (1,2)
+    order by node_level,order_no
  
   </select>
+  
 </mapper>

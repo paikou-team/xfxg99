@@ -26,4 +26,8 @@ public class SysFunctionService{
 		 return sysFunctionMapper.loadAllSysFunction();
 		 
 	 }
+	 
+	 public List<SysFunction> loadMainMenu(){
+		 return sysFunctionMapper.loadMainMenu();
+	 }
 }

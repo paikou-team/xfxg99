@@ -20,4 +20,6 @@ public interface SysFunctionMapper {
     int updateByPrimaryKey(SysFunction record);
     
     List<SysFunction> loadAllSysFunction();
+    
+    List<SysFunction> loadMainMenu();
 }

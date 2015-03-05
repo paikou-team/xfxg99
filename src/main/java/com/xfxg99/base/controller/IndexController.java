@@ -30,7 +30,7 @@ public class IndexController {
 	@RequestMapping(value = "getList.do")
 	public @ResponseBody String getList(HttpServletRequest request){
 		
-		List<SysFunction> ls=sysFunctionService.loadAllSysFunction();
+		List<SysFunction> ls=sysFunctionService.loadMainMenu();
 		
 		ListResult<SysFunction> funcs=new ListResult<SysFunction>(ls.size(),ls,true);
 		
