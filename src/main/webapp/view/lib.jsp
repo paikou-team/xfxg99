@@ -34,14 +34,12 @@
 	
 <script src='<%=basePath%>asset/script/jquery-1.11.1.min.js'	type='text/javascript'></script>
 <!-- <script src='<%=basePath%>asset/script/jquery-1.8.0.min.js'	type='text/javascript'></script> -->
-<!-- 
-<script src='<%=basePath%>asset/script/bootstrap.min.js'	type='text/javascript'></script>
- -->
 
- <script src='<%=basePath%>asset/script/easyui/jquery.easyui.1.4.min.js'	type='text/javascript'></script>
+
+ <script src='<%=basePath%>asset/script/easyui/jquery.easyui.1.4.1.min.js'	type='text/javascript'></script>
 <!--<script src='<%=basePath%>asset/script/easyui/jquery.1.3.2.easyui.min.js'	type='text/javascript'></script> -->
 <script
-	src='<%=basePath%>script/jquery.loadmask.min.js'	type='text/javascript'></script>
+	src='<%=basePath%>asset/script/jquery.loadmask/jquery.loadmask.min.js'	type='text/javascript'></script>
 
 <script src='<%=basePath%>asset/script/json2.js' type='text/javascript'></script>
 <script src='<%=basePath%>asset/script/easyui/easyui-lang-zh_CN.js' type='text/javascript'></script>
