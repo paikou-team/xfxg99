@@ -90,4 +90,10 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="loadAllUser" resultMap="BaseResultMap">
+	select 
+    	<include refid="Base_Column_List" />
+    from t_user
+ 
+  </select>
 </mapper>
