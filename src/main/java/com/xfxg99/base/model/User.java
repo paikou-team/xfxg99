@@ -10,6 +10,8 @@ public class User {
     private Integer orgId;
 
     private String description;
+    
+    private boolean isused;
 
     public Integer getId() {
         return id;
@@ -49,5 +51,13 @@ public class User {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public boolean getIsUsed(){
+    	return  isused;
+    }
+    
+    public void setIsUsed(boolean isUsed){
+    	this.isused = isUsed;
     }
 }

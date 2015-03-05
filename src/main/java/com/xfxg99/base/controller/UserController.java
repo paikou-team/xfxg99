@@ -27,7 +27,7 @@ public class UserController {
 	@Resource(name = "userService")
 	protected UserService userService;
 	
-	@RequestMapping(value = "getList.do")
+	@RequestMapping(value = "getList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getList(HttpServletRequest request){
 		
 		List<User> ls=userService.loadAllUser();

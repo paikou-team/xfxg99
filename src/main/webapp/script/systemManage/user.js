@@ -4,7 +4,7 @@
 $(function () {
     //初始化数据表格UserGrid
     $('#UserGrid').datagrid({
-        url: '/SystemManage/GetUserList',//对应Controller里面的控制器和方法；
+        url: 'user/getList.do',//对应Controller里面的控制器和方法；
         //title: '用户资料',
         fitColumns: true,
         idField: 'Id',
@@ -15,15 +15,14 @@ $(function () {
         toolbar: '#usertb',
         singleSelect: true,
         columns: [[
-                    { field: 'IsUsed', title: '有效', width: 50, align: 'center' ,formatter: imgcheckbox },
+                    { field: 'isused', title: '有效', width: 50, align: 'center' ,formatter: imgcheckbox },
                     //{ field: 'IsAllDataPermission', title: '所有权限', width: 50, align: 'center' ,formatter: imgcheckbox, hidden:true },
-                    { field: 'Name', title: '用户名称', width: 100, align: 'center' },
-                    { field: 'Password', title: '登录密码', width: 100, align: 'center',hidden: true  },
-                    { field: 'Number', title: '用户编码', width: 100, align: 'center' },
-                    { field: 'OrganizationId', title: '部门编号',  hidden: true },
-                    { field: 'OrganizationName', title: '部门', width: 100, align: 'center' },
-                    { field: 'Description', title: '备注', width: 60, align: 'center' },
-                    { field: 'Id', title: 'Id', width: 130, align: 'center', hidden: true }
+                    { field: 'name', title: '用户名称', width: 100, align: 'center' },
+                    { field: 'password', title: '登录密码', width: 100, align: 'center',hidden: true  },
+                    { field: 'orgId', title: '部门编号',  hidden: true },
+                    { field: 'orgName', title: '部门', width: 100, align: 'center' },
+                    { field: 'description', title: '备注', width: 60, align: 'center' },
+                    { field: 'id', title: 'Id', width: 130, align: 'center', hidden: true }
         ]]
     }); //初始化数据表格Usergrid
     $("#AddUser").bind("click", UserManage.AddUser);
