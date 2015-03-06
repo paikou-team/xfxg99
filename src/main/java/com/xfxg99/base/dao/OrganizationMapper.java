@@ -1,7 +1,11 @@
 package com.xfxg99.base.dao;
 
-import com.xfxg99.base.model.Organization;
+import java.util.List;
 
+import com.xfxg99.base.model.Organization;
+import com.xfxg99.core.MyBatisRepository;
+
+@MyBatisRepository
 public interface OrganizationMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +18,6 @@ public interface OrganizationMapper {
     int updateByPrimaryKeySelective(Organization record);
 
     int updateByPrimaryKey(Organization record);
+    
+    List<Organization> loadAllOrganization();
 }
