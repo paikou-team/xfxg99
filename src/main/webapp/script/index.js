@@ -27,19 +27,20 @@ function loadMenu() {
 				var nodes = buildTreeMenu(req.rows);
 				$('#treeMenu').tree("loadData", nodes);
 			} else {
-				$.messager.alert('ÌáÊ¾', req.msg, "warning");
+				$.messager.alert('æç¤ºÊ¾', req.msg, "warning");
 			}
 		}
 	});
 }
 /**
- * Ë«»÷²Ëµ¥
+ * 
  */
 function onTreeMenuDblClick(){
 	
+	$("#ifrContent").attr("src","view/sale/goodsList.jsp");
 }
 /**
- * ½¨Á¢Ê×Ò³²Ëµ¥
+ * å»ºç«‹ä¸»èœå•
  * @param items
  * @returns {Array}
  */
@@ -91,13 +92,23 @@ function createIconStyle(node){
 }
 
 function createStyle(css) {
-	try { // IEÏÂ¿ÉĞĞ
+	try { // IEå…¼å®¹
 		var style = document.createStyleSheet();
 		style.cssText = css;
-	} catch (e) { // Firefox,Opera,Safari,ChromeÏÂ¿ÉĞĞ
+	} catch (e) { // Firefox,Opera,Safari,Chromeå…¼å®¹
 		var style = document.createElement("style");
 		style.type = "text/css";
 		style.textContent = css;
 		document.getElementsByTagName("HEAD").item(0).appendChild(style);
 	}
 } 
+
+
+function iframeSize(){
+	var ifm= document.getElementById("ifrContent");   
+	var subWeb = document.frames ? document.frames["ifrContent"].document : ifm.contentDocument;   
+	if(ifm != null && subWeb != null) {
+	   ifm.height = subWeb.body.scrollHeight;
+	   ifm.width = subWeb.body.scrollWidth;
+	}   
+}

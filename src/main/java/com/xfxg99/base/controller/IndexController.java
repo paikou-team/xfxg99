@@ -27,7 +27,7 @@ public class IndexController {
 	@Resource(name = "sysFunctionService")
 	protected SysFunctionService sysFunctionService;
 	
-	@RequestMapping(value = "getList.do")
+	@RequestMapping(value = "getList.do",produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getList(HttpServletRequest request){
 		
 		List<SysFunction> ls=sysFunctionService.loadMainMenu();

@@ -1,49 +1,63 @@
 
+var m_goods_query={goodsName:null};
+
 $(function () {
 	var args = getUrlArgs();
 	
 	$('#dgGoods').datagrid({
+		url:'goods/loadGoodsList.do',
+		queryParams : {
+			'goodsQuery' : JSON.stringify(m_goods_query)
+		},
         fitColumns: true,
         rownumbers: true,
         resizable: true,
-        pagination: false,
+        pagination: true,
+        pageNumber: 1,
+        pageSize: 20,
         nowrap: false,
-        height: 180,
-        idField: 'Id',
+        idField: 'id',
         singleSelect: true,
-        onDblClickRow: viewStockDetail,
+        onDblClickRow: onSelRow,
         toolbar: "#stockDetailToolBar",
         columns: [[
-               { title: 'id', field: 'Id', align: 'left', width: 5, hidden: true },
+               { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
                {
-                   title: '类型', field: 'EvidenceType', align: 'left', width: 120, formatter:
+                   title: '绫诲瀷', field: 'catName', align: 'left', width: 120 },
+               {
+                   title: '鍚嶇О', field: 'name', align: 'left', width: 120 },
+               {
+                   title: '浠锋牸', field: 'shopPrice', align: 'right', width: 120, formatter:
                      function (value, rowData, index) {
-                         return rowData.Evidence.EvidenceType.Name;
+                         return value;
                      }
-               },
-               {
-                   title: '名称', field: 'Name', align: 'left', width: 120, formatter:
-                     function (value, rowData, index) {
-                         return rowData.Evidence.Name;
-                     }
-               },
-               {
-                   title: '型号', field: 'Model', align: 'left', width: 120, formatter:
-                     function (value, rowData, index) {
-                         return rowData.Evidence.Model;
-                     }
-               },
-               { title: '数量', field: 'Qty', align: 'left', width: 80 },
-               { title: '金额', field: 'Amount', align: 'left', width: 100 },
-               {
-                   title: '仓位', field: 'Storage', align: 'left', width: 220,
-                   formatter:
-                       function (value, rowData, index) {
-                           return rowData.Storage ? rowData.Storage.FullName : null;
-                       }
                }
-               //{ title: '扣押来源', field: 'Origin', align: 'left', width: 100, formatter: function (value, rowData, index) { return rowData.Evidence.OwnerName; } }
         ]]
     });
-	
 });
+/**
+ * 鏌ヨ
+ */
+function doSearch(value){
+	loadGoods(value);
+}
+
+function loadGoods(value) {
+
+    try {
+        packQuery(value);
+        var json = JSON.stringify(m_goods_query);
+        $('#dgGoods').datagrid('reload', { 'goodsQuery': json });
+
+    } catch (ex) {
+        alert(ex);
+    }
+}
+
+function packQuery(value){
+	m_goods_query.goodsName = value;
+}
+
+function onSelRow(){
+	
+}

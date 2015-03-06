@@ -23,9 +23,10 @@
   	<p style="margin-top: -1px; margin-bottom: 0px">
 	<a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="exit()">退出</a>
 	</p>
-	<input class="easyui-searchbox" data-options="prompt:'Please Input Value',searcher:doSearch" style="width:300px"></input>
+	<input class="easyui-searchbox" data-options="prompt:'输入商品名称',searcher:doSearch" style="width:300px"></input>
+	<div style="height:10px"></div>
     <div>
-		<div id="dgGoods"></div>
+		<div id="dgGoods"  style="margin:10px"></div>
 	</div>
   </body>
 </html>
