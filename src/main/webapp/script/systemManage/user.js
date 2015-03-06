@@ -1,34 +1,62 @@
-/**
- * 
- */
+
+var m_user_query={userName:null};
 $(function () {
-    //初始化数据表格UserGrid
-    $('#UserGrid').datagrid({
-        url: 'user/getList.do',//对应Controller里面的控制器和方法；
-        //title: '用户资料',
+	var args = getUrlArgs();
+	
+	$('#UserGrid').datagrid({
+		url:'user/getList.do',
+		queryParams : {
+			'userQuery' : JSON.stringify(m_user_query)
+		},
         fitColumns: true,
-        idField: 'Id',
+        rownumbers: true,
+        resizable: true,
         pagination: true,
         pageNumber: 1,
         pageSize: 20,
         nowrap: false,
-        toolbar: '#usertb',
+        idField: 'id',
         singleSelect: true,
+        onDblClickRow: onSelRow,
+        toolbar: "#UserTb",
         columns: [[
-                    { field: 'isused', title: '有效', width: 50, align: 'center' ,formatter: imgcheckbox },
-                    //{ field: 'IsAllDataPermission', title: '所有权限', width: 50, align: 'center' ,formatter: imgcheckbox, hidden:true },
-                    { field: 'name', title: '用户名称', width: 100, align: 'center' },
-                    { field: 'password', title: '登录密码', width: 100, align: 'center',hidden: true  },
-                    { field: 'orgId', title: '部门编号',  hidden: true },
-                    { field: 'orgName', title: '部门', width: 100, align: 'center' },
-                    { field: 'description', title: '备注', width: 60, align: 'center' },
-                    { field: 'id', title: 'Id', width: 130, align: 'center', hidden: true }
+               { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
+               { title: '鏈夋晥', field: 'isUsed', width: 50, align: 'center' ,formatter: imgcheckbox },
+               { title: '鍚嶅瓧', field: 'name', align: 'center', width: 120 },
+               { title: 'password', field: 'password', align: 'center', width: 120, hidden: true },
+               //{ title: 'orgId', field: 'orgId', align: 'center', width: 120, hidden: true},
+               { title: '缁勭粐鏈烘瀯', field: 'orgId', align: 'center', width: 120},
+               { title: '鎻忚堪', field: 'description', align: 'center', width: 200}
         ]]
-    }); //初始化数据表格Usergrid
-    $("#AddUser").bind("click", UserManage.AddUser);
-    $("#EditUser").bind("click", UserManage.EditUser);
-    $("#DelUser").bind("click", UserManage.DelUser);
-    $("#SearchUser").bind("click", UserManage.SearchUser);
-    $("#SaveInfo").bind("click", SaveInfo);
-    $("#CancelInfo").bind("click", CancelInfo);  
+    });
 });
+/**
+ * 鏌ヨ
+ */
+function doSearch(value){
+	loadUsers(value);
+}
+
+function loadUsers(value) {
+
+    try {
+        packQuery(value);
+        var json = JSON.stringify(m_user_query);
+        $('#UserGrid').datagrid('reload', { 'userQuery': json });
+
+    } catch (ex) {
+        alert(ex);
+    }
+}
+
+function packQuery(value){
+	m_user_query.userName = value;
+}
+
+function onSelRow(){
+	
+}
+function imgcheckbox(value, rowData, index) {
+	//alert(value);
+    return value ? "<span><img alt='UnLock' src='resource/icon/menu/unlock.png' /></span>" : "<span><img alt='Lock' src='resource/icon/menu/lock.png'  /></span>";
+     }

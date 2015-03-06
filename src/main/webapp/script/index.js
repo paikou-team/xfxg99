@@ -45,6 +45,12 @@ function onTreeMenuDblClick(row){
 		case "shop_stockout" :
 			src="view/sale/stockList.jsp?billType=11";
 			break;
+		case "sys_user":
+			src="view/systemManage/user.jsp";
+			break;
+		case "sys_shop":
+			src="view/systemManage/organization.jsp";
+			break;
 	}
 	
 	$("#ifrContent").attr("src",src);

@@ -3,7 +3,7 @@
  */
 $(function () {
     $('#OrganizationTree').treegrid({
-    	url: 'organization/getList.do',//¶ÔÓ¦ControllerÀïÃæµÄ¿ØÖÆÆ÷ºÍ·½·¨£»
+    	url: 'organization/getList.do',//ï¿½ï¿½Ó¦Controllerï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½
         fitColumns: true,
         rownumbers: true,
         resizable: true,
@@ -11,16 +11,14 @@ $(function () {
         treeField: 'Name',
         toolbar:'#organizationtb',
         columns: [[
-               { title: '×éÖ¯»ú¹¹Ãû³Æ', field: 'Name', align: 'left', width: 200 },
+               { title: 'ç»„ç»‡æœºæ„åç§°', field: 'name', align: 'left', width: 200 },
                { field: 'id', title: 'Id', width: 130, align: 'center', hidden: true },
-               { title: '±àÂë', field: 'Number', align: 'center', hidden: true },
-               { title: '½ÚµãµÈ¼¶', field: 'NodeLevel', align: 'center', hidden: true },
-               { title: 'ÉÏ¼¶ID', field: 'ParentId', align: 'center', hidden: true },
-               { title: 'ÉÏ¼¶Ãû³Æ', field: 'ParentName', align: 'center', hidden: true },
-               { title: 'È«Â·¾¶', field: 'FullPath', align: 'center', hidden: true },
+               { title: 'level', field: 'level', align: 'center', hidden: true },
+               { title: 'parentId', field: 'parentId', align: 'center', hidden: true },
+               { title: 'ParentName', field: 'ParentName', align: 'center', hidden: true },
+               { title: 'path', field: 'path', align: 'center', hidden: true },
                { title: 'OrderNo', field: 'OrderNo', align: 'center', hidden: true },
-               { title: 'LeaderId', field: 'LeaderId', align: 'center', hidden: true },
-               { title: 'µØÖ·', field: 'address', align: 'center', width: 100 }
+               { title: 'åœ°å€', field: 'address', align: 'center', width: 100 }
 
         ]]
     });
