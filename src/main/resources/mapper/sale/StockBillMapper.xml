@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xfxg99.sale.dao.StockBillMapper" >
+  
   <resultMap id="BaseResultMap" type="com.xfxg99.sale.model.StockBill" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="bill_type" property="billType" jdbcType="VARCHAR" />
@@ -12,11 +13,31 @@
     <result column="preparer_id" property="preparerId" jdbcType="INTEGER" />
     <result column="receiver_id" property="receiverId" jdbcType="INTEGER" />
     <result column="prepare_time" property="prepareTime" jdbcType="TIMESTAMP" />
-    <result column="receive_tiime" property="receiveTiime" jdbcType="TIMESTAMP" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <resultMap id="VMMap" type="com.xfxg99.sale.viewmodel.StockBillVM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bill_type" property="billType" jdbcType="VARCHAR" />
+    <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+    <result column="bill_time" property="billTime" jdbcType="TIMESTAMP" />
+    <result column="send_org_id" property="sendOrgId" jdbcType="INTEGER" />
+    <result column="receive_org_id" property="receiveOrgId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="preparer_id" property="preparerId" jdbcType="INTEGER" />
+    <result column="receiver_id" property="receiverId" jdbcType="INTEGER" />
+    <result column="prepare_time" property="prepareTime" jdbcType="TIMESTAMP" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+    
+    <result column="send_org_name" property="sendOrgName" jdbcType="VARCHAR" />
+    <result column="receive_org_name" property="receiveOrgName" jdbcType="VARCHAR" />
+    <result column="preparer_name" property="preparerName" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, bill_type, serial_no, bill_time, send_org_id, receive_org_id, state, preparer_id, 
-    receiver_id, prepare_time, receive_tiime
+    receiver_id, prepare_time, receive_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,11 +53,11 @@
     insert into t_stock (id, bill_type, serial_no, 
       bill_time, send_org_id, receive_org_id, 
       state, preparer_id, receiver_id, 
-      prepare_time, receive_tiime)
+      prepare_time, receive_time)
     values (#{id,jdbcType=INTEGER}, #{billType,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, 
       #{billTime,jdbcType=TIMESTAMP}, #{sendOrgId,jdbcType=INTEGER}, #{receiveOrgId,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER}, #{preparerId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, 
-      #{prepareTime,jdbcType=TIMESTAMP}, #{receiveTiime,jdbcType=TIMESTAMP})
+      #{prepareTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.sale.model.StockBill" >
     insert into t_stock
@@ -71,8 +92,8 @@
       <if test="prepareTime != null" >
         prepare_time,
       </if>
-      <if test="receiveTiime != null" >
-        receive_tiime,
+      <if test="receiveTime != null" >
+        receive_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -106,8 +127,8 @@
       <if test="prepareTime != null" >
         #{prepareTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="receiveTiime != null" >
-        #{receiveTiime,jdbcType=TIMESTAMP},
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -141,8 +162,8 @@
       <if test="prepareTime != null" >
         prepare_time = #{prepareTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="receiveTiime != null" >
-        receive_tiime = #{receiveTiime,jdbcType=TIMESTAMP},
+      <if test="receiveTime != null" >
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -158,7 +179,51 @@
       preparer_id = #{preparerId,jdbcType=INTEGER},
       receiver_id = #{receiverId,jdbcType=INTEGER},
       prepare_time = #{prepareTime,jdbcType=TIMESTAMP},
-      receive_tiime = #{receiveTiime,jdbcType=TIMESTAMP}
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="loadVMListWithPage" parameterType="java.util.Map" resultMap="VMMap">
+  	select 
+  		s.id				as	id,
+  		s.bill_type			as 	bill_type,
+  		s.serial_no			as	serial_no,
+  		s.bill_time			as	bill_time,
+  		s.send_org_id		as	send_org_id,
+  		s.receive_org_id	as	receive_org_id,
+  		s.state				as	state,
+  		s.preparer_id		as	preparer_id,
+  		s.receiver_id		as	receiver_id,
+  		s.prepare_time		as	prepare_time,
+  		s.receive_time		as	receive_time,
+  		so.name				as	send_org_name,
+  		ro.name				as	receive_org_name,
+  		pu.name				as	preparer_name,
+  		ru.name				as	receiver_name
+  	from t_stock as s
+  	left join 	t_org 	as so 	on 	s.send_org_id 		= so.id
+  	left join 	t_org 	as ro	on	s.receive_org_id	=ro.id
+  	left join	t_user	as pu	on	s.preparer_id		=pu.id
+  	left join	t_user	as ru	on	s.receiver_id		=ru.id 
+  	where 1=1 
+  	<if test="serialNo != null" >
+  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="receiveOrgId != null" >
+  	and s.receive_org_id =#{receiveOrgId,jdbcType=VARCHAR}
+  	</if> 
+  	<if test="sendOrgId != null" >
+  	and s.send_org_id =#{sendOrgId,jdbcType=VARCHAR}
+  	</if>
+  	<if test="beginDate != null" >
+  	and s.bill_time &gt;=#{beginDate,jdbcType=VARCHAR}
+  	</if>
+  	<if test="endDate != null" >
+  	and s.bill_time &lt;=#{endDate,jdbcType=VARCHAR}
+  	</if> 
+  	order by cat_name,goods_name
+  	<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  	</if>
+  </select>
 </mapper>

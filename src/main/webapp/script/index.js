@@ -35,9 +35,19 @@ function loadMenu() {
 /**
  * 
  */
-function onTreeMenuDblClick(){
+function onTreeMenuDblClick(row){
+	var src=null;
 	
-	$("#ifrContent").attr("src","view/sale/goodsList.jsp");
+	switch(row.funcKey){
+		case "shop_stockin":
+			src="view/sale/stockList.jsp?billType=10";
+			break;
+		case "shop_stockout" :
+			src="view/sale/stockList.jsp?billType=11";
+			break;
+	}
+	
+	$("#ifrContent").attr("src",src);
 }
 /**
  * 建立主菜单

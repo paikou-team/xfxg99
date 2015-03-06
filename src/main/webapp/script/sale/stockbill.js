@@ -12,7 +12,7 @@ $(function () {
         height: 180,
         idField: 'Id',
         singleSelect: true,
-        onDblClickRow: viewStockDetail,
+        //onDblClickRow: viewStockDetail,
         toolbar: "#stockDetailToolBar",
         columns: [[
                { title: 'Id', field: 'Id', align: 'left', width: 5, hidden: true },

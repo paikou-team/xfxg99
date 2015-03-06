@@ -23,7 +23,7 @@ public class StockBill {
 
     private Date prepareTime;
 
-    private Date receiveTiime;
+    private Date receiveTime;
 
     public Integer getId() {
         return id;
@@ -105,11 +105,11 @@ public class StockBill {
         this.prepareTime = prepareTime;
     }
 
-    public Date getReceiveTiime() {
-        return receiveTiime;
+    public Date getReceiveTime() {
+        return receiveTime;
     }
 
-    public void setReceiveTiime(Date receiveTiime) {
-        this.receiveTiime = receiveTiime;
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
     }
 }

@@ -30,21 +30,21 @@
         </p>
         <div class="easyui-tabs" data-options="tabWidth:120" style="width: 100%; height: 340px; border-left: 1px solid #D4D4D4; border-right: 1px solid #D4D4D4">
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
-                <table style="width: 100%">
+                <table style="width: 100%; font-size: 12px">
                     <tr>
-                        <td style="width: 120px; text-align: right">
+                        <td style="width: 90px; text-align: right">
                             <label>单据编号:</label>
                         </td>
                         <td style="width: 120px; text-align: right">
                             <input id="txtSerialNo" class="easyui-validatebox" data-options="required:false" disabled="disabled" />
                         </td>
-                        <td style="text-align: right">
+                        <td style="width:90px; text-align: right">
                             <label id="lblStockInDetp">入库部门:</label>
                         </td>
                         <td style="text-align: right">
                             <input id="txtStockInDetp" class=" easyui-combotree" data-options="required:false" />
                         </td>
-                       <td style="text-align: right">
+                       <td style="width:90px; text-align: right">
                             <label id=""lblStockOutDetp"">出库部门:</label>
                         </td>
                         <td style="text-align: right">

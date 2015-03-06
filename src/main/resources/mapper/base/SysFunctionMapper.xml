@@ -148,11 +148,14 @@
   </select>
   
   <select id="loadMainMenu" resultMap="BaseResultMap">
-	select 
+
+		select 
     	<include refid="Base_Column_List" />
-    from t_function 
-    where node_level in (1,2)
-    order by node_level,order_no
+    	from t_function 
+    	where node_level in (1,2)
+    	order by node_level,order_no
+
+
  
   </select>
   
