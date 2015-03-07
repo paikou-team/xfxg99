@@ -11,7 +11,7 @@ import com.xfxg99.base.dao.UserMapper;
 import com.xfxg99.base.model.User;
 
 /**
- * Ïµ½y¹¦ÄÜ
+ * Ïµï¿½yï¿½ï¿½ï¿½ï¿½
  * @author Sam
  *
  */
@@ -25,5 +25,10 @@ public class UserService{
 		 
 		 return userMapper.loadAllUser();
 		 
+	 }
+	 
+	 public int deleteUser(Integer id){
+		 
+		 return userMapper.deleteByPrimaryKey(id);
 	 }
 }

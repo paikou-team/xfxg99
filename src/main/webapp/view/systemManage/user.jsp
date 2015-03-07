@@ -24,6 +24,6 @@
             </p>
         </div>
     </div>
-    <div id="UserGrid"  style="margin:10px"  fit="true"></div>
+    <div id="UserGrid"  style="margin:10px" ></div>
   </body>
 </html>

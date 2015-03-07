@@ -1,5 +1,6 @@
 
 var m_user_query={userName:null};
+var mSelectedUser;
 $(function () {
 	var args = getUrlArgs();
 	
@@ -15,12 +16,12 @@ $(function () {
         pageNumber: 1,
         pageSize: 20,
         nowrap: false,
-        idField: 'id',
+        idField: 'Id',
         singleSelect: true,
         onDblClickRow: onSelRow,
         toolbar: "#UserTb",
         columns: [[
-               { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
+               { title: 'Id', field: 'id', align: 'left', width: 5, hidden: true },
                { title: '有效', field: 'isUsed', width: 50, align: 'center' ,formatter: imgcheckbox },
                { title: '名字', field: 'name', align: 'center', width: 120 },
                { title: 'password', field: 'password', align: 'center', width: 120, hidden: true },
@@ -29,6 +30,7 @@ $(function () {
                { title: '描述', field: 'description', align: 'center', width: 200}
         ]]
     });
+	$("#DelUser").bind("click", UserManage.DelUser);
 });
 /**
  * 查询
@@ -59,4 +61,70 @@ function onSelRow(){
 function imgcheckbox(value, rowData, index) {
 	//alert(value);
     return value ? "<span><img alt='UnLock' src='resource/icon/menu/unlock.png' /></span>" : "<span><img alt='Lock' src='resource/icon/menu/lock.png'  /></span>";
-     }
+}
+var UserManage = {
+//	    AddUser: function () {
+//	        ClearForm();
+//	        ShowDialog("新增用户", "div_userProfile","","0");
+//	        $("#txt_Id").val("0");
+//	        document.getElementById("IsUsedCheck").checked = true;
+//	    },
+//	    EditUser: function () {
+//	        var rows = $("#UserGrid").datagrid("getSelected");
+//	        if (!rows || rows.length == 0) {
+//	            $.messager.alert('操作提示', "请选择要操作的数据!", "warning");
+//	            return;
+//	        }
+//	        if (rows.length > 1) {
+//	            $.messager.alert('操作提示', "只能对单挑数据进行操作!", "warning"); 
+//	            return;
+//	        }
+//	        ClearForm();
+//	        var Id = rows.Id;
+//	        $("#txt_Id").val(Id);
+//	        $("#txt_Name").val(rows.Name);
+//	        $("#txt_Name").validatebox('validate');
+//	        $("#txt_Number").val(rows.Number);
+//	        $("#txt_Password").val(rows.Password);
+//	        $("#txt_Password").validatebox('validate');
+//	        document.getElementById("IsUsedCheck").checked = rows.IsUsed;
+//	        document.getElementById("IsAllDataPermissionCheck").checked = rows.IsAllDataPermission;
+//	        $("#txt_Description").val(rows.Description);
+//
+//	        ShowDialog("编辑用户", "div_userProfile", rows.OrganizationId,rows.Id);
+//	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
+//	    },
+	    DelUser: function () {
+	        var rows = $("#UserGrid").datagrid("getSelected");
+	        if (!rows || rows.length == 0) {
+	            $.messager.alert('操作提示', "请选择要操作的数据!", "warning");
+	            return;
+	        }
+	        var Id = rows.id;
+	        var Name = rows.name;
+	        if (Name == "admin") {
+	            $.messager.alert('警告提示', '不能删除管理员！', 'warning');
+	            return;
+	        }
+	        deleteRecord(Id);
+	    }
+//	    //查询
+//	    SearchUser: function () {
+//	        var userName = $("#UserName").val();
+//	        if (userName == "") {
+//	            $('#UserGrid').datagrid("reload");
+//	        }
+//	        $('#UserGrid').datagrid("reload", { 'UserName': userName });
+//	    }
+	};
+
+function deleteRecord(Id) {
+    $.messager.confirm('删除记录', '确认要删除本条记录吗?', function (r) {
+        if (r) {
+            $('#UserGrid').datagrid("unselectAll");
+            SubmitForm("id=" + Id, function () {
+                $('#UserGrid').datagrid("reload");
+            }, "user/deleteUser.do");
+        }
+    });   
+}
