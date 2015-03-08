@@ -6,7 +6,7 @@
   <head>
     <base href="<%=basePath%>">
     <title>用户管理</title>
-	<script src='<%=basePath%>script/systemManage/user.js' 	type='text/javascript'></script>
+	<script src='<%=basePath%>script/base/user.js' 	type='text/javascript'></script>
   </head>
   
   <body>
@@ -43,7 +43,7 @@
                         <td>
                             <input id="txt_Name" class="easyui-validatebox" type="text" data-options="required:true" /></td>
                         <td>
-                            <label>登录密码:</label></td>
+                            <label>初始密码:</label></td>
                         <td>
                             <input id="txt_Password" class="easyui-validatebox" data-options="required:true" type="password" /></td>
                     </tr>

@@ -5,7 +5,7 @@
 <html>
   <head>
     <base href="<%=basePath%>">
-    <script src='<%=basePath%>script/systemManage/organization.js' 	type='text/javascript'></script>
+    <script src='<%=basePath%>script/base/organization.js' 	type='text/javascript'></script>
     <title>组织结构</title>
 
   </head>
