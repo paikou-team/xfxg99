@@ -33,7 +33,17 @@ public class UserService{
 	 }
 	 
 	 public int saveUser(User user){
-		 
-		 return userMapper.insert(user);
+		 if(user != null)
+		 {
+			 if(user.getId()>0)
+			 {
+				 return userMapper.updateByPrimaryKeySelective(user);
+			 }
+			 else
+			 {
+				 return userMapper.insert(user);
+			 }
+		 }
+		 return 0;
 	 }
 }

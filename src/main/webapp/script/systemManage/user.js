@@ -74,31 +74,29 @@ var UserManage = {
 	        $("#txt_Id").val("0");
 	        document.getElementById("IsUsedCheck").checked = true;
 	    },
-//	    EditUser: function () {
-//	        var rows = $("#UserGrid").datagrid("getSelected");
-//	        if (!rows || rows.length == 0) {
-//	            $.messager.alert('操作提示', "请选择要操作的数据!", "warning");
-//	            return;
-//	        }
-//	        if (rows.length > 1) {
-//	            $.messager.alert('操作提示', "只能对单挑数据进行操作!", "warning"); 
-//	            return;
-//	        }
-//	        ClearForm();
-//	        var Id = rows.Id;
-//	        $("#txt_Id").val(Id);
-//	        $("#txt_Name").val(rows.Name);
-//	        $("#txt_Name").validatebox('validate');
-//	        $("#txt_Number").val(rows.Number);
-//	        $("#txt_Password").val(rows.Password);
-//	        $("#txt_Password").validatebox('validate');
-//	        document.getElementById("IsUsedCheck").checked = rows.IsUsed;
-//	        document.getElementById("IsAllDataPermissionCheck").checked = rows.IsAllDataPermission;
-//	        $("#txt_Description").val(rows.Description);
-//
-//	        ShowDialog("编辑用户", "div_userProfile", rows.OrganizationId,rows.Id);
-//	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
-//	    },
+	    EditUser: function () {
+	        var rows = $("#UserGrid").datagrid("getSelected");
+	        if (!rows || rows.length == 0) {
+	            $.messager.alert('操作提示', "请选择要操作的数据!", "warning");
+	            return;
+	        }
+	        if (rows.length > 1) {
+	            $.messager.alert('操作提示', "只能对单挑数据进行操作!", "warning"); 
+	            return;
+	        }
+	        ClearForm();
+	        var Id = rows.id;
+	        $("#txt_Id").val(Id);
+	        $("#txt_Name").val(rows.name);
+	        $("#txt_Name").validatebox('validate');
+	        $("#txt_Password").val(rows.password);
+	        $("#txt_Password").validatebox('validate');
+	        document.getElementById("IsUsedCheck").checked = rows.isUsed;
+	        $("#txt_Description").val(rows.description);
+
+	        ShowDialog("编辑用户", "div_userProfile", rows.OrganizationId,rows.Id);
+	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
+	    },
 	    DelUser: function () {
 	        var rows = $("#UserGrid").datagrid("getSelected");
 	        if (!rows || rows.length == 0) {
@@ -141,18 +139,13 @@ function SaveInfo() {
     UserObj.Description = $("#txt_Description").val();
     UserObj.IsUsed = document.getElementById("IsUsedCheck").checked;
     
-    var orgid = $('#txt_OrganizationId').combobox('getValue');
-    if ( !orgid ||orgid.length ==  0) {
-        $.messager.alert('警告提示', '请选择部门！', 'warning');
+//    var orgid = $('#txt_OrganizationId').combobox('getValue');
+//    if ( !orgid ||orgid.length ==  0) {
+//        $.messager.alert('警告提示', '请选择部门！', 'warning');
 //        return;
-    }
+//    }
     UserObj.Organization = {};
     UserObj.Organization.Id = $('#txt_OrganizationId').combobox('getValue');
-
-//    SubmitForm("userInfo=" + ObjToStr + "&roleInfo=" + rolesStr, function () {
-//        $('#UserGrid').datagrid("reload");
-//        DialogForUser.close();
-//    }, "/SystemManage/SaveOrUpdateUser");
     
     $.ajax({
 		url :  "user/saveUser.do",
