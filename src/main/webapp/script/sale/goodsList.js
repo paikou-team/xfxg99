@@ -1,8 +1,17 @@
 
 var m_goods_query={goodsName:null};
 
+var m_callType;
+
 $(function () {
 	var args = getUrlArgs();
+	
+	m_callType=args.callType;
+	var dgPageSize=args.pageSize;
+	
+	if(args['callType']==2){
+		
+	}
 	
 	$('#dgGoods').datagrid({
 		url:'goods/loadGoodsList.do',
@@ -14,7 +23,7 @@ $(function () {
         resizable: true,
         pagination: true,
         pageNumber: 1,
-        pageSize: 20,
+        pageSize: dgPageSize,
         nowrap: false,
         idField: 'id',
         singleSelect: true,
@@ -25,9 +34,9 @@ $(function () {
                {
                    title: '类型', field: 'catName', align: 'left', width: 120 },
                {
-                   title: '名称', field: 'name', align: 'left', width: 120 },
+                   title: '名称', field: 'name', align: 'left', width: 180 },
                {
-                   title: '价格', field: 'shopPrice', align: 'right', width: 120, formatter:
+                   title: '价格', field: 'shopPrice', align: 'right', width: 60, formatter:
                      function (value, rowData, index) {
                          return value;
                      }
@@ -58,6 +67,11 @@ function packQuery(value){
 	m_goods_query.goodsName = value;
 }
 
-function onSelRow(){
-	
+function onSelRow(index,row){
+	if(m_callType==2){
+		if(window.parent.onSelGoods){
+			window.parent.onSelGoods(row);
+			window.parent.m_goodsListDlg.close();
+		}
+	}
 }

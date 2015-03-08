@@ -182,6 +182,33 @@
       receive_time = #{receiveTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="countVMByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select 
+  		count(*)
+  	from t_stock as s
+  	left join 	t_organization 	as so 	on 	s.send_org_id 		= so.id
+  	left join 	t_organization 	as ro	on	s.receive_org_id	=ro.id
+  	left join	t_user			as pu	on	s.preparer_id		=pu.id
+  	left join	t_user			as ru	on	s.receiver_id		=ru.id 
+  	where 1=1 
+  	<if test="serialNo != null" >
+  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="receiveOrgId != null" >
+  	and s.receive_org_id =#{receiveOrgId,jdbcType=VARCHAR}
+  	</if> 
+  	<if test="sendOrgId != null" >
+  	and s.send_org_id =#{sendOrgId,jdbcType=VARCHAR}
+  	</if>
+  	<if test="beginDate != null" >
+  	and s.bill_time &gt;=#{beginDate,jdbcType=VARCHAR}
+  	</if>
+  	<if test="endDate != null" >
+  	and s.bill_time &lt;=#{endDate,jdbcType=VARCHAR}
+  	</if> 
+  	
+  </select>
+  
   
   <select id="loadVMListWithPage" parameterType="java.util.Map" resultMap="VMMap">
   	select 
@@ -201,10 +228,10 @@
   		pu.name				as	preparer_name,
   		ru.name				as	receiver_name
   	from t_stock as s
-  	left join 	t_org 	as so 	on 	s.send_org_id 		= so.id
-  	left join 	t_org 	as ro	on	s.receive_org_id	=ro.id
-  	left join	t_user	as pu	on	s.preparer_id		=pu.id
-  	left join	t_user	as ru	on	s.receiver_id		=ru.id 
+  	left join 	t_organization 	as so 	on 	s.send_org_id 		= so.id
+  	left join 	t_organization 	as ro	on	s.receive_org_id	=ro.id
+  	left join	t_user			as pu	on	s.preparer_id		=pu.id
+  	left join	t_user			as ru	on	s.receiver_id		=ru.id 
   	where 1=1 
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')

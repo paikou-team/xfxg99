@@ -24,8 +24,10 @@
             <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid">商品入库单</label>
         </p>
         <p style="margin-top: -1px; margin-bottom: 0px">
-            <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="saveStockBillAction()">保存</a>
-            <a id="btnCheck" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-split" plain="true" onclick="checkBillAction()">确认</a>
+        	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onAddGoods()">添加</a>
+        	<a id="btnDelGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onDelGoods()">删除</a>
+            <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onSaveStockBill()">保存</a>
+            <a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-split" plain="true" onclick="onCheckStockBill()">确认</a>
             <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="exit()">退出</a>
         </p>
         <div class="easyui-tabs" data-options="tabWidth:120" style="width: 100%; height: 340px; border-left: 1px solid #D4D4D4; border-right: 1px solid #D4D4D4">
