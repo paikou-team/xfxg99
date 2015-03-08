@@ -31,4 +31,19 @@ public class UserService{
 		 
 		 return userMapper.deleteByPrimaryKey(id);
 	 }
+	 
+	 public int saveUser(User user){
+		 if(user != null)
+		 {
+			 if(user.getId()>0)
+			 {
+				 return userMapper.updateByPrimaryKeySelective(user);
+			 }
+			 else
+			 {
+				 return userMapper.insert(user);
+			 }
+		 }
+		 return 0;
+	 }
 }

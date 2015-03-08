@@ -25,6 +25,6 @@
             </p>
         </div>
     </div>
-    <div id="OrganizationTree"></div>
+    <div id="OrganizationTree"  style="margin:10px"></div>
   </body>
 </html>

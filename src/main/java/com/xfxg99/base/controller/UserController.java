@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
@@ -37,15 +38,27 @@ public class UserController {
 		
 		return funcs.toJson();
 	}
+	@RequestMapping(value = "saveUser.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody boolean  saveUser(User user)
+	{
+		int result = userService.saveUser(user);
+		if(result == 0)
+		{
+			 return false;
+		}
+		return true;
+	}
+	
 	@RequestMapping(value = "deleteUser.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody void  deleteUser(Integer id){
+	public @ResponseBody boolean  deleteUser(
+			@RequestParam(value = "Id", required = true) Integer id,
+			HttpServletRequest request){
 		int result = userService.deleteUser(id);
 		if(result == 0)
 		{
-			 JOptionPane.showMessageDialog(null, "删除记录失败！", "消息提示", JOptionPane.ERROR_MESSAGE);
-			 return;
+			 return false;
 		}
-		JOptionPane.showMessageDialog(null, "删除记录成功！", "消息提示", JOptionPane.INFORMATION_MESSAGE);
+		return true;
 	}
 	
 }
