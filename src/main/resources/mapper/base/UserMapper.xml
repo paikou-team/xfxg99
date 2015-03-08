@@ -24,9 +24,9 @@
   </delete>
   <insert id="insert" parameterType="com.xfxg99.base.model.User" >
     insert into t_user (id, name, password, 
-      org_id, description)
+      org_id, is_used, description)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{orgId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
+      #{orgId,jdbcType=INTEGER}, #{isused,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.base.model.User" >
     insert into t_user
