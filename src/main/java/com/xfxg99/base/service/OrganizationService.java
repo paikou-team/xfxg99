@@ -7,11 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.xfxg99.base.dao.OrganizationMapper;
-
 import com.xfxg99.base.model.Organization;
 
 /**
- * Ïµ½y¹¦ÄÜ
+ * Ïµï¿½yï¿½ï¿½ï¿½ï¿½
  * @author Sam
  *
  */
@@ -25,5 +24,10 @@ public class OrganizationService{
 		 
 		 return organizationMapper.loadAllOrganization();
 		 
+	 }
+	 
+	 public List<Organization> getParentIdItems(Integer id){
+		 
+		 return organizationMapper.getParentIdItems(id);
 	 }
 }
