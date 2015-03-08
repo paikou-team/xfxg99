@@ -1,6 +1,7 @@
 
 var	m_goodsListDlg;
 var m_stockDetail_rowIndex=undefined;
+var m_stock_bill;
 
 $(function () {
 	var args = getUrlArgs();
@@ -42,9 +43,32 @@ $(function () {
         }
 
     });
+	var billType=args["billType"];
+	var id=args["id"];
 	
+	loadBill(billType,id);
 	
 });
+
+
+function loadBill(billType,id){
+	if(id==0){
+		$.ajax({
+	        url: 'stock/loadBill.do',
+	        type: "POST",
+	        dataType: "json",
+	        async: false,
+	        data: { "billType": billType,'id':id },
+	        success: function (req) {
+	            if (req.isSuccess) {
+	            	m_stock_bill=req.data;
+	            	stockBill2View(m_stock_bill);
+	            }
+	        },
+	    });
+	}
+}
+
 //添加商品
 function onAddGoods(){
 	try {
@@ -126,6 +150,28 @@ function onCheckBill(){
 }
 
 
-function Data2View(data){
+function stockBill2View(bill){
+	$('#txtSerialNo').val(bill.Number);
+	
+	if (bill.receiveOrgId) {
+        $("#cmbStockInDetp").combobox("select", bill.receiveOrgId);
+    }
+	
+	if (bill.sendOrgId) {
+        $("#cmbStockOutDetp").combobox("select", bill.sendOrgId);
+    }
+	
+	if (bill.billTime) {
+		var d=gCreateDate(bill.billTime);
+        $("#dteStockTime").datetimebox("setValue", d);
+    }
+	
+	$("#txtPreparerOrgName").val(bill.preparerOrgName);
+	$("#txtPreparerName").val(bill.preparerName);
+	$("#txtPrepareTime").val(bill.prepareTime);
+	
+	$("#txtConfirmerOrgName").val(bill.confirmerOrgName);
+	$("#txtConfirmerName").val(bill.confirmerName);
+	$("#txtConfirmTime").val(bill.confirmTime);
 	
 }

@@ -15,15 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
 import com.xfxg99.core.GeneralUtil;
+import com.xfxg99.core.Result;
 import com.xfxg99.sale.service.BillSerialNoService;
-import com.xfxg99.sale.service.GoodsService;
 import com.xfxg99.sale.service.StockService;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 
 @Scope("prototype")
 @Controller
-@RequestMapping("/goods")
+@RequestMapping("/stock")
 public class StockController {
+	
 	@Resource(name = "stockService")
 	protected StockService stockService;
 	
@@ -37,7 +38,7 @@ public class StockController {
 	 * @return
 	 */
 	@RequestMapping(value = "getNewBill.do",produces = "application/json;charset=UTF-8")
-	public  @ResponseBody String loadGoodsList(
+	public  @ResponseBody String getNewBill(
 			@RequestParam(value = "billType", required = false) Integer billType,
 			HttpServletRequest request
 			){
@@ -66,5 +67,64 @@ public class StockController {
 		bill.setState(0);
 		
 		return null;
+	}
+	
+	/**
+	 * 读取一张单据
+	 * 如果id=0，表示新建一个单据返
+	 * @return
+	 */
+	@RequestMapping(value = "loadBill.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String loadBill(
+			@RequestParam(value = "billType", required = false) Integer billType,
+			@RequestParam(value = "billId", required = false) Integer billId,
+			HttpServletRequest request
+			){
+
+		//测试
+		User u=new User();
+		u.setId(9);
+		u.setName("李如江");
+		u.setOrgId(8);
+		u.setPassword("123");
+		
+		
+		StockBillVM bill=null;
+		
+		if(billId==0){//新建一个单据
+			bill=this.newStockBill(billType, u);
+		}else{//从数据库读取一个单据
+			
+		}
+		
+		Result<StockBillVM> result=new Result<StockBillVM>(bill);
+
+		return result.toJson();
+	}
+	/**
+	 * 创建一个单据
+	 * @param billType
+	 * @param u
+	 * @return
+	 */
+	private StockBillVM newStockBill(Integer billType,User u){
+		StockBillVM  bill=new StockBillVM();
+		
+		Date ct=Calendar.getInstance().getTime();
+		
+		bill.setBillType(billType);
+		bill.setBillTime(ct);
+		
+		Map<String,Object> billNoMap=GeneralUtil.getSerialNoPars(billType);
+		String billNo=billSerialNoService.getNextBillSerialNo(billNoMap);
+		
+		bill.setSerialNo(billNo);
+		bill.setId(0);
+		bill.setPreparerId(u.getId());
+		bill.setPrepareTime(ct);
+		bill.setPreparerName(u.getName());
+		bill.setState(0);
+		
+		return bill;
 	}
 }

@@ -15,6 +15,22 @@ public class Result<T> {
 	private String msg;
 	
 	
+	public Result(){
+		
+	}
+	
+	public Result(T data){
+		this.data=data;
+	}
+	
+	public Result(T data,boolean isSuccess,boolean isSessionExpired,boolean isTimeOut,String msg){
+		this.data=data;
+		this.isSuccess=isSuccess;
+		this.isSessionExpired=isSessionExpired;
+		this.isTimeOut=isTimeOut;
+		this.msg=msg;
+	}
+	
 	public String toJson(){
 		JSONObject rs=JSONObject.fromObject(this);
 		return rs.toString();

@@ -44,13 +44,13 @@
                             <label id="lblStockInDetp">入库部门:</label>
                         </td>
                         <td style="text-align: right">
-                            <input id="txtStockInDetp" class=" easyui-combotree" data-options="required:false" />
+                            <input id="cmbStockInDetp" class="easyui-combobox" data-options="required:false" />
                         </td>
-                       <td style="width:90px; text-align: right">
-                            <label id=""lblStockOutDetp"">出库部门:</label>
+                       	<td style="width:90px; text-align: right">
+                            <label id="lblStockOutDetp">出库部门:</label>
                         </td>
                         <td style="text-align: right">
-                            <input id="txtStockOutDetp" class=" easyui-combotree" data-options="required:false" />
+                            <input id="cmbStockOutDetp" class="easyui-combobox" data-options="required:false" />
                         </td>
                     </tr>
                     
@@ -85,7 +85,7 @@
                     <label>制单部门:</label>
                 </td>
                 <td style="text-align: right">
-                    <input id="txtDepartment" class="easyui-validatebox" disabled="disabled" />
+                    <input id="txtPreparerOrgName" class="easyui-validatebox" disabled="disabled" />
                 </td>
                 <td style="text-align: right">
                     <label>制单人:</label>
@@ -97,7 +97,7 @@
                     <label>制单时间:</label>
                 </td>
                 <td style="text-align: right">
-                    <input id="txtBillTime" class="easyui-validatebox" disabled="disabled" />
+                    <input id="txtPrepareTime" class="easyui-validatebox" disabled="disabled" />
                 </td>
             </tr>
             <tr>
@@ -105,19 +105,19 @@
                     <label>确认部门:</label>
                 </td>
                 <td style="text-align: right">
-                    <input id="txtCheckDept" class="easyui-validatebox" disabled="disabled" />
+                    <input id="txtConfirmerOrgName" class="easyui-validatebox" disabled="disabled" />
                 </td>
                 <td style="text-align: right">
                     <label>确认人:</label>
                 </td>
                 <td style="text-align: right">
-                    <input id="txtChecker" class="easyui-validatebox" disabled="disabled" />
+                    <input id="txtConfirmerName" class="easyui-validatebox" disabled="disabled" />
                 </td>
                 <td style="text-align: right">
                     <label>确认时间:</label>
                 </td>
                 <td style="text-align: right">
-                    <input id="txtCheckTime" class="easyui-validatebox" disabled="disabled" />
+                    <input id="txtConfirmTime" class="easyui-validatebox" disabled="disabled" />
                 </td>
             </tr>
         </table>

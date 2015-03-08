@@ -18,10 +18,10 @@ public class StockService {
 	private StockBillMapper stockBillMapper; 
 	
 	public ListResult<StockBillVM> loadVMListWithPage(Map<String,Object> map){
-		
 		int total=stockBillMapper.countVMByMap(map);
 		List<StockBillVM> ls=stockBillMapper.loadVMListWithPage(map);
-		
+	
 		return new ListResult<StockBillVM>(total,ls);
+
 	}
 }

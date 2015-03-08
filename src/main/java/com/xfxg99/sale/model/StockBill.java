@@ -11,19 +11,23 @@ public class StockBill {
 
     private Date billTime;
 
-    private Integer sendOrgId;
+    private Integer stockInOrgId;
 
-    private Integer receiveOrgId;
+    private Integer stockOutOrgId;
 
     private Integer state;
 
-    private Integer preparerId;
+    private Integer preparerOrgId;
 
-    private Integer receiverId;
+    private Integer preparerId;
 
     private Date prepareTime;
 
-    private Date receiveTime;
+    private Integer confirmerOrgId;
+
+    private Integer confirmerId;
+
+    private Date confirmTime;
 
     public Integer getId() {
         return id;
@@ -57,20 +61,20 @@ public class StockBill {
         this.billTime = billTime;
     }
 
-    public Integer getSendOrgId() {
-        return sendOrgId;
+    public Integer getStockInOrgId() {
+        return stockInOrgId;
     }
 
-    public void setSendOrgId(Integer sendOrgId) {
-        this.sendOrgId = sendOrgId;
+    public void setStockInOrgId(Integer stockInOrgId) {
+        this.stockInOrgId = stockInOrgId;
     }
 
-    public Integer getReceiveOrgId() {
-        return receiveOrgId;
+    public Integer getStockOutOrgId() {
+        return stockOutOrgId;
     }
 
-    public void setReceiveOrgId(Integer receiveOrgId) {
-        this.receiveOrgId = receiveOrgId;
+    public void setStockOutOrgId(Integer stockOutOrgId) {
+        this.stockOutOrgId = stockOutOrgId;
     }
 
     public Integer getState() {
@@ -81,20 +85,20 @@ public class StockBill {
         this.state = state;
     }
 
+    public Integer getPreparerOrgId() {
+        return preparerOrgId;
+    }
+
+    public void setPreparerOrgId(Integer preparerOrgId) {
+        this.preparerOrgId = preparerOrgId;
+    }
+
     public Integer getPreparerId() {
         return preparerId;
     }
 
     public void setPreparerId(Integer preparerId) {
         this.preparerId = preparerId;
-    }
-
-    public Integer getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(Integer receiverId) {
-        this.receiverId = receiverId;
     }
 
     public Date getPrepareTime() {
@@ -105,11 +109,27 @@ public class StockBill {
         this.prepareTime = prepareTime;
     }
 
-    public Date getReceiveTime() {
-        return receiveTime;
+    public Integer getConfirmerOrgId() {
+        return confirmerOrgId;
     }
 
-    public void setReceiveTime(Date receiveTime) {
-        this.receiveTime = receiveTime;
+    public void setConfirmerOrgId(Integer confirmerOrgId) {
+        this.confirmerOrgId = confirmerOrgId;
+    }
+
+    public Integer getConfirmerId() {
+        return confirmerId;
+    }
+
+    public void setConfirmerId(Integer confirmerId) {
+        this.confirmerId = confirmerId;
+    }
+
+    public Date getConfirmTime() {
+        return confirmTime;
+    }
+
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
     }
 }

@@ -3,21 +3,37 @@ package com.xfxg99.sale.viewmodel;
 import com.xfxg99.sale.model.StockBill;
 
 public class StockBillVM  extends StockBill{
-	private String sendOrgName;
-	private String receiveOrgName;
+	private String stockInOrgName;
+	private String stockOutOrgName;
+	private String preparerOrgName;
 	private String preparerName;
+	private String confirmerOrgName;
 	
-	public String getSendOrgName() {
-		return sendOrgName;
+	public String getPreparerOrgName() {
+		return preparerOrgName;
 	}
-	public void setSendOrgName(String sendOrgName) {
-		this.sendOrgName = sendOrgName;
+	public void setPreparerOrgName(String preparerOrgName) {
+		this.preparerOrgName = preparerOrgName;
 	}
-	public String getReceiveOrgName() {
-		return receiveOrgName;
+	public String getConfirmerOrgName() {
+		return confirmerOrgName;
 	}
-	public void setReceiveOrgName(String receiveOrgName) {
-		this.receiveOrgName = receiveOrgName;
+	public void setConfirmerOrgName(String confirmerOrgName) {
+		this.confirmerOrgName = confirmerOrgName;
+	}
+	private String confirmerName;
+	
+	public String getStockInOrgName() {
+		return stockInOrgName;
+	}
+	public void setStockInOrgName(String stockInOrgName) {
+		this.stockInOrgName = stockInOrgName;
+	}
+	public String getStockOutOrgName() {
+		return stockOutOrgName;
+	}
+	public void setStockOutOrgName(String stockOutOrgName) {
+		this.stockOutOrgName = stockOutOrgName;
 	}
 	public String getPreparerName() {
 		return preparerName;
@@ -25,13 +41,11 @@ public class StockBillVM  extends StockBill{
 	public void setPreparerName(String preparerName) {
 		this.preparerName = preparerName;
 	}
-	public String getReceiverName() {
-		return receiverName;
+	public String getConfirmerName() {
+		return confirmerName;
 	}
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
+	public void setConfirmerName(String confirmerName) {
+		this.confirmerName = confirmerName;
 	}
-	private String receiverName;
-	
-	
+
 }
