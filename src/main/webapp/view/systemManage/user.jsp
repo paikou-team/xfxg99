@@ -51,7 +51,7 @@
                         <td>
                             <label>组织机构:</label></td>
                         <td>
-                            <input id="txt_OrganizationId" class="easyui-combobox" style="width: 146px" data-options="required:false" /></td>
+                            <input id="txt_OrganizationId" class="easyui-combobox" style="width: 160px" data-options="required:false" /></td>
                         <td>
                             <label>有效：</label></td>
                         <td>

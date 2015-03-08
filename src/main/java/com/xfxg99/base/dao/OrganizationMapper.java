@@ -22,4 +22,6 @@ public interface OrganizationMapper {
     List<Organization> loadAllOrganization();
     
     List<Organization> getParentIdItems(Integer id);
+    
+    Integer getMaxId();
 }

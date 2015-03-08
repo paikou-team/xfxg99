@@ -147,4 +147,9 @@
     from t_organization
     where parent_id = #{parentId,jdbcType=INTEGER}
   </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select 
+    MAX(id)
+    from t_organization
+  </select>
 </mapper>

@@ -94,7 +94,7 @@ var UserManage = {
 	        document.getElementById("IsUsedCheck").checked = rows.isUsed;
 	        $("#txt_Description").val(rows.description);
 
-	        ShowDialog("编辑用户", "div_userProfile", rows.OrganizationId,rows.Id);
+	        ShowDialog("编辑用户", "div_userProfile", rows.orgId,rows.id);
 	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
 	    },
 	    DelUser: function () {
@@ -193,6 +193,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         width: 500,
         height: 200
     });
+    loadComBoxData(selectId);
 };
 function ClearForm() {
     $("#txt_Id").val("");
@@ -203,4 +204,20 @@ function ClearForm() {
 };
 function CancelInfo() {
     DialogForUser.close();  
+}
+function loadComBoxData(selectId) {
+    $('#txt_OrganizationId').combobox({
+        url: 'organization/GetOrganizationData.do',
+        valueField: 'id',
+        textField: 'text',
+        editable: false,
+        onLoadSuccess: function () {
+            if (!selectId || selectId.length == 0 || selectId == 0) {
+                $('#txt_OrganizationId').combobox('select', null);
+            }
+            else {
+                $('#txt_OrganizationId').combobox('select', selectId);
+            }
+        }
+    });
 }
