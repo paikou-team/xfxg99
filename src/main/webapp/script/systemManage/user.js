@@ -121,10 +121,19 @@ var UserManage = {
 function deleteRecord(Id) {
     $.messager.confirm('删除记录', '确认要删除本条记录吗?', function (r) {
         if (r) {
-            $('#UserGrid').datagrid("unselectAll");
-            SubmitForm("id=" + Id, function () {
-                $('#UserGrid').datagrid("reload");
-            }, "user/deleteUser.do");
+        	$.ajax({
+        		url :  "user/deleteUser.do?Id="+Id,
+        		type : "POST",
+        		dataType : "json",
+        		async : false,
+        		success : function(req) {
+        			if (req) {
+        				$('#UserGrid').datagrid("reload");
+        			} else {
+        				$.messager.alert('删除记录失败ʾ', req.msg, "warning");
+        			}
+        		}
+        	});
         }
     });   
 }
