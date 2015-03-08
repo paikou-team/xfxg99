@@ -25,5 +25,44 @@
         </div>
     </div>
     <div id="UserGrid"  style="margin:10px" ></div>
+    <div id="div_userProfile" class="displaynone" style="display:none;" style="width: 100%; height: 100%">
+            <p style="margin-top: 0px; margin-bottom: 0px">
+                <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
+                    iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
+                        name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
+                        plain="true">取消</a>
+            </p>
+            <table style="width: 500px; height: 150px; font-size: 12px">
+                    <tr style="display: none">
+                        <td>
+                            <input id="txt_Id" type="hidden" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>用户姓名:</label></td>
+                        <td>
+                            <input id="txt_Name" class="easyui-validatebox" type="text" data-options="required:true" /></td>
+                        <td>
+                            <label>登录密码:</label></td>
+                        <td>
+                            <input id="txt_Password" class="easyui-validatebox" data-options="required:true" type="password" /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>组织机构:</label></td>
+                        <td>
+                            <input id="txt_OrganizationId" class="easyui-combobox" style="width: 146px" data-options="required:false" /></td>
+                        <td>
+                            <label>有效：</label></td>
+                        <td>
+                            <input id="IsUsedCheck" type="checkbox" /></td>    
+                    </tr>
+                    <tr>
+                        <td>用户备注:</td>
+                        <td colspan="3">
+                            <textarea id="txt_Description" cols="5" rows="3" style="width: 95%"></textarea></td>
+                    </tr>
+                </table>
+        </div>
   </body>
 </html>

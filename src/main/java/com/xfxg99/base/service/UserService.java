@@ -31,4 +31,9 @@ public class UserService{
 		 
 		 return userMapper.deleteByPrimaryKey(id);
 	 }
+	 
+	 public int saveUser(User user){
+		 
+		 return userMapper.insert(user);
+	 }
 }

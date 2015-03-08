@@ -38,6 +38,17 @@ public class UserController {
 		
 		return funcs.toJson();
 	}
+	@RequestMapping(value = "saveUser.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody boolean  saveUser(User user)
+	{
+		int result = userService.saveUser(user);
+		if(result == 0)
+		{
+			 return false;
+		}
+		return true;
+	}
+	
 	@RequestMapping(value = "deleteUser.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody boolean  deleteUser(
 			@RequestParam(value = "Id", required = true) Integer id,
