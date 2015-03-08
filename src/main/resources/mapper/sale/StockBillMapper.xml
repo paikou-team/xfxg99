@@ -4,7 +4,7 @@
   
   <resultMap id="BaseResultMap" type="com.xfxg99.sale.model.StockBill" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bill_type" property="billType" jdbcType="VARCHAR" />
+    <result column="bill_type" property="billType" jdbcType="INTEGER" />
     <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
     <result column="bill_time" property="billTime" jdbcType="TIMESTAMP" />
     <result column="send_org_id" property="sendOrgId" jdbcType="INTEGER" />
@@ -18,7 +18,7 @@
   
   <resultMap id="VMMap" type="com.xfxg99.sale.viewmodel.StockBillVM" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bill_type" property="billType" jdbcType="VARCHAR" />
+    <result column="bill_type" property="billType" jdbcType="INTEGER" />
     <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
     <result column="bill_time" property="billTime" jdbcType="TIMESTAMP" />
     <result column="send_org_id" property="sendOrgId" jdbcType="INTEGER" />
@@ -54,7 +54,7 @@
       bill_time, send_org_id, receive_org_id, 
       state, preparer_id, receiver_id, 
       prepare_time, receive_time)
-    values (#{id,jdbcType=INTEGER}, #{billType,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{billType,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
       #{billTime,jdbcType=TIMESTAMP}, #{sendOrgId,jdbcType=INTEGER}, #{receiveOrgId,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER}, #{preparerId,jdbcType=INTEGER}, #{receiverId,jdbcType=INTEGER}, 
       #{prepareTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP})
@@ -101,7 +101,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="billType != null" >
-        #{billType,jdbcType=VARCHAR},
+        #{billType,jdbcType=INTEGER},
       </if>
       <if test="serialNo != null" >
         #{serialNo,jdbcType=VARCHAR},
@@ -136,7 +136,7 @@
     update t_stock
     <set >
       <if test="billType != null" >
-        bill_type = #{billType,jdbcType=VARCHAR},
+        bill_type = #{billType,jdbcType=INTEGER},
       </if>
       <if test="serialNo != null" >
         serial_no = #{serialNo,jdbcType=VARCHAR},
@@ -170,7 +170,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.model.StockBill" >
     update t_stock
-    set bill_type = #{billType,jdbcType=VARCHAR},
+    set bill_type = #{billType,jdbcType=INTEGER},
       serial_no = #{serialNo,jdbcType=VARCHAR},
       bill_time = #{billTime,jdbcType=TIMESTAMP},
       send_org_id = #{sendOrgId,jdbcType=INTEGER},

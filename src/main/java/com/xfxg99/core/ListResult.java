@@ -9,6 +9,8 @@ public class ListResult<T> {
 	private String msg;
 	private int total;
 	private List<T> rows;
+	private boolean isTimeOut;
+	private boolean isSessionExpired;
 	
 	public ListResult()
 	{
@@ -62,5 +64,29 @@ public class ListResult<T> {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+
+
+
+	public boolean getIsTimeOut() {
+		return isTimeOut;
+	}
+
+
+
+	public void setIsTimeOut(boolean isTimeOut) {
+		this.isTimeOut = isTimeOut;
+	}
+
+
+
+	public boolean getIsSessionExpired() {
+		return isSessionExpired;
+	}
+
+
+
+	public void setIsSessionExpired(boolean isSessionExpired) {
+		this.isSessionExpired = isSessionExpired;
 	}
 }

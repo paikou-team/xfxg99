@@ -5,7 +5,7 @@ import java.util.Date;
 public class StockBill {
     private Integer id;
 
-    private String billType;
+    private Integer billType;
 
     private String serialNo;
 
@@ -33,11 +33,11 @@ public class StockBill {
         this.id = id;
     }
 
-    public String getBillType() {
+    public Integer getBillType() {
         return billType;
     }
 
-    public void setBillType(String billType) {
+    public void setBillType(Integer billType) {
         this.billType = billType;
     }
 

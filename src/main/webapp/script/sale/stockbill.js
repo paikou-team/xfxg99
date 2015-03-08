@@ -124,3 +124,8 @@ function onCheckBill(){
 	var row={id:0,goodsId:0,goodsName:'123',number:1,goodsPrice:10.0,allocationPrice:10.0,amount:10};
 	$('#dgStockDetail').datagrid('appendRow',row);
 }
+
+
+function Data2View(data){
+	
+}
