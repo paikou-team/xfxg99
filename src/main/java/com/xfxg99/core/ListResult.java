@@ -3,8 +3,12 @@ package com.xfxg99.core;
 import java.util.List;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 public class ListResult<T> {
+	
+	private  JsonConfig jsonConfig;
+	
 	private boolean isSuccess=true;
 	private String msg;
 	private int total;
@@ -12,27 +16,27 @@ public class ListResult<T> {
 	private boolean isTimeOut;
 	private boolean isSessionExpired;
 	
-	public ListResult()
-	{
-		
+	public ListResult()	{
+		jsonConfig=new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 	}
-	
-	
-	
+
 	public ListResult(int total,List<T> rows){
+		this();
 		this.total=total;
 		this.rows=rows;
 		this.isSuccess=true;
 	}
 	
 	public ListResult(int total,List<T> rows,boolean isSuccess){
+		this();
 		this.total=total;
 		this.rows=rows;
 		this.isSuccess=isSuccess;
 	}
 	
 	public String toJson(){
-		JSONObject rs=JSONObject.fromObject(this);
+		JSONObject rs=JSONObject.fromObject(this,jsonConfig);
 		return rs.toString();
 	}
 	

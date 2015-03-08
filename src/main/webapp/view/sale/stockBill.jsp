@@ -91,7 +91,7 @@
                     <label>制单人:</label>
                 </td>
                 <td style="text-align: right">
-                    <input id="txtPreparer" class="easyui-validatebox" disabled="disabled" />
+                    <input id="txtPreparerName" class="easyui-validatebox" disabled="disabled" />
                 </td>
                 <td style="text-align: right">
                     <label>制单时间:</label>

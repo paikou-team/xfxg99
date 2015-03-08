@@ -4,6 +4,7 @@ var m_stock_type;
 
 $(function () {
 	var args = getUrlArgs();
+	m_stock_type = args["billType"];
 	
     $("#cmbSendOrg").combobox({
         valueField: 'id',

@@ -151,19 +151,19 @@ function onCheckBill(){
 
 
 function stockBill2View(bill){
-	$('#txtSerialNo').val(bill.Number);
+	$('#txtSerialNo').val(bill.serialNo);
 	
-	if (bill.receiveOrgId) {
-        $("#cmbStockInDetp").combobox("select", bill.receiveOrgId);
+	if (bill.stockInOrgId) {
+        $("#cmbStockInDetp").combobox("select", bill.stockInOrgId);
     }
 	
-	if (bill.sendOrgId) {
-        $("#cmbStockOutDetp").combobox("select", bill.sendOrgId);
+	if (bill.stockOutOrgId) {
+        $("#cmbStockOutDetp").combobox("select", bill.stockOutOrgId);
     }
 	
 	if (bill.billTime) {
-		var d=gCreateDate(bill.billTime);
-        $("#dteStockTime").datetimebox("setValue", d);
+		//var d=gCreateDate(bill.billTime);
+        $("#dteStockTime").datetimebox("setValue", bill.billTime);
     }
 	
 	$("#txtPreparerOrgName").val(bill.preparerOrgName);

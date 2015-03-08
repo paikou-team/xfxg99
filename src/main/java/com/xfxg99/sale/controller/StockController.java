@@ -77,7 +77,7 @@ public class StockController {
 	@RequestMapping(value = "loadBill.do",produces = "application/json;charset=UTF-8")
 	public  @ResponseBody String loadBill(
 			@RequestParam(value = "billType", required = false) Integer billType,
-			@RequestParam(value = "billId", required = false) Integer billId,
+			@RequestParam(value = "id", required = false) Integer id,
 			HttpServletRequest request
 			){
 
@@ -91,7 +91,7 @@ public class StockController {
 		
 		StockBillVM bill=null;
 		
-		if(billId==0){//新建一个单据
+		if(id==0){//新建一个单据
 			bill=this.newStockBill(billType, u);
 		}else{//从数据库读取一个单据
 			

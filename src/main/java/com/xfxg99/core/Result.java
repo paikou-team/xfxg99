@@ -1,6 +1,7 @@
 package com.xfxg99.core;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 /**
  * 返回到前台的数据封装
@@ -8,6 +9,9 @@ import net.sf.json.JSONObject;
  *
  */
 public class Result<T> {
+	
+	private  JsonConfig jsonConfig;
+	
 	private T data;
 	private boolean isTimeOut;
 	private boolean isSessionExpired;
@@ -16,14 +20,17 @@ public class Result<T> {
 	
 	
 	public Result(){
-		
+		jsonConfig=new JsonConfig();
+		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 	}
 	
 	public Result(T data){
+		this();
 		this.data=data;
 	}
 	
 	public Result(T data,boolean isSuccess,boolean isSessionExpired,boolean isTimeOut,String msg){
+		this();
 		this.data=data;
 		this.isSuccess=isSuccess;
 		this.isSessionExpired=isSessionExpired;
@@ -32,7 +39,8 @@ public class Result<T> {
 	}
 	
 	public String toJson(){
-		JSONObject rs=JSONObject.fromObject(this);
+		//JSONObject rs=JSONObject.fromObject(this);
+		JSONObject rs=JSONObject.fromObject(this,jsonConfig);
 		return rs.toString();
 	}
 	
