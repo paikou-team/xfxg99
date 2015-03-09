@@ -198,7 +198,7 @@ function ClearForm() {
     $("#txt_Id").val("");
     $("#txt_Name").val("");
     $("#txt_Password").val("");
-    $("#txt_OrganizationId").val("");
+    $("#txt_OrganizationId").combotree('setValue', null);
     $("#txt_Description").val("");
 };
 function CancelInfo() {
