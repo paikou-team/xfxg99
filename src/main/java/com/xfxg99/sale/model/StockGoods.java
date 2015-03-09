@@ -1,7 +1,5 @@
 package com.xfxg99.sale.model;
 
-import java.math.BigDecimal;
-
 public class StockGoods {
     private Integer id;
 

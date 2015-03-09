@@ -34,7 +34,7 @@
     delete from t_stock
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xfxg99.sale.model.StockBill">
+  <insert id="insert" parameterType="com.xfxg99.sale.model.StockBill" useGeneratedKeys="true" keyProperty="id">
     insert into t_stock (id, bill_type, serial_no, 
       bill_time, stock_in_org_id, stock_out_org_id, 
       state, preparer_org_id, preparer_id, 
@@ -46,7 +46,7 @@
       #{prepareTime,jdbcType=TIMESTAMP}, #{confirmerOrgId,jdbcType=INTEGER}, #{confirmerId,jdbcType=INTEGER}, 
       #{confirmTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.StockBill">
+  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.StockBill" useGeneratedKeys="true" keyProperty="id">
     insert into t_stock
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -214,7 +214,21 @@
     <result column="confirmer_id" property="confirmer_id" jdbcType="INTEGER" />
     <result column="confirmer_name" property="confirmer_name" jdbcType="VARCHAR" />
     <result column="confirm_time" property="confirm_time" jdbcType="TIMESTAMP" />
+    <collection property="stockGoods" resultMap="GoodsVMMap"/>
   </resultMap>
+  
+  <resultMap id="GoodsVMMap" type="com.xfxg99.sale.viewmodel.StockGoodsVM" >
+    <id column="stock_goods_id" property="id" jdbcType="INTEGER" />
+    <result column="stock_id" property="stockId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goods_name" jdbcType="VARCHAR" />
+    <result column="goods_number" property="goodsNumber" jdbcType="VARCHAR" />
+    
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+    <result column="allocation_price" property="allocationPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  
   
   <sql id="VM_Column_List">
   	s.id				as	id,
@@ -235,7 +249,15 @@
   	po.name				as	preparer_org_name,
   	co.name				as	confirmer_org_name,
   	pu.name				as	preparer_name,
-  	ru.name				as	confirmer_name
+  	ru.name				as	confirmer_name,
+  	sg.id				as	stock_goods_id,
+  	sg.stock_id			as	stock_id,
+  	sg.goods_id			as	goods_id,
+  	g.goods_name		as	goods_name,
+  	sg.goods_number		as	goods_number,
+  	sg.market_price		as	marketPrice,
+  	sg.goods_price		as	goods_price,
+  	sg.allocation_price	as	allocation_price
   </sql>
   
   <select id="countVMByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
@@ -245,9 +267,11 @@
   	left join 	t_organization 	as sio 	on 	s.stock_in_org_id 	= sio.id
   	left join 	t_organization 	as soo	on	s.stock_out_org_id	=soo.id
   	left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
-  	left join 	t_organization 	as co	on	s.confirmer_org_id		=co.id
+  	left join 	t_organization 	as co	on	s.confirmer_org_id	=co.id
   	left join	t_user			as pu	on	s.preparer_id		=pu.id
-  	left join	t_user			as ru	on	s.receiver_id		=ru.id 
+  	left join	t_user			as ru	on	s.receiver_id		=ru.id
+  	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
+  	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
   	where 1=1 
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
@@ -275,7 +299,9 @@
   	left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
   	left join 	t_organization 	as co	on	s.confirmer_org_id		=co.id
   	left join	t_user			as pu	on	s.preparer_id		=pu.id
-  	left join	t_user			as ru	on	s.receiver_id		=ru.id 
+  	left join	t_user			as ru	on	s.receiver_id		=ru.id
+  	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
+  	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id 
   	where 1=1 
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
@@ -297,5 +323,13 @@
   	</if>
   </select>
   
+  <delete id="deleteByNotExistId" parameterType="java.util.Map">
+    delete from t_stock_goods
+    	where stock_id = #{stockId,jdbcType=INTEGER}  not in
+	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+  		#{item}
+ 	</foreach>  
+
+  </delete>
   
 </mapper>

@@ -1,5 +1,7 @@
 package com.xfxg99.sale.viewmodel;
 
+import java.util.List;
+
 import com.xfxg99.sale.model.StockBill;
 
 public class StockBillVM  extends StockBill{
@@ -8,6 +10,7 @@ public class StockBillVM  extends StockBill{
 	private String preparerOrgName;
 	private String preparerName;
 	private String confirmerOrgName;
+	private List<StockGoodsVM>  stockGoods;
 	
 	public String getPreparerOrgName() {
 		return preparerOrgName;
@@ -46,6 +49,12 @@ public class StockBillVM  extends StockBill{
 	}
 	public void setConfirmerName(String confirmerName) {
 		this.confirmerName = confirmerName;
+	}
+	public List<StockGoodsVM> getStockGoods() {
+		return stockGoods;
+	}
+	public void setStockGoods(List<StockGoodsVM> stockGoods) {
+		this.stockGoods = stockGoods;
 	}
 
 }

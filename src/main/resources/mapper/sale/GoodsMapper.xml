@@ -24,8 +24,7 @@
     where goods_id = #{id,jdbcType=INTEGER}
   </select>
   
-  
-    <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
   	select 
   		count(*)
   	from ecs_goods as g

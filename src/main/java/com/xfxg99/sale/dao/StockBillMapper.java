@@ -24,4 +24,6 @@ public interface StockBillMapper {
     int countVMByMap(Map<String,Object> map);
     
     List<StockBillVM> loadVMListWithPage(Map<String,Object> map);
+    
+    void deleteByNotExistId(Map<String,Object> map);
 }

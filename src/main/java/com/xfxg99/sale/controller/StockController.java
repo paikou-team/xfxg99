@@ -2,10 +2,13 @@ package com.xfxg99.sale.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ import com.xfxg99.core.Result;
 import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.StockService;
 import com.xfxg99.sale.viewmodel.StockBillVM;
+import com.xfxg99.sale.viewmodel.StockGoodsVM;
 
 @Scope("prototype")
 @Controller
@@ -101,6 +105,36 @@ public class StockController {
 
 		return result.toJson();
 	}
+	
+	
+	@RequestMapping(value = "saveStockBill.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String loadBill(
+			@RequestParam(value = "bill", required = false) String billJson,
+			HttpServletRequest request
+			){
+		Result<StockBillVM>  result =null;
+		
+		try{
+			JSONObject jObj = JSONObject.fromObject(billJson);
+			
+			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+
+			classMap.put("stockGoods", StockGoodsVM.class);
+			
+			StockBillVM bill = (StockBillVM) JSONObject.toBean(jObj, StockBillVM.class, classMap);
+			
+			stockService.saveStockBill(bill);
+
+			result=new Result<StockBillVM>(bill);
+			
+		}catch(Exception ex){
+			result=new Result<StockBillVM>(null,false,true,true,ex.getMessage());
+		}
+		return result.toJson();
+
+	}
+
+	
 	/**
 	 * 创建一个单据
 	 * @param billType
@@ -127,4 +161,7 @@ public class StockController {
 		
 		return bill;
 	}
+	
+	
+	 
 }
