@@ -1,6 +1,7 @@
 package com.xfxg99.base.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -56,4 +57,10 @@ public class UserService{
 	 {
 		 return userMapper.getMaxId();
 	 }
+
+
+	public User loadUserByNameAndPwd(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return userMapper.loadUserByNameAndPwd(map);
+	}
 }

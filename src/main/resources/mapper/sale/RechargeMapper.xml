@@ -9,9 +9,101 @@
     <result column="recharge_time" property="rechargeTime" jdbcType="TIMESTAMP" />
     <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP" />
     <result column="confirm_user_id" property="confirmUserId" jdbcType="INTEGER" />
+    <result column="recharge_desc" property="rechargeDesc" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="ViewModelResultMap" type="com.xfxg99.sale.viewmodel.RechargeVM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="cust_id" property="custId" jdbcType="INTEGER" />
+    <result column="orgName" property="orgName" jdbcType="VARCHAR" />
+    <result column="custName" property="custName" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="recharge_time" property="rechargeTime" jdbcType="TIMESTAMP" />
+    <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP" />
+    <result column="confirm_user_id" property="confirmUserId" jdbcType="INTEGER" />
+    <result column="recharge_desc" property="rechargeDesc" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*)
+  	from t_recharge   as r 
+  	left join ecs_users as c on r.cust_id    = c.user_id
+  	left join t_organization as o  on o.id   = r.org_id
+  	where 1=1 
+  	
+  	<if test ="orgname !=null">
+  			and o.name like CONCAT('%','${orgname}','%' )  
+ 	</if> 
+  	
+  	<if test ="isConfirm ==1">
+  			and r.confirm_user_id is not null
+ 	</if>
+  	
+  	<if test ="isConfirm ==2">
+  			and r.confirm_user_id is  null
+ 	</if>
+  	
+  	<if test ="custname !=null">
+  			and c.user_name like CONCAT('%','${custname}','%' )  
+ 	</if> 
+  </select>
+  
+  <select id="selectCustomerList"  resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+  	select user_id as id,user_name as name 
+  	from ecs_users order by user_id asc  
+  </select>
+  
+  <select id="selectOrganList"  resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+  	select id,name
+  	from t_organization order by id asc  
+  </select>
+  <select id="loadrechargelistWithPage" parameterType="java.util.Map" resultMap="ViewModelResultMap">
+  	select r.id        as    id,
+  		   r.org_id    as    org_id,
+  		   o.name      as    orgName,
+  		   r.cust_id   as    cust_id,
+  		   c.user_name as    custName,
+  		   r.money     as    money,
+  		   r.recharge_time   as    rechargeTime,
+  		   r.confirm_time    as    confirmTime,
+  		   r.confirm_user_id as    confirmUserId,
+  		   (select u.name from t_user as u where u.id = r.confirm_user_id
+  		   <if test ="confirmname !=null">
+  		    	and u.name like CONCAT('%','${confirmname}','%' )
+  		    </if>
+  		   ) as userName,
+  		   r.recharge_desc   as    rechargeDesc
+  	from t_recharge as r 
+  	left join t_user    as u on r.confirm_user_id = u.id 
+  	left join ecs_users as c on r.cust_id    = c.user_id
+  	left join t_organization as o  on o.id   = r.org_id
+  	
+  	where 1=1 
+  	
+  	<if test ="orgname !=null">
+  			and o.name like CONCAT('%','${orgname}','%' )  
+ 	</if> 
+  	
+  	<if test ="isConfirm ==1">
+  			and r.confirm_user_id is not null
+ 	</if>
+  	
+  	<if test ="isConfirm ==2">
+  			and r.confirm_user_id is  null
+ 	</if>
+  	
+  	<if test ="custname !=null">
+  			and c.user_name like CONCAT('%','${custname}','%' )  
+ 	</if>
+  	
+  	<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  	</if>
+  </select>
   <sql id="Base_Column_List" >
-    id, org_id, cust_id, money, recharge_time, confirm_time, confirm_user_id
+    id, org_id, cust_id, money, recharge_time, confirm_time, confirm_user_id,recharge_desc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,10 +118,10 @@
   <insert id="insert" parameterType="com.xfxg99.sale.model.Recharge" >
     insert into t_recharge (id, org_id, cust_id, 
       money, recharge_time, confirm_time, 
-      confirm_user_id)
+      confirm_user_id,recharge_desc)
     values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, 
       #{money,jdbcType=DECIMAL}, #{rechargeTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, 
-      #{confirmUserId,jdbcType=INTEGER})
+      #{confirmUserId,jdbcType=INTEGER},#{rechargeDesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.sale.model.Recharge" >
     insert into t_recharge
@@ -54,6 +146,9 @@
       </if>
       <if test="confirmUserId != null" >
         confirm_user_id,
+      </if>  
+      <if test="rechargeDesc != null" >
+        recharge_desc,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -78,6 +173,9 @@
       <if test="confirmUserId != null" >
         #{confirmUserId,jdbcType=INTEGER},
       </if>
+      <if test="rechargeDesc != null" >
+        #{rechargeDesc,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.sale.model.Recharge" >
@@ -101,6 +199,9 @@
       <if test="confirmUserId != null" >
         confirm_user_id = #{confirmUserId,jdbcType=INTEGER},
       </if>
+      <if test="rechargeDesc != null" >
+        recharge_desc = #{rechargeDesc,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -111,7 +212,8 @@
       money = #{money,jdbcType=DECIMAL},
       recharge_time = #{rechargeTime,jdbcType=TIMESTAMP},
       confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
-      confirm_user_id = #{confirmUserId,jdbcType=INTEGER}
+      confirm_user_id = #{confirmUserId,jdbcType=INTEGER}, 
+      recharge_desc = #{rechargeDesc,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

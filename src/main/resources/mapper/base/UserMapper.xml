@@ -122,4 +122,11 @@
     MAX(id)
     from t_user
   </select>
+  
+   <select id="loadUserByNameAndPwd" resultType="com.xfxg99.base.model.User" parameterType="java.util.Map">  
+   	select *
+	from t_user u  
+	where u.name = #{name,jdbcType=VARCHAR} and u.password = #{pwd,jdbcType=VARCHAR}
+		 limit 0,1;
+   </select> 
 </mapper>

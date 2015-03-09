@@ -17,6 +17,8 @@ public class Recharge {
     private Date confirmTime;
 
     private Integer confirmUserId;
+    
+    private String rechargeDesc;
 
     public Integer getId() {
         return id;
@@ -73,4 +75,12 @@ public class Recharge {
     public void setConfirmUserId(Integer confirmUserId) {
         this.confirmUserId = confirmUserId;
     }
+
+	public String getRechargedesc() {
+		return rechargeDesc;
+	}
+
+	public void setRechargedesc(String rechargedesc) {
+		this.rechargeDesc = rechargedesc;
+	}
 }
