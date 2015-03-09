@@ -51,6 +51,12 @@ function onTreeMenuDblClick(row){
 		case "sys_shop":
 			src="view/systemManage/organization.jsp";
 			break;
+		case "cust_recharge":
+			src="view/charge/chargeList.jsp?optType=0";
+			break;
+		case "biz_recharge_confirm":
+			src="view/charge/chargeList.jsp?optType=1";
+			break;
 	}
 	
 	$("#ifrContent").attr("src",src);
