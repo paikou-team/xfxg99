@@ -31,6 +31,8 @@ public class OrganizationController {
 	protected OrganizationService organizationService;
 	List<Integer> mDeletelist = new ArrayList<Integer>();
 	
+	List<Organization> mLoadOrganization = new ArrayList<Organization>();
+	
 	@RequestMapping(value = "getList.do")
 	public @ResponseBody String getList(HttpServletRequest request){
 		
@@ -55,7 +57,9 @@ public class OrganizationController {
 	
 	@RequestMapping(value = "getSortList.do")
 	public @ResponseBody String getSortList(HttpServletRequest request){
-		
+
+		mLoadOrganization.clear();
+		mLoadOrganization = organizationService.loadAllOrganization();
 		String data = GetTreeGridNode(0);
 		
         String test = "[" + data + "]";
@@ -63,8 +67,13 @@ public class OrganizationController {
 	}
 	private String GetTreeGridNode(Integer parentId)
     {
-		List<Organization> list = organizationService.getParentIdItems(parentId);
-  
+		List<Organization> list = new ArrayList<Organization>();
+		for (Organization loaditem : mLoadOrganization)
+		{
+			if(loaditem.getParentId() == parentId)
+				list.add(loaditem);
+		}
+		
 		StringBuilder child = new StringBuilder();
         for (Organization item : list)
         {
