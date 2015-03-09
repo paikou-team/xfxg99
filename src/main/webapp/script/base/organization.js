@@ -18,6 +18,7 @@ $(function () {
                { title: 'parentName', field: 'parentName', align: 'center', hidden: true },
                { title: 'path', field: 'path', align: 'center', hidden: true },
                { title: 'OrderNo', field: 'OrderNo', align: 'center', hidden: true },
+               { title: 'isStock', field: 'isStock', width: 50, align: 'center' ,hidden: true },
                { title: '地址', field: 'address', align: 'center', width: 100 }
 
         ]]
@@ -78,12 +79,12 @@ var Organization = {
 
 	        $("#txt_ParentName").val(rows.parentName);
 	        $("#txt_ParentName").validatebox('validate');
-       
 	        
 	        $("#txt_NodeLevel").val(rows.level);
 	        $("#txt_FullPath").val(rows.path);
 	        
 	        ShowDialog("编辑", "div_Organization");
+	        document.getElementById("IsStockCheck").checked = rows.isStock;
 	        
 	    },
 	    DelOrganization: function () {
@@ -108,7 +109,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         lock: true,
         initFn: function () {
         },
-        width: 500,
+        width: 400,
         height: 200
     });
     //loadComBoxData(selectId);
@@ -121,6 +122,7 @@ function SaveInfo() {
     OrganizationObj.level = $("#txt_NodeLevel").val();
     OrganizationObj.path = $("#txt_FullPath").val();
     OrganizationObj.parentId = $("#txt_ParentId").val();
+    OrganizationObj.isStock = document.getElementById("IsStockCheck").checked;
     
     $.ajax({
 		url :  "organization/saveOrganization.do",
@@ -164,6 +166,7 @@ function ClearForm() {
     $("#txt_Address").val("");
     $("#txt_FullPath").val();
     $("#txt_NodeLevel").val();
+    document.getElementById("IsStockCheck").checked = false;
 };
 function CancelInfo() {
     DialogForOrganization.close();

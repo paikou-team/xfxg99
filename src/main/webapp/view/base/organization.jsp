@@ -27,14 +27,14 @@
     </div>
     <div id="OrganizationTree"  style="margin:10px"></div>
     <div id="div_Organization" style="display:none;">
-        <div style="width: 500px; height: 150px">
+        <div style="width: 400px; height: 200px">
             <p style="margin-top: 0px; margin-bottom: 0px">
                 <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
                     iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
                         name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
                         plain="true">取消</a>
             </p>
-            <table style="font-size: 12px; height: 95%">
+            <table style="font-size: 12px; height: 80%">
                 <tr style="display: none">
                     <td>
                         <input id="txt_Id" type="hidden" />
@@ -50,29 +50,29 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td width="30%">
                         <label>上级组织机构:</label>
                     </td>
-                    <td>
+                    <td width="30%">
                         <input id="txt_ParentName" class="easyui-validatebox" type="text" readonly="true" data-options="required:false" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td width="30%">
                         <label>组织机构名称:</label>
                     </td>
-                    <td>
+                    <td width="30%">
                         <input id="txt_Name" class="easyui-validatebox" type="text" data-options="required:true" />
                     </td>
-                    <td>
+                    <td width="30%">
                             <label>是否仓储管理:</label></td>
-                        <td>
-                            <input id="IsUsedCheck" type="checkbox" /></td>    
+                        <td width="10%">
+                            <input id="IsStockCheck" type="checkbox" /></td>    
                 </tr>
                 <tr>
-                    <td>地址:</td>
+                    <td width="30%">地址:</td>
                     <td colspan="3">
-                        <textarea id="txt_Address" cols="3" rows="2" style="width: 98%"></textarea>
+                        <textarea id="txt_Address" cols="3" rows="2" style="width: 100%"></textarea>
                     </td>
                 </tr>
             </table>

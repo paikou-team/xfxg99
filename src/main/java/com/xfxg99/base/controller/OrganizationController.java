@@ -91,6 +91,10 @@ public class OrganizationController {
             child.append("\",");
            // child.AppendFormat("\"path\":\"{0}\",", item.getPath());
             
+            child.append("\"isStock\":");
+            child.append(item.getIsStock());
+            child.append(",");
+            
             Integer tmpId = item.getParentId();
             child.append("\"parentId\":\"");
             child.append(item.getParentId());
