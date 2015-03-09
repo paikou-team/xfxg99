@@ -195,6 +195,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         height: 230
     });
     loadComBoxData(selectId);
+    loadRoleTreeData(selectId);
 };
 function ClearForm() {
     $("#txt_Id").val("");
@@ -253,36 +254,23 @@ function buildTreeMenu(items){
 	}
 	return ss;
 }
-//function LoadRoleGridData(CurrentId) {
-//    $('#functionTree').tree({
-//        url: '/SystemManage/GetRoleListData',
-//        queryParams:
-//            {
-//                CurrentId: CurrentId
-//            },
-//        fitColumns: true,
-//        idField: 'Id',
-//        singleSelect: false,
-//        selectOnCheck: true,
-//        checkOnSelect: true,
-//        height: 180,
-//        columns: [[
-//                   { field: 'ck', checkbox: true },
-//                   { field: 'Number', title: '编码', width: 30, align: 'center' },
-//                   { field: 'Name', title: '角色名称', width: 100, align: 'center' },
-//                   { field: 'Id', title: 'Id', width: 130, align: 'center', hidden: true }
-//        ]],
-//        onLoadSuccess:function(data){                   
-//        if(data){
-//            $.each(data.rows, function(index, item){
-//                if (item.IsCheck) {
-//                    $('#RoleGrid').datagrid('checkRow', index);
-//                }
-//                else {
-//                    $('#RoleGrid').datagrid('uncheckRow', index);
-//                }
-//                });
-//            }
-//        }  
-//    });
-//}
+function loadRoleTreeData(selectId) {
+    $.ajax({
+		url : "index/getList.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeMenu(req.rows);
+				$('#functionTree').tree("loadData", nodes);
+//				if (!selectId || selectId.length == 0 || selectId == 0) {
+//	                $('#txt_OrganizationId').combotree('setValue', null);
+//	            }
+//	            else {
+//	                $('#txt_OrganizationId').combotree('setValue', selectId);
+//	            }
+			} 
+		}
+	});
+}
