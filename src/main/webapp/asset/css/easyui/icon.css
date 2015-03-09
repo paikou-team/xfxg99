@@ -91,3 +91,6 @@
 .icon-large-chart{
 	background:url('icons/large_chart.png') no-repeat center center;
 }
+.displaynone{
+	display:none;
+}

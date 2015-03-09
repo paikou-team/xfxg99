@@ -25,7 +25,7 @@ $(function () {
                { title: '有效', field: 'isUsed', width: 50, align: 'center' ,formatter: imgcheckbox },
                { title: '用户姓名', field: 'name', align: 'center', width: 120 },
                { title: 'password', field: 'password', align: 'center', width: 120, hidden: true },
-               //{ title: 'orgId', field: 'orgId', align: 'center', width: 120, hidden: true},
+               { title: 'isalldatapermission', field: 'isalldatapermission', align: 'center', width: 120, hidden: true},
                { title: '组织机构', field: 'orgId', align: 'center', width: 120},
                { title: '用户备注', field: 'description', align: 'center', width: 200}
         ]]
@@ -92,9 +92,10 @@ var UserManage = {
 	        $("#txt_Password").val(rows.password);
 	        $("#txt_Password").validatebox('validate');
 	        document.getElementById("IsUsedCheck").checked = rows.isUsed;
+	        document.getElementById("IsAllDataPermissionCheck").checked = rows.isalldatapermission;
 	        $("#txt_Description").val(rows.description);
 
-	        ShowDialog("编辑用户", "div_userProfile", rows.OrganizationId,rows.Id);
+	        ShowDialog("编辑用户", "div_userProfile", rows.orgId,rows.id);
 	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
 	    },
 	    DelUser: function () {
@@ -138,14 +139,14 @@ function SaveInfo() {
     UserObj.Password = $("#txt_Password").val();
     UserObj.Description = $("#txt_Description").val();
     UserObj.IsUsed = document.getElementById("IsUsedCheck").checked;
+    UserObj.isalldatapermission = document.getElementById("IsAllDataPermissionCheck").checked;
     
 //    var orgid = $('#txt_OrganizationId').combobox('getValue');
 //    if ( !orgid ||orgid.length ==  0) {
 //        $.messager.alert('警告提示', '请选择部门！', 'warning');
 //        return;
 //    }
-    UserObj.Organization = {};
-    UserObj.Organization.Id = $('#txt_OrganizationId').combobox('getValue');
+    UserObj.orgId = $('#txt_OrganizationId').combobox('getValue');
     
     $.ajax({
 		url :  "user/saveUser.do",
@@ -191,16 +192,85 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         initFn: function () {
         },
         width: 500,
-        height: 200
+        height: 230
     });
+    loadComBoxData(selectId);
+    loadRoleTreeData(selectId);
 };
 function ClearForm() {
     $("#txt_Id").val("");
     $("#txt_Name").val("");
     $("#txt_Password").val("");
-    $("#txt_OrganizationId").val("");
+    $("#txt_OrganizationId").combotree('setValue', null);
     $("#txt_Description").val("");
 };
 function CancelInfo() {
     DialogForUser.close();  
+}
+function loadComBoxData(selectId) {
+    $.ajax({
+		url : "organization/getList.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeMenu(req.rows);
+				var t = $('#txt_OrganizationId').combotree('tree');
+				t.tree("loadData", nodes);
+				if (!selectId || selectId.length == 0 || selectId == 0) {
+	                $('#txt_OrganizationId').combotree('setValue', null);
+	            }
+	            else {
+	                $('#txt_OrganizationId').combotree('setValue', selectId);
+	            }
+			} 
+		}
+	});
+}
+function buildTreeMenu(items){
+	var ss=[];
+	var cache={};
+	
+	if(items == null || items.length==0){
+		return ss;
+	}
+	
+	var count=items.length;
+	
+	for (var i = 0; i < count; i++) {
+		var node=items[i];
+		node.text = node.name;
+		cache[node.id]=node;
+		if(node.level==1){
+			ss.push(node);
+		}else{
+			var node2=cache[node.parentId];
+			if(node2.children==undefined){
+				node2.children=[];
+			}
+			node2.children.push(node);
+		}
+	}
+	return ss;
+}
+function loadRoleTreeData(selectId) {
+    $.ajax({
+		url : "index/getList.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeMenu(req.rows);
+				$('#functionTree').tree("loadData", nodes);
+//				if (!selectId || selectId.length == 0 || selectId == 0) {
+//	                $('#txt_OrganizationId').combotree('setValue', null);
+//	            }
+//	            else {
+//	                $('#txt_OrganizationId').combotree('setValue', selectId);
+//	            }
+			} 
+		}
+	});
 }
