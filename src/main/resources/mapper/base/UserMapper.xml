@@ -7,9 +7,11 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="is_used" property="isused" jdbcType="INTEGER" />
+    <result column="is_alldatapermission" property="isAllDataPermission" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, password, org_id, description
+    id, name, password, org_id, description, is_used, is_alldatapermission
   </sql> 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +25,9 @@
   </delete>
   <insert id="insert" parameterType="com.xfxg99.base.model.User" >
     insert into t_user (id, name, password, 
-      org_id, description)
+      org_id, is_used, description)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{orgId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
+      #{orgId,jdbcType=INTEGER}, #{isused,jdbcType=INTEGER},#{isAllDataPermission,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.base.model.User" >
     insert into t_user
@@ -45,6 +47,12 @@
       <if test="description != null" >
         description,
       </if>
+      <if test="isused != null" >
+        is_used,
+      </if>
+      <if test="isAllDataPermission != null" >
+        is_alldatapermission,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,6 +69,12 @@
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isused != null" >
+        #{isused,jdbcType=INTEGER},
+      </if>
+      <if test="isAllDataPermission != null" >
+        #{isAllDataPermission,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -79,6 +93,12 @@
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
+      <if test="isused != null" >
+        is_used = #{isused,jdbcType=INTEGER},
+      </if>
+      <if test="isAllDataPermission != null" >
+        is_alldatapermission = #{isAllDataPermission,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,6 +107,8 @@
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       org_id = #{orgId,jdbcType=INTEGER},
+      is_used = #{isused,jdbcType=INTEGER},
+      is_alldatapermission = #{isAllDataPermission,jdbcType=INTEGER},
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

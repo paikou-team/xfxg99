@@ -20,4 +20,10 @@ public interface OrganizationMapper {
     int updateByPrimaryKey(Organization record);
     
     List<Organization> loadAllOrganization();
+    
+    List<Organization> getParentIdItems(Integer id);
+    
+    Integer getMaxId();
+    
+    List<Organization> loadStockOrg();
 }

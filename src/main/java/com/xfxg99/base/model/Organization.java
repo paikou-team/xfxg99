@@ -20,6 +20,8 @@ public class Organization {
     private BigDecimal lat;
 
     private String address;
+    
+    private boolean isStock;
 
     public Integer getId() {
         return id;
@@ -91,5 +93,15 @@ public class Organization {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+    
+    public boolean getIsStock()
+    {
+    	return isStock;
+    }
+    
+    public void setIsStock(boolean isStock)
+    {
+    	this.isStock =  isStock;
     }
 }

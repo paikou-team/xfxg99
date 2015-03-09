@@ -11,9 +11,10 @@
     <result column="lng" property="lng" jdbcType="DECIMAL" />
     <result column="lat" property="lat" jdbcType="DECIMAL" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="is_stock" property="isStock" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, parent_id, level, is_leaf, path, lng, lat, address
+    id, name, parent_id, level, is_leaf, path, lng, lat, address, is_stock
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -28,10 +29,10 @@
   <insert id="insert" parameterType="com.xfxg99.base.model.Organization" >
     insert into t_organization (id, name, parent_id, 
       level, is_leaf, path, lng, 
-      lat, address)
+      lat, address, is_stock)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
       #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{lng,jdbcType=DECIMAL}, 
-      #{lat,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR})
+      #{lat,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{isStock,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.base.model.Organization" >
     insert into t_organization
@@ -63,6 +64,9 @@
       <if test="address != null" >
         address,
       </if>
+      <if test="isStock != null" >
+        is_stock,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -91,6 +95,9 @@
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="isStock != null" >
+        #{isStock,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -121,6 +128,9 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="isStock != null" >
+        is_stock = #{isStock,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -133,12 +143,30 @@
       path = #{path,jdbcType=VARCHAR},
       lng = #{lng,jdbcType=DECIMAL},
       lat = #{lat,jdbcType=DECIMAL},
-      address = #{address,jdbcType=VARCHAR}
+      address = #{address,jdbcType=VARCHAR},
+      is_stock = #{isStock,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="loadAllOrganization" resultMap="BaseResultMap">
 	select 
     	<include refid="Base_Column_List" />
     from t_organization
+  </select>
+  <select id="getParentIdItems" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_organization
+    where parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select 
+    MAX(id)
+    from t_organization
+  </select>
+  <select id="loadStockOrg" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_organization
+    where is_stock =1 order by path
   </select>
 </mapper>
