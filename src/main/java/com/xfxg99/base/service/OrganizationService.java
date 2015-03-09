@@ -3,16 +3,11 @@ package com.xfxg99.base.service;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.dao.OrganizationMapper;
 import com.xfxg99.base.model.Organization;
-import com.xfxg99.base.model.User;
 
 /**
  * ϵ�y����
@@ -63,5 +58,10 @@ public class OrganizationService{
 	 public Organization getOrganization(Integer id){
 		 
 		 return organizationMapper.selectByPrimaryKey(id);
+	 }
+	 
+	 public List<Organization> loadStockOrg(){
+		 
+		 return organizationMapper.loadStockOrg();
 	 }
 }

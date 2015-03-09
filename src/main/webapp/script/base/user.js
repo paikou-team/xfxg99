@@ -25,7 +25,7 @@ $(function () {
                { title: '有效', field: 'isUsed', width: 50, align: 'center' ,formatter: imgcheckbox },
                { title: '用户姓名', field: 'name', align: 'center', width: 120 },
                { title: 'password', field: 'password', align: 'center', width: 120, hidden: true },
-               //{ title: 'orgId', field: 'orgId', align: 'center', width: 120, hidden: true},
+               { title: 'isalldatapermission', field: 'isalldatapermission', align: 'center', width: 120, hidden: true},
                { title: '组织机构', field: 'orgId', align: 'center', width: 120},
                { title: '用户备注', field: 'description', align: 'center', width: 200}
         ]]
@@ -92,6 +92,7 @@ var UserManage = {
 	        $("#txt_Password").val(rows.password);
 	        $("#txt_Password").validatebox('validate');
 	        document.getElementById("IsUsedCheck").checked = rows.isUsed;
+	        document.getElementById("IsAllDataPermissionCheck").checked = rows.isalldatapermission;
 	        $("#txt_Description").val(rows.description);
 
 	        ShowDialog("编辑用户", "div_userProfile", rows.orgId,rows.id);
@@ -138,6 +139,7 @@ function SaveInfo() {
     UserObj.Password = $("#txt_Password").val();
     UserObj.Description = $("#txt_Description").val();
     UserObj.IsUsed = document.getElementById("IsUsedCheck").checked;
+    UserObj.isalldatapermission = document.getElementById("IsAllDataPermissionCheck").checked;
     
 //    var orgid = $('#txt_OrganizationId').combobox('getValue');
 //    if ( !orgid ||orgid.length ==  0) {
@@ -190,7 +192,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         initFn: function () {
         },
         width: 500,
-        height: 200
+        height: 230
     });
     loadComBoxData(selectId);
 };
@@ -251,3 +253,36 @@ function buildTreeMenu(items){
 	}
 	return ss;
 }
+//function LoadRoleGridData(CurrentId) {
+//    $('#functionTree').tree({
+//        url: '/SystemManage/GetRoleListData',
+//        queryParams:
+//            {
+//                CurrentId: CurrentId
+//            },
+//        fitColumns: true,
+//        idField: 'Id',
+//        singleSelect: false,
+//        selectOnCheck: true,
+//        checkOnSelect: true,
+//        height: 180,
+//        columns: [[
+//                   { field: 'ck', checkbox: true },
+//                   { field: 'Number', title: '编码', width: 30, align: 'center' },
+//                   { field: 'Name', title: '角色名称', width: 100, align: 'center' },
+//                   { field: 'Id', title: 'Id', width: 130, align: 'center', hidden: true }
+//        ]],
+//        onLoadSuccess:function(data){                   
+//        if(data){
+//            $.each(data.rows, function(index, item){
+//                if (item.IsCheck) {
+//                    $('#RoleGrid').datagrid('checkRow', index);
+//                }
+//                else {
+//                    $('#RoleGrid').datagrid('uncheckRow', index);
+//                }
+//                });
+//            }
+//        }  
+//    });
+//}

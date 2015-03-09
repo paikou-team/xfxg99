@@ -163,4 +163,10 @@
     MAX(id)
     from t_organization
   </select>
+  <select id="loadStockOrg" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_organization
+    where is_stock =1 order by path
+  </select>
 </mapper>

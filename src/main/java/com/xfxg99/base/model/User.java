@@ -12,6 +12,8 @@ public class User {
     private String description;
     
     private boolean isused;
+    
+    private boolean isalldatapermission;
 
     public Integer getId() {
         return id;
@@ -59,5 +61,15 @@ public class User {
     
     public void setIsUsed(boolean isUsed){
     	this.isused = isUsed;
+    }
+    
+    public boolean getIsAllDataPermission()
+    {
+    	return isalldatapermission;
+    }
+    
+    public void setIsAllDataPermission(boolean isAllDataPermission)
+    {
+    	this.isalldatapermission = isAllDataPermission;
     }
 }
