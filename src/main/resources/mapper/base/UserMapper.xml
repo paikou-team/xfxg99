@@ -25,7 +25,7 @@
   </delete>
   <insert id="insert" parameterType="com.xfxg99.base.model.User" >
     insert into t_user (id, name, password, 
-      org_id, is_used, description)
+      org_id, is_used, is_alldatapermission, description)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{orgId,jdbcType=INTEGER}, #{isused,jdbcType=INTEGER},#{isAllDataPermission,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
@@ -116,6 +116,10 @@
 	select 
     	<include refid="Base_Column_List" />
     from t_user
- 
+  </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select 
+    MAX(id)
+    from t_user
   </select>
 </mapper>

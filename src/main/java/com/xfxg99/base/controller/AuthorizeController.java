@@ -39,4 +39,10 @@ public class AuthorizeController {
 		return funcs.toJson();
 	}
 	
+	@RequestMapping(value = "insert.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody int insert(Authorize record)
+	{
+		return authorizeService.insert(record);
+	}
+	
 }

@@ -20,4 +20,6 @@ public interface AuthorizeMapper {
     int updateByPrimaryKey(Authorize record);
     
     List<Authorize> getFunctionByUserId(Integer userId);
+    
+    int deleteByUserId(Integer userId);
 }

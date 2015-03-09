@@ -41,9 +41,19 @@ public class UserService{
 			 }
 			 else
 			 {
-				 return userMapper.insert(user);
+				 Integer result =  userMapper.insert(user);
+				 if(result != 0 )
+				 {
+					 user.setId(getMaxId());
+					 return result;
+				 }
 			 }
 		 }
 		 return 0;
+	 }
+	 
+	 public Integer getMaxId()
+	 {
+		 return userMapper.getMaxId();
 	 }
 }

@@ -26,4 +26,24 @@ public class AuthorizeService{
 		 return authorizeMapper.getFunctionByUserId(userId);
 		 
 	 }
+	 
+	 public int insert(Authorize authorize)
+	 {
+		 return authorizeMapper.insert(authorize);
+	 }
+	 
+	 public void insert(Integer userId,Integer funId)
+	 {
+		 Authorize insettmp = new Authorize();
+		 insettmp.setUserId(userId);
+		 insettmp.setFunctionId(funId);
+		 
+		 authorizeMapper.insert(insettmp);
+		 
+	 }
+	 
+	 public int deleteByUserId(Integer userId)
+	 {
+		 return authorizeMapper.deleteByUserId(userId);
+	 }
 }

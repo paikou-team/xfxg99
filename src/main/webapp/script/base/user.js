@@ -30,6 +30,12 @@ $(function () {
                { title: '用户备注', field: 'description', align: 'center', width: 200}
         ]]
     });
+	
+	$('#functionTree').tree({
+		checkbox : true,
+		cascadeCheck : true
+	});
+	
 	$("#AddUser").bind("click", UserManage.AddUser);
     $("#EditUser").bind("click", UserManage.EditUser);
 	$("#DelUser").bind("click", UserManage.DelUser);
@@ -92,11 +98,12 @@ var UserManage = {
 	        $("#txt_Password").val(rows.password);
 	        $("#txt_Password").validatebox('validate');
 	        document.getElementById("IsUsedCheck").checked = rows.isUsed;
-	        document.getElementById("IsAllDataPermissionCheck").checked = rows.isalldatapermission;
+	        document.getElementById("IsAllDataPermissionCheck").checked = rows.isAllDataPermission;
 	        $("#txt_Description").val(rows.description);
 
 	        ShowDialog("编辑用户", "div_userProfile", rows.orgId,rows.id);
 	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
+	        setRoleTreeChecked(rows.id);
 	    },
 	    DelUser: function () {
 	        var rows = $("#UserGrid").datagrid("getSelected");
@@ -139,7 +146,7 @@ function SaveInfo() {
     UserObj.Password = $("#txt_Password").val();
     UserObj.Description = $("#txt_Description").val();
     UserObj.IsUsed = document.getElementById("IsUsedCheck").checked;
-    UserObj.isalldatapermission = document.getElementById("IsAllDataPermissionCheck").checked;
+    UserObj.isAllDataPermission = document.getElementById("IsAllDataPermissionCheck").checked;
     
 //    var orgid = $('#txt_OrganizationId').combobox('getValue');
 //    if ( !orgid ||orgid.length ==  0) {
@@ -154,8 +161,9 @@ function SaveInfo() {
 		dataType : "json",
 		async : false,
 		data : UserObj,
-		success : function(req) {
-			if (req) {
+		success : function(userId) {
+			if (userId) {
+				saveAutorizeSelected(userId);
 				DialogForUser.close();
 				$('#UserGrid').datagrid("reload");
 			} else {
@@ -192,7 +200,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         initFn: function () {
         },
         width: 500,
-        height: 230
+        height: 400
     });
     loadComBoxData(selectId);
     loadRoleTreeData(selectId);
@@ -254,6 +262,32 @@ function buildTreeMenu(items){
 	}
 	return ss;
 }
+function buildTreeMenu2(items){
+	var ss=[];
+	var cache={};
+	
+	if(items == null || items.length==0){
+		return ss;
+	}
+	
+	var count=items.length;
+	
+	for (var i = 0; i < count; i++) {
+		var node=items[i];
+		node.text = node.name;
+		cache[node.id]=node;
+		if(node.nodeLevel==1){
+			ss.push(node);
+		}else{
+			var node2=cache[node.parentId];
+			if(node2.children==undefined){
+				node2.children=[];
+			}
+			node2.children.push(node);
+		}
+	}
+	return ss;
+}
 function loadRoleTreeData(selectId) {
     $.ajax({
 		url : "index/getList.do",
@@ -262,15 +296,69 @@ function loadRoleTreeData(selectId) {
 		async : false,
 		success : function(req) {
 			if (req.isSuccess) {
-				var nodes = buildTreeMenu(req.rows);
+				var nodes = buildTreeMenu2(req.rows);
 				$('#functionTree').tree("loadData", nodes);
-//				if (!selectId || selectId.length == 0 || selectId == 0) {
-//	                $('#txt_OrganizationId').combotree('setValue', null);
-//	            }
-//	            else {
-//	                $('#txt_OrganizationId').combotree('setValue', selectId);
-//	            }
-			} 
+			} else {
+				$.messager.alert('提示ʾ', req.msg, "warning");
+			}
 		}
 	});
+}
+
+function setRoleTreeChecked(selectId){
+	$.ajax({
+		url : "authorize/getListByUserId.do?userId="+selectId,
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				setChecked(req.rows,selectId);
+			} else {
+				$.messager.alert('提示ʾ', req.msg, "warning");
+			}
+		}
+	});
+}
+function setChecked(items,selectId){
+	
+	if(items == null || items.length==0){
+		return ;
+	}
+	
+	var count=items.length;
+	
+	for (var i = 0; i < count; i++) {
+		var data=items[i];
+		if(data.userId == selectId ){
+			var node = $('#functionTree').tree('find',data.functionId);  
+            $('#functionTree').tree('check',node.target);  
+		}
+	}
+}
+function saveAutorizeSelected(userId){
+	var nodes = $('#functionTree').tree('getChecked');
+	var ids = '';
+	if(nodes.length>0)
+	{
+		for (var i = 0; i < nodes.length; i++) {
+			if (ids != '') 
+				ids += ',';
+			ids += nodes[i].id;
+		}
+
+		$.ajax({
+			url :  "user/saveAuthorize.do?userId="+userId+"&ids="+ids,
+			type : "POST",
+			dataType : "json",
+			async : false,
+			success : function(req) {
+				if (req) {
+
+				} else {
+					$.messager.alert('保存记录失败ʾ', req.msg, "warning");
+				}
+			}
+		});
+	}
 }
