@@ -144,8 +144,7 @@ function SaveInfo() {
 //        $.messager.alert('警告提示', '请选择部门！', 'warning');
 //        return;
 //    }
-    UserObj.Organization = {};
-    UserObj.Organization.Id = $('#txt_OrganizationId').combobox('getValue');
+    UserObj.orgId = $('#txt_OrganizationId').combobox('getValue');
     
     $.ajax({
 		url :  "user/saveUser.do",
@@ -206,18 +205,49 @@ function CancelInfo() {
     DialogForUser.close();  
 }
 function loadComBoxData(selectId) {
-    $('#txt_OrganizationId').combobox({
-        url: 'organization/GetOrganizationData.do',
-        valueField: 'id',
-        textField: 'text',
-        editable: false,
-        onLoadSuccess: function () {
-            if (!selectId || selectId.length == 0 || selectId == 0) {
-                $('#txt_OrganizationId').combobox('select', null);
-            }
-            else {
-                $('#txt_OrganizationId').combobox('select', selectId);
-            }
-        }
-    });
+    $.ajax({
+		url : "organization/getList.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeMenu(req.rows);
+				var t = $('#txt_OrganizationId').combotree('tree');
+				t.tree("loadData", nodes);
+				if (!selectId || selectId.length == 0 || selectId == 0) {
+	                $('#txt_OrganizationId').combotree('setValue', null);
+	            }
+	            else {
+	                $('#txt_OrganizationId').combotree('setValue', selectId);
+	            }
+			} 
+		}
+	});
+}
+function buildTreeMenu(items){
+	var ss=[];
+	var cache={};
+	
+	if(items == null || items.length==0){
+		return ss;
+	}
+	
+	var count=items.length;
+	
+	for (var i = 0; i < count; i++) {
+		var node=items[i];
+		node.text = node.name;
+		cache[node.id]=node;
+		if(node.level==1){
+			ss.push(node);
+		}else{
+			var node2=cache[node.parentId];
+			if(node2.children==undefined){
+				node2.children=[];
+			}
+			node2.children.push(node);
+		}
+	}
+	return ss;
 }
