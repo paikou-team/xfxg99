@@ -8,8 +8,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.xfxg99.base.dao.UserMapper;
-
 import com.xfxg99.base.model.User;
+import com.xfxg99.core.ListResult;
+import com.xfxg99.base.viewmodel.UserVM;
 
 /**
  * ϵ�y����
@@ -21,6 +22,16 @@ public class UserService{
 	
 	@Resource(name="userMapper")
 	private UserMapper userMapper;
+	
+	public ListResult<UserVM>  loadUserlist(Map<String,Object> map){
+
+		int count=userMapper.countByMap(map);
+		List<UserVM> ls=userMapper.loadUserlistWithPage(map);
+
+		ListResult<UserVM> result=new ListResult<UserVM>(count,ls);
+
+		return result;
+	}
 	
 	 public  List<User>  loadAllUser(){
 		 
@@ -42,11 +53,22 @@ public class UserService{
 			 }
 			 else
 			 {
-				 return userMapper.insert(user);
+				 Integer result =  userMapper.insert(user);
+				 if(result != 0 )
+				 {
+					 user.setId(getMaxId());
+					 return result;
+				 }
 			 }
 		 }
 		 return 0;
-	 } 
+	 }
+	 
+	 public Integer getMaxId()
+	 {
+		 return userMapper.getMaxId();
+	 }
+
 
 	public User loadUserByNameAndPwd(Map<String, Object> map) {
 		// TODO Auto-generated method stub
