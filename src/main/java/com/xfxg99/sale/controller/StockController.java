@@ -34,6 +34,25 @@ public class StockController {
 	
 	@Resource(name = "billSerialNoService")
 	protected BillSerialNoService billSerialNoService;
+	
+	
+	/**
+	 * 获取数据列表
+	 * @param query
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "loadStockList.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String loadStockList(
+			@RequestParam(value = "query", required = false) String query,
+			HttpServletRequest request
+			){
+		
+		
+		
+		return null;
+	}
+	
 	/**
 	 * 获取一张新的单据
 	 * 不包含分录
@@ -107,25 +126,18 @@ public class StockController {
 	}
 	
 	
-	@RequestMapping(value = "saveStockBill.do",produces = "application/json;charset=UTF-8")
-	public  @ResponseBody String loadBill(
-			@RequestParam(value = "bill", required = false) String billJson,
+	@RequestMapping(value = "confirmBill.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String confirmBill(
+			@RequestParam(value = "id", required = false) Integer id,
 			HttpServletRequest request
 			){
+		
+		
+		
 		Result<StockBillVM>  result =null;
 		
 		try{
-			JSONObject jObj = JSONObject.fromObject(billJson);
 			
-			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
-
-			classMap.put("stockGoods", StockGoodsVM.class);
-			
-			StockBillVM bill = (StockBillVM) JSONObject.toBean(jObj, StockBillVM.class, classMap);
-			
-			stockService.saveStockBill(bill);
-
-			result=new Result<StockBillVM>(bill);
 			
 		}catch(Exception ex){
 			result=new Result<StockBillVM>(null,false,true,true,ex.getMessage());

@@ -30,7 +30,6 @@ public class StockService {
 		List<StockBillVM> ls=stockBillMapper.loadVMListWithPage(map);
 	
 		return new ListResult<StockBillVM>(total,ls);
-
 	}
 	/**
 	 * 保存库存单据

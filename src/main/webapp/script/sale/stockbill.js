@@ -64,10 +64,18 @@ $(function () {
 	var billType=args["billType"];
 	var id=args["id"];
 	
-	loadBill(billType,id);
+	loadOrgs();
 	
+	loadBill(billType,id);
+	setBillLockState();
 });
 
+function loadOrgs(){
+	var orgs=loadStockOrg();
+	$("#cmbStockInDetp").combobox('loadData',orgs);
+	$("#cmbStockOutDetp").combobox('loadData',orgs);
+	
+}
 
 function loadBill(billType,id){
 	if(id==0){
@@ -169,11 +177,26 @@ function calcAmount(rowIndex,row){
 	row.amount=row.goodsPrice * row.number;
 }
 
-function onCheckBill(){
-	var row={id:0,goodsId:0,goodsName:'123',number:1,goodsPrice:10.0,allocationPrice:10.0,amount:10};
-	$('#dgStockDetail').datagrid('appendRow',row);
-}
 
+function setBillLockState(){
+	if(m_stock_bill.confirmerId >0){
+		$('#cmbStockInDetp').combobox("disable");
+		$('#cmbStockOutDetp').combobox("disable");
+		$("#dteStockTime").datetimebox('disable');
+		$('#txtDescription').attr("disabled", true);
+		
+		$('#btnAddGoods').hide();
+        $('#btnDelGoods').hide();
+        $('#btnSaveBill').hide();
+        $('#btnCheckBill').hide();
+	}
+}
+/*
+ * 确认入库
+ */
+function onCheckStockBill(){
+	setBillLockState();
+}
 
 function stockBill2View(bill){
 	$('#txtSerialNo').val(bill.serialNo);
@@ -217,6 +240,7 @@ function view2stockBill(){
 		endEdit(m_stockDetail_rowIndex);
 	}
 	m_stock_bill.billTime=$('#dteStockTime').datetimebox('getValue');
+	m_stock_bill.description=$('#txtDescription').val();
 }
 /**
  * 保存前检查
@@ -262,10 +286,7 @@ function  checkStockBill(){
 function onSaveStockBill(){
 	
 	view2stockBill();
-	
-	//测试
-	m_stock_bill.stockInOrgId=10;
-	
+		
 	if(!checkStockBill()){
 		return;
 	}

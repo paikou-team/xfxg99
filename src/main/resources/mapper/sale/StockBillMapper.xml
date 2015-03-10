@@ -15,13 +15,13 @@
     <result column="confirmer_org_id" jdbcType="INTEGER" property="confirmerOrgId" />
     <result column="confirmer_id" jdbcType="INTEGER" property="confirmerId" />
     <result column="confirm_time" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   
 
-  
   <sql id="Base_Column_List">
     id, bill_type, serial_no, bill_time, stock_in_org_id, stock_out_org_id, state, preparer_org_id, 
-    preparer_id, prepare_time, confirmer_org_id, confirmer_id, confirm_time
+    preparer_id, prepare_time, confirmer_org_id, confirmer_id, confirm_time,description
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -30,21 +30,24 @@
     from t_stock
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_stock
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="com.xfxg99.sale.model.StockBill" useGeneratedKeys="true" keyProperty="id">
     insert into t_stock (id, bill_type, serial_no, 
       bill_time, stock_in_org_id, stock_out_org_id, 
       state, preparer_org_id, preparer_id, 
       prepare_time, confirmer_org_id, confirmer_id, 
-      confirm_time)
+      confirm_time,description)
     values (#{id,jdbcType=INTEGER}, #{billType,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, 
       #{billTime,jdbcType=TIMESTAMP}, #{stockInOrgId,jdbcType=INTEGER}, #{stockOutOrgId,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER}, #{preparerOrgId,jdbcType=INTEGER}, #{preparerId,jdbcType=INTEGER}, 
       #{prepareTime,jdbcType=TIMESTAMP}, #{confirmerOrgId,jdbcType=INTEGER}, #{confirmerId,jdbcType=INTEGER}, 
-      #{confirmTime,jdbcType=TIMESTAMP})
+      #{confirmTime,jdbcType=TIMESTAMP},#{description,jdbcType=VARCHAR})
+      
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.sale.model.StockBill" useGeneratedKeys="true" keyProperty="id">
     insert into t_stock
@@ -88,6 +91,9 @@
       <if test="confirmTime != null">
         confirm_time,
       </if>
+      <if test="description != null">
+        description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -128,6 +134,9 @@
       </if>
       <if test="confirmTime != null">
         #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -170,9 +179,13 @@
       <if test="confirmTime != null">
         confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.model.StockBill">
     update t_stock
     set bill_type = #{billType,jdbcType=INTEGER},
@@ -186,7 +199,8 @@
       prepare_time = #{prepareTime,jdbcType=TIMESTAMP},
       confirmer_org_id = #{confirmerOrgId,jdbcType=INTEGER},
       confirmer_id = #{confirmerId,jdbcType=INTEGER},
-      confirm_time = #{confirmTime,jdbcType=TIMESTAMP}
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -214,7 +228,12 @@
     <result column="confirmer_id" property="confirmer_id" jdbcType="INTEGER" />
     <result column="confirmer_name" property="confirmer_name" jdbcType="VARCHAR" />
     <result column="confirm_time" property="confirm_time" jdbcType="TIMESTAMP" />
+    
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    
     <collection property="stockGoods" resultMap="GoodsVMMap"/>
+    
+    
   </resultMap>
   
   <resultMap id="GoodsVMMap" type="com.xfxg99.sale.viewmodel.StockGoodsVM" >
@@ -257,7 +276,8 @@
   	sg.goods_number		as	goods_number,
   	sg.market_price		as	marketPrice,
   	sg.goods_price		as	goods_price,
-  	sg.allocation_price	as	allocation_price
+  	sg.allocation_price	as	allocation_price,
+  	s.description		as	description
   </sql>
   
   <select id="countVMByMap" parameterType="java.util.Map" resultType="java.lang.Integer">

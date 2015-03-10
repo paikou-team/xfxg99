@@ -29,6 +29,8 @@ public class StockBill {
 
     private Date confirmTime;
 
+    private String description;
+    
     public Integer getId() {
         return id;
     }
@@ -132,4 +134,12 @@ public class StockBill {
     public void setConfirmTime(Date confirmTime) {
         this.confirmTime = confirmTime;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
