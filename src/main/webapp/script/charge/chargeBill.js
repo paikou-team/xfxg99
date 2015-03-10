@@ -3,6 +3,8 @@ var chargeObj = {};
 $(function() {
 	
 	var args = getUrlArgs();
+	
+	chargeObj.id = 0;
 	$("#txtorgName").combobox({
 		url:"charge/getorganList.do",
         valueField: 'id',
@@ -38,8 +40,7 @@ var ChargeBillManage ={
 				dataType : "json",
 				async : false,
 				data : chargeObj,
-				success : function(req) {
-					// $.messager.alert("消息提示", req.Message, "info"); 
+				success : function(req) { 
 					parent.ChargeManage.SearchAction();
 					parent.art.dialog.list['dlgChargeBill'].close();
 				},

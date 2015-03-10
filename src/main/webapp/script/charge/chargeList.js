@@ -63,7 +63,10 @@ $(function() {
 			title : '充值时间',
 			field : 'rechargeTime',
 			align : 'center',
-			width : 150
+			width : 150,
+			formatter:function(value){
+				return "a";
+			}
 		}, {
 			title : '确认人',
 			field : 'confirmUserName',
@@ -73,7 +76,10 @@ $(function() {
 			title : '确认时间',
 			field : 'confirmTime',
 			align : 'center',
-			width : 150
+			width : 150,
+			formatter:function(value){
+				return "a";
+			}
 		} , {
 			title : '充值描述',
 			field : 'rechargeDesc',
@@ -141,10 +147,11 @@ var ChargeManage = {
 		ChargeManage.packQuery();
 		var json = JSON.stringify(m_charge_query);
 		$('#chargeGrid').datagrid("reload", {
-			"m_charge_query" : json
+			"charge_Query" : json
 		});
 	},
 	packQuery : function() {
+		var m_charge_query={};
 		m_charge_query.orgname = $.trim($("#sch_orgname").val());
 		m_charge_query.custname = $.trim($("#sch_username").val());
 		m_charge_query.username = $.trim($("#sch_custname").val());

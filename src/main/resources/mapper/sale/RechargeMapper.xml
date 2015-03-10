@@ -28,19 +28,14 @@
   
   <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
   	select count(*)
-  	from t_recharge   as r     
-  	left join t_user    as u on r.confirm_user_id = u.id 
+  	from t_recharge   as r 
   	left join ecs_users as c on r.cust_id    = c.user_id
   	left join t_organization as o  on o.id   = r.org_id
   	where 1=1 
   	
   	<if test ="orgname !=null">
   			and o.name like CONCAT('%','${orgname}','%' )  
- 	</if>
-  	
-  	<if test ="confirmname !=null">
-  			and u.name like CONCAT('%','${confirmname}','%' )  
- 	</if>
+ 	</if> 
   	
   	<if test ="isConfirm ==1">
   			and r.confirm_user_id is not null
@@ -74,7 +69,11 @@
   		   r.recharge_time   as    rechargeTime,
   		   r.confirm_time    as    confirmTime,
   		   r.confirm_user_id as    confirmUserId,
-  		   u.name            as    userName,
+  		   (select u.name from t_user as u where u.id = r.confirm_user_id
+  		   <if test ="confirmname !=null">
+  		    	and u.name like CONCAT('%','${confirmname}','%' )
+  		    </if>
+  		   ) as userName,
   		   r.recharge_desc   as    rechargeDesc
   	from t_recharge as r 
   	left join t_user    as u on r.confirm_user_id = u.id 
@@ -85,11 +84,7 @@
   	
   	<if test ="orgname !=null">
   			and o.name like CONCAT('%','${orgname}','%' )  
- 	</if>
-  	
-  	<if test ="confirmname !=null">
-  			and u.name like CONCAT('%','${confirmname}','%' )  
- 	</if>
+ 	</if> 
   	
   	<if test ="isConfirm ==1">
   			and r.confirm_user_id is not null

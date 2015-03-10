@@ -21,20 +21,27 @@
                 <a id="DelUser" name="DelUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel"
                     plain="true">删除</a>
+                
+               	<input class="easyui-searchbox" data-options="prompt:'输入用户名称',searcher:doSearch" style="width:300px"></input>
+				<div style="height:10px"></div>
+    			<div>
+					<div id="dgUsers"  style="margin:10px"></div>
+				</div>
+                  
             </p>
         </div>
     </div>
     <div id="UserGrid"  style="margin:10px" ></div>
-    <div id="div_userProfile" style="display:none;"  style="width:500px;" style="height:300px;">
+    <div id="div_userProfile" style="display:none;"  style="width:500px;" style="height:400px;">
 		<p style="margin-top: 0px; margin-bottom: 5px">
                 <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
                     iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
                         name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
                         plain="true">取消</a>
             </p>
-            <div class="easyui-tabs" style="width:500px;height: 200px;" >
-            	<div title="基础资料" style="padding: 10px">
-            		<table style="width: 480px; height: 70%; font-size: 12px">
+            <div id="tabs" class="easyui-tabs" style="width:500px;height: 380px;" >
+            	<div id="tab1" title="基础资料" style="padding: 10px">
+            		<table style="width: 480px; height: 40%; font-size: 12px">
                     <tr style="display: none">
                         <td>
                             <input id="txt_Id" type="hidden" /></td>
@@ -66,14 +73,14 @@
                     </tr>
                 </table>
             	</div>
-            	<div title="权限设置" style="padding: 10px">
-            		<table style="width: 480px; height: 70%; font-size: 12px">
+            	<div id="tab2" title="权限设置" style="padding: 10px">
+            		<table style="width: 480px; height: 30px; font-size: 12px">
             			<td>
                             <label>是否查看所有数据：</label></td>
                         <td>
                             <input id="IsAllDataPermissionCheck" type="checkbox" /></td>   
             		</table>
-                	<div id="functionTree"></div>
+                	<div id="functionTree" style="width: 480px; height:200px; font-size: 12px"></div>
             	</div>
             </div>
      </div>

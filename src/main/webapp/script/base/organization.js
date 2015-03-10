@@ -3,13 +3,13 @@
  */
 $(function () {
     $('#OrganizationTree').treegrid({
-    	url: 'organization/getSortList.do',
+//    	url: 'organization/getSortList.do',
         fitColumns: true,
         rownumbers: true,
         resizable: true,
         idField: 'path',
         treeField: 'name',
-        toolbar:'#organizationtb',
+        toolbar:'#OrganizationTb',
         columns: [[
                { title: '组织机构名称', field: 'name', align: 'left', width: 200 },
                { field: 'id', title: 'Id', width: 130, align: 'center', hidden: true },
@@ -19,10 +19,12 @@ $(function () {
                { title: 'path', field: 'path', align: 'center', hidden: true },
                { title: 'OrderNo', field: 'OrderNo', align: 'center', hidden: true },
                { title: 'isStock', field: 'isStock', width: 50, align: 'center' ,hidden: true },
-               { title: '地址', field: 'address', align: 'center', width: 100 }
+               { title: '地址', field: 'address', align: 'center', width: 200 }
 
         ]]
     });
+    
+    loadData();
     
     $("#AddOrganization").bind("click", Organization.AddOrganization);
     $("#EditOrganization").bind("click", Organization.EditOrganization);
@@ -77,6 +79,8 @@ var Organization = {
 	        $("#txt_Address").val(rows.address);
 	        $("#txt_ParentId").val(rows.parentId);
 
+	        //var node1=$('OrganizationTree').tree('getParent',rows.target);
+	        
 	        $("#txt_ParentName").val(rows.parentName);
 	        $("#txt_ParentName").validatebox('validate');
 	        
@@ -133,7 +137,7 @@ function SaveInfo() {
 		success : function(req) {
 			if (req) {
 				DialogForOrganization.close();
-				$('#OrganizationTree').treegrid("reload");
+				loadData();
 			} else {
 				$.messager.alert('保存记录失败ʾ', req.msg, "warning");
 			}
@@ -151,7 +155,7 @@ function deleteRecord(Id)
         		async : false,
         		success : function(req) {
         			if (req) {
-        				$('#OrganizationTree').treegrid("reload");
+        				loadData();
         			} else {
         				$.messager.alert('删除记录失败ʾ', req.msg, "warning");
         			}
@@ -171,3 +175,48 @@ function ClearForm() {
 function CancelInfo() {
     DialogForOrganization.close();
 };
+
+function loadData(){
+	$.ajax({
+		url : "organization/getList.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeOrg(req.rows);
+				$('#OrganizationTree').treegrid("loadData", nodes);
+			} 
+		}
+	});
+}
+/**
+ * 构建组织结构树
+ */
+function buildTreeOrg(items){
+	var ss=[];
+	var cache={};
+	
+	if(items == null || items.length==0){
+		return ss;
+	}
+	
+	var count=items.length;
+	
+	for (var i = 0; i < count; i++) {
+		var node=items[i];
+		node.name = node.name;
+		
+		cache[node.id]=node;
+		if(node.level==1){
+			ss.push(node);
+		}else{
+			var node2=cache[node.parentId];
+			if(node2.children==undefined){
+				node2.children=[];
+			}
+			node2.children.push(node);
+		}
+	}
+	return ss;
+}

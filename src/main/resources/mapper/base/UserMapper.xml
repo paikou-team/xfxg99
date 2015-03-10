@@ -10,6 +10,18 @@
     <result column="is_used" property="isused" jdbcType="INTEGER" />
     <result column="is_alldatapermission" property="isAllDataPermission" jdbcType="INTEGER" />
   </resultMap>
+  
+  <resultMap id="ViewModelResultMap" type="com.xfxg99.base.viewmodel.UserVM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="orgName" property="orgName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="is_used" property="isused" jdbcType="INTEGER" />
+    <result column="is_alldatapermission" property="isAllDataPermission" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, name, password, org_id, description, is_used, is_alldatapermission
   </sql> 
@@ -25,7 +37,7 @@
   </delete>
   <insert id="insert" parameterType="com.xfxg99.base.model.User" >
     insert into t_user (id, name, password, 
-      org_id, is_used, description)
+      org_id, is_used, is_alldatapermission, description)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{orgId,jdbcType=INTEGER}, #{isused,jdbcType=INTEGER},#{isAllDataPermission,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
@@ -116,6 +128,46 @@
 	select 
     	<include refid="Base_Column_List" />
     from t_user
- 
+  </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select 
+    MAX(id)
+    from t_user
+  </select>
+  
+   <select id="loadUserByNameAndPwd" resultType="com.xfxg99.base.model.User" parameterType="java.util.Map">  
+   	select *
+	from t_user u  
+	where u.name = #{name,jdbcType=VARCHAR} and u.password = #{pwd,jdbcType=VARCHAR}
+		 limit 0,1;
+   </select> 
+   
+   <select id="loadUserlistWithPage" parameterType="java.util.Map" resultMap="ViewModelResultMap">
+  	select 
+  		u.id				as	id,
+  		u.name				as 	name,
+  		u.password			as	password,
+  		u.org_id			as	org_id,
+  		u.description		as	description,
+  		u.is_alldatapermission	as	is_alldatapermission,
+  		u.is_used				as	is_used,
+  		so.name				as	orgName
+  	from t_user as u
+  	left join 	t_organization 	as so 	on 	u.org_id 		= so.id
+  	where 1=1 
+  	<if test="userName != null" >
+  	and u.name like CONCAT( '%',#{userName,jdbcType=VARCHAR},'%')
+  	</if>
+  	<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  	</if>
+  </select>
+   <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*)
+  	from t_user   as r
+   	where 1=1 
+    <if test ="userName !=null">
+  		and r.name like CONCAT('%','${userName}','%' )  
+ 	</if> 
   </select>
 </mapper>
