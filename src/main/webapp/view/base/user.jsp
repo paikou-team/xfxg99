@@ -40,7 +40,7 @@
                         plain="true">取消</a>
             </p>
             <div id="tabs" class="easyui-tabs" style="width:500px;height: 380px;" >
-            	<div title="基础资料" style="padding: 10px">
+            	<div id="tab1" title="基础资料" style="padding: 10px">
             		<table style="width: 480px; height: 40%; font-size: 12px">
                     <tr style="display: none">
                         <td>
@@ -73,7 +73,7 @@
                     </tr>
                 </table>
             	</div>
-            	<div title="权限设置" style="padding: 10px">
+            	<div id="tab2" title="权限设置" style="padding: 10px">
             		<table style="width: 480px; height: 30px; font-size: 12px">
             			<td>
                             <label>是否查看所有数据：</label></td>

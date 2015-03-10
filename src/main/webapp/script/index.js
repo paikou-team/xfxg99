@@ -46,7 +46,7 @@ function onTreeMenuDblClick(row){
 			src="view/sale/stockList.jsp?billType=11";
 			break;
 		case "sys_user":
-			src="view/base/user.jsp";
+			src="view/base/user.jsp?optType=0";
 			break;
 		case "sys_shop":
 			src="view/base/organization.jsp";
@@ -58,7 +58,7 @@ function onTreeMenuDblClick(row){
 			src="view/charge/chargeList.jsp?optType=1";
 			break;
 		case "sys_authorize":
-			src="view/base/user.jsp";
+			src="view/base/user.jsp?optType=1";
 			break;
 	}
 	

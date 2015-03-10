@@ -36,20 +36,7 @@ $(function () {
 		checkbox : true,
 		cascadeCheck : true
 	});
-	    
-//    $('#Search_name').searchbox({
-//        width:300,
-//        searcher:function(value,name){
-//        	if(value != null && value.length >0){
-//        		$('#UserGrid').datagrid("reload", { 'name': value });
-//        	}
-//        },
-//        menu:'#SearchCombox',
-//        prompt:'Please Input Value'
-//    });
-
-
-	
+	    	
 	$("#AddUser").bind("click", UserManage.AddUser);
     $("#EditUser").bind("click", UserManage.EditUser);
 	$("#DelUser").bind("click", UserManage.DelUser);
@@ -58,7 +45,8 @@ $(function () {
 	$("#SaveInfo").bind("click", SaveInfo);
     $("#CancelInfo").bind("click", CancelInfo); 
     
-    hideBt();
+    if(args.optType == 1)
+    	hideBt();
 });
 
 
@@ -419,8 +407,17 @@ function packQuery(value){
 	m_user_query.userName = value;
 }
 function hideBt(){
-//	$("#AddUser").hide();
-//	$("#DelUser").hide();
-	//var tab_option = $('#tabs').tabs('getTab',"基础资料 ").panel('options').tab;
-	//tab_option.hide();
+	$("#AddUser").hide();
+	$("#DelUser").hide();
+	var hideTitle = '基础资料';
+	var selected = '权限设置';
+    var ctab = $('#tabs').tabs('tabs'), opts;
+    for (var i = 0; i < ctab.length; i++) {
+        opts = ctab[i].panel('options');
+        if (opts.title == hideTitle) {
+            ctab[i].hide();
+            opts.tab.hide();
+        }
+    }
+    $('#tabs').tabs('select', selected);
 }
