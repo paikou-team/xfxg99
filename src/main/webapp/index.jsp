@@ -7,6 +7,7 @@
 	<base href="<%=basePath%>">
 	<script src='<%=basePath%>script/index.js' 	type='text/javascript'></script>
     <title>派蔻营销管理系统</title>
+    
 </head>
 <body>
 <div>

@@ -27,14 +27,14 @@
     </div>
     <div id="OrganizationTree"  style="margin:10px"></div>
     <div id="div_Organization" style="display:none;">
-        <div style="width: 400px; height: 200px">
+        <div style="width: 400px; height: 150px">
             <p style="margin-top: 0px; margin-bottom: 0px">
                 <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
                     iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
                         name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
                         plain="true">取消</a>
             </p>
-            <table style="font-size: 12px; height: 80%">
+            <table style="font-size: 12px; height: 80%" >
                 <tr style="display: none">
                     <td>
                         <input id="txt_Id" type="hidden" />

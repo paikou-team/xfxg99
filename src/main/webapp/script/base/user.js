@@ -186,7 +186,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         initFn: function () {
         },
         width: 500,
-        height: 400
+        height: 200
     });
     loadComBoxData(selectId);
     loadRoleTreeData(selectId);

@@ -60,6 +60,10 @@ function onTreeMenuDblClick(row){
 		case "sys_authorize":
 			src="view/base/user.jsp?optType=1";
 			break;
+		case "shop_sale":
+			src="view/sale/saleBill.jsp";
+			break;
+			
 	}
 	
 	$("#ifrContent").attr("src",src);

@@ -38,7 +38,7 @@ $(function() {
 			align : 'center',
 			width : 150,
 			formatter : function(value, row, index) {
-				if (value.length>0&&value) {
+				if (row.confirmUserId>0) {
 					return "已确认";
 				} else {
 					return "未确认";
