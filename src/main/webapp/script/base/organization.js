@@ -113,7 +113,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         initFn: function () {
         },
         width: 400,
-        height: 200
+        height: 100
     });
     //loadComBoxData(selectId);
 };
