@@ -32,16 +32,16 @@
         </div>
     </div>
     <div id="UserGrid"  style="margin:10px" ></div>
-    <div id="div_userProfile" style="display:none;"  style="width:500px;" style="height:400px;">
+    <div id="div_userProfile" style="display:none;"  style="width:500px;" style="height:200px;">
 		<p style="margin-top: 0px; margin-bottom: 5px">
                 <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
                     iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
                         name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
                         plain="true">取消</a>
             </p>
-            <div id="tabs" class="easyui-tabs" style="width:500px;height: 380px;" >
+            <div id="tabs" class="easyui-tabs" style="width:500px;height: auto;" style="padding: 10px">
             	<div id="tab1" title="基础资料" style="padding: 10px">
-            		<table style="width: 480px; height: 40%; font-size: 12px">
+            		<table style="width: 480px; height: 100%; font-size: 12px">
                     <tr style="display: none">
                         <td>
                             <input id="txt_Id" type="hidden" /></td>
@@ -69,7 +69,7 @@
                     <tr>
                         <td>用户备注:</td>
                         <td colspan="3">
-                            <textarea id="txt_Description" cols="5" rows="3" style="width: 95%"></textarea></td>
+                            <textarea id="txt_Description" cols="5" rows="3" style="width: 100%"></textarea></td>
                     </tr>
                 </table>
             	</div>
@@ -80,7 +80,7 @@
                         <td>
                             <input id="IsAllDataPermissionCheck" type="checkbox" /></td>   
             		</table>
-                	<div id="functionTree" style="width: 480px; height:200px; font-size: 12px"></div>
+                	<div id="functionTree" style="width: 480px; height:300px; font-size: 12px"></div>
             	</div>
             </div>
      </div>
