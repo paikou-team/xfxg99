@@ -53,7 +53,7 @@ public class IndexController {
 	@RequestMapping(value = "loginAction.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	boolean loginAction(@RequestParam(value = "username", required = false) String username,
-			@RequestParam(value = "passowrd", required = false) String passowrd,
+			@RequestParam(value = "password", required = false) String passowrd,
 			HttpServletRequest request) throws Exception {
 		try { 
 			HttpSession session = request.getSession();  
