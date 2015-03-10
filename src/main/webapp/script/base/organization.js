@@ -79,9 +79,8 @@ var Organization = {
 	        $("#txt_Address").val(rows.address);
 	        $("#txt_ParentId").val(rows.parentId);
 
-	        //var node1=$('OrganizationTree').tree('getParent',rows.target);
-	        
-	        $("#txt_ParentName").val(rows.parentName);
+	        var parentName = findParentName(rows.parentId);
+	        $("#txt_ParentName").val(parentName);
 	        $("#txt_ParentName").validatebox('validate');
 	        
 	        $("#txt_NodeLevel").val(rows.level);
@@ -219,4 +218,17 @@ function buildTreeOrg(items){
 		}
 	}
 	return ss;
+}
+function findParentName(parentId){
+	var result="";
+	var roots=$('#OrganizationTree').treegrid('getRoots'),children,i,j;
+    for(i=0;i<roots.length;i++){
+      children=$('#OrganizationTree').treegrid('getChildren',roots[i].target);
+      for(j=0;j<children.length;j++)
+    	  if(parentId == children[j].id){
+    		  result = children[j].name;
+    		  return result;
+    	  }
+    }
+    return result;
 }
