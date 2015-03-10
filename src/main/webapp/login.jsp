@@ -1,16 +1,19 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%> 
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>   
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+			+ path + "/"; 
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 	<base href="<%=basePath%>">  
 	<script src='<%=basePath%>asset/script/jquery-1.11.1.min.js'	type='text/javascript'></script> 
+<script src='<%=basePath%>asset/script/easyui/jquery.easyui.1.4.1.min.js'	type='text/javascript'></script>
+<link href='<%=basePath%>asset/css/easyui/metro/easyui.css'	media='all' rel='stylesheet' type='text/css' />
 	<script src='<%=basePath%>script/login.js'	type='text/javascript'></script>
+	<script src='<%=basePath%>script/MD5.js'	type='text/javascript'></script>
       <style type="text/css">
         * {
             padding: 0;

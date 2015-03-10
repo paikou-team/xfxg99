@@ -6,10 +6,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.SysFunction;
@@ -17,6 +19,8 @@ import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.SysFunctionService;
 import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;
+import com.xfxg99.core.Result;
+import com.xfxg99.sale.viewmodel.StockBillVM;
 
 /**
  * ��ҳ
@@ -48,16 +52,17 @@ public class IndexController {
 
 	@RequestMapping(value = "loginAction.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	boolean loginAction(User user) throws Exception {
-		try {
-			String name = user.getName();
-			String pwd = user.getPassword();
+	boolean loginAction(@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value = "passowrd", required = false) String passowrd,
+			HttpServletRequest request) throws Exception {
+		try { 
+			HttpSession session = request.getSession();  
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("name", name);
-			map.put("pwd", pwd);
-			User u = userService.loadUserByNameAndPwd(map);
-			//HttpSession.setAttribute("user",u);
-			if (u != null) {
+			map.put("name", username);
+			map.put("pwd", passowrd);
+			User u = userService.loadUserByNameAndPwd(map); 
+			if (u != null) { 
+				session.setAttribute("user", u);  
 				return true;
 			} else {
 				return false;
