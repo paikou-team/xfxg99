@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.xfxg99.base.model.User;
 import com.xfxg99.core.MyBatisRepository;
+import com.xfxg99.base.viewmodel.UserVM;;
 
 @MyBatisRepository
 public interface UserMapper {
@@ -25,5 +26,9 @@ public interface UserMapper {
     Integer getMaxId();
 
 	User loadUserByNameAndPwd(Map<String, Object> map);
+	
+	List<UserVM> loadUserlistWithPage(Map<String, Object> map);
+	
+	int countByMap(Map<String, Object> map);
 
 }

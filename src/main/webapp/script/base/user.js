@@ -16,7 +16,7 @@ $(function () {
         pageNumber: 1,
         pageSize: 20,
         nowrap: false,
-        idField: 'Id',
+        idField: 'id',
         singleSelect: true,
         onDblClickRow: onSelRow,
         toolbar: "#UserTb",
@@ -26,7 +26,8 @@ $(function () {
                { title: '用户姓名', field: 'name', align: 'center', width: 120 },
                { title: 'password', field: 'password', align: 'center', width: 120, hidden: true },
                { title: 'isalldatapermission', field: 'isalldatapermission', align: 'center', width: 120, hidden: true},
-               { title: '组织机构', field: 'orgId', align: 'center', width: 120},
+               { title: '组织机构', field: 'orgId', align: 'center', width: 120, hidden: true},
+               { title: '组织机构名称', field: 'orgName', align: 'center', width: 120},
                { title: '用户备注', field: 'description', align: 'center', width: 200}
         ]]
     });
@@ -35,36 +36,31 @@ $(function () {
 		checkbox : true,
 		cascadeCheck : true
 	});
+	    
+//    $('#Search_name').searchbox({
+//        width:300,
+//        searcher:function(value,name){
+//        	if(value != null && value.length >0){
+//        		$('#UserGrid').datagrid("reload", { 'name': value });
+//        	}
+//        },
+//        menu:'#SearchCombox',
+//        prompt:'Please Input Value'
+//    });
+
+
 	
 	$("#AddUser").bind("click", UserManage.AddUser);
     $("#EditUser").bind("click", UserManage.EditUser);
 	$("#DelUser").bind("click", UserManage.DelUser);
+	$("#SearchUser").bind("click", UserManage.SearchUser);
 	
 	$("#SaveInfo").bind("click", SaveInfo);
     $("#CancelInfo").bind("click", CancelInfo); 
+    
+    hideBt();
 });
-/**
- * 查询
- */
-function doSearch(value){
-	loadUsers(value);
-}
 
-function loadUsers(value) {
-
-    try {
-        packQuery(value);
-        var json = JSON.stringify(m_user_query);
-        $('#UserGrid').datagrid('reload', { 'userQuery': json });
-
-    } catch (ex) {
-        alert(ex);
-    }
-}
-
-function packQuery(value){
-	m_user_query.userName = value;
-}
 
 function onSelRow(){
 	
@@ -125,7 +121,7 @@ var UserManage = {
 //	        if (userName == "") {
 //	            $('#UserGrid').datagrid("reload");
 //	        }
-//	        $('#UserGrid').datagrid("reload", { 'UserName': userName });
+//	        $('#UserGrid').datagrid("reload", { 'name': userName });
 //	    }
 	};
 function SaveInfo() {
@@ -148,11 +144,6 @@ function SaveInfo() {
     UserObj.IsUsed = document.getElementById("IsUsedCheck").checked;
     UserObj.isAllDataPermission = document.getElementById("IsAllDataPermissionCheck").checked;
     
-//    var orgid = $('#txt_OrganizationId').combobox('getValue');
-//    if ( !orgid ||orgid.length ==  0) {
-//        $.messager.alert('警告提示', '请选择部门！', 'warning');
-//        return;
-//    }
     UserObj.orgId = $('#txt_OrganizationId').combobox('getValue');
     
     $.ajax({
@@ -172,6 +163,9 @@ function SaveInfo() {
 		}
 	});
 };
+/**
+ * 删除用户记录id
+ */
 function deleteRecord(Id) {
     $.messager.confirm('删除记录', '确认要删除本条记录吗?', function (r) {
         if (r) {
@@ -182,6 +176,7 @@ function deleteRecord(Id) {
         		async : false,
         		success : function(req) {
         			if (req) {
+        				deleteAutorizeRecord(Id);
         				$('#UserGrid').datagrid("reload");
         			} else {
         				$.messager.alert('删除记录失败ʾ', req.msg, "warning");
@@ -192,6 +187,9 @@ function deleteRecord(Id) {
     });   
 }
 var DialogForUser;
+/**
+ * 打开弹出窗口
+ */
 function ShowDialog(dtitle, contentId, selectId, userId) {
     DialogForUser = art.dialog({
         title: dtitle,
@@ -205,6 +203,9 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
     loadComBoxData(selectId);
     loadRoleTreeData(selectId);
 };
+/**
+ * 清除窗口中填写字段
+ */
 function ClearForm() {
     $("#txt_Id").val("");
     $("#txt_Name").val("");
@@ -212,9 +213,15 @@ function ClearForm() {
     $("#txt_OrganizationId").combotree('setValue', null);
     $("#txt_Description").val("");
 };
+/**
+ * 关闭弹出窗口
+ */
 function CancelInfo() {
     DialogForUser.close();  
 }
+/**
+ * 加载组织机构下拉菜单树
+ */
 function loadComBoxData(selectId) {
     $.ajax({
 		url : "organization/getList.do",
@@ -223,7 +230,7 @@ function loadComBoxData(selectId) {
 		async : false,
 		success : function(req) {
 			if (req.isSuccess) {
-				var nodes = buildTreeMenu(req.rows);
+				var nodes = buildTreeOrg(req.rows);
 				var t = $('#txt_OrganizationId').combotree('tree');
 				t.tree("loadData", nodes);
 				if (!selectId || selectId.length == 0 || selectId == 0) {
@@ -236,7 +243,10 @@ function loadComBoxData(selectId) {
 		}
 	});
 }
-function buildTreeMenu(items){
+/**
+ * 构建组织结构树
+ */
+function buildTreeOrg(items){
 	var ss=[];
 	var cache={};
 	
@@ -262,6 +272,9 @@ function buildTreeMenu(items){
 	}
 	return ss;
 }
+/**
+ * 构建功能权限树
+ */
 function buildTreeMenu2(items){
 	var ss=[];
 	var cache={};
@@ -288,6 +301,9 @@ function buildTreeMenu2(items){
 	}
 	return ss;
 }
+/**
+ * 加载功能权限树
+ */
 function loadRoleTreeData(selectId) {
     $.ajax({
 		url : "index/getList.do",
@@ -298,13 +314,13 @@ function loadRoleTreeData(selectId) {
 			if (req.isSuccess) {
 				var nodes = buildTreeMenu2(req.rows);
 				$('#functionTree').tree("loadData", nodes);
-			} else {
-				$.messager.alert('提示ʾ', req.msg, "warning");
-			}
+			} 
 		}
 	});
 }
-
+/**
+ * 得到index索引号，当前选择用户在authorize中的权限
+ */
 function setRoleTreeChecked(selectId){
 	$.ajax({
 		url : "authorize/getListByUserId.do?userId="+selectId,
@@ -314,15 +330,16 @@ function setRoleTreeChecked(selectId){
 		success : function(req) {
 			if (req.isSuccess) {
 				setChecked(req.rows,selectId);
-			} else {
-				$.messager.alert('提示ʾ', req.msg, "warning");
 			}
 		}
 	});
 }
+/**
+ * 设置功能权限树的节点为checked状态，当前用户在authorize返回的indexId列表
+ */
 function setChecked(items,selectId){
 	
-	if(items == null || items.length==0){
+	if(items == null || items.length==0 || selectId==0 ){
 		return ;
 	}
 	
@@ -336,6 +353,9 @@ function setChecked(items,selectId){
 		}
 	}
 }
+/**
+ * 保存用户的权限到authorize表
+ */
 function saveAutorizeSelected(userId){
 	var nodes = $('#functionTree').tree('getChecked');
 	var ids = '';
@@ -361,4 +381,46 @@ function saveAutorizeSelected(userId){
 			}
 		});
 	}
+}
+/**
+ * 当用户删除时，删除authorize表中记录的改用户权限记录
+ */
+function deleteAutorizeRecord(Id){
+	$.ajax({
+		url : "authorize/deleteListByUserId.do?userId="+Id,
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req) {
+			}
+		}
+	});
+}
+/**
+ * 查询
+ */
+function doSearch(value){
+	loadUser(value);
+}
+
+function loadUser(value) {
+
+    try {
+        packQuery(value);
+        var json = JSON.stringify(m_user_query);
+        $('#UserGrid').datagrid('reload', { 'userQuery': json });
+
+    } catch (ex) {
+        alert(ex);
+    }
+}
+function packQuery(value){
+	m_user_query.userName = value;
+}
+function hideBt(){
+//	$("#AddUser").hide();
+//	$("#DelUser").hide();
+	//var tab_option = $('#tabs').tabs('getTab',"基础资料 ").panel('options').tab;
+	//tab_option.hide();
 }

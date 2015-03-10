@@ -29,7 +29,7 @@ public class AuthorizeController {
 	protected AuthorizeService authorizeService;
 	
 	@RequestMapping(value = "getListByUserId.do",produces = "application/json;charset=UTF-8")
-	public @ResponseBody String getList(@RequestParam(value = "userId", required = true) Integer userId,
+	public @ResponseBody String getListByUserId(@RequestParam(value = "userId", required = true) Integer userId,
 			HttpServletRequest request){
 		
 		List<Authorize> ls=authorizeService.getFunctionByUserId(userId);
@@ -43,6 +43,13 @@ public class AuthorizeController {
 	public @ResponseBody int insert(Authorize record)
 	{
 		return authorizeService.insert(record);
+	}
+	
+	@RequestMapping(value = "deleteListByUserId.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody int deleteListByUserId(@RequestParam(value = "userId", required = true) Integer userId,
+			HttpServletRequest request)
+	{
+		return authorizeService.deleteByUserId(userId);
 	}
 	
 }

@@ -9,7 +9,7 @@ $(function () {
         resizable: true,
         idField: 'path',
         treeField: 'name',
-        toolbar:'#organizationtb',
+        toolbar:'#OrganizationTb',
         columns: [[
                { title: '组织机构名称', field: 'name', align: 'left', width: 200 },
                { field: 'id', title: 'Id', width: 130, align: 'center', hidden: true },

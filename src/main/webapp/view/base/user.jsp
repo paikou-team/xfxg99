@@ -21,6 +21,13 @@
                 <a id="DelUser" name="DelUser"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel"
                     plain="true">删除</a>
+                
+               	<input class="easyui-searchbox" data-options="prompt:'输入用户名称',searcher:doSearch" style="width:300px"></input>
+				<div style="height:10px"></div>
+    			<div>
+					<div id="dgUsers"  style="margin:10px"></div>
+				</div>
+                  
             </p>
         </div>
     </div>
@@ -32,7 +39,7 @@
                         name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
                         plain="true">取消</a>
             </p>
-            <div class="easyui-tabs" style="width:500px;height: 380px;" >
+            <div id="tabs" class="easyui-tabs" style="width:500px;height: 380px;" >
             	<div title="基础资料" style="padding: 10px">
             		<table style="width: 480px; height: 40%; font-size: 12px">
                     <tr style="display: none">

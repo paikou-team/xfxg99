@@ -57,6 +57,9 @@ function onTreeMenuDblClick(row){
 		case "biz_recharge_confirm":
 			src="view/charge/chargeList.jsp?optType=1";
 			break;
+		case "sys_authorize":
+			src="view/base/user.jsp";
+			break;
 	}
 	
 	$("#ifrContent").attr("src",src);
