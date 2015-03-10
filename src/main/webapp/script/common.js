@@ -22,7 +22,23 @@ function getUrlArgs() {
     return theRequest;
 }
 
-
+function loadStockOrg(){
+	
+	var orgs=[];
+	
+	$.ajax({
+		url : 'organization/loadStockOrgList.do',
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if(req.isSuccess){
+				orgs=req.rows;
+			}
+		}
+	});
+	return orgs;
+}
 
 /**
  * 将后台的org列表转换成tree格式

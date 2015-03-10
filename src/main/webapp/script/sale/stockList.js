@@ -4,6 +4,7 @@ var m_stock_type;
 
 $(function () {
 	var args = getUrlArgs();
+	m_stock_type = args["billType"];
 	
     $("#cmbSendOrg").combobox({
         valueField: 'id',
@@ -42,7 +43,7 @@ $(function () {
     });
     
 	$('#dgStock').datagrid({
-		url:'sale/loadStockList.do',
+		url:'stock/loadStockList.do',
 		queryParams : {
 			'stockQuery' : JSON.stringify(m_stock_query)
 		},
@@ -99,7 +100,7 @@ function onStockBillAdd(){
 		m_stock_dlg = art.dialog({
             id: 'dlgStockBillView',
             title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?billType=" + m_stock_type + "&stockBillId=0' style='width:760px;height:460px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?billType=" + m_stock_type + "&id=0' style='width:760px;height:460px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {

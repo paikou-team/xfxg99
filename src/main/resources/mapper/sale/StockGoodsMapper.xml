@@ -23,7 +23,7 @@
     delete from t_stock_goods
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xfxg99.sale.model.StockGoods" >
+  <insert id="insert" parameterType="com.xfxg99.sale.model.StockGoods" useGeneratedKeys="true" keyProperty="id">
     insert into t_stock_goods (id, stock_id, goods_id, 
       goods_number, market_price, goods_price, 
       allocation_price)
@@ -31,7 +31,7 @@
       #{goodsNumber,jdbcType=INTEGER}, #{marketPrice,jdbcType=DECIMAL}, #{goodsPrice,jdbcType=DECIMAL}, 
       #{allocationPrice,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.StockGoods" >
+  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.StockGoods" useGeneratedKeys="true" keyProperty="id">
     insert into t_stock_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -1,7 +1,5 @@
 package com.xfxg99.sale.model;
 
-import java.math.BigDecimal;
-
 public class StockGoods {
     private Integer id;
 
@@ -11,11 +9,11 @@ public class StockGoods {
 
     private Integer goodsNumber;
 
-    private BigDecimal marketPrice;
+    private double marketPrice;
 
-    private BigDecimal goodsPrice;
+    private  double goodsPrice;
 
-    private BigDecimal allocationPrice;
+    private  double allocationPrice;
 
     public Integer getId() {
         return id;
@@ -49,27 +47,27 @@ public class StockGoods {
         this.goodsNumber = goodsNumber;
     }
 
-    public BigDecimal getMarketPrice() {
+    public double getMarketPrice() {
         return marketPrice;
     }
 
-    public void setMarketPrice(BigDecimal marketPrice) {
+    public void setMarketPrice(double marketPrice) {
         this.marketPrice = marketPrice;
     }
 
-    public BigDecimal getGoodsPrice() {
+    public double getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(BigDecimal goodsPrice) {
+    public void setGoodsPrice(double goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 
-    public BigDecimal getAllocationPrice() {
+    public double getAllocationPrice() {
         return allocationPrice;
     }
 
-    public void setAllocationPrice(BigDecimal allocationPrice) {
+    public void setAllocationPrice(double allocationPrice) {
         this.allocationPrice = allocationPrice;
     }
 }

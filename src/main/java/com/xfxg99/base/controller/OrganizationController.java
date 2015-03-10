@@ -89,6 +89,18 @@ public class OrganizationController {
 	}
 	
 	
+	 @RequestMapping(value = "loadStockOrgList.do", produces = "application/json;charset=UTF-8")
+	 public @ResponseBody String loadStockOrgList(
+		HttpServletRequest request){
+			
+		 List<Organization> ls=organizationService.loadStockOrg();
+
+		 ListResult<Organization> result=new ListResult<Organization>(ls.size(),ls,true);
+		 
+		 return result.toJson();
+	}
+	
+	
 	@RequestMapping(value = "deleteOrg.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody boolean  deleteOrg(
 			@RequestParam(value = "Id", required = true) Integer id,
@@ -102,6 +114,7 @@ public class OrganizationController {
 		}
 		return true;
 	}
+	
 	
 	private void GetTreeGridNodeId(Integer parentId)
     {

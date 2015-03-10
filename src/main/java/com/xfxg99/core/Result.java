@@ -1,96 +1,83 @@
 package com.xfxg99.core;
 
-import java.util.List;
-
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
-public class ListResult<T> {
+/**
+ * 返回到前台的数据封装
+ * @author Owen
+ *
+ */
+public class Result<T> {
 	
 	private  JsonConfig jsonConfig;
 	
-	private boolean isSuccess=true;
-	private String msg;
-	private int total;
-	private List<T> rows;
+	private T data;
 	private boolean isTimeOut;
 	private boolean isSessionExpired;
+	private boolean isSuccess=true;
+	private String msg;
 	
-	public ListResult()	{
+	
+	public Result(){
 		jsonConfig=new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(java.util.Date.class, new DateJsonValueProcessor());
 	}
-
-	public ListResult(int total,List<T> rows){
+	
+	public Result(T data){
 		this();
-		this.total=total;
-		this.rows=rows;
-		this.isSuccess=true;
+		this.data=data;
 	}
 	
-	public ListResult(int total,List<T> rows,boolean isSuccess){
+	public Result(T data,boolean isSuccess,boolean isSessionExpired,boolean isTimeOut,String msg){
 		this();
-		this.total=total;
-		this.rows=rows;
+		this.data=data;
 		this.isSuccess=isSuccess;
+		this.isSessionExpired=isSessionExpired;
+		this.isTimeOut=isTimeOut;
+		this.msg=msg;
 	}
 	
 	public String toJson(){
+		//JSONObject rs=JSONObject.fromObject(this);
 		JSONObject rs=JSONObject.fromObject(this,jsonConfig);
 		return rs.toString();
 	}
 	
-	public int getTotal() {
-		return total;
+	public T getData() {
+		return data;
 	}
-	public void setTotal(int total) {
-		this.total = total;
+	public void setData(T data) {
+		this.data = data;
 	}
-	public List<T> getRows() {
-		return rows;
-	}
-	public void setRows(List<T> rows) {
-		this.rows = rows;
-	}
-	
 	public boolean getIsSuccess() {
 		return isSuccess;
 	}
 	public void setIsSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
 	}
+	
+	public boolean getIsTimeOut() {
+		return isTimeOut;
+	}
 
+	public void setIsTimeOut(boolean isTimeOut) {
+		this.isTimeOut = isTimeOut;
+	}
 
+	public boolean getIsSessionExpired() {
+		return isSessionExpired;
+	}
 
+	public void setIsSessionExpired(boolean isSessionExpired) {
+		this.isSessionExpired = isSessionExpired;
+	}
+	
 	public String getMsg() {
 		return msg;
 	}
 
 	public void setMsg(String msg) {
 		this.msg = msg;
-	}
-
-
-
-	public boolean getIsTimeOut() {
-		return isTimeOut;
-	}
-
-
-
-	public void setIsTimeOut(boolean isTimeOut) {
-		this.isTimeOut = isTimeOut;
-	}
-
-
-
-	public boolean getIsSessionExpired() {
-		return isSessionExpired;
-	}
-
-
-
-	public void setIsSessionExpired(boolean isSessionExpired) {
-		this.isSessionExpired = isSessionExpired;
 	}
 }
