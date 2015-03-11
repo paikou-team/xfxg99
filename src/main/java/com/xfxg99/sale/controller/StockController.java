@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
+import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.service.BillSerialNoService;
@@ -104,18 +105,13 @@ public class StockController {
 			HttpServletRequest request
 			){
 
-		//测试
-		User u=new User();
-		u.setId(9);
-		u.setName("李如江");
-		u.setOrgId(8);
-		u.setPassword("123");
+		UserVM user =(UserVM)request.getSession().getAttribute("user");
 		
 		
 		StockBillVM bill=null;
 		
 		if(id==0){//新建一个单据
-			bill=this.newStockBill(billType, u);
+			bill=this.newStockBill(billType, user);
 		}else{//从数据库读取一个单据
 			bill = stockService.loadVMById(id);
 		}
@@ -132,14 +128,17 @@ public class StockController {
 			HttpServletRequest request
 			){
 
-		User u =new User();
-		u.setId(999);
-		u.setOrgId(101);
+		UserVM user =(UserVM)request.getSession().getAttribute("user");
 		
 		Result<StockBillVM>  result =null;
 
+		if(user ==null){
+			result =new Result<StockBillVM>(null,false,false,false,"请从新登陆");
+			return result.toJson();
+		}
+		
 		try{
-			stockService.confirmStockBill(id, u.getId());
+			stockService.confirmStockBill(id, user.getId());
 			
 			StockBillVM bill=stockService.loadVMById(id);
 			
@@ -156,7 +155,15 @@ public class StockController {
 				@RequestParam(value = "bill", required = false) String billJson,
 				HttpServletRequest request
 				){
+		
+			User user =(User)request.getSession().getAttribute("user");
+		
 			Result<StockBillVM>  result =null;
+			
+			if(user ==null){
+				result =new Result<StockBillVM>(null,false,false,false,"请从新登陆");
+				return result.toJson();
+			}
 			
 			try{
 				JSONObject jObj = JSONObject.fromObject(billJson);
@@ -185,7 +192,7 @@ public class StockController {
 	 * @param u
 	 * @return
 	 */
-	private StockBillVM newStockBill(Integer billType,User u){
+	private StockBillVM newStockBill(Integer billType,UserVM u){
 		StockBillVM  bill=new StockBillVM();
 		
 		Date ct=Calendar.getInstance().getTime();
@@ -198,6 +205,8 @@ public class StockController {
 		
 		bill.setSerialNo(billNo);
 		bill.setId(0);
+		bill.setPreparerOrgId(u.getOrgId());
+		bill.setPreparerOrgName(u.getOrgName());
 		bill.setPreparerId(u.getId());
 		bill.setPrepareTime(ct);
 		bill.setPreparerName(u.getName());
