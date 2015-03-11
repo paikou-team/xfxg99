@@ -132,7 +132,7 @@
     </style>
     <script type="text/javascript">
         $(function () {
-            $("#Password").keydown(function (e) {
+            $("#txtpassword").keydown(function (e) {
                 if (e.keyCode == 13) {
                    loginSubmit();
                 }

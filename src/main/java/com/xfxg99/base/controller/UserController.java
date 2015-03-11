@@ -81,9 +81,13 @@ public class UserController {
 		{
 			return 0;
 		}
-//		String userPw = user.getPassword();
-//		String md5Pw = encryption(userPw);
-//		user.setPassword(md5Pw);
+		if(user.getId() == 0)
+		{
+			String userPw = user.getPassword();
+			String md5Pw = encryption(userPw);
+			user.setPassword(md5Pw);
+		}
+
 		int result = userService.saveUser(user);
 		if(result == 0)
 		{
@@ -103,6 +107,28 @@ public class UserController {
 		Integer userId = user.getId();
 	
 		return userId;
+	}
+	
+	@RequestMapping(value = "updateUserPassword.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody boolean  updateUserPassword(User user,
+			HttpServletRequest request)
+	{
+		if(user == null || user.getId() == 0)
+		{
+			return false;
+		}
+
+		String userPw = user.getPassword();
+		String md5Pw = encryption(userPw);
+		user.setPassword(md5Pw);
+		
+		int result = userService.saveUser(user);
+		if(result == 0)
+		{
+			 return false;
+		}
+	
+		return true;
 	}
 	
 	@RequestMapping(value = "deleteUser.do", produces = "application/json;charset=UTF-8")
@@ -151,8 +177,9 @@ public class UserController {
 					isSessionExpired, false, message);
 			return s.toJson();
 		} catch (Exception ex) {
+			String message = "Session过期，请重新登录";
 			Result<UserVM> s = new Result<UserVM>(null, false, false,
-					false, "调用后台方法出错");
+					false, message);
 			return s.toJson();
 		}
 	}
