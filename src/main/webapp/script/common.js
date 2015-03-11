@@ -25,8 +25,18 @@ function getUrlArgs() {
     return theRequest;
 }
 
+function reLogin(){
+	var top=getTopWindow();
+	top.location.href = 'login.jsp';
+}
 
-
+function getTopWindow(){
+	var p = window;
+	while(p != p.parent){
+		p = p.parent;
+	}
+	return p;
+}
 
 function loadStockOrg(){
 	
@@ -46,9 +56,40 @@ function loadStockOrg(){
 	return orgs;
 }
 function getCurrentUser(){
-	var user=[];
+	var user={};
 	$.ajax({
 		url : 'user/getCurrentUser.do',
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if(req.isSuccess){
+				user=req.data;
+			}
+			else{
+				
+			}
+		}
+	});
+	return user;
+}
+
+function gRequestData(req){
+	var data={};
+	if(req.isSuccess){
+		data=req.data;
+	}else if (req.isSessionExpired){
+		reLogin();
+	}else{
+		$.messager.alert("提示", req.msg, "error");
+	}
+	return data;
+}
+
+function getCurrentTime(){
+	var user=[];
+	$.ajax({
+		url : 'general/getCurrentTime.do',
 		type : "POST",
 		dataType : "json",
 		async : false,

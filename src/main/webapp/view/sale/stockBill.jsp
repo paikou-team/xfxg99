@@ -28,7 +28,7 @@
         	<a id="btnDelGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onDelGoods()">删除</a>
             <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onSaveStockBill()">保存</a>
             <a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-split" plain="true" onclick="onConfirmStockBill()">确认</a>
-            <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="exit()">退出</a>
+            <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="onExit()">退出</a>
         </p>
         <div class="easyui-tabs" data-options="tabWidth:120" style="width: 100%; height: 340px; border-left: 1px solid #D4D4D4; border-right: 1px solid #D4D4D4">
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
@@ -59,7 +59,7 @@
                             <label>入库时间:</label>
                         </td>
                         <td style="text-align:right">
-                            <input id="dteStockTime" class="easyui-datetimebox"   />
+                            <input id="dteStockTime" class="easyui-datebox"   />
                         </td>
                     </tr>
                     

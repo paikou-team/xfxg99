@@ -23,11 +23,11 @@
 		<ul>
 			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px;vertical-align:middle">入库部门:</label>
-                <input id="cmbSendOrg" class="easyui-combobox" style="width:180px" />
+                <input id="cmbStockInDept" class="easyui-combobox" style="width:180px" />
 			</li>
 			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px">出库部门:</label>
-                <input id="cmbReceiveOrg" class="easyui-combobox" style="width:180px" />
+                <input id="cmbStockOutDept" class="easyui-combobox" style="width:180px" />
 			</li>
 			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px">单据编号:</label>
@@ -45,6 +45,11 @@
 				<label style="width: 70px">状态:</label>
                 <input id="cmbState" class="easyui-combobox" style="width:180px" />
 			</li>
+			
+			<li style="float: left; list-style: none; margin: 0px; padding: 0px;">
+            	<a id="btnStockSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="onStockSearch()">查询</a>
+            </li>
+			
 			<li style="visibility:hidden;">
 				<label>none</label>
 			</li>
