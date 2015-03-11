@@ -71,7 +71,7 @@ $(function () {
 	loadOrgs();
 	
 	loadBill(billType,id);
-	setBillLockState();
+	
 });
 
 function loadOrgs(){
@@ -93,6 +93,7 @@ function loadBill(billType,id){
 	            if (req.isSuccess) {
 	            	m_stock_bill=req.data;
 	            	stockBill2View(m_stock_bill);
+	            	setBillLockState();
 	            }
 	        },
 	    });

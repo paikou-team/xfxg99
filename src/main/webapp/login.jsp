@@ -10,8 +10,9 @@
 <head>
 	<base href="<%=basePath%>">  
 	<script src='<%=basePath%>asset/script/jquery-1.11.1.min.js'	type='text/javascript'></script> 
-<script src='<%=basePath%>asset/script/easyui/jquery.easyui.1.4.1.min.js'	type='text/javascript'></script>
-<link href='<%=basePath%>asset/css/easyui/metro/easyui.css'	media='all' rel='stylesheet' type='text/css' />
+	<script src='<%=basePath%>asset/script/easyui/jquery.easyui.1.4.1.min.js'	type='text/javascript'></script>
+	<script src='<%=basePath%>script/common.js' type='text/javascript'></script>
+	<link href='<%=basePath%>asset/css/easyui/metro/easyui.css'	media='all' rel='stylesheet' type='text/css' />
 	<script src='<%=basePath%>script/login.js'	type='text/javascript'></script>
 	<script src='<%=basePath%>script/MD5.js'	type='text/javascript'></script>
       <style type="text/css">
