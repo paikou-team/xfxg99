@@ -133,7 +133,7 @@
         $(function () {
             $("#txtpassword").keydown(function (e) {
                 if (e.keyCode == 13) {
-                   loginSubmit();
+                	$("#frm_login").submit();
                 }
             });
         });
@@ -147,6 +147,7 @@
             <div class="panel-h"></div>
             <div class="panel-c">
                 <div class="panel-c-l">
+                <form id="submitform"  action="index/loginAction.do" method="POST">
                          <table cellpadding="0" cellspacing="0">
                             <tbody>
                                 <tr>
@@ -164,11 +165,12 @@
                                 </tr>
                                 <tr>
                                     <td align="right" colspan="2">
-                                        <input   type="button" id="btnLogin" value="登陆" class="login-btn" onclick="loginSubmit()"  />
+                                        <input   type="submit" id="btnLogin" value="登陆" class="login-btn" onclick="$('#frm_login').submit()"  />
                                     </td>
                                 </tr>
                             </tbody>
                         </table>  
+                     </form>
                 </div>
                 <div class="panel-c-r">
                     <p>请从左侧输入登录账号和密码登录</p>

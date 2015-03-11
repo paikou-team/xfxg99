@@ -1,8 +1,17 @@
 var chargeObj = {};
-
+var opType;
 $(function() {
 	
 	var args = getUrlArgs();
+	
+	var typeid = args.type;
+	if(typeid ==0||typeid=="0"){
+		opType = "add"; 
+	}else{
+		opType = "edit";
+		$("#tb_operation").hide();
+		var s = parent.m_charge_object;
+	}
 	
 	chargeObj.id = 0;
 	$("#txtorgName").combobox({
