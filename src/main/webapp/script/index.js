@@ -57,6 +57,9 @@ function onTreeMenuDblClick(row) {
 	case "biz_recharge_confirm":
 		src = "view/sale/chargeList.jsp?optType=1";
 		break;
+	case "biz_recharge_noconfirm":
+		src = "view/sale/chargeList.jsp?optType=2";
+		break;
 	case "sys_authorize":
 		src = "view/base/user.jsp?optType=1";
 		break;
