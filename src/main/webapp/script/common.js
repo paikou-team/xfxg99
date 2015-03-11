@@ -57,7 +57,7 @@ function getCurrentUser(){
 				user=req.data;
 			}
 			else{
-				
+				alert(req.message);
 			}
 		}
 	});

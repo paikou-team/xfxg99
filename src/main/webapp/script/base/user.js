@@ -63,6 +63,7 @@ var UserManage = {
 	        ShowDialog("新增用户", "div_userProfile","","0");
 	        $("#txt_Id").val("0");
 	        document.getElementById("IsUsedCheck").checked = true;
+	        $("#txt_Password").removeAttr("readonly");
 	    },
 	    EditUser: function () {
 	        var rows = $("#UserGrid").datagrid("getSelected");
@@ -81,11 +82,15 @@ var UserManage = {
 	        $("#txt_Name").validatebox('validate');
 	        $("#txt_Password").val(rows.password);
 	        $("#txt_Password").validatebox('validate');
+	        
 	        document.getElementById("IsUsedCheck").checked = rows.isUsed;
 	        document.getElementById("IsAllDataPermissionCheck").checked = rows.isAllDataPermission;
 	        $("#txt_Description").val(rows.description);
 
 	        ShowDialog("编辑用户", "div_userProfile", rows.orgId,rows.id);
+	      //初始密码不可编辑状态
+//	        $('#txt_Password').validatebox('disabled',false);
+	        $("#txt_Password").attr("readonly", true); 
 	        $("#txt_OrganizationId").val($('#txt_OrganizationId').combobox('getText'));
 	        setRoleTreeChecked(rows.id);
 	    },
