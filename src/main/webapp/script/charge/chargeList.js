@@ -46,7 +46,7 @@ $(function() {
 			}
 		}, {
 			title : '注册用户',
-			field : 'userName',
+			field : 'custName',
 			width : 150,
 			align : 'center'
 		}, {
@@ -63,23 +63,17 @@ $(function() {
 			title : '充值时间',
 			field : 'rechargeTime',
 			align : 'center',
-			width : 150,
-			formatter:function(value){
-				return "a";
-			}
+			width : 150
 		}, {
 			title : '确认人',
-			field : 'confirmUserName',
+			field : 'userName',
 			align : 'center',
 			width : 120
 		}, {
 			title : '确认时间',
 			field : 'confirmTime',
 			align : 'center',
-			width : 150,
-			formatter:function(value){
-				return "a";
-			}
+			width : 150
 		} , {
 			title : '充值描述',
 			field : 'rechargeDesc',
@@ -104,7 +98,7 @@ var ChargeManage = {
 					.dialog({
 						id : 'dlgChargeBill',
 						title : '充值单据',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/charge/chargeBill.jsp' style='width:400px;height:450px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/charge/chargeBill.jsp' style='width:400px;height:470px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
@@ -129,11 +123,11 @@ var ChargeManage = {
 			$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
 			return;
 		} 
-		if(target[0].confirmUserName.length>0){
-			$.messager.alert("操作提示","用户"+target[0].userName+"的充值信息已确认，请勿重复操作！","warning");
+		if(target[0].userName.length>0||target[0].confirmUserId>0){
+			$.messager.alert("操作提示","用户"+target[0].custName+"的充值信息已确认，请勿重复操作！","warning");
 			
 		}else{
-			$.messager.confirm("充值信息确认", "充值用户 :"+target[0].userName+" 充值金额  :"+target[0].money +" ？", function(r) {
+			$.messager.confirm("充值信息确认", "充值用户 :"+target[0].custName+" 充值金额  :"+target[0].money +" ？", function(r) {
 				if (r) {
 					ChargeManage.ConfirmChargeAction(target[0].id);
 				}
@@ -141,7 +135,22 @@ var ChargeManage = {
 		}
 	},
 	ConfirmChargeAction:function(id){
-		
+		$.ajax({
+			url : "charge/confirmRecharge.do?id="+id,
+			type : "POST",
+			dataType : "json",
+			async : false, 
+			success : function(req) { 
+				$.messager.alert("系统提示",req.msg,"info");
+				$('#chargeGrid').datagrid("reload");
+			},
+			failer : function(a, b) {
+				$.messager.alert("消息提示", a, "info");
+			},
+			error : function(a) {
+				$.messager.alert("消息提示", a, "error");
+			}
+		}); 
 	},
 	SearchAction : function() {
 		ChargeManage.packQuery();
@@ -150,11 +159,10 @@ var ChargeManage = {
 			"charge_Query" : json
 		});
 	},
-	packQuery : function() {
-		var m_charge_query={};
+	packQuery : function() { 
 		m_charge_query.orgname = $.trim($("#sch_orgname").val());
-		m_charge_query.custname = $.trim($("#sch_username").val());
-		m_charge_query.username = $.trim($("#sch_custname").val());
+		m_charge_query.custname = $.trim($("#sch_custname").val());
+		m_charge_query.username = $.trim($("#sch_username").val());
 		m_charge_query.isconfirm = $("#sch_isconfirm").combobox("getValue");
 	}
 };

@@ -45,5 +45,15 @@ public class RechargeService {
 	public int insert(Recharge charge) {
 		// TODO Auto-generated method stub
 		return rechargeMapper.insert(charge);
+	}
+
+	public Recharge selectByPrimaryKey(Integer id) {
+		// TODO Auto-generated method stub
+		return rechargeMapper.selectByPrimaryKey(id);
+	}
+
+	public void insertAccountLog(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		rechargeMapper.insertAccountLog(map);
 	}  
 }

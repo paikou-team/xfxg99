@@ -57,7 +57,7 @@ var ChargeBillManage ={
 			$("#txtcustName").combobox("setValue","");
 			$("#txtmoney").numberbox('setValue', 0.00); 
 			$("#txtrechargeTime").datebox("setValue",""); 
-			$("#txtrechargeDesc").html(""); 
+			$("#txtrechargeDesc").val(""); 
 			parent.art.dialog.list['dlgChargeBill'].close();
 		} 
 };

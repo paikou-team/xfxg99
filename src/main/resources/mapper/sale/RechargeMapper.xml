@@ -25,7 +25,14 @@
     <result column="recharge_desc" property="rechargeDesc" jdbcType="VARCHAR" />
     <result column="userName" property="userName" jdbcType="VARCHAR" />
   </resultMap>
-  
+  <insert id="insertAccountLog"  parameterType="java.util.Map"  >
+   insert into ecs_account_log (user_id, user_money, 
+      frozen_money, rank_points, pay_points, 
+      change_time,change_desc,change_type)
+    values (#{userId,jdbcType=INTEGER}, #{userMoney,jdbcType=DECIMAL}, 
+      #{frozenMoney,jdbcType=DECIMAL}, #{rankPoints,jdbcType=INTEGER}, #{payPoints,jdbcType=INTEGER}, 
+      #{changeTime,jdbcType=TIMESTAMP},#{changeDesc,jdbcType=VARCHAR},#{changeType,jdbcType=INTEGER})
+  </insert>
   <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
   	select count(*)
   	from t_recharge   as r 

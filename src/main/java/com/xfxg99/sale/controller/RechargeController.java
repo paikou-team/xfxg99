@@ -1,11 +1,15 @@
 package com.xfxg99.sale.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -15,8 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-   
+
+import com.xfxg99.base.model.User;
 import com.xfxg99.core.ListResult;
+import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.Recharge;
 import com.xfxg99.sale.service.RechargeService;
 import com.xfxg99.sale.viewmodel.CustomerVM;
@@ -38,8 +44,8 @@ public class RechargeController {
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request) throws Exception {
 
-		JSONObject joQuery = JSONObject.fromObject(query); 
-		String orgname = joQuery.getString("orgname"); 
+		JSONObject joQuery = JSONObject.fromObject(query);
+		String orgname = joQuery.getString("orgname");
 		String custname = joQuery.getString("custname");
 		int isConfirm = Integer.parseInt(joQuery.getString("isconfirm"));
 		String confirmname = joQuery.getString("username");
@@ -58,28 +64,88 @@ public class RechargeController {
 
 		return rs.toJson();
 	}
+
 	/*
 	 * 保存警员信息逻辑
 	 */
 	@RequestMapping(value = "saveRechargeObj.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String saveRechargeObj(Recharge charge) throws Exception {
-		try {  
-			int result = 0;
-			if (charge.getId() > 0) { 
-				result = rechargeService.updateByPrimaryKey(charge);
+		try {
+			if (charge.getId() > 0) {
+				rechargeService.updateByPrimaryKey(charge);
 			} else {
 				charge.setId(0);
-				result = rechargeService.insert(charge);
+				rechargeService.insert(charge);
 			}
-			return "{\"success\":true,\"Message\":\"保存成功,result is " + result
-					+ "\"}";
+			Result<Recharge> s = new Result<Recharge>(null, true, false, false,
+					"保存成功");
+			return s.toJson();
 		} catch (Exception ex) {
-			return "{\"success\":false,\"Message\":\"保存失败，原因："
-					+ ex.getMessage() + "\"}";
+			Result<Recharge> s = new Result<Recharge>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
 		}
 	}
-	
+
+	/*
+	 * 保存警员信息逻辑
+	 */
+	@RequestMapping(value = "confirmRecharge.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String confirmRecharge(
+			@RequestParam(value = "id", required = true) Integer id,
+			HttpServletRequest request) throws Exception {
+		try {
+			Recharge charge = new Recharge();
+			HttpSession session = request.getSession();
+			User user = (User) session.getAttribute("user");
+			String message = "";
+			boolean isSessionExpired = false;
+			boolean isSuccess = false;
+			boolean isTimeout = false;
+			if (user != null) {
+				charge = rechargeService.selectByPrimaryKey(id);
+				if (charge != null) {
+					Date now = new Date();
+					Calendar cal = Calendar.getInstance();
+					now = cal.getTime();
+					charge.setConfirmUserId(user.getId());
+					charge.setConfirmTime(now);
+					rechargeService.updateByPrimaryKey(charge);
+					isSuccess = true;
+					message = "充值确认，成功"; 
+					 
+					//long longDate = now.getTime();
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("userId", user.getId());
+					map.put("userMoney", charge.getMoney());
+					map.put("frozenMoney", 0.00);
+					map.put("rankPoints", 0);
+					map.put("payPoints",0);
+					map.put("changeTime", cal.getTimeInMillis());
+					map.put("changeDesc","用户充值，充值金额"+charge.getMoney());
+					map.put("changeType", 2);
+					rechargeService.insertAccountLog(map);
+					
+				} else {
+					isTimeout = true;
+					message = "获取数据失败";
+				}
+			} else {
+				isSessionExpired = true;
+				message = "Session过期，请重新登录";
+			}
+			Result<Recharge> s = new Result<Recharge>(null, isSuccess,
+					isSessionExpired, isTimeout, message);
+			return s.toJson();
+		} catch (Exception ex) {
+			Result<Recharge> s = new Result<Recharge>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
+	}
+
 	/*
 	 * 获取注册用户列表，以下拉列表形式呈现；
 	 */
@@ -94,6 +160,7 @@ public class RechargeController {
 			return "";
 		}
 	}
+
 	/*
 	 * 获取注册用户列表，以下拉列表形式呈现；
 	 */

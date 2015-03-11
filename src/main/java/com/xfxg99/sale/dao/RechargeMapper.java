@@ -29,6 +29,8 @@ public interface RechargeMapper {
 	List<CustomerVM> selectCustomerList();
 
 	List<CustomerVM> selectOrganList();
+
+	void insertAccountLog(Map<String, Object> map);
      
 	
 }
