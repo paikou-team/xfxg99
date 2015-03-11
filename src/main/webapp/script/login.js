@@ -20,7 +20,7 @@ function loginSubmit(){
 		success : function(req) { 
 			 if(req.isSuccess){
 				 if(req.data){
-					 
+					 g_current_user=req.data;
 				 }
 				 window.location.href="index.jsp";
 			 }else{

@@ -6,20 +6,22 @@ $(function () {
 	var args = getUrlArgs();
 	m_stock_type = args["billType"];
 	
-    $("#cmbSendOrg").combobox({
+
+	
+    $("#cmbStockInDept").combobox({
         valueField: 'id',
         textField: 'name',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_stock_query.sendOrgId = record.id; }
+        onSelect: function (record) { m_stock_query.stockInOrgId = record.id; }
     });
 	
-    $("#cmbReceiveOrg").combobox({
+    $("#cmbStockOutDept").combobox({
         valueField: 'id',
         textField: 'name',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_stock_query.receiveOrgId = record.id; }
+        onSelect: function (record) { m_stock_query.stockOutOrgId = record.id; }
     });
 	
     $("#cmbState").combobox({
@@ -27,7 +29,7 @@ $(function () {
         textField: 'label',
         editable: false,
         panelHeight: 'auto',
-        onSelect: function (record) { m_stock_query.state = record.value; },
+        onSelect: function (record) { m_stock_query.confirmState = record.value; },
         data:[{
         	label:'全部',
         	value:0
@@ -41,6 +43,12 @@ $(function () {
         	value:2
         }]
     });
+
+	setStockQueryTime();
+	setStockConfirmState();
+	loadOrgs();
+    
+    packQuery();
     
 	$('#dgStock').datagrid({
 		url:'stock/loadStockList.do',
@@ -57,27 +65,62 @@ $(function () {
         idField: 'id',
         singleSelect: true,
         onDblClickRow: onSelRow,
-        //toolbar: "#tblStock",
         columns: [[
                { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
+               { title: '单据编号', field: 'serialNo', align: 'left', width: 150 },
                { title: '入库部门', field: 'stockInOrgName', align: 'left', width: 120 },
                { title: '出库部门', field: 'stockOutOrgName', align: 'left', width: 120 },
-               { title: '单据编号', field: 'serialNo', align: 'right', width: 120 },
-               { title: '单据日期', field: 'billDate', align: 'right', width: 120 },
+               { title: '单据日期', field: 'billTime', align: 'center', width: 100 },
+               { title: '确认', field: 'confirmerId', align: 'left', width: 100 ,
+            	   formatter:function(value,row,index){
+            		   if(value > 0){
+            			   return "已确认";
+            		   }else{
+            			   return "未确认";
+            		   }
+            	 }}
         ]]
     });
 });
+
+function setStockConfirmState(){
+	$("#cmbState").combobox('select',0);
+}
+
+function loadOrgs(){
+	var orgs=loadStockOrg();
+	var a={id:0,name:'全部'};
+	orgs.splice(0, 0, a );
+	$("#cmbStockInDept").combobox('loadData',orgs);
+	$("#cmbStockOutDept").combobox('loadData',orgs);
+	
+	$("#cmbStockInDept").combobox('select',0);
+	$("#cmbStockOutDept").combobox('select',0);
+}
+
+function setStockQueryTime(){
+	var d=getCurrentTime();
+	
+	var bt=new Date(d);
+	bt.add('d',-7);
+	var et=new Date(d);
+	
+	$("#dteBeginTime").datebox('setValue',bt.toSimpleString());
+	$("#dteEndTime").datebox('setValue',et.toSimpleString());
+	
+}
+
 
 function onSelRow(){
 	
 }
 
-function loadGoods() {
+function loadStockBills() {
 
     try {
         packQuery();
-        var json = JSON.stringify(m_goods_query);
-        $('#dgGoods').datagrid('reload', { 'goodsQuery': json });
+        var json = JSON.stringify(m_stock_query);
+        $('#dgStock').datagrid('reload', { 'stockQuery': json });
 
     } catch (ex) {
         alert(ex);
@@ -86,7 +129,7 @@ function loadGoods() {
 
 function packQuery(){
 	m_stock_query.beginTime = $('#dteBeginTime').datebox('getValue');
-	m_stock_query.endTime = $('#dteBeginTime').datebox('getValue');
+	m_stock_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_stock_query.serialNo = $('#txtSerialNo').val();
 }
 
@@ -94,6 +137,9 @@ function onSelRow(){
 	
 }
 
+function onStockSearch(){
+	loadStockBills();
+}
 
 function onStockBillAdd(){
 	try {

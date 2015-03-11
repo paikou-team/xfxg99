@@ -10,9 +10,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
+import com.xfxg99.sale.dao.BillSerialNoMapper;
 import com.xfxg99.sale.dao.StockBillMapper;
 import com.xfxg99.sale.dao.StockGoodsMapper;
 
@@ -24,6 +26,9 @@ public class StockService {
 	
 	@Resource(name="stockGoodsMapper")
 	private StockGoodsMapper stockGoodsMapper; 
+	
+	@Resource(name="billSerialNoMapper")
+	private BillSerialNoMapper billSerialNoMapper; 
 	
 	public ListResult<StockBillVM> loadVMListWithPage(Map<String,Object> map){
 		int total=stockBillMapper.countVMByMap(map);
@@ -44,9 +49,11 @@ public class StockService {
 	public void saveStockBill(StockBillVM bill){
 		
 		Map<String, Object> map=new HashMap<String,Object>();
+		Map<String,Object> billNoMap=GeneralUtil.getSerialNoPars(bill.getBillType());
 		
 		if(bill.getId()==0){
 			stockBillMapper.insert(bill);
+			bill.setSerialNo(billSerialNoMapper.updateBillSerialNo(billNoMap));
 		}else{
 			stockBillMapper.updateByPrimaryKey(bill);
 			map.put("stockId", bill.getId());

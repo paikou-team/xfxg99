@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.GeneralUtil;
+import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.StockService;
@@ -45,53 +46,38 @@ public class StockController {
 	 */
 	@RequestMapping(value = "loadStockList.do",produces = "application/json;charset=UTF-8")
 	public  @ResponseBody String loadStockList(
-			@RequestParam(value = "query", required = false) String query,
+			@RequestParam(value = "stockQuery", required = false) String query,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request
 			){
 		
+		JSONObject joQuery = JSONObject.fromObject(query);
+		Map<String,Object> map=new HashMap<String,Object>();
 		
+		int stockInOrgId=joQuery.getInt("stockInOrgId");
+		int stockOutOrgId=joQuery.getInt("stockOutOrgId");
+		String serialNo=joQuery.getString("serialNo");
+		String beginTime=joQuery.getString("beginTime");
+		String endTime=joQuery.getString("endTime");
+		int	confirmState =joQuery.getInt("confirmState");
 		
-		return null;
+		page = page == 0 ? 1 : page;
+		
+		map.put("stockInOrgId", stockInOrgId);
+		map.put("stockOutOrgId", stockOutOrgId);
+		map.put("serialNo", serialNo);
+		map.put("beginTime", beginTime);
+		map.put("endTime", endTime);
+		map.put("confirmState", confirmState);
+		map.put("pageStart", (page - 1) * rows);
+		map.put("pageSize", rows);
+		
+		ListResult<StockBillVM> ls=stockService.loadVMListWithPage(map);
+		
+		return ls.toJson();
 	}
 	
-	/**
-	 * 获取一张新的单据
-	 * 不包含分录
-	 * @param billType
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "getNewBill.do",produces = "application/json;charset=UTF-8")
-	public  @ResponseBody String getNewBill(
-			@RequestParam(value = "billType", required = false) Integer billType,
-			HttpServletRequest request
-			){
-		//测试
-		User u=new User();
-		u.setId(9);
-		u.setName("李如江");
-		u.setOrgId(8);
-		u.setPassword("123");
-		
-		StockBillVM  bill=new StockBillVM();
-		
-		Date ct=Calendar.getInstance().getTime();
-		
-		bill.setBillType(billType);
-		bill.setBillTime(ct);
-		
-		Map<String,Object> billNoMap=GeneralUtil.getSerialNoPars(billType);
-		String billNo=billSerialNoService.getNextBillSerialNo(billNoMap);
-		
-		bill.setSerialNo(billNo);
-		bill.setId(0);
-		bill.setPreparerId(u.getId());
-		bill.setPrepareTime(ct);
-		bill.setPreparerName(u.getName());
-		bill.setState(0);
-		
-		return null;
-	}
 	
 	/**
 	 * 读取一张单据
@@ -105,8 +91,13 @@ public class StockController {
 			HttpServletRequest request
 			){
 
+		Result<StockBillVM> result=new Result<StockBillVM>(); 
 		UserVM user =(UserVM)request.getSession().getAttribute("user");
 		
+		if(user ==null){
+			result =new Result<StockBillVM>(null,false,true,false,"请从新登录!");
+			return result.toJson();
+		}
 		
 		StockBillVM bill=null;
 		
@@ -116,7 +107,7 @@ public class StockController {
 			bill = stockService.loadVMById(id);
 		}
 		
-		Result<StockBillVM> result=new Result<StockBillVM>(bill);
+		result.setData(bill);
 
 		return result.toJson();
 	}

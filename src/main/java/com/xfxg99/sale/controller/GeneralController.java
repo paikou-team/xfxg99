@@ -3,6 +3,7 @@ package com.xfxg99.sale.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,5 +42,16 @@ public class GeneralController {
 		return billSerialNoService.getNextBillSerialNo(map);
 	}
 	
+	@RequestMapping(value = "getCurrentTime.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCurrentTime(
+			HttpServletRequest request
+			){
+		
+		Date ct=Calendar.getInstance().getTime();
+		
+		Result<Date> result=new Result<Date>(ct);
+		
+		return result.toJson();
+	}
 
 }

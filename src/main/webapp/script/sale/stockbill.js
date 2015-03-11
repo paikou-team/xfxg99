@@ -44,9 +44,10 @@ $(function () {
         ]],
         
         onClickRow:function(rowIndex,row){
-        	beginEdit(rowIndex,row);
+        	if(m_stock_bill !=undefined &&m_stock_bill.confirmerId ==0){
+        		beginEdit(rowIndex,row);
+        	}
         }
-
     });
 	
 	$("#cmbStockInDetp").combobox({
@@ -71,7 +72,7 @@ $(function () {
 	loadOrgs();
 	
 	loadBill(billType,id);
-	setBillLockState();
+	
 });
 
 function loadOrgs(){
@@ -93,8 +94,11 @@ function loadBill(billType,id){
 	            if (req.isSuccess) {
 	            	m_stock_bill=req.data;
 	            	stockBill2View(m_stock_bill);
+	            	setBillLockState();
+	            }else if(req.isSessionExpired){
+	            	reLogin();
 	            }
-	        },
+	        }
 	    });
 	}
 }
@@ -186,7 +190,7 @@ function setBillLockState(){
 	if(m_stock_bill.confirmerId >0){
 		$('#cmbStockInDetp').combobox("disable");
 		$('#cmbStockOutDetp').combobox("disable");
-		$("#dteStockTime").datetimebox('disable');
+		$("#dteStockTime").datebox('disable');
 		$('#txtDescription').attr("disabled", true);
 		
 		$('#btnAddGoods').hide();
@@ -209,8 +213,7 @@ function stockBill2View(bill){
     }
 	
 	if (bill.billTime) {
-		//var d=gCreateDate(bill.billTime);
-        $("#dteStockTime").datetimebox("setValue", bill.billTime);
+        $("#dteStockTime").datebox("setValue", bill.billTime);
     }
 	
 	$("#txtPreparerOrgName").val(bill.preparerOrgName);
@@ -238,7 +241,7 @@ function view2stockBill(){
 	if(m_stockDetail_rowIndex !=undefined){
 		endEdit(m_stockDetail_rowIndex);
 	}
-	m_stock_bill.billTime=$('#dteStockTime').datetimebox('getValue');
+	m_stock_bill.billTime=$('#dteStockTime').datebox('getValue');
 	m_stock_bill.description=$('#txtDescription').val();
 }
 /**
@@ -326,6 +329,28 @@ function onSaveStockBill(){
  */
 function onConfirmStockBill(){
 	
+	switch(m_stock_bill.billType){
+	case 10:
+		if(m_stock_bill.stockInOrgId != g_current_user.orgId){
+			$.messager.alert("提示", "只有本机构用户才能确认入库", "info");
+			return;
+		}
+		break;
+	case 11:
+		if(m_stock_bill.stockOutOrgId != g_current_user.orgId){
+			$.messager.alert("提示", "只有本机构用户才能确认出库", "info");
+			return;
+		}
+		break;
+	case 12:
+		if(m_stock_bill.stockInOrgId != g_current_user.orgId){
+			$.messager.alert("提示", "只有本机构用户才能确认调拨入库", "info");
+			return;
+		}
+		break;
+	}
+	
+	
 	if(m_stock_bill.id ==undefined || m_stock_bill.id ==null || m_stock_bill.id==0){
 		$.messager.alert("提示", "请先保存单据!", "info");
 	}else{
@@ -355,4 +380,9 @@ function onConfirmStockBill(){
 		});
 	}
 	
+}
+
+
+function onExit(){
+	parent.art.dialog.list['dlgStockBillView'].close();
 }

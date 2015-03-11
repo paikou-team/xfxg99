@@ -326,10 +326,10 @@
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
   	</if>
-  	<if test="stock_in_org_id != null" >
+  	<if test="stockInOrgId > 0" >
   	and s.stock_in_org_id =#{stockInOrgId,jdbcType=INTEGER}
   	</if> 
-  	<if test="stock_out_org_id != null" >
+  	<if test="stockOutOrgId > 0" >
   	and s.stock_out_org_id =#{stockOutOrgId,jdbcType=INTEGER}
   	</if>
   	<if test="beginDate != null" >
@@ -337,7 +337,16 @@
   	</if>
   	<if test="endDate != null" >
   	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	</if>
+  	
+  	<if test="confirmState == 1" >
+  	and  s.confirmer_id > 0
   	</if> 
+  	
+  	<if test="confirmState == 2" >
+  	and  s.confirmer_id = 0 
+  	</if>
+  	
   	<if test="pageStart !=null">
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   	</if>

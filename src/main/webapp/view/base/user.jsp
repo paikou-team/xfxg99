@@ -48,28 +48,34 @@
                     </tr>
                     <tr>
                         <td>
-                            <label>用户姓名:</label></td>
+                            <label style="width:80px;">用户姓名:</label></td>
                         <td>
-                            <input id="txt_Name" class="easyui-validatebox" type="text" data-options="required:true" /></td>
+                            <input id="txt_Name" class="easyui-validatebox" type="text" data-options="required:true" style="width:160px;font-size: 12px"/></td>
                         <td>
-                            <label>初始密码:</label></td>
+                            <label style="width:80px;">初始密码:</label></td>
                         <td>
-                            <input id="txt_Password" class="easyui-validatebox" data-options="required:true" type="password" /></td>
+                            <input id="txt_Password" class="easyui-validatebox" data-options="required:true" type="password" style="width:160px;font-size: 12px" /></td>
                     </tr>
                     <tr>
+       					 <td colspan="5" class="noborder"></td>
+    				</tr>
+                    <tr>
                         <td>
-                            <label>组织机构:</label></td>
+                            <label style="width:80px;">组织机构:</label></td>
                         <td>
-                            <input id="txt_OrganizationId" class="easyui-combotree" style="width: 160px" data-options="required:false" /></td>
+                            <input id="txt_OrganizationId" class="easyui-combotree" style="width: 160px" data-options="required:false" style="width:160px;font-size: 12px"/></td>
                         <td>
-                            <label>有效：</label></td>
+                            <label style="width:80px;">有效：</label></td>
                         <td>
                             <input id="IsUsedCheck" type="checkbox" /></td>    
                     </tr>
                     <tr>
+       					 <td colspan="5" class="noborder"></td>
+    				</tr>
+                    <tr>
                         <td>用户备注:</td>
                         <td colspan="3">
-                            <textarea id="txt_Description" cols="5" rows="3" style="width: 100%"></textarea></td>
+                            <textarea id="txt_Description" cols="5" rows="3" style="width: 100%;font-size: 12px"></textarea></td>
                     </tr>
                 </table>
             	</div>

@@ -12,7 +12,7 @@ public class GeneralUtil {
 	public static Map<String,Object> getSerialNoPars(Integer billType){
 		Calendar  calendar=Calendar.getInstance();
 		
-		DateFormat fmt=new SimpleDateFormat("yyyyMMdd");
+		DateFormat fmt=new SimpleDateFormat("yyMMdd");
 		String d=fmt.format(calendar.getTime());
 		
 		Integer billDate=Integer.valueOf(d);
