@@ -45,6 +45,24 @@ function loadStockOrg(){
 	});
 	return orgs;
 }
+function getCurrentUser(){
+	var user=[];
+	$.ajax({
+		url : 'user/getCurrentUser.do',
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if(req.isSuccess){
+				user=req.data;
+			}
+			else{
+				
+			}
+		}
+	});
+	return user;
+}
 
 /**
  * 将后台的org列表转换成tree格式

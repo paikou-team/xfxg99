@@ -1,11 +1,12 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ include file="/view/lib.jsp"%>
 
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-	<script src='<%=basePath%>script/sale/stockbill.js' 	type='text/javascript'></script>
+	<script src='<%=basePath%>script/sale/salebill.js' 	type='text/javascript'></script>
     <title>出入库单</title>
     
 	<meta http-equiv="pragma" content="no-cache">
@@ -21,7 +22,7 @@
 <body style="overflow: hidden;">
     <div id="stockBillDiv">
         <p style="width: 100%; text-align: center; height: 18px;">
-            销售单
+            <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid">销售单</label>
         </p>
         <p style="margin-top: -1px; margin-bottom: 0px">
         	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onAddGoods()">添加</a>
@@ -34,37 +35,37 @@
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
                 <table style="width: 100%; font-size: 12px">
                     <tr>
-                        <td style="width: 90px; text-align: right">
+                        <td style="width: 70px; text-align: right">
                             <label>单据编号:</label>
                         </td>
-                        <td style="width: 120px; text-align: right">
+                        <td style="width: 100px; text-align: right">
                             <input id="txtSerialNo" class="easyui-validatebox" data-options="required:false" disabled="disabled" />
                         </td>
-                        <td style="width:90px; text-align: right">
+                        <td style="width:70px; text-align: right">
                             <label id="lblStockInDetp">门店名称:</label>
                         </td>
-                        <td style="text-align: right">
+                        <td style="width: 100px; text-align: right" >
                             <input id="cmbStockInDetp" class="easyui-combobox" data-options="required:false" />
                         </td>
-                       	<td style="width:90px; text-align: right">
+                       	<td style="width:70px; text-align: right">
                             <label id="lblStockOutDetp">客户名称:</label>
                         </td>
-                        <td style="text-align: right">
+                        <td style="width: 100px; text-align: right">
                             <input id="cmbStockOutDetp" class="easyui-combobox" data-options="required:false" />
                         </td>
-                        <td style="text-align:right">
+                        <td style="width:70px; text-align:right">
                             <label>单据日期:</label>
                         </td>
-                        <td style="text-align:right">
+                        <td style="width: 100px; text-align:right">
                             <input id="dteStockTime" class="easyui-datetimebox"   />
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align: right">
+                        <td style="width:70px; text-align: right">
                             <label>备注说明:</label>
                         </td>
-                        <td colspan="8">
-                            <textarea id="txtDescription" rows="2" style="width: 99%" cols="5"></textarea>
+                        <td colspan="7">
+                            <textarea id="txtDescription" rows="2" style="width: 100%" cols="5"></textarea>
                        </td>
 
                     </tr>

@@ -1,11 +1,14 @@
 package com.xfxg99.base.controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import net.sf.json.JSONObject;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;
+import com.xfxg99.core.Result;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.base.service.AuthorizeService;
 
@@ -70,13 +74,32 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "saveUser.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody Integer  saveUser(User user)
+	public @ResponseBody Integer  saveUser(User user,
+			HttpServletRequest request)
 	{
+		if(user == null)
+		{
+			return 0;
+		}
+//		String userPw = user.getPassword();
+//		String md5Pw = encryption(userPw);
+//		user.setPassword(md5Pw);
 		int result = userService.saveUser(user);
 		if(result == 0)
 		{
 			 return 0;
 		}
+		if(user.getId()>0)
+		{
+			HttpSession session = request.getSession();
+			UserVM currentUser = (UserVM)session.getAttribute("user");
+			if(currentUser != null && currentUser.getId() ==  user.getId())
+			{
+				session.setAttribute("user", user);  
+			}
+		}
+		
+		
 		Integer userId = user.getId();
 	
 		return userId;
@@ -108,5 +131,63 @@ public class UserController {
 		}
 		return true;
 	}
+	@RequestMapping(value = "getCurrentUser.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String  getLogUser(HttpServletRequest request)
+	{
+		try{
+			HttpSession session = request.getSession();
+			UserVM user = (UserVM)session.getAttribute("user");
+			
+			String message="";
+			boolean isSessionExpired = false;
+			boolean isSuccess = true;
+			if(user == null)
+			{
+				isSessionExpired = true;
+				isSuccess = false;
+				message = "Session过期，请重新登录";
+			}
+			Result<UserVM> s = new Result<UserVM>(user, isSuccess,
+					isSessionExpired, false, message);
+			return s.toJson();
+		} catch (Exception ex) {
+			Result<UserVM> s = new Result<UserVM>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
+	}
 	
+	 /**
+    *
+    * @param plainText
+    *            明文
+    * @return 32位密文
+    */
+   public String encryption(String plainText) {
+       String re_md5 = new String();
+       try {
+           MessageDigest md = MessageDigest.getInstance("MD5");
+           md.update(plainText.getBytes());
+           byte b[] = md.digest();
+
+           int i;
+
+           StringBuffer buf = new StringBuffer("");
+           for (int offset = 0; offset < b.length; offset++) {
+               i = b[offset];
+               if (i < 0)
+                   i += 256;
+               if (i < 16)
+                   buf.append("0");
+               buf.append(Integer.toHexString(i));
+           }
+
+           re_md5 = buf.toString();
+
+       } catch (NoSuchAlgorithmException e) {
+           e.printStackTrace();
+       }
+       return re_md5;
+   }
+
 }
