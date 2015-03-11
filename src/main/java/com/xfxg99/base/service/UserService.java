@@ -74,4 +74,9 @@ public class UserService{
 		// TODO Auto-generated method stub
 		return userMapper.loadUserByNameAndPwd(map);
 	}
+	
+	public User selectByPrimaryKey(Integer id){
+		 
+		 return userMapper.selectByPrimaryKey(id);
+	 }
 }
