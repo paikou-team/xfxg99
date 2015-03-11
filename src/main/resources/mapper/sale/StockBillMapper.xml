@@ -225,9 +225,9 @@
     
     <result column="confirmer_org_id" property="confirmerOrgId" jdbcType="INTEGER" />
     <result column="confirmer_org_name" property="confirmerOrgName" jdbcType="VARCHAR" />
-    <result column="confirmer_id" property="confirmer_id" jdbcType="INTEGER" />
-    <result column="confirmer_name" property="confirmer_name" jdbcType="VARCHAR" />
-    <result column="confirm_time" property="confirm_time" jdbcType="TIMESTAMP" />
+    <result column="confirmer_id" property="confirmerId" jdbcType="INTEGER" />
+    <result column="confirmer_name" property="confirmerName" jdbcType="VARCHAR" />
+    <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP" />
     
     <result column="description" property="description" jdbcType="VARCHAR" />
     
@@ -239,8 +239,8 @@
   <resultMap id="GoodsVMMap" type="com.xfxg99.sale.viewmodel.StockGoodsVM" >
     <id column="stock_goods_id" property="id" jdbcType="INTEGER" />
     <result column="stock_id" property="stockId" jdbcType="INTEGER" />
-    <result column="goods_id" property="goods_id" jdbcType="VARCHAR" />
-    <result column="goods_name" property="goods_name" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
     <result column="goods_number" property="goodsNumber" jdbcType="VARCHAR" />
     
     <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
@@ -289,7 +289,7 @@
   	left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
   	left join 	t_organization 	as co	on	s.confirmer_org_id	=co.id
   	left join	t_user			as pu	on	s.preparer_id		=pu.id
-  	left join	t_user			as ru	on	s.receiver_id		=ru.id
+  	left join	t_user			as ru	on	s.confirmer_id		=ru.id
   	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
   	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
   	where 1=1 
@@ -319,7 +319,7 @@
   	left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
   	left join 	t_organization 	as co	on	s.confirmer_org_id		=co.id
   	left join	t_user			as pu	on	s.preparer_id		=pu.id
-  	left join	t_user			as ru	on	s.receiver_id		=ru.id
+  	left join	t_user			as ru	on	s.confirmer_id		=ru.id
   	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
   	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id 
   	where 1=1 
@@ -352,10 +352,10 @@
   	left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
   	left join 	t_organization 	as co	on	s.confirmer_org_id		=co.id
   	left join	t_user			as pu	on	s.preparer_id		=pu.id
-  	left join	t_user			as ru	on	s.receiver_id		=ru.id
+  	left join	t_user			as ru	on	s.confirmer_id		=ru.id
   	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
   	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id 
-  	where id=  #{id,jdbcType=INTEGER}
+  	where s.id=  #{id,jdbcType=INTEGER}
   
   </select>
   

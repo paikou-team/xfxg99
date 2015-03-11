@@ -31,11 +31,15 @@ $(function () {
             	   }},
                { title: '商城价', field: 'goodsPrice', align: 'right', width: 100,
                 	   formatter:function(value,row,index){
-                		   return value.toFixed(2);
+                		   if(value != undefined && value !=null){
+                			   return value.toFixed(2);
+                		   }
                 	   }},
                { title: '金额', field: 'amount', align: 'right', width: 100 ,
             	   formatter:function(value,row,index){
-            		   return value.toFixed(2);
+            		   if(value != undefined && value !=null){
+            			   return value.toFixed(2);
+            		   }            		   
             	   }}
         ]],
         
@@ -191,43 +195,7 @@ function setBillLockState(){
         $('#btnCheckBill').hide();
 	}
 }
-/*
- * 确认入库
- */
-function onCheckStockBill(){
-	
-	if(m_stock_bill.id ==undefined || m_stokc_bill.id ==null || m_stock_bill.id==0){
-		$.messager.alert("提示", "请先保存单据!", "info");
-	}else{
-		$.ajax({
-			url : "stock/confirmBill.do",
-			type : "POST",
-			dataType : "json",
-			async : false,
-			data : {
-				'id' : m_stokc_bill.id
-			},
-			success : function(req) {
-				if (req.isSuccess) {
-					m_stock_bill=req.data;
-					$("#txtConfirmerOrgName").val(m_stock_bill.serialNo);
-				} else {
-					$.messager.alert("提示信息", req.msg, "info");
-				}
-			},
-			failer : function(a, b) {
-				$.messager.alert("消息提示", "保存失败", "info");
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				$.messager.alert("错误提示", "保存失败", "error");
-			}
-		});
-	}
-	
 
-	
-	setBillLockState();
-}
 
 function stockBill2View(bill){
 	$('#txtSerialNo').val(bill.serialNo);
@@ -256,7 +224,7 @@ function stockBill2View(bill){
 	if(bill.stockGoods !=undefined && bill.stockGoods !=null){
 		for(var i=0;i++;i<bill.stockGoods){
 			var row=bill.stockGoods[i];
-			row.amount=row.goodsPrice * row.number;
+			row.amount=row.goodsPrice * row.goodsNumber;
 		}
 		
 		$('#dgStockDetail').datagrid('loadData',bill.stockGoods);
@@ -350,5 +318,41 @@ function onSaveStockBill(){
 			$.messager.alert("错误提示", "保存失败", "error");
 		}
 	});
+	
+}
+
+/*
+ * 确认入库
+ */
+function onConfirmStockBill(){
+	
+	if(m_stock_bill.id ==undefined || m_stock_bill.id ==null || m_stock_bill.id==0){
+		$.messager.alert("提示", "请先保存单据!", "info");
+	}else{
+		$.ajax({
+			url : "stock/confirmBill.do",
+			type : "POST",
+			dataType : "json",
+			async : false,
+			data : {
+				'id' : m_stock_bill.id
+			},
+			success : function(req) {
+				if (req.isSuccess) {
+					m_stock_bill=req.data;
+					stockBill2View(m_stock_bill);
+					setBillLockState();
+				} else {
+					$.messager.alert("提示信息", req.msg, "info");
+				}
+			},
+			failer : function(a, b) {
+				$.messager.alert("消息提示", "保存失败", "info");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$.messager.alert("错误提示", "保存失败", "error");
+			}
+		});
+	}
 	
 }

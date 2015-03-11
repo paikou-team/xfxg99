@@ -5,7 +5,10 @@
  * 
  * 
  */
-
+/**
+ * 当前用户
+ */
+var g_current_user;
 
 function getUrlArgs() {
 	var url=decodeURI(location.search);
@@ -21,6 +24,9 @@ function getUrlArgs() {
     }
     return theRequest;
 }
+
+
+
 
 function loadStockOrg(){
 	
