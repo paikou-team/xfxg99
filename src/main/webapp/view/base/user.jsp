@@ -39,9 +39,9 @@
                         name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
                         plain="true">取消</a>
             </p>
-            <div id="tabs" class="easyui-tabs" style="width:500px;height: auto;" style="padding: 10px">
+            <div id="tabs" class="easyui-tabs" style="width:480px;height: auto;" >
             	<div id="tab1" title="基础资料" style="padding: 10px">
-            		<table style="width: 480px; height: 100%; font-size: 12px">
+            		<table style="width: 100%; height: 100%; font-size: 12px">
                     <tr style="display: none">
                         <td>
                             <input id="txt_Id" type="hidden" /></td>
@@ -74,13 +74,13 @@
                 </table>
             	</div>
             	<div id="tab2" title="权限设置" style="padding: 10px">
-            		<table style="width: 480px; height: 30px; font-size: 12px">
+            		<table style="width: 50%; height: 20%; font-size: 12px">
             			<td>
                             <label>是否查看所有数据：</label></td>
                         <td>
                             <input id="IsAllDataPermissionCheck" type="checkbox" /></td>   
             		</table>
-                	<div id="functionTree" style="width: 480px; height:300px; font-size: 12px"></div>
+                	<div id="functionTree" style="width: 100%; height:100%; font-size: 12px"></div>
             	</div>
             </div>
      </div>
