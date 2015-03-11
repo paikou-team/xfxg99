@@ -31,6 +31,11 @@ public class StockService {
 	
 		return new ListResult<StockBillVM>(total,ls);
 	}
+	
+	public StockBillVM loadVMById(Integer id){
+		return stockBillMapper.loadVMById(id);
+	}
+	
 	/**
 	 * 保存库存单据
 	 * @param bill
@@ -62,5 +67,14 @@ public class StockService {
 				stockGoodsMapper.updateByPrimaryKey(sg);
 			}
 		}
+	}
+	
+	@Transactional
+	public void confirmStockBill(Integer billId,Integer userId){
+		Map<String, Object> map=new HashMap<String,Object>();
+		map.put("billId", billId);
+		map.put("userId", userId);
+		
+		stockBillMapper.confirmStockBill(map);
 	}
 }

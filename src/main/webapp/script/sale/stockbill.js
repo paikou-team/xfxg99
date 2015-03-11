@@ -195,6 +195,37 @@ function setBillLockState(){
  * 确认入库
  */
 function onCheckStockBill(){
+	
+	if(m_stock_bill.id ==undefined || m_stokc_bill.id ==null || m_stock_bill.id==0){
+		$.messager.alert("提示", "请先保存单据!", "info");
+	}else{
+		$.ajax({
+			url : "stock/confirmBill.do",
+			type : "POST",
+			dataType : "json",
+			async : false,
+			data : {
+				'id' : m_stokc_bill.id
+			},
+			success : function(req) {
+				if (req.isSuccess) {
+					m_stock_bill=req.data;
+					$("#txtConfirmerOrgName").val(m_stock_bill.serialNo);
+				} else {
+					$.messager.alert("提示信息", req.msg, "info");
+				}
+			},
+			failer : function(a, b) {
+				$.messager.alert("消息提示", "保存失败", "info");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$.messager.alert("错误提示", "保存失败", "error");
+			}
+		});
+	}
+	
+
+	
 	setBillLockState();
 }
 

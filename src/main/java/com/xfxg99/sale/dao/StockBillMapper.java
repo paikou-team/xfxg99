@@ -26,4 +26,9 @@ public interface StockBillMapper {
     List<StockBillVM> loadVMListWithPage(Map<String,Object> map);
     
     void deleteByNotExistId(Map<String,Object> map);
+    
+    void confirmStockBill(Map<String,Object> map);
+    
+    
+    StockBillVM loadVMById(Integer id);
 }

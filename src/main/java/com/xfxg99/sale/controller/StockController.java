@@ -117,7 +117,7 @@ public class StockController {
 		if(id==0){//新建一个单据
 			bill=this.newStockBill(billType, u);
 		}else{//从数据库读取一个单据
-			
+			bill = stockService.loadVMById(id);
 		}
 		
 		Result<StockBillVM> result=new Result<StockBillVM>(bill);
@@ -131,21 +131,53 @@ public class StockController {
 			@RequestParam(value = "id", required = false) Integer id,
 			HttpServletRequest request
 			){
-		
-		
+
+		User u =new User();
+		u.setId(999);
+		u.setOrgId(101);
 		
 		Result<StockBillVM>  result =null;
-		
+
 		try{
+			stockService.confirmStockBill(id, u.getId());
 			
+			StockBillVM bill=stockService.loadVMById(id);
 			
+			result=new Result<StockBillVM>(bill,true,true,true,null);
 		}catch(Exception ex){
 			result=new Result<StockBillVM>(null,false,true,true,ex.getMessage());
 		}
+		
 		return result.toJson();
-
 	}
 
+	@RequestMapping(value = "saveStockBill.do",produces = "application/json;charset=UTF-8")
+		public  @ResponseBody String saveStockBill(
+				@RequestParam(value = "bill", required = false) String billJson,
+				HttpServletRequest request
+				){
+			Result<StockBillVM>  result =null;
+			
+			try{
+				JSONObject jObj = JSONObject.fromObject(billJson);
+				
+				Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+	
+				classMap.put("stockGoods", StockGoodsVM.class);
+				
+				StockBillVM bill = (StockBillVM) JSONObject.toBean(jObj, StockBillVM.class, classMap);
+				
+				stockService.saveStockBill(bill);
+	
+				result=new Result<StockBillVM>(bill);
+				
+			}catch(Exception ex){
+				result=new Result<StockBillVM>(null,false,true,true,ex.getMessage());
+			}
+			return result.toJson();
+	
+		}
+	
 	
 	/**
 	 * 创建一个单据

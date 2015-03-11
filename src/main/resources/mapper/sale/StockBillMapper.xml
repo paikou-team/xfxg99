@@ -343,13 +343,34 @@
   	</if>
   </select>
   
+  <select id="loadVMById" parameterType="java.lang.Integer" resultMap="VMMap">
+	select 
+  		<include refid="VM_Column_List" />
+  	from t_stock as s
+  	left join 	t_organization 	as sio 	on 	s.stock_in_org_id 	= sio.id
+  	left join 	t_organization 	as soo	on	s.stock_out_org_id	=soo.id
+  	left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
+  	left join 	t_organization 	as co	on	s.confirmer_org_id		=co.id
+  	left join	t_user			as pu	on	s.preparer_id		=pu.id
+  	left join	t_user			as ru	on	s.receiver_id		=ru.id
+  	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
+  	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id 
+  	where id=  #{id,jdbcType=INTEGER}
+  
+  </select>
+  
   <delete id="deleteByNotExistId" parameterType="java.util.Map">
     delete from t_stock_goods
     	where stock_id = #{stockId,jdbcType=INTEGER}  not in
 	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
   		#{item}
  	</foreach>  
-
   </delete>
+  
+  
+  <update id = "confirmStockBill" parameterType="java.util.Map"  >
+  	{call confirmStockBill(#{billId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER})}
+  </update>
+  
   
 </mapper>
