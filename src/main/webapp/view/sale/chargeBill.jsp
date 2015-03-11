@@ -5,7 +5,7 @@
 <html>
 <head>
 <base href="<%=basePath%>">
-<script src='<%=basePath%>script/charge/chargeBill.js'
+<script src='<%=basePath%>script/sale/chargeBill.js'
 	type='text/javascript'></script>
 <title>充值单据</title>
 

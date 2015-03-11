@@ -116,7 +116,7 @@ public class RechargeController {
 					isSuccess = true;
 					message = "充值确认，成功"; 
 					 
-					//long longDate = now.getTime();
+					//String s = now.getTime();
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("userId", user.getId());
 					map.put("userMoney", charge.getMoney());
@@ -136,7 +136,7 @@ public class RechargeController {
 				isSessionExpired = true;
 				message = "Session过期，请重新登录";
 			}
-			Result<Recharge> s = new Result<Recharge>(null, isSuccess,
+			Result<Recharge> s = new Result<Recharge>(charge, isSuccess,
 					isSessionExpired, isTimeout, message);
 			return s.toJson();
 		} catch (Exception ex) {

@@ -206,3 +206,17 @@ function DateHelp(){
 function gCreateDate(dateStr){
 	return new Date(Date.parse(dateStr.replace(/-/g, "/")));
 }
+
+function isSignIn() {
+	$.ajax({
+		url : "index/isSignIn.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (!req.isSuccess) {
+				window.location.href = "login.jsp";
+			}
+		}
+	});
+}

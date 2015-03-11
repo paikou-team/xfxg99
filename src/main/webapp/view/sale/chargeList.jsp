@@ -16,7 +16,7 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script src='<%=basePath%>script/charge/chargeList.js' 	type='text/javascript'></script>
+	<script src='<%=basePath%>script/sale/chargeList.js' 	type='text/javascript'></script>
   </head>
  
   <body>
