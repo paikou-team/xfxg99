@@ -25,7 +25,7 @@ public interface UserMapper {
     
     Integer getMaxId();
 
-	User loadUserByNameAndPwd(Map<String, Object> map);
+	UserVM loadUserByNameAndPwd(Map<String, Object> map);
 	
 	List<UserVM> loadUserlistWithPage(Map<String, Object> map);
 	

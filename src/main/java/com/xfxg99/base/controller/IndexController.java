@@ -18,8 +18,10 @@ import com.xfxg99.base.model.SysFunction;
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.SysFunctionService;
 import com.xfxg99.base.service.UserService;
+import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
+import com.xfxg99.sale.model.Recharge;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 
 /**
@@ -52,7 +54,7 @@ public class IndexController {
 
 	@RequestMapping(value = "loginAction.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	boolean loginAction(@RequestParam(value = "username", required = false) String username,
+	String loginAction(@RequestParam(value = "username", required = false) String username,
 			@RequestParam(value = "password", required = false) String passowrd,
 			HttpServletRequest request) throws Exception {
 		try { 
@@ -60,15 +62,18 @@ public class IndexController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("name", username);
 			map.put("pwd", passowrd);
-			User u = userService.loadUserByNameAndPwd(map); 
+			UserVM u = userService.loadUserByNameAndPwd(map); 
 			if (u != null) { 
 				session.setAttribute("user", u);  
-				return true;
+				Result<UserVM> s = new Result<UserVM>(u,true,false,false,"用户登录验证失败，未注册用户");
+				return s.toJson();
 			} else {
-				return false;
+				Result<UserVM> s = new Result<UserVM>(u,false,false,false,"用户登录验证失败，账号或者密码错误，请检查");
+				return s.toJson();
 			}
 		} catch (Exception ex) {
-			return false;
+			Result<UserVM> s = new Result<UserVM>(null,false,false,false,"用户登录验证失败，请联系网站管理员");
+			return s.toJson();
 		}
 	}
 

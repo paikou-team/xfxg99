@@ -18,10 +18,13 @@ function loginSubmit(){
 		async : false,
 		data : {"username":username,"password":hash},
 		success : function(req) { 
-			 if(req){
+			 if(req.isSuccess){
+				 if(req.data){
+					 
+				 }
 				 window.location.href="index.jsp";
 			 }else{
-				 $.messager.alert("系统提示","账号或密码错误！","info");
+				 $.messager.alert("系统提示",req.msg,"info");
 			 }
 		},
 		failer : function(a, b) {

@@ -70,7 +70,7 @@ public class UserService{
 	 }
 
 
-	public User loadUserByNameAndPwd(Map<String, Object> map) {
+	public UserVM loadUserByNameAndPwd(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return userMapper.loadUserByNameAndPwd(map);
 	}
