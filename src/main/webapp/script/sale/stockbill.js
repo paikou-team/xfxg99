@@ -336,22 +336,22 @@ function onSaveStockBill(){
  * 确认入库
  */
 function onConfirmStockBill(){
-	
+	var user= getCurrentUser();
 	switch(m_stock_bill.billType){
 	case 10:
-		if(m_stock_bill.stockInOrgId != g_current_user.orgId){
+		if(m_stock_bill.stockInOrgId != user.orgId){
 			$.messager.alert("提示", "只有本机构用户才能确认入库", "info");
 			return;
 		}
 		break;
 	case 11:
-		if(m_stock_bill.stockOutOrgId != g_current_user.orgId){
+		if(m_stock_bill.stockOutOrgId != user.orgId){
 			$.messager.alert("提示", "只有本机构用户才能确认出库", "info");
 			return;
 		}
 		break;
 	case 12:
-		if(m_stock_bill.stockInOrgId != g_current_user.orgId){
+		if(m_stock_bill.stockInOrgId != user.orgId){
 			$.messager.alert("提示", "只有本机构用户才能确认调拨入库", "info");
 			return;
 		}
