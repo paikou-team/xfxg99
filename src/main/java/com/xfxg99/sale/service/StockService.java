@@ -84,4 +84,14 @@ public class StockService {
 		
 		stockBillMapper.confirmStockBill(map);
 	}
+	
+	
+	public int getBillConfirmerId(Integer id){
+		return stockBillMapper.getBillConfirmerId(id);
+	}
+	
+	public void deleteBillById(Integer id){
+		stockBillMapper.deleteByPrimaryKey(id);
+	}
+	
 }

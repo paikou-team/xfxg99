@@ -150,6 +150,7 @@ function loadStockBills() {
 }
 
 function packQuery(){
+	m_stock_query.billType=m_stock_type;
 	m_stock_query.beginTime = $('#dteBeginTime').datebox('getValue');
 	m_stock_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_stock_query.serialNo = $('#txtSerialNo').val();
@@ -191,9 +192,8 @@ function onStockConfirm(){
 				gRequestData(req);
 				
 				if(req.isSuccess){
-					
+					loadStockBills();
 				}
-				
 			},
 			failer : function(a, b) {
 				$.messager.alert("消息提示", "保存失败", "error");
@@ -207,3 +207,49 @@ function onStockConfirm(){
 	}
 	
 }
+
+
+function onStockBillEdit(){
+	onSelRow();
+}
+
+function onStockDel(){
+var row = $("#dgStock").datagrid("getSelected");
+	
+	if(row){
+		
+		$.messager.confirm('操作提示', "确定删除编号为： " + row.serialNo + " 的单据?", function (r) {
+			if(r){
+				$.ajax({
+					url : "stock/delStockBill.do",
+					type : "POST",
+					dataType : "json",
+					async : false,
+					data : {
+						'id' : row.id
+					},
+					success : function(req) {
+						gRequestData(req);
+						
+						if(req.isSuccess){
+							$.messager.alert("消息提示", "单据删除成功!", "info");
+							loadStockBills();
+						}
+						
+					},
+					failer : function(a, b) {
+						$.messager.alert("消息提示", "保存失败", "error");
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						$.messager.alert("错误提示", "保存失败", "error");
+					}
+				});
+			}
+		});
+		
+		
+	}else{
+		$.messager.alert("提示", "请选择单据!", "info");
+	}
+}
+

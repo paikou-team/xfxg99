@@ -316,11 +316,12 @@ function onSaveStockBill(){
 		},
 		success : function(req) {
 			m_stock_bill = gRequestData(req);
-			$("#txtSerialNo").val(m_stock_bill.serialNo);
+			
+			stockBill2View(m_stock_bill);
+			
 			if(req.isSuccess){
 				$.messager.alert("消息提示", "保存成功!", "info");
 			}
-
 		},
 		failer : function(a, b) {
 			$.messager.alert("消息提示", "保存失败", "info");
@@ -337,6 +338,9 @@ function onSaveStockBill(){
  */
 function onConfirmStockBill(){
 	var user= getCurrentUser();
+	
+	onSaveStockBill();
+	
 	switch(m_stock_bill.billType){
 	case 10:
 		if(m_stock_bill.stockInOrgId != user.orgId){
@@ -390,7 +394,8 @@ function onConfirmStockBill(){
 	
 }
 
-
 function onExit(){
 	parent.art.dialog.list['dlgStockBillView'].close();
 }
+
+

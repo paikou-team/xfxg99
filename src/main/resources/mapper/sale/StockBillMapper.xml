@@ -323,6 +323,9 @@
   	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
   	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id 
   	where 1=1 
+  	<if test="billType != null" >
+  	and s.bill_type =#{billType,jdbcType=VARCHAR}
+  	</if>
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
   	</if>
@@ -380,6 +383,10 @@
   <update id = "confirmStockBill" parameterType="java.util.Map"  >
   	{call confirmStockBill(#{billId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER})}
   </update>
+  
+  <select id="getBillConfirmerId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select confirmer_id from t_stock where id=#{id,jdbcType=INTEGER}
+  </select>
   
   
 </mapper>

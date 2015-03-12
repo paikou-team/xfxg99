@@ -3,6 +3,9 @@ var m_index_user;
 var m_index_iconStyles = {};
 
 $(function() {
+	
+	getCurrentUser();
+	
 	var args = getUrlArgs();
 
 	//isSignIn(gSetCurrentUserCallback);
@@ -38,6 +41,8 @@ function loadMenu() {
 function onTreeMenuDblClick(row) {
 	var src = null;
 
+	getCurrentUser();
+	
 	switch (row.funcKey) {
 	case "shop_stockin":
 		

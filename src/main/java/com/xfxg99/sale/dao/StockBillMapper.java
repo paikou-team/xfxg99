@@ -31,4 +31,6 @@ public interface StockBillMapper {
     
     
     StockBillVM loadVMById(Integer id);
+    
+    int getBillConfirmerId(Integer id);
 }
