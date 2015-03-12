@@ -63,7 +63,7 @@ public class IndexController {
 			UserVM u = (UserVM) session.getAttribute("user");
 			if (u == null) {
 				Result<UserVM> s = new Result<UserVM>(null, false, false,
-						false, "");
+						false, "登录过期，请重新登录");
 				return s.toJson();
 			} else {
 				Result<UserVM> s = new Result<UserVM>(u, true, false, false, "");
@@ -71,7 +71,7 @@ public class IndexController {
 			}
 		} catch (Exception ex) {
 			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
-					"用户登录验证失败，请联系网站管理员");
+					"获取登录用户信息失败，请联系网站管理员");
 			return s.toJson();
 		}
 	}
@@ -105,8 +105,7 @@ public class IndexController {
 				session.setAttribute("user", u);
 				Result<UserVM> s = new Result<UserVM>(u, true, false, false,
 						"用户登录验证成功");
-				response.sendRedirect("../index.jsp");
-				//return s.toJson();
+				response.sendRedirect("../index.jsp"); 
 			} else {
 				Result<UserVM> s = new Result<UserVM>(u, false, false, false,
 						"用户登录验证失败，账号或者密码错误，请检查");
@@ -115,8 +114,7 @@ public class IndexController {
 		} catch (Exception ex) {
 			Result<UserVM> s = new Result<UserVM>(null, false, false, false,
 					"用户登录验证失败，请联系网站管理员");
-			response.sendRedirect("../login.jsp");
-			//return s.toJson();
+			response.sendRedirect("../login.jsp"); 
 		}
 	}
 
