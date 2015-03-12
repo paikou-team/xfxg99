@@ -23,7 +23,7 @@
 <body>
 
 	<div style="text-align:left;overflow:hidden;">
-		 <p style="padding:0px;border-bottom:1px solid black;">
+		 <p id="tb_operation" style="padding:0px;border-bottom:1px solid black;">
 		 	<a id="btnSaveChargeInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true">确定</a>
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel" plain="true">取消</a> 
 		 </p>

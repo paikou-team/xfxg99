@@ -23,7 +23,8 @@
 
         body {
             text-align: center;
-            background: #4974A4;
+            width:100%;
+            background: url('resource/icon/login/login_bg.png');
         }
 
         #login {
@@ -70,7 +71,7 @@
             z-index: 2;
             background: url('resource/icon/login/panel-c.gif') repeat-y;
             width: 729px;
-            height: 300px;
+            height: 300px; 
         }
 
         .panel-c-l {
@@ -134,7 +135,7 @@
         $(function () {
             $("#txtpassword").keydown(function (e) {
                 if (e.keyCode == 13) {
-                   loginSubmit();
+                	$("#submitform").submit();
                 }
             });
         });
@@ -148,6 +149,7 @@
             <div class="panel-h"></div>
             <div class="panel-c">
                 <div class="panel-c-l">
+                <form id="submitform" style="boder:1px solid wheat" action="index/loginAction.do" method="POST">
                          <table cellpadding="0" cellspacing="0">
                             <tbody>
                                 <tr>
@@ -157,19 +159,20 @@
                                 </tr>
                                 <tr>
                                     <td align="right"><label>用户名：</label></td>
-                                    <td align="left"><input id="txtusername" type="text" style="height:30px" class="easyui-validatebox" /></td>
+                                    <td align="left"><input name="username" id="txtusername" type="text" style="height:30px" class="easyui-validatebox" /></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><label>密码：</label></td>
-                                    <td align="left"><input id="txtpassword" type="password" style="height:30px"  class="easyui-validatebox" /></td>
+                                    <td align="left"><input name="password" id="txtpassword" type="password" style="height:30px"  class="easyui-validatebox" /></td>
                                 </tr>
                                 <tr>
                                     <td align="right" colspan="2">
-                                        <input   type="button" id="btnLogin" value="登陆" class="login-btn" onclick="loginSubmit()"  />
+                                        <input   type="submit" id="btnLogin" value="登陆" class="login-btn" onclick="$('#submitform').submit()"  />
                                     </td>
                                 </tr>
                             </tbody>
                         </table>  
+                     </form>
                 </div>
                 <div class="panel-c-r">
                     <p>请从左侧输入登录账号和密码登录</p>

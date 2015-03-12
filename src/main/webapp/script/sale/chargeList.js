@@ -6,9 +6,21 @@ var m_charge_query = {
 	username : "",
 	isconfirm : 0
 };
-
+var m_charge_object = {};
 $(function() {
 	var args = getUrlArgs();
+
+	var optType = args.optType;
+	if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
+		$("#ConfirmCharge").hide();
+	} else if (optType == 1 || optType == "1")// 商务中心--充值记录，只有确认、查看操作
+	{
+		$("#AddCharge").hide();
+	} else {
+		$("#ConfirmCharge").hide();
+		$("#AddCharge").hide();
+		$("#tb_searchbox").hide();
+	}
 
 	$('#chargeGrid').datagrid({
 		url : 'charge/getList.do',
@@ -38,7 +50,7 @@ $(function() {
 			align : 'center',
 			width : 150,
 			formatter : function(value, row, index) {
-				if (row.confirmUserId>0) {
+				if (row.confirmUserId > 0) {
 					return "已确认";
 				} else {
 					return "未确认";
@@ -74,31 +86,32 @@ $(function() {
 			field : 'confirmTime',
 			align : 'center',
 			width : 150
-		} , {
+		}, {
 			title : '充值描述',
 			field : 'rechargeDesc',
 			align : 'center',
 			width : 150
-		}] ]
+		} ] ]
 	});
 	$("#AddCharge").bind("click", ChargeManage.AddCharge);
 	$("#btnSearch").bind("click", ChargeManage.SearchAction);
 	$("#ConfirmCharge").bind("click", ChargeManage.ConfirmCharge);
-	// $("#DelUser").bind("click", UserManage.DelUser);
+	$("#ShowChargeInfo").bind("click", ChargeManage.ShowCharge);
 });
 
-function onSelRow() {
-
+function onSelRow(rowIndex, rowData) {
+	ChargeManage.packageObject(rowData);
+	ChargeManage.ShowDialog();
 }
 
-var ChargeManage = { 
+var ChargeManage = {
 	AddCharge : function() {
 		try {
 			m_charge_dlg = art
 					.dialog({
 						id : 'dlgChargeBill',
 						title : '充值单据',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/charge/chargeBill.jsp' style='width:400px;height:470px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=0' style='width:400px;height:470px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
@@ -108,7 +121,7 @@ var ChargeManage = {
 			alert(ex);
 		}
 	},
-	ConfirmCharge:function(){
+	ShowCharge:function(){
 		var hasRows = $('#chargeGrid').datagrid('getRows');
 		if (hasRows.length == 0) {
 			$.messager.alert('操作提示', "没有可操作数据", "warning");
@@ -122,26 +135,70 @@ var ChargeManage = {
 		if (target.length > 1) {
 			$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
 			return;
-		} 
-		if(target[0].userName.length>0||target[0].confirmUserId>0){
-			$.messager.alert("操作提示","用户"+target[0].custName+"的充值信息已确认，请勿重复操作！","warning");
-			
-		}else{
-			$.messager.confirm("充值信息确认", "充值用户 :"+target[0].custName+" 充值金额  :"+target[0].money +" ？", function(r) {
+		}
+		ChargeManage.packageObject(target[0]);
+		ChargeManage.ShowDialog();
+	},
+	packageObject:function(obj){
+		m_charge_object.id = obj.id;
+		m_charge_object.custName =obj.custName;
+		m_charge_object.orgName =obj.orgName;
+		m_charge_object.money = obj.money;
+		m_charge_object.rechargeTime = obj.rechargeTime; 
+		m_charge_object.rechargeDesc = obj.rechargeDesc;
+	},
+	ShowDialog : function() {
+		try {
+			m_charge_dlg = art
+					.dialog({
+						id : 'dlgChargeBill',
+						title : '充值单据',
+						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=1' style='width:400px;height:470px;overflow:hidden'/>",
+						// content:"123",
+						lock : true,
+						initFn : function() {
+						}
+					});
+		} catch (ex) {
+			alert(ex);
+		}
+	},
+	ConfirmCharge : function() {
+		var hasRows = $('#chargeGrid').datagrid('getRows');
+		if (hasRows.length == 0) {
+			$.messager.alert('操作提示', "没有可操作数据", "warning");
+			return;
+		}
+		var target = $("#chargeGrid").datagrid("getChecked");
+		if (!target || target.length == 0) {
+			$.messager.alert('操作提示', "请选择操作项!", "warning");
+			return;
+		}
+		if (target.length > 1) {
+			$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
+			return;
+		}
+		if (target[0].userName.length > 0 || target[0].confirmUserId > 0) {
+			$.messager.alert("操作提示", "用户" + target[0].custName
+					+ "的充值信息已确认，请勿重复操作！", "warning");
+
+		} else {
+			$.messager.confirm("充值信息确认", "充值用户 :" + target[0].custName
+					+ " 充值金额  :" + target[0].money + " ？", function(r) {
 				if (r) {
 					ChargeManage.ConfirmChargeAction(target[0].id);
 				}
 			});
 		}
 	},
-	ConfirmChargeAction:function(id){
+	ConfirmChargeAction : function(id) {
 		$.ajax({
-			url : "charge/confirmRecharge.do?id="+id,
+			url : "charge/confirmRecharge.do?id=" + id,
 			type : "POST",
 			dataType : "json",
-			async : false, 
-			success : function(req) { 
-				$.messager.alert("系统提示",req.msg,"info");
+			async : false,
+			success : function(req) {
+				$.messager.alert("系统提示", req.msg, "info");
 				$('#chargeGrid').datagrid("reload");
 			},
 			failer : function(a, b) {
@@ -150,7 +207,7 @@ var ChargeManage = {
 			error : function(a) {
 				$.messager.alert("消息提示", a, "error");
 			}
-		}); 
+		});
 	},
 	SearchAction : function() {
 		ChargeManage.packQuery();
@@ -159,7 +216,7 @@ var ChargeManage = {
 			"charge_Query" : json
 		});
 	},
-	packQuery : function() { 
+	packQuery : function() {
 		m_charge_query.orgname = $.trim($("#sch_orgname").val());
 		m_charge_query.custname = $.trim($("#sch_custname").val());
 		m_charge_query.username = $.trim($("#sch_username").val());

@@ -32,9 +32,9 @@
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
                     plain="true">查看</a>
             </p>
-            <p style="margin-left:5px">
+            <p id="tb_searchbox" style="margin-left:5px">
             	<label>确认状态:</label><input id="sch_isconfirm" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '已确认'},{id: 2,name: '未确认'}]" style="width:120px" />
-            	<label>营销点:</label><input id="sch_orgname" class="easyui-validatebox" style="width:120px" />
+            	<label>门店信息:</label><input id="sch_orgname" class="easyui-validatebox" style="width:120px" />
             	<label>用户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />
             	<label>确认人:</label><input id="sch_username" class="easyui-validatebox" style="width:120px" />
             	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a> 
