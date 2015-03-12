@@ -45,11 +45,13 @@ function onTreeMenuDblClick(row) {
 	
 	switch (row.funcKey) {
 	case "shop_stockin":
-		
 		src = "view/sale/stockList.jsp?billType=10";
 		break;
 	case "shop_stockout":
 		src = "view/sale/stockList.jsp?billType=11";
+		break;
+	case "shop_inventory":
+		src="view/sale/inventory.jsp";
 		break;
 	case "shop_transfer":
 		src = "view/sale/stockList.jsp?billType=12";

@@ -28,6 +28,13 @@ $(function () {
             		   type:'numberbox',
             		   options:{precision:0}
             		   
+            	   },
+            	   formatter:function(value,index,orw){
+            		   if(value<0){
+            			   return '<span style="color:red;">'+value+'</span>'; 
+            		   }else{
+            			   return value;
+            		   }
             	   }},
                { title: '商城价', field: 'goodsPrice', align: 'right', width: 100,
                 	   formatter:function(value,row,index){
@@ -37,9 +44,15 @@ $(function () {
                 	   }},
                { title: '金额', field: 'amount', align: 'right', width: 100 ,
             	   formatter:function(value,row,index){
+            		   var amt=0;
             		   if(value != undefined && value !=null){
-            			   return value.toFixed(2);
-            		   }            		   
+            			   amt= value.toFixed(2);
+            		   }   
+            		   if(amt<0){
+            			   return '<span style="color:red;">'+amt+'</span>'; 
+            		   }else{
+            			   return value;
+            		   }
             	   }}
         ]],
         
@@ -234,7 +247,7 @@ function stockBill2View(bill){
 	$("#txtConfirmTime").val(bill.confirmTime);
 	
 	if(bill.stockGoods !=undefined && bill.stockGoods !=null){
-		for(var i=0;i++;i<bill.stockGoods){
+		for(var i=0;i<bill.stockGoods.length;i++){
 			var row=bill.stockGoods[i];
 			row.amount=row.goodsPrice * row.goodsNumber;
 		}

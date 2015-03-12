@@ -23,6 +23,8 @@ import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
+import com.xfxg99.sale.viewmodel.InventoryVM;
+import com.xfxg99.sale.viewmodel.StockBillVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.base.service.AuthorizeService;
 
@@ -178,10 +180,28 @@ public class UserController {
 			return s.toJson();
 		} catch (Exception ex) {
 			String message = "Session过期，请重新登录";
-			Result<UserVM> s = new Result<UserVM>(null, false, false,
+			Result<UserVM> s = new Result<UserVM>(null, false, true,
 					false, message);
 			return s.toJson();
 		}
+	}
+	
+	@RequestMapping(value = "checkAuthorize.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String  checkAuthorize(
+			@RequestParam(value = "funcKey", required = true) String funcKey,
+			HttpServletRequest request)
+	{
+		User user =(User)request.getSession().getAttribute("user");
+		Result<Boolean>  result =null;
+		
+		if(user ==null){
+			result =new Result<Boolean>(null,false,true,false,"请从新登录");
+			return result.toJson();
+		}
+		
+		Boolean b=userService.checkAuthorize(user.getId(), funcKey);
+		result =new Result<Boolean>(b,true,false,false,null);
+		return result.toJson();
 	}
 	
 	 /**

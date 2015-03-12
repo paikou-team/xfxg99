@@ -6,8 +6,6 @@ $(function () {
 	var args = getUrlArgs();
 	m_stock_type =parseInt( args["billType"]);
 	
-
-	
     $("#cmbStockInDept").combobox({
         valueField: 'id',
         textField: 'name',

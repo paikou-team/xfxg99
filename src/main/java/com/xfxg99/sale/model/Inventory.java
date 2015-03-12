@@ -9,6 +9,8 @@ public class Inventory {
 
     private Integer goodsId;
 
+    private Integer goodsNumber;
+    
     private Date updateTime;
 
     private Integer lastBillId;
@@ -52,4 +54,12 @@ public class Inventory {
     public void setLastBillId(Integer lastBillId) {
         this.lastBillId = lastBillId;
     }
+
+	public Integer getGoodsNumber() {
+		return goodsNumber;
+	}
+
+	public void setGoodsNumber(Integer goodsNumber) {
+		this.goodsNumber = goodsNumber;
+	}
 }
