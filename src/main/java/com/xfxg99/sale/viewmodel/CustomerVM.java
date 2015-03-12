@@ -8,6 +8,7 @@ public class CustomerVM {
 	private String id; 
 	private String name;
 	private String email;
+	private String phone;
 	private Date birthday;
 	private List<AddressVM>  addresses;
 	public String getId() {
@@ -40,6 +41,12 @@ public class CustomerVM {
 	}
 	public void setAddresses(List<AddressVM> addresses) {
 		this.addresses = addresses;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 }

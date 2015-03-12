@@ -1,6 +1,5 @@
 package com.xfxg99.sale.controller;
-
-import java.text.SimpleDateFormat;
+ 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,8 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.xfxg99.base.model.User;
+ 
+import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.Recharge;
@@ -70,17 +69,44 @@ public class RechargeController {
 	 */
 	@RequestMapping(value = "saveRechargeObj.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String saveRechargeObj(Recharge charge) throws Exception {
+	String saveRechargeObj(Recharge charge, HttpServletRequest request)
+			throws Exception {
 		try {
-			if (charge.getId() > 0) {
-				rechargeService.updateByPrimaryKey(charge);
+			HttpSession session = request.getSession();
+			UserVM user = (UserVM) session.getAttribute("user");
+			if (user == null) {
+				Result<Recharge> s = new Result<Recharge>(null, true, false,
+						false, "页面过期，请重新登录");
+				return s.toJson();
 			} else {
-				charge.setId(0);
-				rechargeService.insert(charge);
+				if (charge.getId() > 0) {
+					rechargeService.updateByPrimaryKey(charge);
+				} else {
+					charge.setId(0);
+					rechargeService.insert(charge);
+				}
+				Calendar cal = Calendar.getInstance();
+				String changeTime = Long.toString(cal.getTimeInMillis());
+				if (changeTime.length() > 10) {
+					changeTime = changeTime.substring(0, 10);
+				}
+
+				// String s = now.getTime();
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("userId", user.getId());
+				map.put("userMoney", charge.getMoney());
+				map.put("frozenMoney", 0.00);
+				map.put("rankPoints", 0);
+				map.put("payPoints", 0);
+				map.put("changeTime", changeTime);
+				map.put("changeDesc", "用户充值，充值金额" + charge.getMoney());
+				map.put("changeType", 2);
+				rechargeService.insertAccountLog(map);
+
+				Result<Recharge> s = new Result<Recharge>(null, true, false,
+						false, "保存成功");
+				return s.toJson();
 			}
-			Result<Recharge> s = new Result<Recharge>(null, true, false, false,
-					"保存成功");
-			return s.toJson();
 		} catch (Exception ex) {
 			Result<Recharge> s = new Result<Recharge>(null, false, false,
 					false, "调用后台方法出错");
@@ -99,7 +125,7 @@ public class RechargeController {
 		try {
 			Recharge charge = new Recharge();
 			HttpSession session = request.getSession();
-			User user = (User) session.getAttribute("user");
+			UserVM user = (UserVM) session.getAttribute("user");
 			String message = "";
 			boolean isSessionExpired = false;
 			boolean isSuccess = false;
@@ -114,20 +140,7 @@ public class RechargeController {
 					charge.setConfirmTime(now);
 					rechargeService.updateByPrimaryKey(charge);
 					isSuccess = true;
-					message = "充值确认，成功"; 
-					 
-					//String s = now.getTime();
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("userId", user.getId());
-					map.put("userMoney", charge.getMoney());
-					map.put("frozenMoney", 0.00);
-					map.put("rankPoints", 0);
-					map.put("payPoints",0);
-					map.put("changeTime", cal.getTimeInMillis());
-					map.put("changeDesc","用户充值，充值金额"+charge.getMoney());
-					map.put("changeType", 2);
-					rechargeService.insertAccountLog(map);
-					
+					message = "充值确认，成功";
 				} else {
 					isTimeout = true;
 					message = "获取数据失败";
@@ -151,14 +164,23 @@ public class RechargeController {
 	 */
 	@RequestMapping(value = "getcustList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String getcustList() throws Exception {
-		try {
-			List<CustomerVM> list = rechargeService.selectCustomerList();
-			JSONArray result = JSONArray.fromObject(list);
-			return result.toString();
-		} catch (Exception ex) {
-			return "";
-		}
+	String getcustList(
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			HttpServletRequest request) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		page = page == 0 ? 1 : page;
+		map.put("pageStart", (page - 1) * rows);
+		map.put("pageSize", rows);
+		map.put("name", name);
+
+		ListResult<CustomerVM> rs = rechargeService
+				.loadrechargeCustUserlist(map);
+
+		return rs.toJson();
 	}
 
 	/*

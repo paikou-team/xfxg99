@@ -17,9 +17,15 @@ $(function() {
 	{
 		$("#AddCharge").hide();
 	} else {
-		$("#ConfirmCharge").hide();
+		//$("#ConfirmCharge").hide();
 		$("#AddCharge").hide();
 		$("#tb_searchbox").hide();
+		m_charge_query = {
+				orgname : "",
+				custname : "",
+				username : "",
+				isconfirm : 2
+			}; 
 	}
 
 	$('#chargeGrid').datagrid({
@@ -48,7 +54,7 @@ $(function() {
 			title : '充值状态',
 			field : 'isConfirm',
 			align : 'center',
-			width : 150,
+			width : 100,
 			formatter : function(value, row, index) {
 				if (row.confirmUserId > 0) {
 					return "已确认";
@@ -61,6 +67,16 @@ $(function() {
 			field : 'custName',
 			width : 150,
 			align : 'center'
+		}, {
+			title : '电子邮件',
+			field : 'custEmail',
+			align : 'center',
+			width : 200 
+		}, {
+			title : '联系方式',
+			field : 'custPhone',
+			align : 'center',
+			width : 150
 		}, {
 			title : '门店信息',
 			field : 'orgName',
@@ -75,7 +91,7 @@ $(function() {
 			title : '充值时间',
 			field : 'rechargeTime',
 			align : 'center',
-			width : 150
+			width : 250
 		}, {
 			title : '确认人',
 			field : 'userName',
@@ -85,7 +101,7 @@ $(function() {
 			title : '确认时间',
 			field : 'confirmTime',
 			align : 'center',
-			width : 150
+			width : 250
 		}, {
 			title : '充值描述',
 			field : 'rechargeDesc',
@@ -111,7 +127,7 @@ var ChargeManage = {
 					.dialog({
 						id : 'dlgChargeBill',
 						title : '充值单据',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=0' style='width:400px;height:470px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=0' style='width:600px;height:470px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
@@ -146,6 +162,8 @@ var ChargeManage = {
 		m_charge_object.money = obj.money;
 		m_charge_object.rechargeTime = obj.rechargeTime; 
 		m_charge_object.rechargeDesc = obj.rechargeDesc;
+		m_charge_object.custEmail = obj.custEmail;
+		m_charge_object.custPhone = obj.custPhone;
 	},
 	ShowDialog : function() {
 		try {
@@ -153,7 +171,7 @@ var ChargeManage = {
 					.dialog({
 						id : 'dlgChargeBill',
 						title : '充值单据',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=1' style='width:400px;height:470px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=1' style='width:500px;height:380px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
