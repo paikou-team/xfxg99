@@ -321,5 +321,7 @@ function setPlace(lng,lat){
 	var pp = new BMap.Point(lng,lat);   //获取第一个智能搜索的结果
 	baidumap.centerAndZoom(pp, 11);
 	baidumap.addOverlay(new BMap.Marker(pp));    //添加标注
-	
+	baidumap.panTo(pp); 
+	$("#txt_lng").val(lng);
+    $("#txt_lat").val(lat);
 }
