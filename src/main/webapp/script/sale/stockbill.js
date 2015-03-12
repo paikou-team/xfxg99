@@ -94,24 +94,22 @@ function loadOrgs(){
 }
 
 function loadBill(billType,id){
-	if(id==0){
-		$.ajax({
-	        url: 'stock/loadBill.do',
-	        type: "POST",
-	        dataType: "json",
-	        async: false,
-	        data: { "billType": billType,'id':id },
-	        success: function (req) {
-	            if (req.isSuccess) {
-	            	m_stock_bill=req.data;
-	            	stockBill2View(m_stock_bill);
-	            	setBillLockState();
-	            }else if(req.isSessionExpired){
-	            	reLogin();
-	            }
-	        }
-	    });
-	}
+	$.ajax({
+        url: 'stock/loadBill.do',
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: { "billType": billType,'id':id },
+        success: function (req) {
+            if (req.isSuccess) {
+            	m_stock_bill=req.data;
+            	stockBill2View(m_stock_bill);
+            	setBillLockState();
+            }else if(req.isSessionExpired){
+            	reLogin();
+            }
+        }
+    });
 }
 
 //添加商品

@@ -122,7 +122,19 @@ function setStockQueryTime(){
 
 
 function onSelRow(){
+	var row = $("#dgStock").datagrid("getSelected");
 	
+	if(row){
+		m_stock_dlg = art.dialog({
+            id: 'dlgStockBillView',
+            title: '单据',
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?billType=" + m_stock_type + "&id="+row.id+"' style='width:760px;height:460px;'/>",
+            //content:"123",
+            lock: true,
+            initFn: function () {
+            }
+        });
+	}
 }
 
 function loadStockBills() {
@@ -141,10 +153,6 @@ function packQuery(){
 	m_stock_query.beginTime = $('#dteBeginTime').datebox('getValue');
 	m_stock_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_stock_query.serialNo = $('#txtSerialNo').val();
-}
-
-function onSelRow(){
-	
 }
 
 function onStockSearch(){
