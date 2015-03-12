@@ -12,9 +12,10 @@
     <result column="lat" property="lat" jdbcType="DECIMAL" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="is_stock" property="isStock" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, parent_id, level, is_leaf, path, lng, lat, address, is_stock
+    id, name, parent_id, level, is_leaf, path, lng, lat, address, is_stock, phone
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,7 +33,7 @@
       lat, address, is_stock)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
       #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{lng,jdbcType=DECIMAL}, 
-      #{lat,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{isStock,jdbcType=INTEGER})
+      #{lat,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{isStock,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.base.model.Organization" >
     insert into t_organization
@@ -67,6 +68,9 @@
       <if test="isStock != null" >
         is_stock,
       </if>
+      <if test="phone != null" >
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -98,6 +102,9 @@
       </if>
       <if test="isStock != null" >
         #{isStock,jdbcType=INTEGER},
+      </if>
+      <if test="isStock != null" >
+        #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -131,6 +138,9 @@
       <if test="isStock != null" >
         is_stock = #{isStock,jdbcType=INTEGER},
       </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -144,7 +154,8 @@
       lng = #{lng,jdbcType=DECIMAL},
       lat = #{lat,jdbcType=DECIMAL},
       address = #{address,jdbcType=VARCHAR},
-      is_stock = #{isStock,jdbcType=INTEGER}
+      is_stock = #{isStock,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="loadAllOrganization" resultMap="BaseResultMap">

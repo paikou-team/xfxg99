@@ -62,6 +62,9 @@ function onTreeMenuDblClick(row) {
 	case "sys_shop":
 		src = "view/base/organization.jsp";
 		break;
+	case "sys_setting":
+		src = "view/base/organization.jsp";
+		break;
 	case "cust_recharge":
 		src = "view/sale/chargeList.jsp?optType=0";
 		break;

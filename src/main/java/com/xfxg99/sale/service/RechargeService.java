@@ -55,5 +55,17 @@ public class RechargeService {
 	public void insertAccountLog(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		rechargeMapper.insertAccountLog(map);
+	}
+
+	public ListResult<CustomerVM> loadrechargeCustUserlist(
+			Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+		int count=rechargeMapper.getCustUserCount();
+		List<CustomerVM> ls=rechargeMapper.loadrechargeCustUserlist(map);
+		
+		ListResult<CustomerVM> result=new ListResult<CustomerVM>(count,ls);
+		
+		return result; 
 	}  
 }

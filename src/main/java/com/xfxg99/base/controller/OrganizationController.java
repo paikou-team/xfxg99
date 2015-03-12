@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xfxg99.base.model.Organization;
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.OrganizationService;
+import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;
 
 /**
@@ -29,6 +30,10 @@ public class OrganizationController {
 
 	@Resource(name = "organizationService")
 	protected OrganizationService organizationService;
+	
+	@Resource(name = "userService")
+	protected UserService userService;
+	
 	List<Integer> mDeletelist = new ArrayList<Integer>();
 	
 	List<Organization> mLoadOrganization = new ArrayList<Organization>();
@@ -108,6 +113,16 @@ public class OrganizationController {
 		mDeletelist.clear();
 		mDeletelist.add(id);
 		GetTreeGridNodeId(id);
+		
+		//判断部门是否有用户在使用，则不能删除
+		for(Integer delId:mDeletelist)
+		{
+			int userCount = userService.getUsedOrgIdCount(delId);
+			if(userCount>0)
+			{
+				return false;
+			}
+		}
 		for(Integer delId:mDeletelist)
 		{
 			organizationService.deleteOrg(delId);

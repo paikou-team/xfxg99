@@ -3,6 +3,7 @@ package com.xfxg99.sale.dao;
 import java.util.List;
 import java.util.Map;
  
+import com.xfxg99.core.ListResult;
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.Recharge;
 import com.xfxg99.sale.viewmodel.CustomerVM;
@@ -31,6 +32,10 @@ public interface RechargeMapper {
 	List<CustomerVM> selectOrganList();
 
 	void insertAccountLog(Map<String, Object> map);
+
+	List<CustomerVM> loadrechargeCustUserlist(Map<String, Object> map);
+
+	int getCustUserCount();
      
 	
 }
