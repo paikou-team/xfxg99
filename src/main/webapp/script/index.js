@@ -5,7 +5,7 @@ var m_index_iconStyles = {};
 $(function() {
 	var args = getUrlArgs();
 
-	isSignIn(gSetCurrentUserCallback);
+	//isSignIn(gSetCurrentUserCallback);
 
 	$('#treeMenu').tree({
 		checkbox : false,
@@ -38,7 +38,6 @@ function loadMenu() {
 function onTreeMenuDblClick(row) {
 	var src = null;
 
-	var u=g_current_user;
 	switch (row.funcKey) {
 	case "shop_stockin":
 		
