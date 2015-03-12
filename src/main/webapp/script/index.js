@@ -45,6 +45,9 @@ function onTreeMenuDblClick(row) {
 	case "shop_stockout":
 		src = "view/sale/stockList.jsp?billType=11";
 		break;
+	case "shop_transfer":
+		src = "view/sale/stockList.jsp?billType=12";
+		break;
 	case "sys_user":
 		src = "view/base/user.jsp?optType=0";
 		break;

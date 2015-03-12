@@ -72,8 +72,19 @@ $(function () {
 	loadOrgs();
 	
 	loadBill(billType,id);
-	
+	setOrgEnable();
 });
+
+function setOrgEnable(){
+	switch(m_stock_bill.billType){
+	case 10:
+		$("#cmbStockOutDetp").combobox('disable');
+		break;
+	case 11:
+		$("#cmbStockInDetp").combobox('disable');
+		break;
+	}
+}
 
 function loadOrgs(){
 	var orgs=loadStockOrg();
@@ -306,13 +317,12 @@ function onSaveStockBill(){
 			'bill' : JSON.stringify(m_stock_bill)
 		},
 		success : function(req) {
-			if (req.isSuccess) {
-				m_stock_bill=req.data;
-				//$("#policeInfoinportwindow").window("close");
-				$("#txtSerialNo").val(m_stock_bill.serialNo);
-			} else {
-				$.messager.alert("提示信息", req.msg, "info");
+			m_stock_bill = gRequestData(req);
+			$("#txtSerialNo").val(m_stock_bill.serialNo);
+			if(req.isSuccess){
+				$.messager.alert("消息提示", "保存成功!", "info");
 			}
+
 		},
 		failer : function(a, b) {
 			$.messager.alert("消息提示", "保存失败", "info");

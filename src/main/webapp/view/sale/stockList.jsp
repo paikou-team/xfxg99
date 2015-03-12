@@ -15,17 +15,17 @@
 		<p style="float: left; width:100%; height:10px">
 			<a id="btnAddStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="onStockBillAdd()">新增</a> 
 			<a id="btnEditStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockBillEdit()">查看</a> 
-			<a id="btnStockSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockSearch()">查看</a> 
+			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockConfirm()">确认</a> 
         </p>
 	</div>
 	<br />
 	<div  style="margin-top:10px;">
 		<ul>
-			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
+			<li id="liStockInOrgId" style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px;vertical-align:middle">入库部门:</label>
                 <input id="cmbStockInDept" class="easyui-combobox" style="width:180px" />
 			</li>
-			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
+			<li id="liStockOutOrgId" style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px">出库部门:</label>
                 <input id="cmbStockOutDept" class="easyui-combobox" style="width:180px" />
 			</li>

@@ -4,7 +4,7 @@ var m_stock_type;
 
 $(function () {
 	var args = getUrlArgs();
-	m_stock_type = args["billType"];
+	m_stock_type =parseInt( args["billType"]);
 	
 
 	
@@ -43,7 +43,7 @@ $(function () {
         	value:2
         }]
     });
-
+    setOrgEnable();
 	setStockQueryTime();
 	setStockConfirmState();
 	loadOrgs();
@@ -83,6 +83,17 @@ $(function () {
     });
 });
 
+function setOrgEnable(){
+	switch(m_stock_type){
+	case 10:
+		$("#liStockOutOrgId").hide();
+		break;
+	case 11:
+		$("#liStockInOrgId").hide();
+		break;
+	}
+}
+
 function setStockConfirmState(){
 	$("#cmbState").combobox('select',0);
 }
@@ -107,7 +118,6 @@ function setStockQueryTime(){
 	
 	$("#dteBeginTime").datebox('setValue',bt.toSimpleString());
 	$("#dteEndTime").datebox('setValue',et.toSimpleString());
-	
 }
 
 
@@ -155,4 +165,37 @@ function onStockBillAdd(){
     } catch (ex) {
         alert(ex);
     }
+}
+
+function onStockConfirm(){
+	var row = $("#dgStock").datagrid("getSelected");
+	
+	if(row){
+		$.ajax({
+			url : "stock/confirmBill.do",
+			type : "POST",
+			dataType : "json",
+			async : false,
+			data : {
+				'id' : row.id
+			},
+			success : function(req) {
+				gRequestData(req);
+				
+				if(req.isSuccess){
+					
+				}
+				
+			},
+			failer : function(a, b) {
+				$.messager.alert("消息提示", "保存失败", "error");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				$.messager.alert("错误提示", "保存失败", "error");
+			}
+		});
+	}else{
+		$.messager.alert("提示", "请选择单据!", "info");
+	}
+	
 }
