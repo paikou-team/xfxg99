@@ -5,11 +5,11 @@ var m_charge_query = {
 	custname : "",
 	username : "",
 	isconfirm : 0
-};
+}; 
 var m_charge_object = {};
 $(function() {
 	var args = getUrlArgs();
-
+ 
 	var optType = args.optType;
 	if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
 		$("#ConfirmCharge").hide();
