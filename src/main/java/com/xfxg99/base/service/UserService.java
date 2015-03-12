@@ -79,4 +79,9 @@ public class UserService{
 		 
 		 return userMapper.selectByPrimaryKey(id);
 	 }
+	
+	public int getUsedOrgIdCount(Integer orgId)
+	{
+		return userMapper.getUsedOrgIdCount(orgId);
+	}
 }

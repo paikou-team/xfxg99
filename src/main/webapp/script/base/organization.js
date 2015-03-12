@@ -1,6 +1,7 @@
 /**
  * 
  */
+var baidumap ="";
 $(function () {
     $('#OrganizationTree').treegrid({
 //    	url: 'organization/getSortList.do',
@@ -18,13 +19,18 @@ $(function () {
                { title: 'parentName', field: 'parentName', align: 'center', hidden: true },
                { title: 'path', field: 'path', align: 'center', hidden: true },
                { title: 'OrderNo', field: 'OrderNo', align: 'center', hidden: true },
+               { title: 'lng', field: 'lng', align: 'center', hidden: true },
+               { title: 'lat', field: 'lat', align: 'center', hidden: true },
                { title: 'isStock', field: 'isStock', width: 50, align: 'center' ,hidden: true },
+               { title: '联系电话', field: 'phone', align: 'center', width: 200 },
                { title: '地址', field: 'address', align: 'center', width: 200 }
 
         ]]
     });
     
     loadData();
+    
+    createMap();
     
     $("#AddOrganization").bind("click", Organization.AddOrganization);
     $("#EditOrganization").bind("click", Organization.EditOrganization);
@@ -58,8 +64,13 @@ var Organization = {
 	            $("#txt_FullPath").val("0");
 	            $("#txt_ParentName").val("");
 	            $("#txt_Address").val("");
+	            $("#txt_Phone").val("");
+	            $("#txt_lng").val("");
+	            $("#txt_lat").val("");
 	        }
 	        ShowDialog("新增", "div_Organization");
+	        //根据ip获得当前城市
+	        localCity();
 	    },
 	    EditOrganization: function () {
 	        var rows = $('#OrganizationTree').treegrid('getSelected');
@@ -86,7 +97,25 @@ var Organization = {
 	        $("#txt_NodeLevel").val(rows.level);
 	        $("#txt_FullPath").val(rows.path);
 	        
+	        $("#txt_Phone").val(rows.phone);
+	        $("#txt_lng").val(rows.lng);
+            $("#txt_lat").val(rows.lat);
+	        
 	        ShowDialog("编辑", "div_Organization");
+	        
+	        var lng = rows.lng;
+	        var lat = rows.lat;
+
+	        //当记录中有经纬度
+	        if(lng !="" && lat !=""){
+	        	
+	        	setLocation(lng,lat);
+	        	setPlace(lng,lat);
+	        }
+	        else{
+	        	localCity();
+	        }
+	        
 	        document.getElementById("IsStockCheck").checked = rows.isStock;
 	        
 	    },
@@ -112,7 +141,7 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         lock: true,
         initFn: function () {
         },
-        width: 400,
+        width: 680,
         height: 100
     });
     //loadComBoxData(selectId);
@@ -125,6 +154,9 @@ function SaveInfo() {
     OrganizationObj.level = $("#txt_NodeLevel").val();
     OrganizationObj.path = $("#txt_FullPath").val();
     OrganizationObj.parentId = $("#txt_ParentId").val();
+    OrganizationObj.phone = $("#txt_Phone").val();
+    OrganizationObj.lng = $("#txt_lng").val();
+    OrganizationObj.lat = $("#txt_lat").val();
     OrganizationObj.isStock = document.getElementById("IsStockCheck").checked;
     
     $.ajax({
@@ -156,7 +188,7 @@ function deleteRecord(Id)
         			if (req) {
         				loadData();
         			} else {
-        				$.messager.alert('删除记录失败ʾ', req.msg, "warning");
+        				$.messager.alert('删除记录失败.', '该部门已有用户,不能删除.', "warning");
         			}
         		}
         	});
@@ -169,6 +201,10 @@ function ClearForm() {
     $("#txt_Address").val("");
     $("#txt_FullPath").val();
     $("#txt_NodeLevel").val();
+    $("#txt_Phone").val("");
+    $("#txt_lng").val("");
+    $("#txt_lat").val("");
+    
     document.getElementById("IsStockCheck").checked = false;
 };
 function CancelInfo() {
@@ -231,4 +267,59 @@ function findParentName(parentId){
     	  }
     }
     return result;
+}
+/**
+ * 百度地图
+ */
+function createMap(){
+    var map = new BMap.Map("map");//在百度地图容器中创建一个地图
+    var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,11);
+	map.enableScrollWheelZoom(true); 
+	baidumap = map;//将map变量存储在全局
+	//单击获取点击的经纬度
+	map.addEventListener("click",function(e){
+		setPlace(e.point.lng,e.point.lat);
+	});
+}
+/**
+ * 根据ip获得当前城市
+ */
+function localCity(){
+	function myFun(result){
+		var cityName = result.name;
+		baidumap.setCenter(cityName);
+	}
+	var myCity = new BMap.LocalCity();
+	myCity.get(myFun);       // 设置地图显示的城市 此项是必须设置的
+}
+/**
+ * 根据经纬度切换地图
+ */
+function setLocation(lng,lat){
+	baidumap.clearOverlays(); 
+	var new_point = new BMap.Point(lng,lat);
+	var marker = new BMap.Marker(new_point);  // 创建标注
+	baidumap.addOverlay(marker);              // 将标注添加到地图中
+	baidumap.panTo(new_point);      
+}
+/**
+ * 设置城市
+ */
+function setCity(){
+	var city = document.getElementById("cityName").value;
+	if(city != ""){
+		baidumap.centerAndZoom(city,11);      // 用城市名设置地图中心点
+	}
+}
+/**
+ * 设置经纬度标记
+ */
+function setPlace(lng,lat){
+	baidumap.clearOverlays();    //清除地图上所有覆盖物
+
+	var pp = new BMap.Point(lng,lat);   //获取第一个智能搜索的结果
+	baidumap.centerAndZoom(pp, 11);
+	baidumap.addOverlay(new BMap.Marker(pp));    //添加标注
+	
 }

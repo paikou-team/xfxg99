@@ -30,5 +30,7 @@ public interface UserMapper {
 	List<UserVM> loadUserlistWithPage(Map<String, Object> map);
 	
 	int countByMap(Map<String, Object> map);
+	
+	int getUsedOrgIdCount(Integer orgId);
 
 }

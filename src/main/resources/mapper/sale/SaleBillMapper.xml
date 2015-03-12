@@ -114,4 +114,36 @@
       rec_time = #{recTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="loadListWithPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_sale as s
+  	where 1=1 
+  	<if test="orgId > 0" >
+  	and s.org_id = #{orgId,jdbcType=INTEGER},
+  	</if>
+  	<if test="beginDate != null" >
+  	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endDate != null" >
+  	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  	</if>
+  </select>
+   <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*)
+  	from t_sale   as s
+   	where 1=1 
+    <if test ="orgId > 0">
+  	and s.org_id = #{orgId,jdbcType=INTEGER},  
+ 	</if> 
+ 	<if test="beginDate != null" >
+  	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endDate != null" >
+  	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
 </mapper>

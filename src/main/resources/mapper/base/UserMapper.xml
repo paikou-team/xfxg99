@@ -172,4 +172,10 @@
   		and r.name like CONCAT('%','${userName}','%' )  
  	</if> 
   </select>
+  <select id="getUsedOrgIdCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(*)
+    from t_user
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </select>
 </mapper>
