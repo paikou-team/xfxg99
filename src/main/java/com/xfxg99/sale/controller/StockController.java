@@ -120,22 +120,57 @@ public class StockController {
 			){
 
 		UserVM user =(UserVM)request.getSession().getAttribute("user");
-		
 		Result<StockBillVM>  result =null;
 
 		if(user ==null){
-			result =new Result<StockBillVM>(null,false,false,false,"请从新登陆");
+			result =new Result<StockBillVM>(null,false,true,false,"请从新登录");
 			return result.toJson();
 		}
 		
 		try{
-			stockService.confirmStockBill(id, user.getId());
 			
 			StockBillVM bill=stockService.loadVMById(id);
 			
-			result=new Result<StockBillVM>(bill,true,true,true,null);
+			String msg="";
+			boolean isSuccess=true;
+			
+			switch(bill.getBillType()){
+			case 10:
+				if(bill.getStockInOrgId() != user.getOrgId()){
+					msg="确认人必须属于入库部门!";
+					isSuccess=false;
+				}
+				break;
+			case 11:
+				if(bill.getStockOutOrgId() != user.getOrgId()){
+					msg="确认人必须属于出库部门!";
+					isSuccess=false;
+				}
+				break;
+			case 12:
+				if(bill.getStockInOrgId() != user.getOrgId()){
+					msg="确认人必须属于入库部门!";
+					isSuccess=false;
+				}
+				break;
+			}
+			
+			if(isSuccess){
+				stockService.confirmStockBill(id, user.getId());
+				
+				bill.setConfirmerId(user.getId());
+				bill.setConfirmerName(user.getName());
+				bill.setConfirmerOrgId(user.getOrgId());
+				bill.setConfirmerOrgName(user.getOrgName());
+				bill.setConfirmTime(Calendar.getInstance().getTime());
+				
+				result=new Result<StockBillVM>(bill,true,false,false,null);
+			}else{
+				result=new Result<StockBillVM>(bill,false,false,false,msg);
+			}
+
 		}catch(Exception ex){
-			result=new Result<StockBillVM>(null,false,true,true,ex.getMessage());
+			result=new Result<StockBillVM>(null,false,false,true,ex.getMessage());
 		}
 		
 		return result.toJson();
@@ -152,7 +187,7 @@ public class StockController {
 			Result<StockBillVM>  result =null;
 			
 			if(user ==null){
-				result =new Result<StockBillVM>(null,false,false,false,"请从新登陆");
+				result =new Result<StockBillVM>(null,false,true,false,"请从新登录");
 				return result.toJson();
 			}
 			

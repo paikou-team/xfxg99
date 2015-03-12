@@ -72,8 +72,19 @@ $(function () {
 	loadOrgs();
 	
 	loadBill(billType,id);
-	
+	setOrgEnable();
 });
+
+function setOrgEnable(){
+	switch(m_stock_bill.billType){
+	case 10:
+		$("#cmbStockOutDetp").combobox('disable');
+		break;
+	case 11:
+		$("#cmbStockInDetp").combobox('disable');
+		break;
+	}
+}
 
 function loadOrgs(){
 	var orgs=loadStockOrg();
@@ -83,24 +94,22 @@ function loadOrgs(){
 }
 
 function loadBill(billType,id){
-	if(id==0){
-		$.ajax({
-	        url: 'stock/loadBill.do',
-	        type: "POST",
-	        dataType: "json",
-	        async: false,
-	        data: { "billType": billType,'id':id },
-	        success: function (req) {
-	            if (req.isSuccess) {
-	            	m_stock_bill=req.data;
-	            	stockBill2View(m_stock_bill);
-	            	setBillLockState();
-	            }else if(req.isSessionExpired){
-	            	reLogin();
-	            }
-	        }
-	    });
-	}
+	$.ajax({
+        url: 'stock/loadBill.do',
+        type: "POST",
+        dataType: "json",
+        async: false,
+        data: { "billType": billType,'id':id },
+        success: function (req) {
+            if (req.isSuccess) {
+            	m_stock_bill=req.data;
+            	stockBill2View(m_stock_bill);
+            	setBillLockState();
+            }else if(req.isSessionExpired){
+            	reLogin();
+            }
+        }
+    });
 }
 
 //添加商品
@@ -306,13 +315,12 @@ function onSaveStockBill(){
 			'bill' : JSON.stringify(m_stock_bill)
 		},
 		success : function(req) {
-			if (req.isSuccess) {
-				m_stock_bill=req.data;
-				//$("#policeInfoinportwindow").window("close");
-				$("#txtSerialNo").val(m_stock_bill.serialNo);
-			} else {
-				$.messager.alert("提示信息", req.msg, "info");
+			m_stock_bill = gRequestData(req);
+			$("#txtSerialNo").val(m_stock_bill.serialNo);
+			if(req.isSuccess){
+				$.messager.alert("消息提示", "保存成功!", "info");
 			}
+
 		},
 		failer : function(a, b) {
 			$.messager.alert("消息提示", "保存失败", "info");
@@ -328,22 +336,22 @@ function onSaveStockBill(){
  * 确认入库
  */
 function onConfirmStockBill(){
-	
+	var user= getCurrentUser();
 	switch(m_stock_bill.billType){
 	case 10:
-		if(m_stock_bill.stockInOrgId != g_current_user.orgId){
+		if(m_stock_bill.stockInOrgId != user.orgId){
 			$.messager.alert("提示", "只有本机构用户才能确认入库", "info");
 			return;
 		}
 		break;
 	case 11:
-		if(m_stock_bill.stockOutOrgId != g_current_user.orgId){
+		if(m_stock_bill.stockOutOrgId != user.orgId){
 			$.messager.alert("提示", "只有本机构用户才能确认出库", "info");
 			return;
 		}
 		break;
 	case 12:
-		if(m_stock_bill.stockInOrgId != g_current_user.orgId){
+		if(m_stock_bill.stockInOrgId != user.orgId){
 			$.messager.alert("提示", "只有本机构用户才能确认调拨入库", "info");
 			return;
 		}

@@ -8,7 +8,7 @@
 /**
  * 当前用户
  */
-var g_current_user;
+
 
 function getUrlArgs() {
 	var url = decodeURI(location.search);
@@ -293,7 +293,14 @@ function gCreateDate(dateStr) {
 	return new Date(Date.parse(dateStr.replace(/-/g, "/")));
 }
 
-function isSignIn() {
+function isSignIn(callback) {
+
+	
+
+}
+
+function getCurrentUser(){
+	var user=null;
 	$.ajax({
 		url : "index/isSignIn.do",
 		type : "POST",
@@ -301,12 +308,13 @@ function isSignIn() {
 		async : false,
 		success : function(req) {
 			if (req.isSuccess) {
-				g_current_user = req.data;
+				user =req.data;
 			} else {
 				$.messager.alert("系统提示", "获取用户登录信息失败，请重新登录", "info");
 				top.location.href = "login.jsp";
 			}
 		}
 	});
+	return user;
 }
 
