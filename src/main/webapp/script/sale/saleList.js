@@ -1,6 +1,5 @@
 var m_sale_query={};
 var m_sale_dlg;
-
 $(function () {
 	var args = getUrlArgs();
 	

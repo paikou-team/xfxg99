@@ -66,8 +66,8 @@
                         <td style="width:60px; text-align: center">
                             <label>备注说明:</label>
                         </td>
-                        <td colspan="4">
-                            <textarea id="txtDescription" rows="2" style="width: 100%; font-size: 12px" cols="4"></textarea>
+                        <td colspan="3">
+                            <textarea id="txtDescription" rows="2" style="width: 100%; font-size: 12px" cols="3"></textarea>
                        </td>
 
                     </tr>
