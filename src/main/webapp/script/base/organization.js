@@ -316,11 +316,24 @@ function setLocation(lng,lat){
 /**
  * 设置城市
  */
-function setCity(){
-	var city = document.getElementById("cityName").value;
-	if(city != ""){
-		baidumap.centerAndZoom(city,12);      // 用城市名设置地图中心点
-	}
+function searchAddress(){
+//	var city = document.getElementById("cityName").value;
+//	if(city != ""){
+//		baidumap.centerAndZoom(city,12);      // 用城市名设置地图中心点
+//	}
+	var address = $("#txt_Address").val();
+	var myGeo = new BMap.Geocoder();
+	myGeo.getPoint(address, function(point){
+		if (point) {
+			baidumap.centerAndZoom(point, 16);
+			baidumap.clearOverlays();
+			baidumap.addOverlay(new BMap.Marker(point));
+			$("#txt_lng").val(point.x);
+		    $("#txt_lat").val(point.y);
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	});
 }
 /**
  * 设置经纬度标记

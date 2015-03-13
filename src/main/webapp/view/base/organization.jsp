@@ -71,7 +71,7 @@
                     </td>
                     <td>
                         <label>是否仓储管理:</label></td>
-                    <td style="width:100px">
+                    <td style="width:30px">
                        <input id="IsStockCheck" type="checkbox" />
                     </td> 
 
@@ -90,9 +90,12 @@
                     <td>
                     	<label>地址:</label>
                     </td>
-                    <td colspan="3">
+                    <td colspan="2">
                         <input id="txt_Address"  style="width: 100%"></input>
                     </td>
+                    <td>
+        				<input type="button" value="查询" onclick="searchAddress()" style="font-size: 12px;" />
+        			</td>
                 </tr>
                 <tr>
        				<td colspan="5" class="noborder"></td>
@@ -101,19 +104,6 @@
         	<div id="map" style="width: 680px; height: 320px"></div>
         	<script type="text/javascript"></script>
         	<div id="r-result style="font-size: 12px;">
-        	<table style="font-size: 12px; height: 80%" >
-        		<tr>
-        			<td>
-        				<label>城市名:</label>
-        			</td>
-        			<td>
-        				<input id="cityName" type="text" style="width:100px; margin-right:10px;font-size: 12px;" />
-        			</td>
-        			<td>
-        				<input type="button" value="查询" onclick="setCity()" style="font-size: 12px;" />
-        			</td>
-        		</tr>
-        	</table>	 
 			</div>
         </div>
     </div>

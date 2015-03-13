@@ -20,7 +20,7 @@
 
   </head>
 <body style="overflow: hidden;">
-    <div id="stockBillDiv" style="display:none;">
+    <div id="stockBillDiv">
         <p style="width: 100%; text-align: center; height: 18px;">
             <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid">销售单</label>
         </p>

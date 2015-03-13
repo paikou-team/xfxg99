@@ -78,7 +78,7 @@ function onTreeMenuDblClick(row) {
 		src = "view/base/user.jsp?optType=1";
 		break;
 	case "shop_sale":
-		src = "view/sale/saleBill.jsp";
+		src = "view/sale/saleList.jsp";
 		break;
 
 	}
