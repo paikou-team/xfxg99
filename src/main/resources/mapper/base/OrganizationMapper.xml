@@ -8,8 +8,8 @@
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="is_leaf" property="isLeaf" jdbcType="BIT" />
     <result column="path" property="path" jdbcType="VARCHAR" />
-    <result column="lng" property="lng" jdbcType="VARCHAR" />
-    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="lng" property="lng" jdbcType="DECIMAL" />
+    <result column="lat" property="lat" jdbcType="DECIMAL" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="is_stock" property="isStock" jdbcType="INTEGER" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -32,8 +32,8 @@
       level, is_leaf, path, lng, 
       lat, address, is_stock)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, 
-      #{lat,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{isStock,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR})
+      #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{lng,jdbcType=DECIMAL}, 
+      #{lat,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{isStock,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.base.model.Organization" >
     insert into t_organization
@@ -92,10 +92,10 @@
         #{path,jdbcType=VARCHAR},
       </if>
       <if test="lng != null" >
-        #{lng,jdbcType=VARCHAR},
+        #{lng,jdbcType=DECIMAL},
       </if>
       <if test="lat != null" >
-        #{lat,jdbcType=VARCHAR},
+        #{lat,jdbcType=DECIMAL},
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
@@ -127,10 +127,10 @@
         path = #{path,jdbcType=VARCHAR},
       </if>
       <if test="lng != null" >
-        lng = #{lng,jdbcType=VARCHAR},
+        lng = #{lng,jdbcType=DECIMAL},
       </if>
       <if test="lat != null" >
-        lat = #{lat,jdbcType=VARCHAR},
+        lat = #{lat,jdbcType=DECIMAL},
       </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
@@ -151,8 +151,8 @@
       level = #{level,jdbcType=INTEGER},
       is_leaf = #{isLeaf,jdbcType=BIT},
       path = #{path,jdbcType=VARCHAR},
-      lng = #{lng,jdbcType=VARCHAR},
-      lat = #{lat,jdbcType=VARCHAR},
+      lng = #{lng,jdbcType=DECIMAL},
+      lat = #{lat,jdbcType=DECIMAL},
       address = #{address,jdbcType=VARCHAR},
       is_stock = #{isStock,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR}

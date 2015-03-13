@@ -2,12 +2,6 @@
  * 
  */
 var baidumap ="";
-
-var marker = null;
-
-var myLatLng;
-var myOptions;
-var map;
 $(function () {
     $('#OrganizationTree').treegrid({
 //    	url: 'organization/getSortList.do',
@@ -36,8 +30,6 @@ $(function () {
     
     loadData();
     
-   // createMap();
-    initialize();
     
     $("#AddOrganization").bind("click", Organization.AddOrganization);
     $("#EditOrganization").bind("click", Organization.EditOrganization);
@@ -77,7 +69,7 @@ var Organization = {
 	        }
 	        ShowDialog("新增", "div_Organization");
 	        //根据ip获得当前城市
-	        //localCity();
+	        localCity();
 	    },
 	    EditOrganization: function () {
 	        var rows = $('#OrganizationTree').treegrid('getSelected');
@@ -116,12 +108,11 @@ var Organization = {
 	        //当记录中有经纬度
 	        if(lng !="" && lat !=""){
 	        	
-	        	//setLocation(lng,lat);
-	        	//loadPlace(lng,lat);
-	        	setPlaceMarker(lng,lat);
+//	        	setLocation(lng,lat);
+	        	setPlace(lng,lat);
 	        }
 	        else{
-	        	//localCity();
+	        	localCity();
 	        }
 	        
 	        document.getElementById("IsStockCheck").checked = rows.isStock;
@@ -149,10 +140,11 @@ function ShowDialog(dtitle, contentId, selectId, userId) {
         lock: true,
         initFn: function () {
         },
-        width: 730,
+        width: 680,
         height: 100
     });
     //loadComBoxData(selectId);
+	createMap();
 };
 function SaveInfo() {
     var OrganizationObj = {};
@@ -276,171 +268,84 @@ function findParentName(parentId){
     }
     return result;
 }
-
-function initialize() {
-
-	myLatLng = new sogou.maps.Point(12957062,4827187);
-	myOptions = {
-			  zoom: 10,
-			  center: myLatLng,
-			  mapTypeId: sogou.maps.MapTypeId.ROADMAP
-			};
-	map = new sogou.maps.Map(document.getElementById("map"), myOptions);
-	  
-	   
-	  sogou.maps.event.addListener(map, 'click', function(event) {
-	    //获取点击位置的坐标
-	    
-	    placeMarker(event.point);
-	  });
-	}
-	   
-function placeMarker(location) {
-	if (marker) {
-		marker.setMap(null);
-	}
-	var clickedLocation = location;
-	marker = new sogou.maps.Marker({
-		position: location,
-		map: map
+/**
+ * 百度地图
+ */
+function createMap(){
+    var map = new BMap.Map("map");//在百度地图容器中创建一个地图
+    var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	map.enableScrollWheelZoom(true); 
+	var geoc = new BMap.Geocoder();  
+	baidumap = map;//将map变量存储在全局
+	//单击获取点击的经纬度
+	map.addEventListener("click",function(e){
+		var pt = e.point;
+		clickSetPlace(e.point.lng,e.point.lat);
+		geoc.getLocation(pt, function(rs){
+			var addComp = rs.addressComponents;
+			var newaddress = addComp.province  + addComp.city +  addComp.district +addComp.street +  addComp.streetNumber;
+			$("#txt_Address").val(newaddress);
+			//alert();
+		});        
 	});
+}
+/**
+ * 根据ip获得当前城市
+ */
+function localCity(){
+	baidumap.clearOverlays();    //清除地图上所有覆盖物
 
-	map.setCenter(location);
-	$("#txt_lng").val(location.x);
-	$("#txt_lat").val(location.y);
+	function myFun(result){
+		var cityName = result.name;
+		baidumap.setCenter(cityName);
+	}
+	var myCity = new BMap.LocalCity();
+	myCity.get(myFun);       // 设置地图显示的城市 此项是必须设置的
+}
+/**
+ * 根据经纬度切换地图
+ */
+function setLocation(lng,lat){
+	baidumap.clearOverlays(); 
+	var new_point = new BMap.Point(lng,lat);
+	var marker = new BMap.Marker(new_point);  // 创建标注
+	baidumap.addOverlay(marker);              // 将标注添加到地图中
+	baidumap.panTo(new_point);      
+}
+/**
+ * 设置城市
+ */
+function setCity(){
+	var city = document.getElementById("cityName").value;
+	if(city != ""){
+		baidumap.centerAndZoom(city,12);      // 用城市名设置地图中心点
+	}
+}
+/**
+ * 设置经纬度标记
+ */
+function setPlace(lng,lat){
+	baidumap.clearOverlays();    //清除地图上所有覆盖物
+
+	var pp = new BMap.Point(lng,lat);   //获取第一个智能搜索的结果
+	baidumap.centerAndZoom(pp, 12);
+	baidumap.addOverlay(new BMap.Marker(pp));    //添加标注
+//	baidumap.setCenter(pp); 
+	baidumap.panTo(pp);
 	
+	
+	$("#txt_lng").val(lng);
+    $("#txt_lat").val(lat);
 }
+function clickSetPlace(lng,lat){
+	baidumap.clearOverlays();    //清除地图上所有覆盖物
+	var pp = new BMap.Point(lng,lat);   //获取第一个智能搜索的结果
+//	baidumap.centerAndZoom(pp, 12);
+	baidumap.addOverlay(new BMap.Marker(pp));    //添加标注
+	baidumap.setCenter(pp); 
+	baidumap.panTo(pp);
 
-function setPlaceMarker(lng,lat) {
-	if (marker) {
-		marker.setMap(null);
-	}
-	var location = new sogou.maps.Point(lng,lat);
-
-	marker = new sogou.maps.Marker({
-		position: location,
-		map: map
-	});
-
-	map.setCenter(location);
-	$("#txt_lng").val(location.x);
-	$("#txt_lat").val(location.y);
+	$("#txt_lng").val(lng);
+    $("#txt_lat").val(lat);
 }
-
-function callback(a){
-	if (marker) {
-		marker.setMap(null);
-	}
-	if(a.status=='ok'){
-		var data = a.data;
-		for (var i = 0; i < data.length; i++) {
-			var geometry=a.data[0];
-			marker = new sogou.maps.Marker({
-				map:map,
-				title:geometry.address,
-				label:{
-					title:geometry.address,
-					visible:true
-				},
-				position:geometry.location,
-				visible:true
-			});
-
-			map.setCenter(marker.getPosition());
-			$("#txt_lng").val(marker.getPosition().x);
-			$("#txt_lat").val(marker.getPosition().y);
-		}
-	}
-}
-
-function search(){
-	var kw = document.getElementById("txt_Address").value;
-	var request={
-			address:{
-				addr:kw,
-				city:"全国"
-			}
-	}
-	var geo=new sogou.maps.Geocoder();
-	geo.geocode(request,callback);
-}
-///**
-// * 百度地图
-// */
-//function createMap(){
-//    var map = new BMap.Map("map");//在百度地图容器中创建一个地图
-//    var point = new BMap.Point(116.331398,39.897445);
-//	map.centerAndZoom(point,16);
-//	map.enableScrollWheelZoom(true); 
-//	baidumap = map;//将map变量存储在全局
-//	//单击获取点击的经纬度
-//	map.addEventListener("click",function(e){
-//		setPlace(e.point.lng,e.point.lat);
-//	});
-//}
-///**
-// * 根据ip获得当前城市
-// */
-//function localCity(){
-//	function myFun(result){
-//		var cityName = result.name;
-//		baidumap.setCenter(cityName);
-//	}
-//	var myCity = new BMap.LocalCity();
-//	myCity.get(myFun);       // 设置地图显示的城市 此项是必须设置的
-//}
-///**
-// * 根据经纬度切换地图
-// */
-//function setLocation(lng,lat){
-//	baidumap.clearOverlays(); 
-//	var new_point = new BMap.Point(lng,lat);
-//	var marker = new BMap.Marker(new_point);  // 创建标注
-//	baidumap.addOverlay(marker);              // 将标注添加到地图中
-//	baidumap.panTo(new_point);      
-//}
-///**
-// * 设置城市
-// */
-//function setCity(){
-//	var city = document.getElementById("cityName").value;
-//	if(city != ""){
-//		baidumap.centerAndZoom(city,16);      // 用城市名设置地图中心点
-//	}
-//}
-///**
-// * 设置经纬度标记
-// */
-//function setPlace(lng,lat){
-//	baidumap.clearOverlays();    //清除地图上所有覆盖物
-//	$("#txt_lng").val(lng);
-//    $("#txt_lat").val(lat);
-//	var pp = new BMap.Point(lng,lat);   //获取第一个智能搜索的结果
-//	baidumap.panTo(pp); 
-//	baidumap.centerAndZoom(pp, 16);
-//	baidumap.addOverlay(new BMap.Marker(pp));    //添加标注		
-//}
-//function loadPlace(lng,lat){
-//	baidumap.clearOverlays();    //清除地图上所有覆盖物
-//	$("#txt_lng").val(lng);
-//    $("#txt_lat").val(lat);
-//	
-//	$.ajax({
-//		url : "organization/pointCover.do?x="+lng+"&y="+lat,
-//		type : "POST",
-//		dataType : "json",
-//		async : false,
-//		success : function(req) {
-//			//if (req.isSuccess) {
-//				var item = req.data;
-//				var newx = item.name;
-//				var newy = item.address;
-//				alert(newx);
-//				var pp = new BMap.Point(newx,newy);   //获取第一个智能搜索的结果
-//				baidumap.panTo(pp); 
-//				baidumap.centerAndZoom(pp, 16);
-//				baidumap.addOverlay(new BMap.Marker(pp));    //添加标注
-//			//} 
-//		}
-//	});		
-//}

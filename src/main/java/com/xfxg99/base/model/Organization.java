@@ -15,9 +15,9 @@ public class Organization {
 
     private String path;
 
-    private String lng;
+    private BigDecimal lng;
 
-    private String lat;
+    private BigDecimal lat;
 
     private String address;
     
@@ -73,19 +73,19 @@ public class Organization {
         this.path = path;
     }
 
-    public String getLng() {
+    public BigDecimal getLng() {
         return lng;
     }
 
-    public void setLng(String lng) {
+    public void setLng(BigDecimal lng) {
         this.lng = lng;
     }
 
-    public String getLat() {
+    public BigDecimal getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(BigDecimal lat) {
         this.lat = lat;
     }
 
