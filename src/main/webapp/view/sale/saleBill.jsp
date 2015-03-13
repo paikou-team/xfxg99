@@ -20,7 +20,7 @@
 
   </head>
 <body style="overflow: hidden;">
-    <div id="stockBillDiv">
+    <div id="saleBillDiv">
         <p style="width: 100%; text-align: center; height: 18px;">
             <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid">销售单</label>
         </p>
@@ -35,44 +35,46 @@
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
                 <table style="width: 100%; font-size: 12px">
                     <tr>
-                        <td style="width: 70px; text-align: right">
+                        <td style="width: 60px; text-align: center">
                             <label>单据编号:</label>
                         </td>
-                        <td style="width: 100px; text-align: right">
+                        <td style="width: 100px; text-align: left">
                             <input id="txtSerialNo" class="easyui-validatebox" data-options="required:false" disabled="disabled" />
                         </td>
-                        <td style="width:70px; text-align: right">
-                            <label id="lblStockInDetp">门店名称:</label>
-                        </td>
-                        <td style="width: 100px; text-align: right" >
-                            <input id="cmbStockInDetp" class="easyui-combobox" data-options="required:false" />
-                        </td>
-                       	<td style="width:70px; text-align: right">
-                            <label id="lblStockOutDetp">客户名称:</label>
-                        </td>
-                        <td style="width: 100px; text-align: right">
-                            <input id="cmbStockOutDetp" class="easyui-combobox" data-options="required:false" />
-                        </td>
-                        <td style="width:70px; text-align:right">
+                        <td style="width:60px; text-align: center">
                             <label>单据日期:</label>
                         </td>
-                        <td style="width: 100px; text-align:right">
-                            <input id="dteStockTime" class="easyui-datetimebox"   />
+                        <td style="width: 100px; text-align: left">
+                            <input id="dteSaleTime" class="easyui-datetimebox"   />
+                        </td>                      
+                    </tr>
+                    <tr>
+                    	<td style="width:60px; text-align: center">
+                            <label id="lblSaleDetp">门店名称:</label>
+                        </td>
+                        <td style="width: 100px; text-align: left" >
+                            <input id="cmbSaleDetp" class="easyui-combobox" data-options="required:false" />
+                        </td>
+                       	<td style="width:60px; text-align: center">
+                            <label >客户名称:</label>
+                        </td>
+                        <td style="width: 100px; text-align: left">
+                            <input id="cmbSaleCustomer" class="easyui-combobox" data-options="required:false" />
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:70px; text-align: right">
+                        <td style="width:60px; text-align: center">
                             <label>备注说明:</label>
                         </td>
-                        <td colspan="7">
-                            <textarea id="txtDescription" rows="2" style="width: 100%" cols="5"></textarea>
+                        <td colspan="4">
+                            <textarea id="txtDescription" rows="2" style="width: 100%; font-size: 12px" cols="4"></textarea>
                        </td>
 
                     </tr>
                 </table>
 
                 <div>
-                    <div id="dgStockDetail"></div>
+                    <div id="dgSaleDetail"></div>
                 </div>
             </div>
         </div>

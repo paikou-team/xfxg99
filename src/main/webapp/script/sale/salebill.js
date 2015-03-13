@@ -1,13 +1,13 @@
 
 var	m_goodsListDlg;
-var m_stockDetail_rowIndex=undefined;
-var m_stock_bill;
+var m_saleDetail_rowIndex=undefined;
+var m_sale_bill;
 var user = getCurrentUser();
 
 $(function () {
 	var args = getUrlArgs();
 	
-	$('#dgStockDetail').datagrid({
+	$('#dgSaleDetail').datagrid({
         fitColumns: true,
         rownumbers: true,
         resizable: true,
@@ -18,7 +18,7 @@ $(function () {
         singleSelect: true,
         editRowIndex :undefined,
         //onDblClickRow: viewStockDetail,
-        toolbar: "#stockDetailToolBar",
+        toolbar: "#saleDetailToolBar",
         columns: [[
                { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
                { title: 'stockId', field: 'stockId', align: 'left', width: 5, hidden: true },
@@ -46,22 +46,15 @@ $(function () {
 
     });
 	
-	$("#cmbStockInDetp").combobox({
+	$("#cmbSaleDetp").combobox({
 		valueField : 'id',
 		textField : 'name',
 		panelHeight : "auto",
 		multiple : false,
-		onSelect:function (record) { m_stock_bill.stockInOrgId = record.id; }
+		onSelect:function (record) { m_sale_bill.stockInOrgId = record.id; }
 	});
 	
-	$("#cmbStockOutDetp").combobox({
-		valueField : 'id',
-		textField : 'name',
-		panelHeight : "auto",
-		multiple : false,
-		onSelect:function (record) { m_stock_bill.stockOutOrgId = record.id; }
-	});
-	
+
 	var billType=args["billType"];
 	var id=args["id"];
 	
@@ -73,11 +66,10 @@ $(function () {
 
 function loadOrgs(){
 	var orgs=loadStockOrg();
-	$("#cmbStockInDetp").combobox('loadData',orgs);
-	$("#cmbStockOutDetp").combobox('loadData',orgs);
+	$("#cmbSaleDetp").combobox('loadData',orgs);
 	
 	var userOrgId = user.orgId;
-	$("#cmbStockInDetp").combobox('select',userOrgId);
+	$("#cmbSaleDetp").combobox('select',userOrgId);
 }
 
 function loadBill(billType,id){
@@ -90,8 +82,8 @@ function loadBill(billType,id){
 	        data: { "billType": billType,'id':id },
 	        success: function (req) {
 	            if (req.isSuccess) {
-	            	m_stock_bill=req.data;
-	            	stockBill2View(m_stock_bill);
+	            	m_sale_bill=req.data;
+	            	stockBill2View(m_sale_bill);
 	            }
 	        },
 	    });
@@ -116,13 +108,13 @@ function onAddGoods(){
 }
 
 function onDelGoods(){
-	var row = $('#dgStockDetail').datagrid('getSelected');
+	var row = $('#dgSaleDetail').datagrid('getSelected');
     if (row) {
-    	var index=$('#dgStockDetail').datagrid('getRowIndex', row);
-    	$('#dgStockDetail').datagrid('deleteRow', index);
+    	var index=$('#dgSaleDetail').datagrid('getRowIndex', row);
+    	$('#dgSaleDetail').datagrid('deleteRow', index);
     	
-    	if(index ==m_stockDetail_rowIndex ){
-    		m_stockDetail_rowIndex=undefined;
+    	if(index ==m_saleDetail_rowIndex ){
+    		m_saleDetail_rowIndex=undefined;
     	}
     }
 }
@@ -137,43 +129,43 @@ function onSelGoods(goods){
 		row.goodsNumber=1;
 		row.goodsPrice=goods.shopPrice;
 		row.amount=row.goodsNumber * goods.shopPrice;
-		$('#dgStockDetail').datagrid('appendRow',row);
-		var data=$('#dgStockDetail').datagrid('getData');
+		$('#dgSaleDetail').datagrid('appendRow',row);
+		var data=$('#dgSaleDetail').datagrid('getData');
 		var index=data.total-1;
-		$('#dgStockDetail').datagrid('selectRow',index);
+		$('#dgSaleDetail').datagrid('selectRow',index);
 		beginEdit(index);
 	}
 }
 
 function beginEdit(rowIndex){
 	
-	if(rowIndex != m_stockDetail_rowIndex){
+	if(rowIndex != m_saleDetail_rowIndex){
 		
-		if(m_stockDetail_rowIndex != undefined){
-			endEdit(m_stockDetail_rowIndex);
+		if(m_saleDetail_rowIndex != undefined){
+			endEdit(m_saleDetail_rowIndex);
 		}
 		
-		$('#dgStockDetail').datagrid('beginEdit', rowIndex);
+		$('#dgSaleDetail').datagrid('beginEdit', rowIndex);
 		
-		var ed = $('#dgStockDetail').datagrid('getEditor', {index: rowIndex, field: 'goodsNumber' });
+		var ed = $('#dgSaleDetail').datagrid('getEditor', {index: rowIndex, field: 'goodsNumber' });
 		$(ed.target).focus();
 	}
-	m_stockDetail_rowIndex = rowIndex;
+	m_saleDetail_rowIndex = rowIndex;
 }
 
 function endEdit(rowIndex){
-	var ed = $('#dgStockDetail').datagrid('getEditor', { index: rowIndex, field: 'goodsNumber' });
+	var ed = $('#dgSaleDetail').datagrid('getEditor', { index: rowIndex, field: 'goodsNumber' });
 	
 	if(ed != null){
-		var data=$('#dgStockDetail').datagrid('getData');
+		var data=$('#dgSaleDetail').datagrid('getData');
 		var row=data.rows[rowIndex];
 	    var number = $(ed.target).numberbox('getValue');
 	    row.number=number;
 	    row.amount=row.goodsPrice * row.number;
-		$('#dgStockDetail').datagrid('endEdit', rowIndex);
-		$('#dgStockDetail').datagrid('refreshRow', rowIndex);
+		$('#dgSaleDetail').datagrid('endEdit', rowIndex);
+		$('#dgSaleDetail').datagrid('refreshRow', rowIndex);
 	}
-	m_stockDetail_rowIndex=undefined;
+	m_saleDetail_rowIndex=undefined;
 }
 
 function calcAmount(rowIndex,row){
@@ -182,10 +174,9 @@ function calcAmount(rowIndex,row){
 
 
 function setBillLockState(){
-	if(m_stock_bill.confirmerId >0){
-		$('#cmbStockInDetp').combobox("disable");
-		$('#cmbStockOutDetp').combobox("disable");
-		$("#dteStockTime").datetimebox('disable');
+	if(m_sale_bill.confirmerId >0){
+		$('#cmbSaleDetp').combobox("disable");
+		$("#dteSaleTime").datetimebox('disable');
 		$('#txtDescription').attr("disabled", true);
 		
 		$('#btnAddGoods').hide();
@@ -199,7 +190,7 @@ function setBillLockState(){
  */
 function onCheckStockBill(){
 	
-	if(m_stock_bill.id ==undefined || m_stokc_bill.id ==null || m_stock_bill.id==0){
+	if(m_sale_bill.id ==undefined || m_stokc_bill.id ==null || m_sale_bill.id==0){
 		$.messager.alert("提示", "请先保存单据!", "info");
 	}else{
 		$.ajax({
@@ -212,8 +203,8 @@ function onCheckStockBill(){
 			},
 			success : function(req) {
 				if (req.isSuccess) {
-					m_stock_bill=req.data;
-					$("#txtConfirmerOrgName").val(m_stock_bill.serialNo);
+					m_sale_bill=req.data;
+					$("#txtConfirmerOrgName").val(m_sale_bill.serialNo);
 				} else {
 					$.messager.alert("提示信息", req.msg, "info");
 				}
@@ -236,16 +227,12 @@ function stockBill2View(bill){
 	$('#txtSerialNo').val(bill.serialNo);
 	
 	if (bill.stockInOrgId) {
-        $("#cmbStockInDetp").combobox("select", bill.stockInOrgId);
+        $("#cmbSaleDetp").combobox("select", bill.stockInOrgId);
     }
-	
-	if (bill.stockOutOrgId) {
-        $("#cmbStockOutDetp").combobox("select", bill.stockOutOrgId);
-    }
-	
+		
 	if (bill.billTime) {
 		//var d=gCreateDate(bill.billTime);
-        $("#dteStockTime").datetimebox("setValue", bill.billTime);
+        $("#dteSaleTime").datetimebox("setValue", bill.billTime);
     }
 	
 	$("#txtPreparerOrgName").val(bill.preparerOrgName);
@@ -262,7 +249,7 @@ function stockBill2View(bill){
 			row.amount=row.goodsPrice * row.number;
 		}
 		
-		$('#dgStockDetail').datagrid('loadData',bill.stockGoods);
+		$('#dgSaleDetail').datagrid('loadData',bill.stockGoods);
 	}
 	
 	
@@ -270,11 +257,11 @@ function stockBill2View(bill){
 
 
 function view2stockBill(){
-	if(m_stockDetail_rowIndex !=undefined){
-		endEdit(m_stockDetail_rowIndex);
+	if(m_saleDetail_rowIndex !=undefined){
+		endEdit(m_saleDetail_rowIndex);
 	}
-	m_stock_bill.billTime=$('#dteStockTime').datetimebox('getValue');
-	m_stock_bill.description=$('#txtDescription').val();
+	m_sale_bill.billTime=$('#dteSaleTime').datetimebox('getValue');
+	m_sale_bill.description=$('#txtDescription').val();
 }
 /**
  * 保存前检查
@@ -282,22 +269,22 @@ function view2stockBill(){
  */
 function  checkStockBill(){
 
-	if(m_stock_bill.billType==10 && !m_stock_bill.stockInOrgId>0){
+	if(m_sale_bill.billType==10 && !m_sale_bill.stockInOrgId>0){
 		$.messager.alert("提示", "请选择入库部门!", "error");
 		return false;
 	}
 	
-	if(m_stock_bill.billType==11 && !m_stock_bill.stockOutOrgId>0 ){
+	if(m_sale_bill.billType==11 && !m_sale_bill.stockOutOrgId>0 ){
 		$.messager.alert("提示", "请选择出库部门!", "error");
 		return false;
 	}
 	
-	if(m_stock_bill.billType==12 && !m_stock_bill.stockOutOrgId>0 && !m_stock_bill.stockInOrgId>0 ){
+	if(m_sale_bill.billType==12 && !m_sale_bill.stockOutOrgId>0 && !m_sale_bill.stockInOrgId>0 ){
 		$.messager.alert("提示", "请选择出/入库部门!", "error");
 		return false;
 	}
 	
-	var data=$('#dgStockDetail').datagrid('getData');
+	var data=$('#dgSaleDetail').datagrid('getData');
 	
 	if(data.total==0){
 		$.messager.alert("提示", "请选择商品!", "error");
@@ -325,9 +312,9 @@ function onSaveStockBill(){
 		return;
 	}
 	
-	var data=$('#dgStockDetail').datagrid('getData');
+	var data=$('#dgSaleDetail').datagrid('getData');
 	
-	m_stock_bill.stockGoods=data.rows;
+	m_sale_bill.stockGoods=data.rows;
 		
 	$.ajax({
 		url : "stock/saveStockBill.do",
@@ -335,13 +322,13 @@ function onSaveStockBill(){
 		dataType : "json",
 		async : false,
 		data : {
-			'bill' : JSON.stringify(m_stock_bill)
+			'bill' : JSON.stringify(m_sale_bill)
 		},
 		success : function(req) {
 			if (req.isSuccess) {
-				m_stock_bill=req.data;
+				m_sale_bill=req.data;
 				//$("#policeInfoinportwindow").window("close");
-				$("#txtSerialNo").val(m_stock_bill.serialNo);
+				$("#txtSerialNo").val(m_sale_bill.serialNo);
 			} else {
 				$.messager.alert("提示信息", req.msg, "info");
 			}
@@ -354,4 +341,7 @@ function onSaveStockBill(){
 		}
 	});
 	
+}
+function onExit(){
+	parent.art.dialog.list['dlgSaleBillView'].close();
 }

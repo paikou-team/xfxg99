@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.UserVM;
-import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.SaleBill;
-import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.SaleService;
 
 @Scope("prototype")
@@ -43,7 +41,7 @@ public class SaleController {
 	 */
 	@RequestMapping(value = "loadSaleList.do",produces = "application/json;charset=UTF-8")
 	public  @ResponseBody String loadSaleList(
-			@RequestParam(value = "stockQuery", required = false) String query,
+			@RequestParam(value = "saleQuery", required = false) String query,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request
@@ -60,7 +58,7 @@ public class SaleController {
 		JSONObject joQuery = JSONObject.fromObject(query);
 		Map<String,Object> map=new HashMap<String,Object>();
 		
-		int orgId=joQuery.getInt("oOrgId");
+		int orgId=joQuery.getInt("orgId");
 		
 		if(user.getIsAllDataPermission() == false)
 		{

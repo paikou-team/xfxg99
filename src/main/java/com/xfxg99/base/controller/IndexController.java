@@ -102,6 +102,11 @@ public class IndexController {
 			map.put("pwd", nPwd);
 			UserVM u = userService.loadUserByNameAndPwd(map);
 			if (u != null) {
+				if(u.getIsUsed() == false){
+					Result<UserVM> s = new Result<UserVM>(null, false, false, false,
+							"用户已停用");
+					response.sendRedirect("../login.jsp");
+				}
 				session.setAttribute("user", u);
 				Result<UserVM> s = new Result<UserVM>(u, true, false, false,
 						"用户登录验证成功");

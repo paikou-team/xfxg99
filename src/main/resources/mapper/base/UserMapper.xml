@@ -136,7 +136,12 @@
   </select>
   
    <select id="loadUserByNameAndPwd" resultType="com.xfxg99.base.viewmodel.UserVM" parameterType="java.util.Map">  
-   	select u.id as id,u.name as name ,'' as password, u.org_id as orgId ,u.is_used as isused ,u.description as description,
+   	select u.id as id,u.name as name ,
+   			'' as password, 
+   			u.org_id as orgId ,
+   			u.is_used as isused ,
+   			u.description as description,
+   			u.is_alldatapermission as isalldatapermission,	
    			o.name as orgName
 	from t_user u  
 	left join t_organization o on u.org_id = o.id
