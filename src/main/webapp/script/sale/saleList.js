@@ -99,7 +99,7 @@ function loadSaleBills() {
 function packQuery(){
 	m_sale_query.beginTime = $('#dteBeginTime').datebox('getValue');
 	m_sale_query.endTime = $('#dteEndTime').datebox('getValue');
-	//m_sale_query.serialNo = $('#txtSerialNo').val();
+	m_sale_query.serialNo = $('#txtSerialNo').val();
 }
 
 function onSaleSearch(){
@@ -111,7 +111,7 @@ function onSaleBillAdd(){
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',
             title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?id=0' style='width:760px;height:460px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?billType=2&id=0' style='width:760px;height:460px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {

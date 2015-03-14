@@ -9,6 +9,7 @@
     <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
     <result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
     <result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
   </resultMap>
   <resultMap id="ViewModelResultMap" type="com.xfxg99.sale.viewmodel.SaleBillVM" >
     <id column="id" property="id" jdbcType="INTEGER" />
@@ -20,6 +21,7 @@
     <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
     <result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
     <result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
   </resultMap>
   <sql id="VM_Column_List">
   	s.id				as	id,
@@ -29,12 +31,13 @@
   	s.goods_amount		as	goods_amount,
   	s.sale_time			as	sale_time,
   	s.rec_time			as	rec_time,
+  	s.serial_no			as	serial_no,
   	o.name				as	orgName,
   	eu.user_name		as	customerName,
   	eu.email 			as 	customerEmail
   </sql>
   <sql id="Base_Column_List" >
-    id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time
+    id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time,serial_no
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -50,7 +53,7 @@
     insert into t_sale (id, cust_id, org_id, 
       pay_id, goods_amount, sale_time, 
       rec_time)
-    values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER},#{serialNo,jdbcType=VARCHAR}, 
       #{payId,jdbcType=INTEGER}, #{goodsAmount,jdbcType=DECIMAL}, #{saleTime,jdbcType=TIMESTAMP}, 
       #{recTime,jdbcType=TIMESTAMP})
   </insert>
@@ -68,6 +71,9 @@
       </if>
       <if test="payId != null" >
         pay_id,
+      </if>
+      <if test="serialNo != null">
+        serial_no,
       </if>
       <if test="goodsAmount != null" >
         goods_amount,
@@ -92,6 +98,9 @@
       <if test="payId != null" >
         #{payId,jdbcType=INTEGER},
       </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="goodsAmount != null" >
         #{goodsAmount,jdbcType=DECIMAL},
       </if>
@@ -115,6 +124,9 @@
       <if test="payId != null" >
         pay_id = #{payId,jdbcType=INTEGER},
       </if>
+      <if test="serialNo != null">
+        serial_no = #{serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="goodsAmount != null" >
         goods_amount = #{goodsAmount,jdbcType=DECIMAL},
       </if>
@@ -132,6 +144,7 @@
     set cust_id = #{custId,jdbcType=INTEGER},
       org_id = #{orgId,jdbcType=INTEGER},
       pay_id = #{payId,jdbcType=INTEGER},
+      serial_no = #{serialNo,jdbcType=VARCHAR},
       goods_amount = #{goodsAmount,jdbcType=DECIMAL},
       sale_time = #{saleTime,jdbcType=TIMESTAMP},
       rec_time = #{recTime,jdbcType=TIMESTAMP}
@@ -143,7 +156,10 @@
   	from t_sale as s
   	left join 	t_organization 	as o 	on 	s.org_id 		= o.id
   	left join 	ecs_users as  eu on s.cust_id = eu.user_id
-  	where 1=1 
+  	where 1=1
+  	<if test="serialNo != null" >
+  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  	</if> 
   	<if test="orgId > 0" >
   	and s.org_id = #{orgId,jdbcType=INTEGER},
   	</if>
@@ -162,6 +178,10 @@
   	from t_sale as s
   	left join 	t_organization 	as o 	on 	s.org_id 		= o.id
   	left join 	ecs_users as  eu on s.cust_id = eu.user_id
+  	where 1=1 
+  	<if test="serialNo != null" >
+  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  	</if>
     <if test ="orgId > 0">
   	and s.org_id = #{orgId,jdbcType=INTEGER},  
  	</if> 

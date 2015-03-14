@@ -17,6 +17,8 @@ public class SaleBill {
     private Date saleTime;
 
     private Date recTime;
+    
+    private String serialNo;
 
     public Integer getId() {
         return id;
@@ -72,5 +74,13 @@ public class SaleBill {
 
     public void setRecTime(Date recTime) {
         this.recTime = recTime;
+    }
+    
+    public String getSerialNo() {
+        return serialNo;
+    }
+
+    public void setSerialNo(String serialNo) {
+    	  this.serialNo = serialNo;
     }
 }

@@ -8,6 +8,8 @@ public class SaleBillVM  extends SaleBill{
 	private String orgName;
 	private String customerName;
 	private String customerEmail;
+	private String preparerOrgName;
+	private String preparerName;
 	
 	public String getOrgName() {
 		return orgName;
@@ -26,5 +28,17 @@ public class SaleBillVM  extends SaleBill{
 	}
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
+	}
+	public String getPreparerOrgName() {
+		return preparerOrgName;
+	}
+	public void setPreparerOrgName(String preparerOrgName) {
+		this.preparerOrgName = preparerOrgName;
+	}
+	public String getPreparerName() {
+		return preparerName;
+	}
+	public void setPreparerName(String preparerName) {
+		this.preparerName = preparerName;
 	}
 }

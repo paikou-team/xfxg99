@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
+import com.xfxg99.sale.viewmodel.StockBillVM;
+import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.SaleBill;
+import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.SaleService;
 
 @Scope("prototype")
@@ -30,6 +33,8 @@ public class SaleController {
 	
 	@Resource(name = "saleService")
 	protected SaleService saleService;
+	@Resource(name = "billSerialNoService")
+	protected BillSerialNoService billSerialNoService;
 	
 	
 	
@@ -106,20 +111,49 @@ public class SaleController {
 			return result.toJson();
 		}
 		
-		SaleBill bill=null;
+		SaleBillVM bill=null;
 		
-//		if(id==0){//新建一个单据
-//			bill=this.newStockBill(billType, user);
-//		}else{//从数据库读取一个单据
-//			bill = stockService.loadVMById(id);
-//		}
+		if(id==0){//新建一个单据
+			bill=this.newSaleBill(billType, user);
+		}else{//从数据库读取一个单据
+//			bill = saleService.loadVMById(id);
+		}
 		
 		result.setData(bill);
 
 		return result.toJson();
 	}
 	
+	/**
+	 * 创建一个单据
+	 * @param billType
+	 * @param u
+	 * @return
+	 */
+	private SaleBillVM newSaleBill(Integer billType,UserVM u){
+		SaleBillVM  bill=new SaleBillVM();
+		
+		Date ct=Calendar.getInstance().getTime();
+		
 	
+		bill.setSaleTime(ct);
+		
+		Map<String,Object> billNoMap=GeneralUtil.getSerialNoPars(billType);
+		String billNo=billSerialNoService.getNextBillSerialNo(billNoMap);
+		
+		bill.setSerialNo(billNo);
+		bill.setPayId(0);
+		bill.setId(0);
+		bill.setOrgId(u.getOrgId());
+		bill.setOrgName(u.getOrgName());
+		
+		bill.setRecTime(ct);
+		bill.setPreparerOrgName(u.getOrgName());
+		bill.setPreparerName(u.getName());
+//		bill.setState(0);
+		
+		return bill;
+	}
 	
 	 
 }

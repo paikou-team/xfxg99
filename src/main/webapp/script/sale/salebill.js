@@ -56,12 +56,12 @@ $(function () {
 	});
 	
 
-//	var billType=args["billType"];
-//	var id=args["id"];
+	var billType=args["billType"];
+	var id=args["id"];
 	
 	loadOrgs();
 	
-//	loadBill(billType,id);
+	loadBill(billType,id);
 //	setBillLockState();
 	
 	
@@ -78,14 +78,14 @@ function loadOrgs(){
 	var orgs=loadStockOrg();
 	$("#cmbSaleDetp").combobox('loadData',orgs);
 	
-	var userOrgId = user.orgId;
-	$("#cmbSaleDetp").combobox('select',userOrgId);
+//	var userOrgId = user.orgId;
+//	$("#cmbSaleDetp").combobox('select',userOrgId);
 }
 
 function loadBill(billType,id){
 	if(id==0){
 		$.ajax({
-	        url: 'stock/loadBill.do',
+	        url: 'sale/loadBill.do',
 	        type: "POST",
 	        dataType: "json",
 	        async: false,
@@ -236,22 +236,21 @@ function onCheckStockBill(){
 function stockBill2View(bill){
 	$('#txtSerialNo').val(bill.serialNo);
 	
-	if (bill.stockInOrgId) {
-        $("#cmbSaleDetp").combobox("select", bill.stockInOrgId);
+	if (bill.orgId) {
+        $("#cmbSaleDetp").combobox("select", bill.orgId);
     }
 		
-	if (bill.billTime) {
-		//var d=gCreateDate(bill.billTime);
-        $("#dteSaleTime").datetimebox("setValue", bill.billTime);
+	if (bill.saleTime) {
+        $("#dteSaleTime").datetimebox("setValue", bill.saleTime);
     }
 	
 	$("#txtPreparerOrgName").val(bill.preparerOrgName);
 	$("#txtPreparerName").val(bill.preparerName);
-	$("#txtPrepareTime").val(bill.prepareTime);
-	
-	$("#txtConfirmerOrgName").val(bill.confirmerOrgName);
-	$("#txtConfirmerName").val(bill.confirmerName);
-	$("#txtConfirmTime").val(bill.confirmTime);
+	$("#txtPrepareTime").val(bill.recTime);
+//	
+//	$("#txtConfirmerOrgName").val(bill.confirmerOrgName);
+//	$("#txtConfirmerName").val(bill.confirmerName);
+//	$("#txtConfirmTime").val(bill.confirmTime);
 	
 	if(bill.stockGoods !=undefined && bill.stockGoods !=null){
 		for(var i=0;i++;i<bill.stockGoods){
