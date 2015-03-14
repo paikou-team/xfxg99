@@ -3,7 +3,7 @@ var	m_goodsListDlg;
 var m_saleDetail_rowIndex=undefined;
 var m_sale_bill;
 var user = getCurrentUser();
-
+var m_selectCustomer_dlg;
 $(function () {
 	var args = getUrlArgs();
 	
@@ -21,7 +21,7 @@ $(function () {
         toolbar: "#saleDetailToolBar",
         columns: [[
                { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
-               { title: 'stockId', field: 'stockId', align: 'left', width: 5, hidden: true },
+               { title: 'saleId', field: 'saleId', align: 'left', width: 5, hidden: true },
                { title: 'goodsId', field: 'goodsId', align: 'left', width: 10,hidden: true},
                { title: '名称', field: 'goodsName', align: 'left', width: 220  },
                { title: '数量', field: 'goodsNumber', align: 'right', width: 80,
@@ -51,17 +51,27 @@ $(function () {
 		textField : 'name',
 		panelHeight : "auto",
 		multiple : false,
-		onSelect:function (record) { m_sale_bill.stockInOrgId = record.id; }
+		onSelect:function (record) {
+			$("#txtcustId").val( record.id); }
 	});
 	
 
-	var billType=args["billType"];
-	var id=args["id"];
+//	var billType=args["billType"];
+//	var id=args["id"];
 	
 	loadOrgs();
 	
-	loadBill(billType,id);
-	setBillLockState();
+//	loadBill(billType,id);
+//	setBillLockState();
+	
+	
+	$("#btnSelectCustomer").bind("click", SelectCustUser);
+	
+	CustomerSelectManage.InitCustGrid();
+	$("#btnSearchCustUser").bind("click", CustomerSelectManage.SearchCustUser);
+
+	
+
 });
 
 function loadOrgs(){
@@ -345,3 +355,70 @@ function onSaveStockBill(){
 function onExit(){
 	parent.art.dialog.list['dlgSaleBillView'].close();
 }
+function SelectCustUser() {
+	m_selectCustomer_dlg = art.dialog({
+		id : 'dlgChargeUser',
+		title : '客户选择',
+		content : document.getElementById("div_custuser"),
+		lock : false,
+		width : 500,
+		height : 300,
+		initFn : function() {
+			$('#custUserGrid').datagrid("reload");
+		}
+	});
+	
+}
+var CustomerSelectManage = {
+		InitCustGrid : function() {
+			$('#custUserGrid').datagrid({
+				url : 'charge/getcustList.do',
+				fitColumns : true,
+				rownumbers : true,
+				resizable : true,
+				pagination : true,
+				pageNumber : 1,
+				pageSize : 10,
+				nowrap : false,
+				idField : 'id',
+				height : '99%',
+				width : '99%',
+				singleSelect : true,
+				onDblClickRow : CustomerSelectManage.SelectCustUserAction,
+				toolbar : "#tb_custUser",
+				columns : [ [ {
+					title : 'id',
+					field : 'id',
+					align : 'left',
+					width : 5,
+					hidden : true
+				}, {
+					title : '客户姓名',
+					field : 'name',
+					align : 'center',
+					width : 150
+				}, {
+					title : '联系方式',
+					field : 'phone',
+					width : 150,
+					align : 'center'
+				}, {
+					title : '电子邮件',
+					field : 'email',
+					align : 'left',
+					width : 250
+				} ] ]
+			});
+		},
+		
+		SearchCustUser : function() {
+			$('#custUserGrid').datagrid("reload", {
+				"name" : $("#search_custname").val()
+			});
+		},
+		SelectCustUserAction : function(index, rowData) {
+			$("#txtcustId").val(rowData.id);
+			$("#textSaleCustomer").val(rowData.name);
+			m_selectCustomer_dlg.close();
+		}
+	};

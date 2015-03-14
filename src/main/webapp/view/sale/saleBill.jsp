@@ -34,6 +34,10 @@
         <div class="easyui-tabs" data-options="tabWidth:120" style="width: 100%; height: 340px; border-left: 1px solid #D4D4D4; border-right: 1px solid #D4D4D4">
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
                 <table style="width: 100%; font-size: 12px">
+                <tr>
+                	<td><input id="txtcustId" type="hidden" /></td>
+                	<td><input id="txtorgId" type="hidden" /></td>
+                </tr>
                     <tr>
                         <td style="width: 60px; text-align: center">
                             <label>单据编号:</label>
@@ -59,8 +63,10 @@
                             <label >客户名称:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
-                            <input id="cmbSaleCustomer" class="easyui-combobox" data-options="required:false" />
+                            <input id="textSaleCustomer" class="easyui-validatebox" data-options="required:false" />
+                            <a id="btnSelectCustomer"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-select" plain="true">客户选择</a>
                         </td>
+                        
                     </tr>
                     <tr>
                         <td style="width:60px; text-align: center">
@@ -101,5 +107,13 @@
             </tr>
         </table>
     </div>
+    <div id="div_custuser" style="width:500px;height:300px; display:none">
+		<div id="custUserGrid" fit="true">	
+		</div>
+		<div id="tb_custUser">
+			<label>客户姓名:</label><input id="search_custname" class="easyui-validatebox" style="width:120px" />
+			<a id="btnSearchCustUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a>
+		</div>
+	</div>
 </body>
 </html>
