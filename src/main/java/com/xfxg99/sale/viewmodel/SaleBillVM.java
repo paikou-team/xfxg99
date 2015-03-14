@@ -10,6 +10,7 @@ public class SaleBillVM  extends SaleBill{
 	private String customerEmail;
 	private String preparerOrgName;
 	private String preparerName;
+	private List<StockGoodsVM>  stockGoods;
 	
 	public String getOrgName() {
 		return orgName;
@@ -40,5 +41,11 @@ public class SaleBillVM  extends SaleBill{
 	}
 	public void setPreparerName(String preparerName) {
 		this.preparerName = preparerName;
+	}
+	public List<StockGoodsVM> getStockGoods() {
+		return stockGoods;
+	}
+	public void setStockGoods(List<StockGoodsVM> stockGoods) {
+		this.stockGoods = stockGoods;
 	}
 }

@@ -23,4 +23,6 @@ public interface SaleBillMapper {
     int countByVMMap(Map<String,Object> map);
     
     List<SaleBillVM> loadListWithPage(Map<String,Object> map);
+    
+    void deleteByNotExistId(Map<String,Object> map);
 }

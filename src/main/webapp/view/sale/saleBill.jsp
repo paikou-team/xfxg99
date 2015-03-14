@@ -27,7 +27,7 @@
         <p style="margin-top: -1px; margin-bottom: 0px">
         	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onAddGoods()">添加</a>
         	<a id="btnDelGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onDelGoods()">删除</a>
-            <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onSaveStockBill()">保存</a>
+            <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onSaveSaleBill()">保存</a>
             <a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-split" plain="true" onclick="onCheckStockBill()">确认</a>
             <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="exit()">退出</a>
         </p>

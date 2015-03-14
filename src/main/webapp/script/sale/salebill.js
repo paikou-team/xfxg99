@@ -278,20 +278,11 @@ function view2stockBill(){
  */
 function  checkStockBill(){
 
-	if(m_sale_bill.billType==10 && !m_sale_bill.stockInOrgId>0){
-		$.messager.alert("提示", "请选择入库部门!", "error");
+	if(m_sale_bill.billType==10 && !m_sale_bill.orgId>0){
+		$.messager.alert("提示", "请选择销售部门!", "error");
 		return false;
 	}
-	
-	if(m_sale_bill.billType==11 && !m_sale_bill.stockOutOrgId>0 ){
-		$.messager.alert("提示", "请选择出库部门!", "error");
-		return false;
-	}
-	
-	if(m_sale_bill.billType==12 && !m_sale_bill.stockOutOrgId>0 && !m_sale_bill.stockInOrgId>0 ){
-		$.messager.alert("提示", "请选择出/入库部门!", "error");
-		return false;
-	}
+		
 	
 	var data=$('#dgSaleDetail').datagrid('getData');
 	
@@ -313,7 +304,7 @@ function  checkStockBill(){
 	
 }
 
-function onSaveStockBill(){
+function onSaveSaleBill(){
 	
 	view2stockBill();
 		
@@ -326,7 +317,7 @@ function onSaveStockBill(){
 	m_sale_bill.stockGoods=data.rows;
 		
 	$.ajax({
-		url : "stock/saveStockBill.do",
+		url : "sale/saveSaleBill.do",
 		type : "POST",
 		dataType : "json",
 		async : false,

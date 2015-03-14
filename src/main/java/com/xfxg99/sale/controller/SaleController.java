@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
+import com.xfxg99.sale.viewmodel.StockGoodsVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
@@ -154,6 +156,39 @@ public class SaleController {
 		
 		return bill;
 	}
+	@RequestMapping(value = "saveSaleBill.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String saveSaleBill(
+			@RequestParam(value = "bill", required = false) String billJson,
+			HttpServletRequest request
+			){
 	
+		User user =(User)request.getSession().getAttribute("user");
+	
+		Result<SaleBillVM>  result =null;
+		
+		if(user ==null){
+			result =new Result<SaleBillVM>(null,false,true,false,"请从新登录");
+			return result.toJson();
+		}
+		
+		try{
+			JSONObject jObj = JSONObject.fromObject(billJson);
+			
+			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+
+			classMap.put("stockGoods", StockGoodsVM.class);
+			
+			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
+			
+			saleService.saveSaleBill(bill);
+
+			result=new Result<SaleBillVM>(bill);
+			
+		}catch(Exception ex){
+			result=new Result<SaleBillVM>(null,false,true,true,ex.getMessage());
+		}
+		return result.toJson();
+
+	}
 	 
 }
