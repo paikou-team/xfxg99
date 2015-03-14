@@ -10,6 +10,29 @@
     <result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
     <result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="ViewModelResultMap" type="com.xfxg99.sale.viewmodel.SaleBillVM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cust_id" property="custId" jdbcType="INTEGER" />
+    <result column="customerName" property="customerName" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="orgName" property="orgName" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="INTEGER" />
+    <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
+    <result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
+    <result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="VM_Column_List">
+  	s.id				as	id,
+  	s.cust_id			as 	cust_id,
+  	s.org_id			as	org_id,
+  	s.pay_id			as	pay_id,
+  	s.goods_amount		as	goods_amount,
+  	s.sale_time			as	sale_time,
+  	s.rec_time			as	rec_time,
+  	o.name				as	orgName,
+  	eu.user_name		as	customerName,
+  	eu.email 			as 	customerEmail
+  </sql>
   <sql id="Base_Column_List" >
     id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time
   </sql>
@@ -114,10 +137,12 @@
       rec_time = #{recTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="loadListWithPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="loadListWithPage" parameterType="java.util.Map" resultMap="ViewModelResultMap">
   	select 
-  	<include refid="Base_Column_List" />
+  	<include refid="VM_Column_List" />
   	from t_sale as s
+  	left join 	t_organization 	as o 	on 	s.org_id 		= o.id
+  	left join 	ecs_users as  eu on s.cust_id = eu.user_id
   	where 1=1 
   	<if test="orgId > 0" >
   	and s.org_id = #{orgId,jdbcType=INTEGER},
@@ -132,10 +157,11 @@
   		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
   	</if>
   </select>
-   <select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+   <select id="countByVMMap" parameterType="java.util.Map" resultType="java.lang.Integer">
   	select count(*)
-  	from t_sale   as s
-   	where 1=1 
+  	from t_sale as s
+  	left join 	t_organization 	as o 	on 	s.org_id 		= o.id
+  	left join 	ecs_users as  eu on s.cust_id = eu.user_id
     <if test ="orgId > 0">
   	and s.org_id = #{orgId,jdbcType=INTEGER},  
  	</if> 

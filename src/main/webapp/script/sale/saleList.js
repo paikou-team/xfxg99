@@ -34,10 +34,14 @@ $(function () {
         onDblClickRow: onSelRow,
         columns: [[
                { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
+               { title: 'orgId', field: 'orgId', align: 'left', width: 5, hidden: true },
+               { title: 'custId', field: 'custId', align: 'left', width: 5, hidden: true },
                { title: '单据号', field: 'payId', align: 'left', width: 150 },
-               { title: '金额', field: 'goodsAmount', align: 'left', width: 120 },
+               { title: '销售部门', field: 'orgName', align: 'center', width: 150 },
+               { title: '客户名称', field: 'customerName', align: 'center', width: 100 },
+               { title: '金额', field: 'goodsAmount', align: 'right', width: 120 },
                { title: '销售日期', field: 'saleTime', align: 'center', width: 100 },
-               { title: '录入日期', field: 'recTime', align: 'left', width: 100 }
+               { title: '录入日期', field: 'recTime', align: 'center', width: 100 }
         ]]
     });
 });

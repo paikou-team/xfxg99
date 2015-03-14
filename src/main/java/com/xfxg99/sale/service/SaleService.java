@@ -16,6 +16,7 @@ import com.xfxg99.sale.dao.BillSerialNoMapper;
 import com.xfxg99.sale.dao.SaleBillMapper;
 import com.xfxg99.sale.dao.StockGoodsMapper;
 import com.xfxg99.sale.model.SaleBill;
+import com.xfxg99.sale.viewmodel.SaleBillVM;
 
 @Service("saleService")
 public class SaleService {
@@ -29,11 +30,11 @@ public class SaleService {
 	@Resource(name="billSerialNoMapper")
 	private BillSerialNoMapper billSerialNoMapper; 
 	
-	public ListResult<SaleBill> loadListWithPage(Map<String,Object> map){
-		int total=saleBillMapper.countByMap(map);
-		List<SaleBill> ls=saleBillMapper.loadListWithPage(map);
+	public ListResult<SaleBillVM> loadListWithPage(Map<String,Object> map){
+		int total=saleBillMapper.countByVMMap(map);
+		List<SaleBillVM> ls=saleBillMapper.loadListWithPage(map);
 	
-		return new ListResult<SaleBill>(total,ls);
+		return new ListResult<SaleBillVM>(total,ls);
 	}
 	
 	public SaleBill selectByPrimaryKey(Integer id){
