@@ -3,6 +3,7 @@ package com.xfxg99.sale.controller;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.StockService;
+import com.xfxg99.sale.viewmodel.InventoryVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
 
@@ -55,6 +57,7 @@ public class StockController {
 		JSONObject joQuery = JSONObject.fromObject(query);
 		Map<String,Object> map=new HashMap<String,Object>();
 		
+		int billType=joQuery.getInt("billType");
 		int stockInOrgId=joQuery.getInt("stockInOrgId");
 		int stockOutOrgId=joQuery.getInt("stockOutOrgId");
 		String serialNo=joQuery.getString("serialNo");
@@ -64,6 +67,7 @@ public class StockController {
 		
 		page = page == 0 ? 1 : page;
 		
+		map.put("billType", billType);
 		map.put("stockInOrgId", stockInOrgId);
 		map.put("stockOutOrgId", stockOutOrgId);
 		map.put("serialNo", serialNo);
@@ -210,6 +214,68 @@ public class StockController {
 			return result.toJson();
 	
 		}
+	
+	
+	@RequestMapping(value = "delStockBill.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String delStockBill(
+			@RequestParam(value = "id", required = false) Integer id,
+			HttpServletRequest request
+			){
+		
+		User user =(User)request.getSession().getAttribute("user");
+		Result<StockBillVM>  result =null;
+		
+		if(user ==null){
+			result =new Result<StockBillVM>(null,false,true,false,"请从新登录");
+			return result.toJson();
+		}
+		
+		int confirmerId= stockService.getBillConfirmerId(id);
+		
+		if(confirmerId>0){
+			result =new Result<StockBillVM>(null,false,false,false,"单据已经审核，不能删除!");
+		}else{
+			stockService.deleteBillById(id);
+			result =new Result<StockBillVM>(null,true,false,false,null);
+		}
+		
+		return result.toJson();
+	}
+	
+	@RequestMapping(value = "loadInventoryList.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String loadInventoryList(
+			@RequestParam(value = "inventoryQuery", required = false) String query,
+			HttpServletRequest request
+			){
+		User user =(User)request.getSession().getAttribute("user");
+		ListResult<InventoryVM>  result =null;
+		
+		if(user ==null){
+			result =new ListResult<InventoryVM>(0,null,false);
+			result.setIsSessionExpired(true);
+			result.setMsg("请重新登录");
+			return result.toJson();
+		}
+		
+		JSONObject joQuery = JSONObject.fromObject(query);
+		
+		int orgId=joQuery.getInt("orgId");
+		String goodsName=joQuery.getString("goodsName");
+		goodsName = "".equals(goodsName)?null:goodsName;
+
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("orgId", orgId);
+		map.put("goodsName", goodsName);
+		
+		Object x=map.get("goodsName");
+		
+
+		List<InventoryVM> ls=stockService.loadInventoryList(map);
+		
+		result =new ListResult<InventoryVM>(ls.size(),ls,true);
+		
+		return result.toJson();
+	}
 	
 	
 	/**

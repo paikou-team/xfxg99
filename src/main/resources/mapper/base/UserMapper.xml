@@ -136,7 +136,12 @@
   </select>
   
    <select id="loadUserByNameAndPwd" resultType="com.xfxg99.base.viewmodel.UserVM" parameterType="java.util.Map">  
-   	select u.id as id,u.name as name ,'' as password, u.org_id as orgId ,u.is_used as isused ,u.description as description,
+   	select u.id as id,u.name as name ,
+   			'' as password, 
+   			u.org_id as orgId ,
+   			u.is_used as isused ,
+   			u.description as description,
+   			u.is_alldatapermission as isalldatapermission,	
    			o.name as orgName
 	from t_user u  
 	left join t_organization o on u.org_id = o.id
@@ -172,4 +177,21 @@
   		and r.name like CONCAT('%','${userName}','%' )  
  	</if> 
   </select>
+
+  
+  <select id="checkAuthorize" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*) 
+  	from t_authorize as a
+  	left join t_function as f on a.function_id = f.id
+  	where a.user_id= #{userId,jdbcType=INTEGER} and f.func_key = #{funcKey,jdbcType=VARCHAR}
+  </select>
+  
+
+  <select id="getUsedOrgIdCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select 
+    count(*)
+    from t_user
+    where org_id = #{orgId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

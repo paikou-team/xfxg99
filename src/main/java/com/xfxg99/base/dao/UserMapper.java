@@ -31,4 +31,11 @@ public interface UserMapper {
 	
 	int countByMap(Map<String, Object> map);
 
+
+	int checkAuthorize(Map<String, Object> map);
+
+	
+	int getUsedOrgIdCount(Integer orgId);
+
+
 }

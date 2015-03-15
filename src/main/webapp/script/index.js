@@ -3,6 +3,9 @@ var m_index_user;
 var m_index_iconStyles = {};
 
 $(function() {
+	
+	getCurrentUser();
+	
 	var args = getUrlArgs();
 
 	//isSignIn(gSetCurrentUserCallback);
@@ -38,13 +41,17 @@ function loadMenu() {
 function onTreeMenuDblClick(row) {
 	var src = null;
 
+	getCurrentUser();
+	
 	switch (row.funcKey) {
 	case "shop_stockin":
-		
 		src = "view/sale/stockList.jsp?billType=10";
 		break;
 	case "shop_stockout":
 		src = "view/sale/stockList.jsp?billType=11";
+		break;
+	case "shop_inventory":
+		src="view/sale/inventory.jsp";
 		break;
 	case "shop_transfer":
 		src = "view/sale/stockList.jsp?billType=12";
@@ -74,7 +81,7 @@ function onTreeMenuDblClick(row) {
 		src = "view/base/user.jsp?optType=1";
 		break;
 	case "shop_sale":
-		src = "view/sale/saleBill.jsp";
+		src = "view/sale/saleList.jsp";
 		break;
 
 	}

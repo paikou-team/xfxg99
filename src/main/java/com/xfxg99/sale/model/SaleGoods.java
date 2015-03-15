@@ -9,11 +9,11 @@ public class SaleGoods {
 
     private Integer goodsId;
 
-    private Short goodsNumber;
+    private Integer goodsNumber;
 
-    private BigDecimal marketPrice;
+    private double marketPrice;
 
-    private BigDecimal goodsPrice;
+    private double goodsPrice;
 
     public Integer getId() {
         return id;
@@ -39,27 +39,27 @@ public class SaleGoods {
         this.goodsId = goodsId;
     }
 
-    public Short getGoodsNumber() {
+    public Integer getGoodsNumber() {
         return goodsNumber;
     }
 
-    public void setGoodsNumber(Short goodsNumber) {
+    public void setGoodsNumber(Integer goodsNumber) {
         this.goodsNumber = goodsNumber;
     }
 
-    public BigDecimal getMarketPrice() {
+    public double getMarketPrice() {
         return marketPrice;
     }
 
-    public void setMarketPrice(BigDecimal marketPrice) {
+    public void setMarketPrice(double marketPrice) {
         this.marketPrice = marketPrice;
     }
 
-    public BigDecimal getGoodsPrice() {
+    public double getGoodsPrice() {
         return goodsPrice;
     }
 
-    public void setGoodsPrice(BigDecimal goodsPrice) {
+    public void setGoodsPrice(double goodsPrice) {
         this.goodsPrice = goodsPrice;
     }
 }

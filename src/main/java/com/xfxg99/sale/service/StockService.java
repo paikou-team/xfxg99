@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
+import com.xfxg99.sale.viewmodel.InventoryVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
 import com.xfxg99.sale.dao.BillSerialNoMapper;
@@ -83,5 +84,18 @@ public class StockService {
 		map.put("userId", userId);
 		
 		stockBillMapper.confirmStockBill(map);
+	}
+	
+	
+	public int getBillConfirmerId(Integer id){
+		return stockBillMapper.getBillConfirmerId(id);
+	}
+	
+	public void deleteBillById(Integer id){
+		stockBillMapper.deleteByPrimaryKey(id);
+	}
+	
+	public List<InventoryVM> loadInventoryList(Map<String,Object> map){
+		return stockBillMapper.loadInventoryList(map);
 	}
 }

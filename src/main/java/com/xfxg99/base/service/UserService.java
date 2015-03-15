@@ -1,5 +1,6 @@
 package com.xfxg99.base.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,4 +80,20 @@ public class UserService{
 		 
 		 return userMapper.selectByPrimaryKey(id);
 	 }
+	
+
+	public boolean checkAuthorize(Integer userId,String funcKey){
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("userId", userId);
+		map.put("funcKey", funcKey);
+		int c=userMapper.checkAuthorize(map);
+		
+		return c>0;
+	}
+		
+
+	public int getUsedOrgIdCount(Integer orgId)
+	{
+		return userMapper.getUsedOrgIdCount(orgId);
+	}
 }

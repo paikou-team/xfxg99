@@ -22,6 +22,8 @@ public class Organization {
     private String address;
     
     private boolean isStock;
+    
+    private String phone;
 
     public Integer getId() {
         return id;
@@ -103,5 +105,13 @@ public class Organization {
     public void setIsStock(boolean isStock)
     {
     	this.isStock =  isStock;
+    }
+    
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

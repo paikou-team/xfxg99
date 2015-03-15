@@ -16,6 +16,7 @@
 			<a id="btnAddStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="onStockBillAdd()">新增</a> 
 			<a id="btnEditStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockBillEdit()">查看</a> 
 			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockConfirm()">确认</a> 
+			<a id="btnDelStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockDel()">确认</a>
         </p>
 	</div>
 	<br />

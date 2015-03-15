@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.StockBill;
+import com.xfxg99.sale.viewmodel.InventoryVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 
 @MyBatisRepository
@@ -31,4 +32,8 @@ public interface StockBillMapper {
     
     
     StockBillVM loadVMById(Integer id);
+    
+    int getBillConfirmerId(Integer id);
+    
+    List<InventoryVM> loadInventoryList(Map<String,Object> map);
 }
