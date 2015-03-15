@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.viewmodel.CustomerVM;
+
+
 @MyBatisRepository
 public interface CustomerMapper {
 
@@ -13,4 +15,16 @@ public interface CustomerMapper {
     List<CustomerVM> loadVMListWithPage(Map<String,Object> map);
     
     CustomerVM loadVMById(Integer id);
+    
+
+	 int getCustUserCount();
+		 
+
+	 List<CustomerVM> loadCustUserlist(Map<String, Object> map);
+
+
+	void insert(CustomerVM customer);
+
+
+	void updateByPrimaryKey(CustomerVM customer);
 }

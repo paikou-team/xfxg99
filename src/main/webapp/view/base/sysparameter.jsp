@@ -21,8 +21,18 @@
   
   
   <body>
-     <div>
-     	
-     </div>
+    <div id="sysParamTb" >
+        <div>
+            <p> 
+                <a id="AddParam" name="AddParam"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add"
+                    plain="true">新增</a> 
+                <a id="SaveParamInfo" name="SaveParamInfo" 
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save"
+                    plain="true">保存</a> 
+            </p> 
+        </div>
+    </div>
+    <div id="sysParamGrid"  style="margin:10px" ></div>
   </body>
 </html>

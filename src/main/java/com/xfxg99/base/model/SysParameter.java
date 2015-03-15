@@ -1,63 +1,77 @@
 package com.xfxg99.base.model;
 
 public class SysParameter {
-    private Integer id;
+	private Integer id;
 
-    private String key;
+	private String paramkey;
 
-    private String value;
+	public String getParamkey() {
+		return paramkey;
+	}
 
-    private String name;
+	public void setParamkey(String paramkey) {
+		this.paramkey = paramkey;
+	}
 
-    private String groupname;
+	private String value;
 
-    private String edittype;
+	private String group;
 
-    public Integer getId() {
-        return id;
-    }
+	public String getGroup() {
+		return group;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setGroup(String group) {
+		this.group = group;
+	}
 
-    public String getKey() {
-        return key;
-    }
+	private String name;
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+	private String groupname;
 
-    public String getValue() {
-        return value;
-    }
+	private String editor;
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getKey() {
+		return paramkey;
+	}
 
-    public String getGroupname() {
-        return groupname;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public String getEdittype() {
-        return edittype;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setEdittype(String edittype) {
-        this.edittype = edittype;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getGroupname() {
+		return groupname;
+	}
+
+	public void setGroupname(String groupname) {
+		this.groupname = groupname;
+	}
+
+	public String getEditor() {
+		return editor;
+	}
+
+	public void setEditor(String editor) {
+		this.editor = editor;
+	}
 }

@@ -1,5 +1,7 @@
 package com.xfxg99.base.dao;
 
+import java.util.List;
+
 import com.xfxg99.base.model.SysParameter;
 import com.xfxg99.core.MyBatisRepository;
 @MyBatisRepository
@@ -15,4 +17,8 @@ public interface SysParameterMapper {
     int updateByPrimaryKeySelective(SysParameter record);
 
     int updateByPrimaryKey(SysParameter record);
+
+	List<SysParameter> loadSysParamList();
+
+	int getParamCount();
 }

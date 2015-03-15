@@ -79,7 +79,7 @@
 	<select id="loadrechargeCustUserlist" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
 		select user_id as id,user_name as name , email as email ,mobile_phone
 		as
-		phone 
+		phone ,tjr_name as recUser
 		from ecs_users
 		where 1=1
 

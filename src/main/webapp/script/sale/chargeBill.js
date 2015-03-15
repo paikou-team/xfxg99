@@ -50,6 +50,7 @@ var ChargeBillManage = {
 		var custid = $("#txtcustId").val();
 		if (custid == "" || custid == undefined) {
 			$.messager.alert("操作提示", "请选择客户！", "error");
+			return;
 		}
 		chargeObj.custId = custid;
 		var money = $("#txtmoney").numberbox('getValue');
@@ -64,8 +65,12 @@ var ChargeBillManage = {
 			async : false,
 			data : chargeObj,
 			success : function(req) {
-				parent.ChargeManage.SearchAction();
-				parent.m_charge_dlg.close();
+				if (req.isSuccess) {
+					parent.ChargeManage.SearchAction();
+					parent.m_charge_dlg.close();
+				} else {
+					$.messager.alert("系统提示", req.msg, "error")
+				}
 			},
 			failer : function(a, b) {
 				$.messager.alert("消息提示", a, "info");

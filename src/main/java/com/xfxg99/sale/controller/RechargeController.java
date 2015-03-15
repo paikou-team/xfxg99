@@ -1,5 +1,5 @@
 package com.xfxg99.sale.controller;
- 
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
- 
+
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;

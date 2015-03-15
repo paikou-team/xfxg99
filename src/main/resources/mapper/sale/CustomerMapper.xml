@@ -21,7 +21,31 @@
   	s.birthday			as	birthday,
   	g.address	as	address
   </sql>
-  
+  <insert id="insert" parameterType="com.xfxg99.sale.viewmodel.CustomerVM">
+		insert into ecs_users (user_id,
+		email, user_name,
+		sex, birthday, tjr_name,
+		mobile_phone)
+		values (#{id,jdbcType=INTEGER},
+		#{email,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{sex,jdbcType=INTEGER}, #{birthday,jdbcType=DATE},
+		#{recUser,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.viewmodel.CustomerVM">
+		update ecs_users
+		set email = #{email,jdbcType=VARCHAR},
+		user_name =
+		#{name,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=INTEGER},
+		birthday = #{birthday,jdbcType=DATE},
+		tjr_name =
+		#{recUser,jdbcType=VARCHAR},
+		mobile_phone =
+		#{phone,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
   <select id="countVMByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
   	select 
   		count(*)
@@ -72,5 +96,38 @@
   
   </select>
   
+	<select id="loadCustUserlist" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+		select user_id as id,user_name as name , email as email ,mobile_phone
+		as
+		phone ,tjr_name as recUser,birthday as birthday,sex as sex
+		from ecs_users
+		where 1=1
+
+		<if test="name !=null">
+			and user_name like CONCAT('%','${name}','%' )
+		</if>
+
+		<if test="orgname !=null">
+			and user_name like CONCAT('%','${orgname}','%' )
+		</if>
+		
+		<if test="recUser !=null">
+			and tjr_name like CONCAT('%','${recUser}','%' )
+		</if>
+		
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
   
+	<select id="getCustUserCount" resultType="java.lang.Integer">
+		select count(*) from
+		ecs_users
+		where 1=1
+
+		<if test="name !=null">
+			and user_name like CONCAT('%','${name}','%' )
+		</if>
+	</select>
 </mapper>
