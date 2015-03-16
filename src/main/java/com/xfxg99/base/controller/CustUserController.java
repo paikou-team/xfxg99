@@ -44,7 +44,7 @@ public class CustUserController {
 		JSONObject joQuery = JSONObject.fromObject(query);
 		String name = joQuery.getString("custname");
 		String orgname = joQuery.getString("orgname");
-		String recUser = joQuery.getString("recUser");
+//		String recUser = joQuery.getString("recUser");
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);

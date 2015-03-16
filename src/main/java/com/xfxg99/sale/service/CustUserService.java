@@ -36,6 +36,5 @@ public class CustUserService {
 	public void updateByPrimaryKey(CustomerVM customer) {
 		// TODO Auto-generated method stub
 		customerMapper.updateByPrimaryKey(customer);
-	}
-
+	}  
 }

@@ -68,6 +68,11 @@ $(function() {
 				}
 			}
 		},{
+			title : '门店信息',
+			field : 'orgName',
+			width : 150,
+			align : 'center'
+		},{
 			title : '联系方式',
 			field : 'phone',
 			width : 150,

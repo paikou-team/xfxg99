@@ -32,7 +32,7 @@ $(function() {
 	$("#txtcustphone").val(score.phone);
 	$("#txtcustemail").val(score.email);
 	$("#txtrecuser").val(score.recUser);
-	$("#txtorgname").val("");
+	$("#txtorgname").val(score.orgName);
 	// }
 
 	$("#btnSaveCustUserInfo").bind("click",

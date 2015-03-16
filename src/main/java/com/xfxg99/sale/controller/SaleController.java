@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.UserVM;
-import com.xfxg99.sale.viewmodel.SaleBillVM;
-import com.xfxg99.sale.viewmodel.StockBillVM;
+import com.xfxg99.sale.viewmodel.SaleBillVM; 
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;

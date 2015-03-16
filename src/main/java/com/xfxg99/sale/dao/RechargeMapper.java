@@ -35,6 +35,8 @@ public interface RechargeMapper {
 	List<CustomerVM> loadrechargeCustUserlist(Map<String, Object> map);
 
 	int getCustUserCount();
+
+	void updateOrgIdByPrimaryKey(Map<String, Object> map);
      
 	
 }

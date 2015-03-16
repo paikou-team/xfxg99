@@ -26,18 +26,17 @@
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
                     plain="true">查看客户资料</a>
-                <a id="UnlockCustomer" name="UnlockCustomer"
+                <!--  <a id="UnlockCustomer" name="UnlockCustomer"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-unlock"
                     plain="true">启用</a>
                 <a id="LockCustomer" name="LockCustomer"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-lock"
-                    plain="true">锁定</a>
+                    plain="true">锁定</a> -->
             </p>
             <p id="tb_searchbox" style="margin-left:5px">
-            	<label>状态:</label><input id="sch_isUsed" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '启用'},{id: 2,name: '锁定'}]" style="width:120px" />
+            	
             	<label>门店信息:</label><input id="sch_orgname" class="easyui-validatebox" style="width:120px" />
-            	<label>客户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" /> 
-            	<label>推荐人:</label><input id="sch_recname" class="easyui-validatebox" style="width:120px" /> 
+            	<label>客户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />  
             	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a> 
             </p>
         </div>

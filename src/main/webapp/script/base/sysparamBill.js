@@ -34,6 +34,7 @@ var ParamBillManage = {
 			return;
 		}
 		m_sysparam_obj.value = paramvalue;
+		m_sysparam_obj.editor = "text";
 
 		$.ajax({
 			url : "sysparam/saveSysParamObj.do",

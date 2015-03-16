@@ -1,10 +1,7 @@
 package com.xfxg99.sale.controller;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+ 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Date; 
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,13 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.xfxg99.base.model.User;
-import com.xfxg99.base.viewmodel.UserVM;
+ 
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.Result;
-import com.xfxg99.sale.service.BillSerialNoService;
-import com.xfxg99.sale.viewmodel.StockBillVM;
+import com.xfxg99.sale.service.BillSerialNoService; 
 
 @Scope("prototype")
 @Controller

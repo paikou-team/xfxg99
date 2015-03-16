@@ -52,7 +52,7 @@ public class SysParamController {
 			HttpSession session = request.getSession();
 			UserVM user = (UserVM) session.getAttribute("user");
 			if (user == null) {
-				Result<CustomerVM> s = new Result<CustomerVM>(null, true,
+				Result<SysParameter> s = new Result<SysParameter>(null, true,
 						false, false, "页面过期，请重新登录");
 				return s.toJson();
 			} else {
@@ -73,10 +73,10 @@ public class SysParamController {
 	/*
 	 * 保存警员信息逻辑
 	 */
-	@RequestMapping(value = "saveSysParamObj.do", produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "saveSysParamList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
-	String saveSysParamObj(
-			@RequestParam(value = "saveSysParamList", required = false) String query,
+	String saveSysParamList(
+			@RequestParam(value = "dataStr", required = false) String query,
 			HttpServletRequest request) throws Exception {
 		try {
 			HttpSession session = request.getSession();
@@ -86,10 +86,10 @@ public class SysParamController {
 						false, false, "页面过期，请重新登录");
 				return s.toJson();
 			} else {
-				if (query.length() > 0) {
+				if (query.length() > 3) {
 					JSONArray jsonArray = JSONArray.fromObject(query);
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					List<SysParameter> ls = (List) JSONArray.toCollection(
+					@SuppressWarnings({ "unchecked"})
+					List<SysParameter> ls = (List<SysParameter>) JSONArray.toCollection(
 							jsonArray, SysParameter.class);
 					if (ls.size() > 0) {
 						for (SysParameter p : ls) {

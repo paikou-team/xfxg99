@@ -12,6 +12,8 @@ public class CustomerVM {
 	private Integer sex;
 	private Date birthday;
 	private String recUser;
+	private Integer orgId;
+	private String orgName;
 	private List<AddressVM>  addresses;
 	public Integer getId() {
 		return id;
@@ -61,6 +63,18 @@ public class CustomerVM {
 	}
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+	public String getOrgName() {
+		return orgName;
+	}
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+	public Integer getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
 	}
 	
 }

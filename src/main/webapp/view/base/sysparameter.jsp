@@ -24,9 +24,9 @@
     <div id="sysParamTb" >
         <div>
             <p> 
-                <a id="AddParam" name="AddParam"
+               <!-- <a id="AddParam" name="AddParam"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add"
-                    plain="true">新增</a> 
+                    plain="true">新增</a>  --> 
                 <a id="SaveParamInfo" name="SaveParamInfo" 
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save"
                     plain="true">保存</a> 

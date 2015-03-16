@@ -19,11 +19,12 @@ $(function() {
 		}, {
 			field : 'paramkey',
 			title : '参数关键字',
-			width : 100
+			width : 100,
+			hidden : true
 		}, {
 			field : 'value',
 			title : '参数值',
-			width : 100
+			width : 500
 		}, {
 			field : 'groupname',
 			title : '类别',
@@ -36,7 +37,7 @@ $(function() {
 			hidden : true
 		} ] ]
 	});
-	$("#AddParam").bind("click", SysParamManage.AddNewParam);
+//	$("#AddParam").bind("click", SysParamManage.AddNewParam);
 	$("#SaveParamInfo").bind("click", SysParamManage.SaveParamInfo);
 });
 
@@ -61,7 +62,7 @@ var SysParamManage = {
 		var s = $("#sysParamGrid").propertygrid("getData");
 		if (s.rows.length > 0) {
 			var SysParamObj = [];
-			for ( var i = 0; i < s.rows; i++) {
+			for ( var i = 0; i < s.rows.length; i++) {
 				var paramobj = {};
 				paramobj.id = s.rows[i].id;
 				paramobj.name = s.rows[i].name;

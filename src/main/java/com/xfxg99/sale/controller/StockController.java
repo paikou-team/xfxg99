@@ -267,7 +267,7 @@ public class StockController {
 		map.put("orgId", orgId);
 		map.put("goodsName", goodsName);
 		
-		Object x=map.get("goodsName");
+		//Object x=map.get("goodsName");
 		
 
 		List<InventoryVM> ls=stockService.loadInventoryList(map);
