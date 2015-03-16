@@ -161,7 +161,7 @@
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
   	</if> 
   	<if test="orgId > 0" >
-  	and s.org_id = #{orgId,jdbcType=INTEGER},
+  	and s.org_id = #{orgId,jdbcType=INTEGER}
   	</if>
   	<if test="beginDate != null" >
   	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
@@ -183,7 +183,7 @@
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
   	</if>
     <if test ="orgId > 0">
-  	and s.org_id = #{orgId,jdbcType=INTEGER},  
+  	and s.org_id = #{orgId,jdbcType=INTEGER}
  	</if> 
  	<if test="beginDate != null" >
   	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
