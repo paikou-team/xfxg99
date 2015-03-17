@@ -67,5 +67,10 @@ public class RechargeService {
 		ListResult<CustomerVM> result=new ListResult<CustomerVM>(count,ls);
 		
 		return result; 
+	}
+
+	public void updateOrgIdByPrimaryKey(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		rechargeMapper.updateOrgIdByPrimaryKey(map);
 	}  
 }

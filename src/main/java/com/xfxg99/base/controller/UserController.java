@@ -2,14 +2,12 @@ package com.xfxg99.base.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.List;
+import java.util.HashMap; 
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+import javax.servlet.http.HttpSession; 
 
 import net.sf.json.JSONObject;
 
@@ -22,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;
-import com.xfxg99.core.Result;
-import com.xfxg99.sale.viewmodel.InventoryVM;
-import com.xfxg99.sale.viewmodel.StockBillVM;
+import com.xfxg99.core.Result; 
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.base.service.AuthorizeService;
 

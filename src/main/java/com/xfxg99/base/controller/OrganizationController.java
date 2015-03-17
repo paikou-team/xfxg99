@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xfxg99.base.model.Organization;
-import com.xfxg99.base.model.User;
+import com.xfxg99.base.model.Organization; 
 import com.xfxg99.base.service.OrganizationService;
 import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;

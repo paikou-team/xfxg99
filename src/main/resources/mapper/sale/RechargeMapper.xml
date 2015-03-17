@@ -45,6 +45,13 @@
 		#{payPoints,jdbcType=INTEGER},
 		#{changeTime,jdbcType=TIMESTAMP},#{changeDesc,jdbcType=VARCHAR},#{changeType,jdbcType=INTEGER})
 	</insert>
+
+	<update id="updateOrgIdByPrimaryKey" parameterType="java.util.Map">
+		update
+		ecs_users set org_id = #{orgId,jdbcType=INTEGER} where user_id
+		=
+		#{userId}
+	</update>
 	<select id="countByMap" parameterType="java.util.Map"
 		resultType="java.lang.Integer">
 		select count(*)
@@ -79,7 +86,7 @@
 	<select id="loadrechargeCustUserlist" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
 		select user_id as id,user_name as name , email as email ,mobile_phone
 		as
-		phone 
+		phone ,tjr_name as recUser
 		from ecs_users
 		where 1=1
 
@@ -116,8 +123,9 @@
 		r.cust_id as
 		cust_id,
 		c.user_name as custName,
-		c.email     as custEmail,
-		c.mobile_phone  as custPhone,
+		c.email as custEmail,
+		c.mobile_phone as
+		custPhone,
 		r.money as money,
 		r.recharge_time as
 		rechargeTime,

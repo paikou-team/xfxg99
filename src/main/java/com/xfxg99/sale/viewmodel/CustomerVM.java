@@ -4,17 +4,21 @@ import java.util.Date;
 import java.util.List;
 
 public class CustomerVM {
-	
-	private String id; 
+	 
+	private Integer id; 
 	private String name;
 	private String email;
 	private String phone;
+	private Integer sex;
 	private Date birthday;
+	private String recUser;
+	private Integer orgId;
+	private String orgName;
 	private List<AddressVM>  addresses;
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -47,6 +51,30 @@ public class CustomerVM {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getRecUser() {
+		return recUser;
+	}
+	public void setRecUser(String recUser) {
+		this.recUser = recUser;
+	}
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public String getOrgName() {
+		return orgName;
+	}
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
+	}
+	public Integer getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
 	}
 	
 }

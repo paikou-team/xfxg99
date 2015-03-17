@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="sale_id" property="saleId" jdbcType="INTEGER" />
     <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
-    <result column="goods_number" property="goodsNumber" jdbcType="SMALLINT" />
+    <result column="goods_number" property="goodsNumber" jdbcType="INTEGER" />
     <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
     <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
   </resultMap>
@@ -83,7 +83,7 @@
         goods_id = #{goodsId,jdbcType=INTEGER},
       </if>
       <if test="goodsNumber != null" >
-        goods_number = #{goodsNumber,jdbcType=SMALLINT},
+        goods_number = #{goodsNumber,jdbcType=INTEGER},
       </if>
       <if test="marketPrice != null" >
         market_price = #{marketPrice,jdbcType=DECIMAL},
@@ -98,7 +98,7 @@
     update t_sale_goods
     set sale_id = #{saleId,jdbcType=INTEGER},
       goods_id = #{goodsId,jdbcType=INTEGER},
-      goods_number = #{goodsNumber,jdbcType=SMALLINT},
+      goods_number = #{goodsNumber,jdbcType=INTEGER},
       market_price = #{marketPrice,jdbcType=DECIMAL},
       goods_price = #{goodsPrice,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}

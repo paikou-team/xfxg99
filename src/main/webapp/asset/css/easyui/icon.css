@@ -13,6 +13,12 @@
 .icon-remove{
 	background:url('icons/edit_remove.png') no-repeat center center;
 }
+.icon-lock{
+	background:url('icons/tianyi_lock.png') no-repeat center center;
+}
+.icon-unlock{
+	background:url('icons/tianyi_unlock.png') no-repeat center center;
+}
 .icon-save{
 	background:url('icons/filesave.png') no-repeat center center;
 }

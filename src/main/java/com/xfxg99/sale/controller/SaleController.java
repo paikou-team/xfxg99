@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.UserVM;
+import com.xfxg99.sale.viewmodel.SaleBillVM; 
+import com.xfxg99.sale.viewmodel.StockGoodsVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
@@ -32,6 +34,8 @@ public class SaleController {
 	
 	@Resource(name = "saleService")
 	protected SaleService saleService;
+	@Resource(name = "billSerialNoService")
+	protected BillSerialNoService billSerialNoService;
 	
 	
 	
@@ -43,7 +47,7 @@ public class SaleController {
 	 */
 	@RequestMapping(value = "loadSaleList.do",produces = "application/json;charset=UTF-8")
 	public  @ResponseBody String loadSaleList(
-			@RequestParam(value = "stockQuery", required = false) String query,
+			@RequestParam(value = "saleQuery", required = false) String query,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request
@@ -60,7 +64,7 @@ public class SaleController {
 		JSONObject joQuery = JSONObject.fromObject(query);
 		Map<String,Object> map=new HashMap<String,Object>();
 		
-		int orgId=joQuery.getInt("oOrgId");
+		int orgId=joQuery.getInt("orgId");
 		
 		if(user.getIsAllDataPermission() == false)
 		{
@@ -82,7 +86,7 @@ public class SaleController {
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		
-		ListResult<SaleBill> ls=saleService.loadListWithPage(map);
+		ListResult<SaleBillVM> ls=saleService.loadListWithPage(map);
 		
 		return ls.toJson();
 	}
@@ -108,20 +112,82 @@ public class SaleController {
 			return result.toJson();
 		}
 		
-		SaleBill bill=null;
+		SaleBillVM bill=null;
 		
-//		if(id==0){//新建一个单据
-//			bill=this.newStockBill(billType, user);
-//		}else{//从数据库读取一个单据
-//			bill = stockService.loadVMById(id);
-//		}
+		if(id==0){//新建一个单据
+			bill=this.newSaleBill(billType, user);
+		}else{//从数据库读取一个单据
+//			bill = saleService.loadVMById(id);
+		}
 		
 		result.setData(bill);
 
 		return result.toJson();
 	}
 	
+	/**
+	 * 创建一个单据
+	 * @param billType
+	 * @param u
+	 * @return
+	 */
+	private SaleBillVM newSaleBill(Integer billType,UserVM u){
+		SaleBillVM  bill=new SaleBillVM();
+		
+		Date ct=Calendar.getInstance().getTime();
+		
 	
+		bill.setSaleTime(ct);
+		
+		Map<String,Object> billNoMap=GeneralUtil.getSerialNoPars(billType);
+		String billNo=billSerialNoService.getNextBillSerialNo(billNoMap);
+		
+		bill.setSerialNo(billNo);
+		bill.setPayId(0);
+		bill.setId(0);
+		bill.setOrgId(u.getOrgId());
+		bill.setOrgName(u.getOrgName());
+		
+		bill.setRecTime(ct);
+		bill.setPreparerOrgName(u.getOrgName());
+		bill.setPreparerName(u.getName());
+//		bill.setState(0);
+		
+		return bill;
+	}
+	@RequestMapping(value = "saveSaleBill.do",produces = "application/json;charset=UTF-8")
+	public  @ResponseBody String saveSaleBill(
+			@RequestParam(value = "bill", required = false) String billJson,
+			HttpServletRequest request
+			){
 	
+		User user =(User)request.getSession().getAttribute("user");
+	
+		Result<SaleBillVM>  result =null;
+		
+		if(user ==null){
+			result =new Result<SaleBillVM>(null,false,true,false,"请从新登录");
+			return result.toJson();
+		}
+		
+		try{
+			JSONObject jObj = JSONObject.fromObject(billJson);
+			
+			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+
+			classMap.put("stockGoods", StockGoodsVM.class);
+			
+			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
+			
+			saleService.saveSaleBill(bill);
+
+			result=new Result<SaleBillVM>(bill);
+			
+		}catch(Exception ex){
+			result=new Result<SaleBillVM>(null,false,true,true,ex.getMessage());
+		}
+		return result.toJson();
+
+	}
 	 
 }

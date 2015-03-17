@@ -1,5 +1,5 @@
 package com.xfxg99.sale.controller;
- 
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,11 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
- 
+
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
-import com.xfxg99.sale.model.Recharge;
+import com.xfxg99.sale.model.Recharge; 
 import com.xfxg99.sale.service.RechargeService;
 import com.xfxg99.sale.viewmodel.CustomerVM;
 import com.xfxg99.sale.viewmodel.RechargeVM;
@@ -33,7 +33,7 @@ import com.xfxg99.sale.viewmodel.RechargeVM;
 public class RechargeController {
 
 	@Resource(name = "rechargeService")
-	protected RechargeService rechargeService;
+	protected RechargeService rechargeService; 
 
 	@RequestMapping(value = "getList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
@@ -47,7 +47,7 @@ public class RechargeController {
 		String orgname = joQuery.getString("orgname");
 		String custname = joQuery.getString("custname");
 		int isConfirm = Integer.parseInt(joQuery.getString("isconfirm"));
-		String confirmname = joQuery.getString("username");
+		//String confirmname = joQuery.getString("username");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -57,7 +57,7 @@ public class RechargeController {
 		map.put("orgname", orgname);
 		map.put("custname", custname);
 		map.put("isConfirm", isConfirm);
-		map.put("confirmname", confirmname);
+		//map.put("confirmname", confirmname);
 
 		ListResult<RechargeVM> rs = rechargeService.loadrechargelist(map);
 
@@ -90,6 +90,16 @@ public class RechargeController {
 				if (changeTime.length() > 10) {
 					changeTime = changeTime.substring(0, 10);
 				}
+
+				int custId = charge.getCustId();
+				int orgId = charge.getOrgId();
+				
+				
+				Map<String, Object> maps = new HashMap<String, Object>();
+				maps.put("userId", custId);
+				maps.put("orgId", orgId);
+				
+				rechargeService.updateOrgIdByPrimaryKey(maps);
 
 				// String s = now.getTime();
 				Map<String, Object> map = new HashMap<String, Object>();

@@ -3,13 +3,13 @@ var m_charge_type;
 var m_charge_query = {
 	orgname : "",
 	custname : "",
-	username : "",
+	//username : "",
 	isconfirm : 0
-}; 
+};
 var m_charge_object = {};
 $(function() {
 	var args = getUrlArgs();
- 
+
 	var optType = args.optType;
 	if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
 		$("#ConfirmCharge").hide();
@@ -17,15 +17,15 @@ $(function() {
 	{
 		$("#AddCharge").hide();
 	} else {
-		//$("#ConfirmCharge").hide();
+		// $("#ConfirmCharge").hide();
 		$("#AddCharge").hide();
 		$("#tb_searchbox").hide();
 		m_charge_query = {
-				orgname : "",
-				custname : "",
-				username : "",
-				isconfirm : 2
-			}; 
+			orgname : "",
+			custname : "",
+			//username : "",
+			isconfirm : 2
+		};
 	}
 
 	$('#chargeGrid').datagrid({
@@ -71,7 +71,7 @@ $(function() {
 			title : '电子邮件',
 			field : 'custEmail',
 			align : 'center',
-			width : 200 
+			width : 200
 		}, {
 			title : '联系方式',
 			field : 'custPhone',
@@ -137,7 +137,7 @@ var ChargeManage = {
 			alert(ex);
 		}
 	},
-	ShowCharge:function(){
+	ShowCharge : function() {
 		var hasRows = $('#chargeGrid').datagrid('getRows');
 		if (hasRows.length == 0) {
 			$.messager.alert('操作提示', "没有可操作数据", "warning");
@@ -155,12 +155,12 @@ var ChargeManage = {
 		ChargeManage.packageObject(target[0]);
 		ChargeManage.ShowDialog();
 	},
-	packageObject:function(obj){
+	packageObject : function(obj) {
 		m_charge_object.id = obj.id;
-		m_charge_object.custName =obj.custName;
-		m_charge_object.orgName =obj.orgName;
+		m_charge_object.custName = obj.custName;
+		m_charge_object.orgName = obj.orgName;
 		m_charge_object.money = obj.money;
-		m_charge_object.rechargeTime = obj.rechargeTime; 
+		m_charge_object.rechargeTime = obj.rechargeTime;
 		m_charge_object.rechargeDesc = obj.rechargeDesc;
 		m_charge_object.custEmail = obj.custEmail;
 		m_charge_object.custPhone = obj.custPhone;
@@ -237,7 +237,13 @@ var ChargeManage = {
 	packQuery : function() {
 		m_charge_query.orgname = $.trim($("#sch_orgname").val());
 		m_charge_query.custname = $.trim($("#sch_custname").val());
-		m_charge_query.username = $.trim($("#sch_username").val());
-		m_charge_query.isconfirm = $("#sch_isconfirm").combobox("getValue");
+		//m_charge_query.username = $.trim($("#sch_username").val());
+		if ($("#sch_isconfirm").combobox("getValue") == null
+				|| $("#sch_isconfirm").combobox("getValue") == undefined
+				|| $("#sch_isconfirm").combobox("getValue") == "") {
+			m_charge_query.isconfirm = 0;
+		} else {
+			m_charge_query.isconfirm = $("#sch_isconfirm").combobox("getValue");
+		}
 	}
 };
