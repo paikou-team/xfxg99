@@ -311,7 +311,7 @@ function view2stockBill() {
 	m_sale_bill.description = $('#txtDescription').val();
 	
 	m_sale_bill.custId = $("#txtcustId").val();
-	m_sale_bill.custName = $("#textSaleCustomer").val();
+	m_sale_bill.customerName = $("#textSaleCustomer").val();
 }
 /**
  * 保存前检查

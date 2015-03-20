@@ -23,8 +23,8 @@
 
         body {
             text-align: center;
-            width:100%;
-            background: url('resource/icon/login/login_bg.png');
+            width:100%; 
+            background-color:#4974a4;
         }
 
         #login {
@@ -34,10 +34,10 @@
         }
 
         #loginlogo {
-            width: 700px;
+            width: 729px;
             height: 100px;
             overflow: hidden;
-            background: url('resource/icon/login/logo.png') no-repeat;
+            background: url('resource/icon/login/logo1.png') no-repeat;
             margin-top: 50px;
         }
 
