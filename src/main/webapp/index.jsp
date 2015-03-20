@@ -9,9 +9,20 @@
     <title>派蔻营销管理系统</title>
     
 </head>
-<body>
-<div>
-	<h2>欣雨禾</h2>
+<body style="padding: 0px; overflow: hidden;">
+<div style="width: 100%; background-color: #4974a4; height: 80px;">
+	<div style="float: left; padding-left: 15px;">
+		<img height="75px" src="resource/icon/menu/banner_logo.png" />
+	</div>
+	<div>
+		<div style="float: left;">
+			<h1 style="color: orange;">O2O线下管理平台</h1>
+			<h2>欣雨禾</h2>
+		</div>
+		<div style="float: right; padding-top: 54px;">
+			<a href="javascript:void(0);" class="easyui-linkbutton" plain="true" onclick="onExit()">退出</a> 
+		</div>
+	</div>
 </div>
 <div id="cc" class="easyui-layout" style="width:100%;height:100%;" oncontextmenu=self.event.returnValue=false>
     <div data-options="region:'west',title:'功能菜单',split:true" style="width:220px;">

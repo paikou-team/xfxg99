@@ -27,6 +27,8 @@ function loadMenu() {
 		async : false,
 		success : function(req) {
 			if (req.isSuccess) {
+				
+//				top.location.href="login.jsp";
 				var nodes = buildTreeMenu(req.rows);
 				$('#treeMenu').tree("loadData", nodes);
 			} else {
@@ -35,6 +37,18 @@ function loadMenu() {
 		}
 	});
 }
+/**
+ * 退出主页面，返回登录页面
+ */
+/*function onExit() {
+	$.ajax({
+		url : "index/loginOff.do",
+		type : "POST".
+		dataType : "json",
+		async : false,
+		
+	});
+}*/
 /**
  * 
  */

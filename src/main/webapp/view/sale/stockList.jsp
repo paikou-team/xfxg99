@@ -15,11 +15,12 @@
 		<p style="float: left; width:100%; height:10px">
 			<a id="btnAddStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="onStockBillAdd()">新增</a> 
 			<a id="btnEditStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockBillEdit()">查看</a> 
-			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockConfirm()">确认</a> 
-			<a id="btnDelStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockDel()">确认</a>
+			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-ok" plain="true" onclick="onStockConfirm()">确认</a> 
+			<a id="btnDelStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" onclick="onStockDel()">删除</a>
         </p>
 	</div>
 	<br />
+	<div style="width: 100%; float: left;">
 	<div  style="margin-top:10px;">
 		<ul>
 			<li id="liStockInOrgId" style="float: left; list-style: none; margin: 0px; padding: 2px;">
@@ -43,7 +44,7 @@
                 <input id="dteEndTime" class="easyui-datebox" style="width:180px" />
 			</li>
 			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
-				<label style="width: 70px">状态:</label>
+				<label style="width: 70px; margin-left: 24px;">状态:</label>
                 <input id="cmbState" class="easyui-combobox" style="width:180px" />
 			</li>
 			
@@ -56,7 +57,10 @@
 			</li>
 		</ul>
 	</div>
+	</div>
 	<br />
+	<div style="float: left; width: 100%;">
 	<div id="dgStock"></div>
+	</div>
 </body>
 </html>

@@ -15,8 +15,8 @@
 		<p style="float: left; width:100%; height:10px">
 			<a id="btnAddSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="onSaleBillAdd()">新增</a> 
 			<a id="btnEditSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onSaleBillEdit()">查看</a> 
-			<a id="btnConfirmSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onSaleConfirm()">确认</a> 
-			<a id="btnDelSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onSaleDel()">确认</a>
+			<a id="btnConfirmSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-ok" plain="true" onclick="onSaleConfirm()">确认</a> 
+			<a id="btnDelSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" onclick="onSaleDel()">删除</a>
         </p>
 	</div>
 	<div style="margin-top:10px;">

@@ -5,6 +5,7 @@ import java.util.List;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+
 public class ListResult<T> {
 	
 	private  JsonConfig jsonConfig;
