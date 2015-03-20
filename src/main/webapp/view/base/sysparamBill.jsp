@@ -23,8 +23,8 @@
   <body>
    <div style="text-align:left;overflow:hidden;">
 		 <p id="tb_operation" style="padding:10px;border-bottom:1px solid black;">
-		 	<a id="btnSaveParamInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true">确定</a>
-			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel" plain="true">取消</a> 
+		 	<a id="btnSaveParamInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save" plain="true">确定</a>
+			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true">取消</a> 
 		 </p>
 		 <p style="padding:10px"><label>擦数类别：</label><input id="txtparamtype" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: '业务',name: '业务参数'},{id: '系统',name: '系统参数'}]" style="width:324px" /></p>
 		 <p style="padding:10px"><label>参数名称：</label><input id="txtparamname" class="easyui-validatebox"  style="width:324px" /></p>

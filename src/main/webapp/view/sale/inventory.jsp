@@ -26,7 +26,7 @@
 			
 			
 			<li style="float: left; list-style: none; margin: 0px; padding: 0px;">
-            	<a id="btnStockSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="onStockSearch()">查询</a>
+            	<a id="btnStockSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true" onclick="onStockSearch()">查询</a>
             </li>
 			
 			<li style="visibility:hidden;">

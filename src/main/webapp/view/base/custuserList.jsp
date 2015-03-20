@@ -24,7 +24,7 @@
         <div>
             <p> 
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_show"
                     plain="true">查看客户资料</a>
                 <!--  <a id="UnlockCustomer" name="UnlockCustomer"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-unlock"
@@ -37,7 +37,7 @@
             	
             	<label>门店信息:</label><input id="sch_orgname" class="easyui-validatebox" style="width:120px" />
             	<label>客户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />  
-            	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a> 
+            	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">查询</a> 
             </p>
         </div>
     </div>

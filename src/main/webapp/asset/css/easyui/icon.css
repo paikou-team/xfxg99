@@ -103,3 +103,36 @@
 .displaynone{
 	display:none;
 }
+.icon_xfxg_add{
+	background:url('icons/add.png') no-repeat center center;
+}
+.icon_xfxg_edit{
+	background:url('icons/compose-3.png') no-repeat center center;
+}
+.icon_xfxg_show{
+	background:url('icons/speech-bubble-right-2.png') no-repeat center center;
+}
+.icon_xfxg_save{
+	background:url('icons/notes.png') no-repeat center center;
+}
+.icon_xfxg_search{
+	background:url('icons/search.png') no-repeat center center;
+}
+.icon_xfxg_delete{
+	background:url('icons/delete.png') no-repeat center center;
+}
+.icon_xfxg_confirm{
+	background:url('icons/spam.png') no-repeat center center;
+}
+.icon_xfxg_close{
+	background:url('icons/cross.png') no-repeat center center;
+}
+.icon_xfxg_remove{
+	background:url('icons/delete.png') no-repeat center center;
+}
+.icon_xfxg_lock{
+	background:url('icons/tianyi_lock.png') no-repeat center center;
+}
+.icon_xfxg_unlock{
+	background:url('icons/tianyi_unlock.png') no-repeat center center;
+}

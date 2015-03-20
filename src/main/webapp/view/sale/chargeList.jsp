@@ -24,12 +24,12 @@
         <div>
             <p>
                 <a id="AddCharge" name="AddCharge" href="javascript:void(0);" class="easyui-linkbutton"
-                    iconcls="icon-add" plain="true">新增充值</a>
+                    iconcls="icon_xfxg_add" plain="true">新增充值</a>
                 <a id="ConfirmCharge" name="ConfirmCharge"
-                    href="javascript:void(0);" class="easyui-linkbutton displaynone" iconcls="icon-ok"
+                    href="javascript:void(0);" class="easyui-linkbutton displaynone" iconcls="icon_xfxg_confirm"
                     plain="true">充值确认</a>
                 <a id="ShowChargeInfo" name="ShowChargeInfo"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_show"
                     plain="true">查看</a>
             </p>
             <p id="tb_searchbox" style="margin-left:5px">
@@ -37,7 +37,7 @@
             	<label>门店信息:</label><input id="sch_orgname" class="easyui-validatebox" style="width:120px" />
             	<label>用户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />
             	<!-- <label>确认人:</label><input id="sch_username" class="easyui-validatebox" style="width:120px" />  -->
-            	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true">查询</a> 
+            	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">查询</a> 
             </p>
         </div>
     </div>

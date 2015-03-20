@@ -21,7 +21,7 @@
   
   <body>
   	<p style="margin-top: -1px; margin-bottom: 0px">
-	<a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="exit()">退出</a>
+	<a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true" onclick="exit()">退出</a>
 	</p>
 	<input class="easyui-searchbox" data-options="prompt:'输入商品名称',searcher:doSearch" style="width:300px"></input>
 	<div style="height:10px"></div>
