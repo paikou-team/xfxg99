@@ -36,7 +36,7 @@
         </javaClientGenerator>  
 
 
-	       <table tableName="t_sysparameter" domainObjectName="SysParameter"
+	       <table tableName="t_birthday_log" domainObjectName="CustomerBirthdayLog"
            enableSelectByExample="false"
 	       enableDeleteByExample="false"
 	       enableCountByExample="false"

@@ -103,3 +103,11 @@
 .displaynone{
 	display:none;
 }
+
+.icon_prev{
+	background:url('icons/prev.png') no-repeat center center;
+}
+
+.icon_next{
+	background:url('icons/next.png') no-repeat center center;
+}
