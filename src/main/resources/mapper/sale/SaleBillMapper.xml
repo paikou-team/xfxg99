@@ -53,8 +53,8 @@
     insert into t_sale (id, cust_id, org_id, 
       pay_id, serial_no, goods_amount, sale_time, 
       rec_time)
-    values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER},#{serialNo,jdbcType=VARCHAR}, 
-      #{payId,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, #{goodsAmount,jdbcType=DECIMAL}, #{saleTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, 
+      #{payId,jdbcType=INTEGER},#{serialNo,jdbcType=VARCHAR},  #{goodsAmount,jdbcType=DECIMAL}, #{saleTime,jdbcType=TIMESTAMP}, 
       #{recTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xfxg99.sale.model.SaleBill" >

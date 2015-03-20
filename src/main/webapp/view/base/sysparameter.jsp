@@ -28,7 +28,7 @@
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add"
                     plain="true">新增</a>  --> 
                 <a id="SaveParamInfo" name="SaveParamInfo" 
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save"
                     plain="true">保存</a> 
             </p> 
         </div>

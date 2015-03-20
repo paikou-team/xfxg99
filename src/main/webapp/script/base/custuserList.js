@@ -108,6 +108,21 @@ $(function() {
 });
 
 
+function loadCustomer(){
+	$.ajax({
+		url : "custuser/getCustomer.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeOrg(req.rows);
+				$('#OrganizationTree').treegrid("loadData", nodes);
+			} 
+		}
+	});
+}
+
 function viewSwitch(){
 	if(m_customer_viewType ==1){
 		$('#btnBirthdayRecord').hide();

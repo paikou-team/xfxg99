@@ -2,7 +2,7 @@ package com.xfxg99.base.model;
 
 import java.util.Date;
 
-public class CustomerBirthdayLog {
+public class BirthdayInfo {
     private Integer id;
 
     private Integer custId;

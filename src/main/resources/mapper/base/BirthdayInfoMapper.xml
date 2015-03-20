@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xfxg99.base.dao.CustomerBirthdayLogMapper" >
-  <resultMap id="BaseResultMap" type="com.xfxg99.base.model.CustomerBirthdayLog" >
+<mapper namespace="com.xfxg99.base.dao.BirthdayInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xfxg99.base.model.BirthdayInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cust_id" property="custId" jdbcType="INTEGER" />
     <result column="birthday_year" property="birthdayYear" jdbcType="INTEGER" />
@@ -21,13 +21,13 @@
     delete from t_birthday_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xfxg99.base.model.CustomerBirthdayLog" >
+  <insert id="insert" parameterType="com.xfxg99.base.model.BirthdayInfo" useGeneratedKeys="true" keyProperty="id">
     insert into t_birthday_log (id, cust_id, birthday_year, 
       birthday, description)
     values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{birthdayYear,jdbcType=INTEGER}, 
       #{birthday,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xfxg99.base.model.CustomerBirthdayLog" >
+  <insert id="insertSelective" parameterType="com.xfxg99.base.model.BirthdayInfo" useGeneratedKeys="true" keyProperty="id">
     insert into t_birthday_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.base.model.CustomerBirthdayLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.base.model.BirthdayInfo" >
     update t_birthday_log
     <set >
       <if test="custId != null" >
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xfxg99.base.model.CustomerBirthdayLog" >
+  <update id="updateByPrimaryKey" parameterType="com.xfxg99.base.model.BirthdayInfo" >
     update t_birthday_log
     set cust_id = #{custId,jdbcType=INTEGER},
       birthday_year = #{birthdayYear,jdbcType=INTEGER},
@@ -90,4 +90,18 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="loadBirthdayInfo" parameterType="java.util.Map"  resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from t_birthday_log
+  	where 
+  		cust_id=#{custId,jdbcType=INTEGER} and
+  		birthday_year=#{birthdayYear,jdbcType=INTEGER}
+  	
+  </select>
+  
+  
+  
+  
 </mapper>

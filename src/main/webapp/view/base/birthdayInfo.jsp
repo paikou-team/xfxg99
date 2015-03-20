@@ -6,7 +6,7 @@
 <html>
   <head>
 	<base href="<%=basePath%>">
-	<script src='<%=basePath%>script/base/customerBirthdayLog.js'	type='text/javascript'></script>
+	<script src='<%=basePath%>script/base/birthdayInfo.js'	type='text/javascript'></script>
     
     <title>客户生日提示记录</title>
     
@@ -24,10 +24,10 @@
   <body>
    <div > 
 		<p style="float: left; width:100%; height:10px">
-			<a id="btnCBLPrev"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-prev" plain="true" onclick="onCBLPrev()">上一年</a>
-			<a id="btnCBLNext"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-next" plain="true" onclick="onCBLNext()">下一年</a>
-			<a id="btnCBLSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onCBLExit()">保存</a>
-			<a id="btnCBLExit"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-exit" plain="true" onclick="onCBLExit()">退出</a>
+			<a id="btnCBLPrev"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_prev" plain="true" onclick="onCBLPrev()">上一年</a>
+			<a id="btnCBLNext"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_next" plain="true" onclick="onCBLNext()">下一年</a>
+			<a id="btnCBLSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-save" plain="true" onclick="onCBLSave()">保存</a>
+			<a id="btnCBLExit"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true" onclick="onCBLExit()">退出</a>
         </p>
 	</div>
 	

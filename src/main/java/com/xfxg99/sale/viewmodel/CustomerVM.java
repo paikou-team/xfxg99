@@ -3,6 +3,8 @@ package com.xfxg99.sale.viewmodel;
 import java.util.Date;
 import java.util.List;
 
+import com.xfxg99.core.GeneralUtil;
+
 public class CustomerVM {
 	 
 	private Integer id; 
@@ -15,6 +17,20 @@ public class CustomerVM {
 	private Integer orgId;
 	private String orgName;
 	private List<AddressVM>  addresses;
+	
+	private Integer age;//年龄，及时计算
+	private Boolean isBless;//是否祝福过了
+	private Integer period; //到期时间
+	private Integer blessId;
+	private String blessDescription;
+	
+	public Integer getAge() throws Exception {
+		age=new Integer(GeneralUtil.getAge(birthday));
+		return age;
+	}
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -75,6 +91,31 @@ public class CustomerVM {
 	}
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
+	}
+	public Boolean getIsBless() {
+		return isBless;
+	}
+	public void setIsBless(Boolean isBless) {
+		this.isBless = isBless;
+	}
+	public Integer getPeriod() {
+		return period;
+	}
+	public void setPeriod(Integer period) {
+		this.period = period;
+	}
+
+	public Integer getBlessId() {
+		return blessId;
+	}
+	public void setBlessId(Integer blessId) {
+		this.blessId = blessId;
+	}
+	public String getBlessDescription() {
+		return blessDescription;
+	}
+	public void setBlessDescription(String blessDescription) {
+		this.blessDescription = blessDescription;
 	}
 	
 }

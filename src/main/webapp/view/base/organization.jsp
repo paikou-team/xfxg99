@@ -16,12 +16,12 @@
         <div>
             <p>
                 <a id="AddOrganization" name="AddOrganization" href="javascript:void(0);" class="easyui-linkbutton"
-                    iconcls="icon-add" plain="true">新增</a>
+                    iconcls="icon_xfxg_add" plain="true">新增</a>
                 <a id="EditOrganization" name="EditOrganization"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit"
                     plain="true">编辑</a>
                 <a id="DelOrganization" name="DelOrganization"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete"
                     plain="true">删除</a>
             </p>
         </div>
@@ -31,8 +31,8 @@
         <div style="width: 100%; height: auto">
             <p style="margin-top: 0px; margin-bottom: 0px">
                 <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
-                    iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
-                        name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
+                    iconcls="icon_xfxg_save" plain="true">保存</a><a id="CancelInfo"
+                        name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close"
                         plain="true">取消</a>
             </p>
             <table style="font-size: 12px; height: 80%" >

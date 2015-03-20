@@ -6,6 +6,9 @@
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="user_name" property="name" jdbcType="VARCHAR" />
 		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="period" property="period" jdbcType="INTEGER" />
+		<result column="bless_id" property="blessId" jdbcType="INTEGER" />
+		<result column="bless_description" property="blessDescription" jdbcType="VARCHAR" />
 		<collection property="addresses" resultMap="AddressesVMMap" />
 	</resultMap>
 	<resultMap id="AddressesVMMap" type="com.xfxg99.sale.viewmodel.AddressVM">
@@ -133,4 +136,54 @@
 			and user_name like CONCAT('%','${name}','%' )
 		</if>
 	</select>
+	
+	<select id="countBirthdayInfo" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select 
+			count(*)
+		from  ecs_users as c
+		left join t_organization as org on c.org_id= org.id
+		left join t_birthday_log as log on c.user_id= log.cust_id and log.birthday_year=#{year,jdbcType=INTEGER}
+		where 
+			datediff(date_add(c.birthday,interval year(now())-year(c.birthday) year),now()) BETWEEN -15 and 15
+			<if test="orgName !=null">
+				and org.name  like CONCAT('%','${orgName}','%' )
+			</if>
+			<if test="userOrgPath !=null">
+				and (org.path  like CONCAT('${userOrgPath}','.%' ) or org.path = userOrgPath)
+			</if>
+			<if test="pageStart !=null">
+				limit #{pageStart,jdbcType=INTEGER},
+				#{pageSize,jdbcType=INTEGER}
+			</if>
+	</select>
+	
+	<select id="loadBirthdayInfoList" resultMap="VMMap"  parameterType="java.util.Map">
+		select 
+			s.user_id 		as user_id,
+			s.email 		as email,
+			s.user_name 	as user_name,
+			s.birthday 		as birthday ,
+			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now()) as period,
+			log.id 			as bless_id,
+			log.description	as bless_description
+		from  ecs_users as s
+		left join t_organization 	as org 	on s.org_id= org.id
+		left join t_birthday_log 	as log 	on s.user_id= log.cust_id and log.birthday_year=#{year,jdbcType=INTEGER}
+		where 
+			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now()) BETWEEN -15 and 15
+			<if test="orgName !=null">
+				and org.name  like CONCAT('%','${orgName}','%' )
+			</if>
+			<if test="userOrgPath !=null">
+				and (org.path  like CONCAT('${userOrgPath}','.%' ) or org.path = userOrgPath)
+			</if>
+		order by
+			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now())
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	
 </mapper>
