@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xfxg99.base.dao.CustomerMapper">
+	<resultMap id="VMMap" type="com.xfxg99.base.viewmodel.CustomerVM">
+		<id column="user_id" property="id" jdbcType="INTEGER" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="user_name" property="name" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="period" property="period" jdbcType="INTEGER" />
+		<result column="bless_id" property="blessId" jdbcType="INTEGER" />
+		<result column="bless_description" property="blessDescription" jdbcType="VARCHAR" />
+		<collection property="addresses" resultMap="AddressesVMMap" />
+	</resultMap>
+	<resultMap id="AddressesVMMap" type="com.xfxg99.sale.viewmodel.AddressVM">
+		<id column="address_id" property="address_id" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<sql id="VM_Column_List">
+		s.user_id as user_id,
+		s.email as email,
+		s.user_name as user_name,
+		s.birthday as birthday,
+		g.address as address
+	</sql>
+	<insert id="insert" parameterType="com.xfxg99.base.viewmodel.CustomerVM">
+		insert into ecs_users
+		(user_id,
+		email, user_name,
+		sex, birthday, tjr_name,
+		mobile_phone)
+		values
+		(#{id,jdbcType=INTEGER},
+		#{email,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{sex,jdbcType=INTEGER},
+		#{birthday,jdbcType=DATE},
+		#{recUser,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR})
+	</insert> 
+	<update id="updateByPrimaryKey" parameterType="com.xfxg99.base.viewmodel.CustomerVM">
+		update ecs_users
+		set email = #{email,jdbcType=VARCHAR},
+		user_name =
+		#{name,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=INTEGER},
+		birthday =
+		#{birthday,jdbcType=DATE},
+		tjr_name =
+		#{recUser,jdbcType=VARCHAR},
+		mobile_phone =
+		#{phone,jdbcType=VARCHAR}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<select id="countVMByMap" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select
+		count(*)
+		from t_stock as s
+		left join t_organization as sio on s.stock_in_org_id = sio.id
+		left join t_organization as soo on s.stock_out_org_id =soo.id
+		left join t_organization as po on s.preparer_org_id = po.id
+		left join t_organization as co on s.confirmer_org_id =co.id
+		left join t_user as pu on s.preparer_id =pu.id
+		left join t_user as ru on s.confirmer_id =ru.id
+		left join t_stock_goods as sg on sg.stock_id =s.id
+		left join ecs_goods as g on sg.goods_id =g.goods_id
+		where 1=1
+		<if test="serialNo != null">
+			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="stock_in_org_id != null">
+			and s.stock_in_org_id =#{stockInOrgId,jdbcType=INTEGER}
+		</if>
+		<if test="stock_out_org_id != null">
+			and s.stock_out_org_id =#{stockOutOrgId,jdbcType=INTEGER}
+		</if>
+		<if test="beginDate != null">
+			and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endDate != null">
+			and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+
+	<select id="loadVMListWithPage" parameterType="java.util.Map"
+		resultMap="VMMap">
+		select
+		<include refid="VM_Column_List" />
+		from ecs_users as s
+		left join ecs_user_address as g on s.user_id = g.user_id
+		where 1=1
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="loadVMById" parameterType="java.lang.Integer"
+		resultMap="VMMap">
+		select
+		<include refid="VM_Column_List" />
+		from ecs_users as s
+		left join ecs_user_address as g on s.user_id = g.user_id
+		where s.user_id= #{id,jdbcType=INTEGER}
+
+	</select>
+
+	<select id="loadCustUserlist" resultType="com.xfxg99.base.viewmodel.CustomerVM">
+		select u.user_id as id,u.user_name as name , u.email as email
+		,u.mobile_phone
+		as
+		phone ,u.tjr_name as recUser,u.birthday as
+		birthday,u.sex as sex,(select name from t_organization where id =
+		u.org_id) as orgName
+		from ecs_users as u
+		where 1=1
+
+		<if test="name !=null">
+			and user_name like CONCAT('%','${name}','%' )
+		</if>
+
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="getCustUserCount" resultType="java.lang.Integer">
+		select count(*) from
+		ecs_users
+		where 1=1
+
+		<if test="name !=null">
+			and user_name like CONCAT('%','${name}','%' )
+		</if>
+	</select>
+	
+		<select id="countBirthdayInfo" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select 
+			count(*)
+		from  ecs_users as c
+		left join t_organization as org on c.org_id= org.id
+		left join t_birthday_log as log on c.user_id= log.cust_id and log.birthday_year=#{year,jdbcType=INTEGER}
+		where 
+			datediff(date_add(c.birthday,interval year(now())-year(c.birthday) year),now()) BETWEEN -15 and 15
+			<if test="orgName !=null">
+				and org.name  like CONCAT('%','${orgName}','%' )
+			</if>
+			<if test="userOrgPath !=null">
+				and (org.path  like CONCAT('${userOrgPath}','.%' ) or org.path = userOrgPath)
+			</if>
+			<if test="pageStart !=null">
+				limit #{pageStart,jdbcType=INTEGER},
+				#{pageSize,jdbcType=INTEGER}
+			</if>
+	</select>
+	
+	<select id="loadBirthdayInfoList" resultMap="VMMap"  parameterType="java.util.Map">
+		select 
+			s.user_id 		as user_id,
+			s.email 		as email,
+			s.user_name 	as user_name,
+			s.birthday 		as birthday ,
+			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now()) as period,
+			log.id 			as bless_id,
+			log.description	as bless_description
+		from  ecs_users as s
+		left join t_organization 	as org 	on s.org_id= org.id
+		left join t_birthday_log 	as log 	on s.user_id= log.cust_id and log.birthday_year=#{year,jdbcType=INTEGER}
+		where 
+			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now()) BETWEEN -15 and 15
+			<if test="orgName !=null">
+				and org.name  like CONCAT('%','${orgName}','%' )
+			</if>
+			<if test="userOrgPath !=null">
+				and (org.path  like CONCAT('${userOrgPath}','.%' ) or org.path = userOrgPath)
+			</if>
+		order by
+			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now())
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+</mapper>

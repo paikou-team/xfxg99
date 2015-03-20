@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfxg99.sale.dao.SaleBillMapper" >
+  <resultMap id="BaseResultMap" type="com.xfxg99.sale.model.SaleBill" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cust_id" property="custId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="pay_id" property="payId" jdbcType="INTEGER" />
+    <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
+    <result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
+    <result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
+  </resultMap>
+  <resultMap id="ViewModelResultMap" type="com.xfxg99.sale.viewmodel.SaleBillVM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cust_id" property="custId" jdbcType="INTEGER" />
+    <result column="customerName" property="customerName" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="orgName" property="orgName" jdbcType="VARCHAR" />
+    <result column="pay_id" property="payId" jdbcType="INTEGER" />
+    <result column="goods_amount" property="goodsAmount" jdbcType="DECIMAL" />
+    <result column="sale_time" property="saleTime" jdbcType="TIMESTAMP" />
+    <result column="rec_time" property="recTime" jdbcType="TIMESTAMP" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
+  </resultMap>
+  <sql id="VM_Column_List">
+  	s.id				as	id,
+  	s.cust_id			as 	cust_id,
+  	s.org_id			as	org_id,
+  	s.pay_id			as	pay_id,
+  	s.goods_amount		as	goods_amount,
+  	s.sale_time			as	sale_time,
+  	s.rec_time			as	rec_time,
+  	s.serial_no			as	serial_no,
+  	o.name				as	orgName,
+  	eu.user_name		as	customerName,
+  	eu.email 			as 	customerEmail
+  </sql>
+  <sql id="Base_Column_List" >
+    id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time,serial_no
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sale
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sale
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xfxg99.sale.model.SaleBill" >
+    insert into t_sale (id, cust_id, org_id, 
+      pay_id, serial_no, goods_amount, sale_time, 
+      rec_time)
+    values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, 
+      #{payId,jdbcType=INTEGER},#{serialNo,jdbcType=VARCHAR},  #{goodsAmount,jdbcType=DECIMAL}, #{saleTime,jdbcType=TIMESTAMP}, 
+      #{recTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.SaleBill" >
+    insert into t_sale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="custId != null" >
+        cust_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="payId != null" >
+        pay_id,
+      </if>
+      <if test="serialNo != null">
+        serial_no,
+      </if>
+      <if test="goodsAmount != null" >
+        goods_amount,
+      </if>
+      <if test="saleTime != null" >
+        sale_time,
+      </if>
+      <if test="recTime != null" >
+        rec_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="payId != null" >
+        #{payId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAmount != null" >
+        #{goodsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTime != null" >
+        #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recTime != null" >
+        #{recTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.sale.model.SaleBill" >
+    update t_sale
+    <set >
+      <if test="custId != null" >
+        cust_id = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="payId != null" >
+        pay_id = #{payId,jdbcType=INTEGER},
+      </if>
+      <if test="serialNo != null">
+        serial_no = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsAmount != null" >
+        goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTime != null" >
+        sale_time = #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recTime != null" >
+        rec_time = #{recTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.model.SaleBill" >
+    update t_sale
+    set cust_id = #{custId,jdbcType=INTEGER},
+      org_id = #{orgId,jdbcType=INTEGER},
+      pay_id = #{payId,jdbcType=INTEGER},
+      serial_no = #{serialNo,jdbcType=VARCHAR},
+      goods_amount = #{goodsAmount,jdbcType=DECIMAL},
+      sale_time = #{saleTime,jdbcType=TIMESTAMP},
+      rec_time = #{recTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="loadListWithPage" parameterType="java.util.Map" resultMap="ViewModelResultMap">
+  	select 
+  	<include refid="VM_Column_List" />
+  	from t_sale as s
+  	left join 	t_organization 	as o 	on 	s.org_id 		= o.id
+  	left join 	ecs_users as  eu on s.cust_id = eu.user_id
+  	where 1=1
+  	<if test="serialNo != null" >
+  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  	</if> 
+  	<if test="orgId > 0" >
+  	and s.org_id = #{orgId,jdbcType=INTEGER}
+  	</if>
+  	<if test="beginDate != null" >
+  	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endDate != null" >
+  	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  	</if>
+  </select>
+   <select id="countByVMMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(*)
+  	from t_sale as s
+  	left join 	t_organization 	as o 	on 	s.org_id 		= o.id
+  	left join 	ecs_users as  eu on s.cust_id = eu.user_id
+  	where 1=1 
+  	<if test="serialNo != null" >
+  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  	</if>
+    <if test ="orgId > 0">
+  	and s.org_id = #{orgId,jdbcType=INTEGER}
+ 	</if> 
+ 	<if test="beginDate != null" >
+  	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endDate != null" >
+  	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  <delete id="deleteByNotExistId" parameterType="java.util.Map">
+    delete from t_sale_goods
+    	where
+    	sale_id = #{saleId,jdbcType=INTEGER}  not in
+	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+  		#{item}
+ 	</foreach>  
+  </delete>
+</mapper>
