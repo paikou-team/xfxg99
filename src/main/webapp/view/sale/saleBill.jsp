@@ -49,7 +49,7 @@
                             <label>单据日期:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
-                            <input id="dteSaleTime" class="easyui-datetimebox"   />
+                            <input id="dteSaleTime" class="easyui-datetimebox" data-options="required:true,editable:false"   />
                         </td>                      
                     </tr>
                     <tr>
@@ -57,13 +57,13 @@
                             <label id="lblSaleDetp">门店名称:</label>
                         </td>
                         <td style="width: 100px; text-align: left" >
-                            <input id="cmbSaleDetp" class="easyui-combobox" data-options="required:false" />
+                            <input id="cmbSaleDetp" class="easyui-combobox"  data-options="required:true,editable:false"   />
                         </td>
                        	<td style="width:60px; text-align: center">
                             <label >客户名称:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
-                            <input id="textSaleCustomer" class="easyui-validatebox" data-options="required:false" />
+                            <input id="textSaleCustomer" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
                             <a id="btnSelectCustomer"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-select" plain="true">客户选择</a>
                         </td>
                         

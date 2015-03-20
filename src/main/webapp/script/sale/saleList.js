@@ -75,7 +75,7 @@ function onSelRow(){
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',
             title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?billType=" + m_stock_type + "&id="+row.id+"' style='width:760px;height:460px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?optType=1&billType=" + m_stock_type + "&id="+row.id+"' style='width:760px;height:460px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {
@@ -111,7 +111,7 @@ function onSaleBillAdd(){
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',
             title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?billType=2&id=0' style='width:760px;height:460px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?optType=0&billType=2&id=0' style='width:760px;height:460px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {

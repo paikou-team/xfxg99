@@ -11,7 +11,7 @@
 </head>
 <body>
 <div>
-	<h2>欣雨禾</h2>
+	 欣雨禾管理系统
 </div>
 <div id="cc" class="easyui-layout" style="width:100%;height:100%;" oncontextmenu=self.event.returnValue=false>
     <div data-options="region:'west',title:'功能菜单',split:true" style="width:220px;">
