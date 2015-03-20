@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xfxg99.sale.dao.CustomerMapper">
-	<resultMap id="VMMap" type="com.xfxg99.sale.viewmodel.CustomerVM">
+<mapper namespace="com.xfxg99.base.dao.CustomerMapper">
+	<resultMap id="VMMap" type="com.xfxg99.base.viewmodel.CustomerVM">
 		<id column="user_id" property="id" jdbcType="INTEGER" />
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="user_name" property="name" jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
 		s.birthday as birthday,
 		g.address as address
 	</sql>
-	<insert id="insert" parameterType="com.xfxg99.sale.viewmodel.CustomerVM">
+	<insert id="insert" parameterType="com.xfxg99.base.viewmodel.CustomerVM">
 		insert into ecs_users
 		(user_id,
 		email, user_name,
@@ -36,7 +36,7 @@
 		#{recUser,jdbcType=VARCHAR},
 		#{phone,jdbcType=VARCHAR})
 	</insert> 
-	<update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.viewmodel.CustomerVM">
+	<update id="updateByPrimaryKey" parameterType="com.xfxg99.base.viewmodel.CustomerVM">
 		update ecs_users
 		set email = #{email,jdbcType=VARCHAR},
 		user_name =
@@ -104,7 +104,7 @@
 
 	</select>
 
-	<select id="loadCustUserlist" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+	<select id="loadCustUserlist" resultType="com.xfxg99.base.viewmodel.CustomerVM">
 		select u.user_id as id,u.user_name as name , u.email as email
 		,u.mobile_phone
 		as

@@ -1,7 +1,9 @@
-package com.xfxg99.sale.viewmodel;
+package com.xfxg99.base.viewmodel;
 
 import java.util.Date;
 import java.util.List;
+
+import com.xfxg99.sale.viewmodel.AddressVM;
 
 public class CustomerVM {
 	 

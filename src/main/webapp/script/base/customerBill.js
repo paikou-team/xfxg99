@@ -68,7 +68,7 @@ var CustUserBillManage = {
 		// custUserObj.orgName = $.trim($("#txtorgname").val());
 
 		$.ajax({
-			url : "custuser/saveCustUserObj.do",
+			url : "customer/saveCustUserObj.do",
 			type : "POST",
 			dataType : "json",
 			async : false,
@@ -78,7 +78,7 @@ var CustUserBillManage = {
 					parent.CustUserManage.SearchAction();
 					parent.m_custuser_dlg.close();
 				} else {
-					$.messager.alert("系统提示", req.msg, "error")
+					$.messager.alert("系统提示", req.msg, "error");
 				}
 			},
 			failer : function(a, b) {
@@ -93,10 +93,7 @@ var CustUserBillManage = {
 
 		$("#txtid").val("");
 		$("#txtcustname").val("");
-		$("#txtcustbirth").datebox(
-				"setValue",
-				myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
-						+ myDate.getDate());
+		$("#txtcustbirth").datebox("setValue",myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"+ myDate.getDate());
 		$("#txtcustsex").combobox("setValue", 1);
 		$("#txtcustphone").val("");
 		$("#txtcustemail").val("");

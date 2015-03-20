@@ -1,4 +1,4 @@
-package com.xfxg99.sale.service;
+package com.xfxg99.base.service;
 
 import java.util.List;
 import java.util.Map;
@@ -7,13 +7,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
  
+import com.xfxg99.base.dao.CustomerMapper;
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.core.ListResult; 
-import com.xfxg99.sale.dao.CustomerMapper;
-import com.xfxg99.sale.viewmodel.CustomerVM;
 
 
-@Service("custuserService")
-public class CustUserService {
+@Service("customerService")
+public class CustomerService {
 
 	@Resource(name="customerMapper")
 	private CustomerMapper customerMapper; 

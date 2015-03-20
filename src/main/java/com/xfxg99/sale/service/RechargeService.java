@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
    
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.sale.dao.RechargeMapper; 
 import com.xfxg99.sale.model.Recharge;
-import com.xfxg99.sale.viewmodel.CustomerVM;
 import com.xfxg99.sale.viewmodel.RechargeVM;
 @Service("rechargeService")
 public class RechargeService {

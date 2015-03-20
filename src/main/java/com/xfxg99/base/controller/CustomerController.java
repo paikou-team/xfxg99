@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xfxg99.base.service.CustomerService;
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result; 
-import com.xfxg99.sale.service.CustUserService;
-import com.xfxg99.sale.viewmodel.CustomerVM;
 
 @Scope("prototype")
 @Controller
-@RequestMapping("/custuser")
-public class CustUserController {
+@RequestMapping("/customer")
+public class CustomerController {
 
-	@Resource(name = "custuserService")
-	protected CustUserService custuserService;
+	@Resource(name = "customerService")
+	protected CustomerService customerService;
 
 	/*
 	 * 获取注册用户列表，以下拉列表形式呈现；
@@ -52,7 +52,7 @@ public class CustUserController {
 		map.put("orgname", orgname);
 //		map.put("recUser", recUser);
 
-		ListResult<CustomerVM> rs = custuserService
+		ListResult<CustomerVM> rs = customerService
 				.loadrechargeCustUserlist(map);
 
 		return rs.toJson();
@@ -74,10 +74,10 @@ public class CustUserController {
 				return s.toJson();
 			} else {
 				if (customer.getId() > 0) {
-					custuserService.updateByPrimaryKey(customer);
+					customerService.updateByPrimaryKey(customer);
 				} else {
 					customer.setId(0);
-					custuserService.insert(customer);
+					customerService.insert(customer);
 				}
 				Result<CustomerVM> s = new Result<CustomerVM>(null, true,
 						false, false, "保存成功");

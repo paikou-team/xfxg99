@@ -22,9 +22,9 @@
   
   <body>
    <div style="text-align:left;overflow:hidden;">
-		 <p id="tb_operation" style="padding:10px;border-bottom:1px solid black;display:none;">
-		 	<a id="btnSaveCustUserInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save" plain="true">确定</a>
-			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true">取消</a> 
+		 <p id="tb_operation" style="padding:10px;border-bottom:1px solid black;">
+		 	<!-- <a id="btnSaveCustUserInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save" plain="true">确定</a> -->
+			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true">关闭</a> 
 		 </p>
 		 <p style="padding:8px"><label>客户姓名：</label><input id="txtcustname" class="easyui-validatebox" readonly="readonly" style="width:324px" /><input id="txtid" type="hidden"/></p>
 		 <p style="padding:8px"><label>客户性别：</label><input id="txtcustsex" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '女'},{id: 1,name: '男'}]" style="width:324px" /></p>
