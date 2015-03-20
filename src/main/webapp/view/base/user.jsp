@@ -14,12 +14,12 @@
         <div>
             <p>
                 <a id="AddUser" name="AddUser" href="javascript:void(0);" class="easyui-linkbutton"
-                    iconcls="icon-add" plain="true">新增</a>
+                    iconcls="icon_xfxg_add" plain="true">新增</a>
                 <a id="EditUser" name="EditUser"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit"
                     plain="true">编辑</a>
                 <a id="DelUser" name="DelUser"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete"
                     plain="true">删除</a>
                 
                	<input class="easyui-searchbox" data-options="prompt:'输入用户名称',searcher:doSearch" style="width:300px"></input>
@@ -35,8 +35,8 @@
     <div id="div_userProfile" style="display:none;"  style="width:500px;" style="height:200px;">
 		<p style="margin-top: 0px; margin-bottom: 5px">
                 <a id="SaveInfo" name="SaveInfo" href="javascript:void(0);" class="easyui-linkbutton"
-                    iconcls="icon-save" plain="true">保存</a><a id="CancelInfo"
-                        name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no"
+                    iconcls="icon_xfxg_save" plain="true">保存</a><a id="CancelInfo"
+                        name="CancelInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close"
                         plain="true">取消</a>
             </p>
             <div id="tabs" class="easyui-tabs" style="width:480px;height: auto;" >

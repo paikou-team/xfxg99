@@ -13,10 +13,10 @@
 <body  >
 	<div > 
 		<p style="float: left; width:100%; height:10px">
-			<a id="btnAddStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="onStockBillAdd()">新增</a> 
-			<a id="btnEditStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="onStockBillEdit()">查看</a> 
-			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-ok" plain="true" onclick="onStockConfirm()">确认</a> 
-			<a id="btnDelStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-cancel" plain="true" onclick="onStockDel()">删除</a>
+			<a id="btnAddStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_add" plain="true" onclick="onStockBillAdd()">新增</a> 
+			<a id="btnEditStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit" plain="true" onclick="onStockBillEdit()">查看</a> 
+			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onStockConfirm()">确认</a> 
+			<a id="btnDelStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete" plain="true" onclick="onStockDel()">删除</a>
         </p>
 	</div>
 	<br />

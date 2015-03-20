@@ -23,5 +23,15 @@
 			<a href="javascript:void(0);" class="easyui-linkbutton" plain="true" onclick="onExit()">退出</a> 
 		</div>
 	</div> 
+	</div>
+	<div id="cc" class="easyui-layout" style="width:100%;height:100%;" oncontextmenu=self.event.returnValue=false>
+    <div data-options="region:'west',title:'功能菜单',split:true" style="width:220px;">
+    	<ul id="treeMenu"></ul>
+    </div>    
+    <div data-options="region:'center',title:' 业务'  " >
+		<iframe id="ifrContent"  scrolling='no' frameborder='0'  style="width:100%;height:98%;" onLoad="iframeSize()">
+    	</iframe>
+    </div> 
+</div>
 </body>
 </html>
