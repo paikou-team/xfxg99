@@ -36,7 +36,7 @@ $(function () {
                { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
                { title: 'orgId', field: 'orgId', align: 'left', width: 5, hidden: true },
                { title: 'custId', field: 'custId', align: 'left', width: 5, hidden: true },
-               { title: '单据号', field: 'payId', align: 'left', width: 150 },
+               { title: '单据号', field: 'serialNo', align: 'left', width: 150 },
                { title: '销售部门', field: 'orgName', align: 'center', width: 150 },
                { title: '客户名称', field: 'customerName', align: 'center', width: 100 },
                { title: '金额', field: 'goodsAmount', align: 'right', width: 120 },
@@ -75,7 +75,7 @@ function onSelRow(){
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',
             title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?billType=" + m_stock_type + "&id="+row.id+"' style='width:760px;height:460px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?optType=1&billType=" + m_stock_type + "&id="+row.id+"' style='width:760px;height:460px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {
@@ -111,7 +111,7 @@ function onSaleBillAdd(){
 		m_sale_dlg = art.dialog({
             id: 'dlgSaleBillView',
             title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?billType=2&id=0' style='width:760px;height:460px;'/>",
+            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?optType=0&billType=2&id=0' style='width:760px;height:460px;'/>",
             //content:"123",
             lock: true,
             initFn: function () {
