@@ -8,6 +8,8 @@
 		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
 		<result column="period" property="period" jdbcType="INTEGER" />
 		<result column="bless_id" property="blessId" jdbcType="INTEGER" />
+		<result column="mobile_phone" property="phone" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
 		<result column="bless_description" property="blessDescription" jdbcType="VARCHAR" />
 		<collection property="addresses" resultMap="AddressesVMMap" />
 	</resultMap>
@@ -140,45 +142,107 @@
 		<select id="countBirthdayInfo" resultType="java.lang.Integer"  parameterType="java.util.Map">
 		select 
 			count(*)
-		from  ecs_users as c
-		left join t_organization as org on c.org_id= org.id
-		left join t_birthday_log as log on c.user_id= log.cust_id and log.birthday_year=#{year,jdbcType=INTEGER}
-		where 
-			datediff(date_add(c.birthday,interval year(now())-year(c.birthday) year),now()) BETWEEN -15 and 15
+		from
+		(
+
+			select 
+				*,
+				case 
+					when abs(v.p1) &lt; abs(v.p2) then v.p1
+					else v.p2
+				end as period,
+					case 
+					when abs(v.p1) &lt; abs(v.p2) then year(v.cb1)
+					else year(v.cb2)
+				end as cyear
+			from
+			(
+				SELECT   
+					user_id,
+					user_name,
+					email,
+					birthday ,
+					org_id,
+					mobile_phone,
+					DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR) as cb1,
+					datediff(DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR),now()) as p1,
+					date_add(birthday,interval year(now())-year(birthday) year) as cb2,
+					datediff(date_add(birthday,interval year(now())-year(birthday) year),now()) as p2
+				from ecs_users
+			)as v
+		) as vv
+		left join t_organization 	as org on vv.org_id=org.id
+		left join t_birthday_log 	as log on vv.cyear= log.birthday_year and vv.user_id = log.cust_id
+		where	
+			vv.period between -15 and 15
+			<if test="custName !=null">
+				and vv.user_name  like CONCAT('%',#{custName,jdbcType=VARCHAR},'%' )
+			</if>
 			<if test="orgName !=null">
-				and org.name  like CONCAT('%','${orgName}','%' )
+				and org.name  like CONCAT('%',#{orgName,jdbcType=VARCHAR},'%' )
 			</if>
 			<if test="userOrgPath !=null">
-				and (org.path  like CONCAT('${userOrgPath}','.%' ) or org.path = userOrgPath)
-			</if>
-			<if test="pageStart !=null">
-				limit #{pageStart,jdbcType=INTEGER},
-				#{pageSize,jdbcType=INTEGER}
+				and (org.path  like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%' ) or org.path = #{userOrgPath,jdbcType=VARCHAR})
 			</if>
 	</select>
 	
 	<select id="loadBirthdayInfoList" resultMap="VMMap"  parameterType="java.util.Map">
 		select 
-			s.user_id 		as user_id,
-			s.email 		as email,
-			s.user_name 	as user_name,
-			s.birthday 		as birthday ,
-			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now()) as period,
-			log.id 			as bless_id,
-			log.description	as bless_description
-		from  ecs_users as s
-		left join t_organization 	as org 	on s.org_id= org.id
-		left join t_birthday_log 	as log 	on s.user_id= log.cust_id and log.birthday_year=#{year,jdbcType=INTEGER}
-		where 
-			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now()) BETWEEN -15 and 15
+			vv.user_id,
+			vv.user_name,
+			vv.birthday,
+			vv.email,
+			vv.period,
+			vv.cyear,
+			vv.org_id,
+			vv.mobile_phone,
+			org.name			as org_Name,
+			log.id				as bless_id,
+			log.description		as bless_description
+		from
+		(
+
+			select 
+				*,
+				case 
+					when abs(v.p1) &lt; abs(v.p2) then v.p1
+					else v.p2
+				end as period,
+					case 
+					when abs(v.p1) &lt; abs(v.p2) then year(v.cb1)
+					else year(v.cb2)
+				end as cyear
+			from
+			(
+				SELECT   
+					user_id,
+					user_name,
+					email,
+					birthday ,
+					org_id,
+					mobile_phone,
+					DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR) as cb1,
+					datediff(DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR),now()) as p1,
+					date_add(birthday,interval year(now())-year(birthday) year) as cb2,
+					datediff(date_add(birthday,interval year(now())-year(birthday) year),now()) as p2
+				from ecs_users
+			)as v
+		) as vv
+		left join t_organization 	as org on vv.org_id=org.id
+		left join t_birthday_log 	as log on vv.cyear= log.birthday_year and vv.user_id = log.cust_id
+		where	
+			vv.period between -15 and 15
+			<if test="custName !=null">
+				and vv.user_name  like CONCAT('%',#{custName,jdbcType=VARCHAR},'%' )
+			</if>
 			<if test="orgName !=null">
-				and org.name  like CONCAT('%','${orgName}','%' )
+				and org.name  like CONCAT('%',#{orgName,jdbcType=VARCHAR},'%' )
 			</if>
 			<if test="userOrgPath !=null">
-				and (org.path  like CONCAT('${userOrgPath}','.%' ) or org.path = userOrgPath)
+				and (org.path  like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%' ) or org.path = #{userOrgPath,jdbcType=VARCHAR})
 			</if>
 		order by
-			datediff(date_add(s.birthday,interval year(now())-year(s.birthday) year),now())
+			vv.period
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},
 			#{pageSize,jdbcType=INTEGER}

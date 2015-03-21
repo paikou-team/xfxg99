@@ -62,11 +62,26 @@ function loadBirthdayInfo(){
 }
 
 
+function onCBLPrev(){
+	m_year--;
+	loadBirthdayInfo();
+}
+
+function onCBLNext(){
+	m_year++;
+	loadBirthdayInfo();
+}
+
 function onCBLSave(){
 	m_birthdayInfo.birthday=m_customer.birthday;
 	m_birthdayInfo.birthdayYear=m_year;
 	m_birthdayInfo.custId=m_customer.id;
 	m_birthdayInfo.description=$('#txtDescription').val();
+	
+	if(m_birthdayInfo.description ==""){
+		$.messager.alert("提示", "请填入问候信息", "info");
+		return;
+	}
 	
 	$.ajax({
 		url : "customer/saveBirthdayInfo.do",
@@ -115,4 +130,8 @@ function loadCustomer(){
 			$.messager.alert("消息提示", a, "error");
 		}
 	});
+}
+
+function onCBLExit(){
+	parent.art.dialog.list['dlgBirthdayInfo'].close();
 }

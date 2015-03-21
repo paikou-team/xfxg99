@@ -24,7 +24,7 @@
         <div>
             <p> 
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"  click="onCustomer()"
                     plain="true">客户资料</a>
                 <a id="btnBirthdayRecord" name="btnBirthdayRecord"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"

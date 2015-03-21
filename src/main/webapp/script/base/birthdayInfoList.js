@@ -60,10 +60,30 @@ $(function() {
 			align : 'right',
 			width : 80,
 			formatter:function(value,row,index){
+				var p=parseInt(row.period);
+				var ap=Math.abs(p);
+				var text=null;
+				
+				if(p==0){
+					text="今天";
+				}else if(p==1){
+					text="明天";
+				}else if(p==2){
+					text="后天";
+				}else if(p==-1){
+					text ="昨天";
+				}else if(p==-2){
+					text="前天";
+				}else if(p>2){
+					text ="还有"+ ap +"天";
+				}else if(p<-2){
+					text ="已过"+ ap +"天";
+				}
+
 				if(row.period < 1 && row.blessId==0){
-					return '<span style="color:red;">'+value+'</span>'; 
+					return '<span style="color:red;">'+text+'</span>'; 
 				}else{
-					return value;
+					return text;
 				}
 			}
 		},{
@@ -80,7 +100,7 @@ $(function() {
 			title : '性别',
 			field : 'sex',
 			align : 'center',
-			width : 150,
+			width : 60,
 			formatter:function(value,rowData,index){
 				if(value==0||value=="0"){
 					return "女";
@@ -106,11 +126,6 @@ $(function() {
 		}, {
 			title : '电子邮件',
 			field : 'email',
-			align : 'left',
-			width : 250
-		}, {
-			title : '推荐人',
-			field : 'recUser',
 			align : 'left',
 			width : 250
 		} ] ]
@@ -141,7 +156,7 @@ function  onRecordBirthday(){
 		try {
 			m_birthday_record_dlg = art
 					.dialog({
-						id : 'dlgBirthdayRecord',
+						id : 'dlgBirthdayInfo',
 						title : '生日祝福',
 						content : "<iframe scrolling='yes' frameborder='0' src='view/base/birthdayInfo.jsp?id="+row.id+"&year=0' style='width:480px;height:200px;overflow:hidden'/>",
 						// content:"123",
@@ -161,6 +176,23 @@ function onLogBirthday(){
 
 function onSelRow(){
 	
+}
+
+function onCustomer(){
+	try {
+		m_custuser_dlg = art
+				.dialog({
+					id : 'dlgCustUserBill',
+					title : '客户资料',
+					content : "<iframe scrolling='yes' frameborder='0' src='view/base/custuserBill.jsp?optType="+optType+"' style='width:480px;height:380px;overflow:hidden'/>",
+					// content:"123",
+					lock : true,
+					initFn : function() {
+					}
+				});
+	} catch (ex) {
+		alert(ex);
+	}
 }
 
 var CustUserManage = {
@@ -201,7 +233,7 @@ var CustUserManage = {
 					.dialog({
 						id : 'dlgCustUserBill',
 						title : '客户资料',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/base/custuserBill.jsp?optType="+optType+"' style='width:500px;height:380px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/base/custuserBill.jsp?optType="+optType+"' style='width:480px;height:380px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {

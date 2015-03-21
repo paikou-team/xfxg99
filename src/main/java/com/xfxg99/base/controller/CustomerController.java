@@ -155,7 +155,7 @@ public class CustomerController {
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("custName", custName);
-		map.put("orgname", orgName);
+		map.put("orgName", orgName);
 		
 		Calendar c=Calendar.getInstance();
 		int year =c.get(Calendar.YEAR);

@@ -70,7 +70,7 @@
 		</tr>
 		<tr style="height:50px">
 			<td style="width: 80px; text-align: right">
-				<label>祝福方式:</label>
+				<label>问候内容:</label>
             </td>
 			<td colspan="3">
  				<textarea id="txtDescription" rows="2" style="width: 100%; ;height:100%;font-size: 12px" cols="3"></textarea>
