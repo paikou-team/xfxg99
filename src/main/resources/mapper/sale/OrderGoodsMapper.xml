@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfxg99.sale.dao.OrderGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.xfxg99.sale.model.OrderGoods" >
+    <id column="rec_id" property="recId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_sn" property="goodsSn" jdbcType="VARCHAR" />
+    <result column="goods_number" property="goodsNumber" jdbcType="SMALLINT" />
+    <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+    <result column="send_number" property="sendNumber" jdbcType="SMALLINT" />
+    <result column="is_real" property="isReal" jdbcType="BIT" />
+    <result column="extension_code" property="extensionCode" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="is_gift" property="isGift" jdbcType="SMALLINT" />
+    <result column="goods_attr_id" property="goodsAttrId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xfxg99.sale.model.OrderGoods" extends="BaseResultMap" >
+    <result column="goods_attr" property="goodsAttr" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    rec_id, order_id, goods_id, goods_name, goods_sn, goods_number, market_price, goods_price, 
+    send_number, is_real, extension_code, parent_id, is_gift, goods_attr_id, product_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    goods_attr
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ecs_order_goods
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ecs_order_goods
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xfxg99.sale.model.OrderGoods" >
+    insert into ecs_order_goods (rec_id, order_id, goods_id, 
+      goods_name, goods_sn, goods_number, 
+      market_price, goods_price, send_number, 
+      is_real, extension_code, parent_id, 
+      is_gift, goods_attr_id, product_id, 
+      goods_attr)
+    values (#{recId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsSn,jdbcType=VARCHAR}, #{goodsNumber,jdbcType=SMALLINT}, 
+      #{marketPrice,jdbcType=DECIMAL}, #{goodsPrice,jdbcType=DECIMAL}, #{sendNumber,jdbcType=SMALLINT}, 
+      #{isReal,jdbcType=BIT}, #{extensionCode,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{isGift,jdbcType=SMALLINT}, #{goodsAttrId,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
+      #{goodsAttr,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.OrderGoods" >
+    insert into ecs_order_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recId != null" >
+        rec_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsSn != null" >
+        goods_sn,
+      </if>
+      <if test="goodsNumber != null" >
+        goods_number,
+      </if>
+      <if test="marketPrice != null" >
+        market_price,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="sendNumber != null" >
+        send_number,
+      </if>
+      <if test="isReal != null" >
+        is_real,
+      </if>
+      <if test="extensionCode != null" >
+        extension_code,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="isGift != null" >
+        is_gift,
+      </if>
+      <if test="goodsAttrId != null" >
+        goods_attr_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="goodsAttr != null" >
+        goods_attr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recId != null" >
+        #{recId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSn != null" >
+        #{goodsSn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNumber != null" >
+        #{goodsNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sendNumber != null" >
+        #{sendNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="isReal != null" >
+        #{isReal,jdbcType=BIT},
+      </if>
+      <if test="extensionCode != null" >
+        #{extensionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isGift != null" >
+        #{isGift,jdbcType=SMALLINT},
+      </if>
+      <if test="goodsAttrId != null" >
+        #{goodsAttrId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAttr != null" >
+        #{goodsAttr,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.sale.model.OrderGoods" >
+    update ecs_order_goods
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSn != null" >
+        goods_sn = #{goodsSn,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNumber != null" >
+        goods_number = #{goodsNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="marketPrice != null" >
+        market_price = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sendNumber != null" >
+        send_number = #{sendNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="isReal != null" >
+        is_real = #{isReal,jdbcType=BIT},
+      </if>
+      <if test="extensionCode != null" >
+        extension_code = #{extensionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isGift != null" >
+        is_gift = #{isGift,jdbcType=SMALLINT},
+      </if>
+      <if test="goodsAttrId != null" >
+        goods_attr_id = #{goodsAttrId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAttr != null" >
+        goods_attr = #{goodsAttr,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xfxg99.sale.model.OrderGoods" >
+    update ecs_order_goods
+    set order_id = #{orderId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_sn = #{goodsSn,jdbcType=VARCHAR},
+      goods_number = #{goodsNumber,jdbcType=SMALLINT},
+      market_price = #{marketPrice,jdbcType=DECIMAL},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      send_number = #{sendNumber,jdbcType=SMALLINT},
+      is_real = #{isReal,jdbcType=BIT},
+      extension_code = #{extensionCode,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      is_gift = #{isGift,jdbcType=SMALLINT},
+      goods_attr_id = #{goodsAttrId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      goods_attr = #{goodsAttr,jdbcType=LONGVARCHAR}
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.model.OrderGoods" >
+    update ecs_order_goods
+    set order_id = #{orderId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_sn = #{goodsSn,jdbcType=VARCHAR},
+      goods_number = #{goodsNumber,jdbcType=SMALLINT},
+      market_price = #{marketPrice,jdbcType=DECIMAL},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      send_number = #{sendNumber,jdbcType=SMALLINT},
+      is_real = #{isReal,jdbcType=BIT},
+      extension_code = #{extensionCode,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      is_gift = #{isGift,jdbcType=SMALLINT},
+      goods_attr_id = #{goodsAttrId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=INTEGER}
+    where rec_id = #{recId,jdbcType=INTEGER}
+  </update>
+</mapper>

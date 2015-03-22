@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfxg99.sale.dao.OrderActionMapper" >
+  <resultMap id="BaseResultMap" type="com.xfxg99.sale.model.OrderAction" >
+    <id column="action_id" property="actionId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="action_user" property="actionUser" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="BIT" />
+    <result column="shipping_status" property="shippingStatus" jdbcType="BIT" />
+    <result column="pay_status" property="payStatus" jdbcType="BIT" />
+    <result column="action_place" property="actionPlace" jdbcType="BIT" />
+    <result column="action_note" property="actionNote" jdbcType="VARCHAR" />
+    <result column="log_time" property="logTime" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    action_id, order_id, action_user, order_status, shipping_status, pay_status, action_place, 
+    action_note, log_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ecs_order_action
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ecs_order_action
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xfxg99.sale.model.OrderAction" >
+    insert into ecs_order_action (action_id, order_id, action_user, 
+      order_status, shipping_status, pay_status, 
+      action_place, action_note, log_time
+      )
+    values (#{actionId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{actionUser,jdbcType=VARCHAR}, 
+      #{orderStatus,jdbcType=BIT}, #{shippingStatus,jdbcType=BIT}, #{payStatus,jdbcType=BIT}, 
+      #{actionPlace,jdbcType=BIT}, #{actionNote,jdbcType=VARCHAR}, #{logTime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfxg99.sale.model.OrderAction" >
+    insert into ecs_order_action
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="actionId != null" >
+        action_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="actionUser != null" >
+        action_user,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+      <if test="shippingStatus != null" >
+        shipping_status,
+      </if>
+      <if test="payStatus != null" >
+        pay_status,
+      </if>
+      <if test="actionPlace != null" >
+        action_place,
+      </if>
+      <if test="actionNote != null" >
+        action_note,
+      </if>
+      <if test="logTime != null" >
+        log_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="actionId != null" >
+        #{actionId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="actionUser != null" >
+        #{actionUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=BIT},
+      </if>
+      <if test="shippingStatus != null" >
+        #{shippingStatus,jdbcType=BIT},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=BIT},
+      </if>
+      <if test="actionPlace != null" >
+        #{actionPlace,jdbcType=BIT},
+      </if>
+      <if test="actionNote != null" >
+        #{actionNote,jdbcType=VARCHAR},
+      </if>
+      <if test="logTime != null" >
+        #{logTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.sale.model.OrderAction" >
+    update ecs_order_action
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="actionUser != null" >
+        action_user = #{actionUser,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=BIT},
+      </if>
+      <if test="shippingStatus != null" >
+        shipping_status = #{shippingStatus,jdbcType=BIT},
+      </if>
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=BIT},
+      </if>
+      <if test="actionPlace != null" >
+        action_place = #{actionPlace,jdbcType=BIT},
+      </if>
+      <if test="actionNote != null" >
+        action_note = #{actionNote,jdbcType=VARCHAR},
+      </if>
+      <if test="logTime != null" >
+        log_time = #{logTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfxg99.sale.model.OrderAction" >
+    update ecs_order_action
+    set order_id = #{orderId,jdbcType=INTEGER},
+      action_user = #{actionUser,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=BIT},
+      shipping_status = #{shippingStatus,jdbcType=BIT},
+      pay_status = #{payStatus,jdbcType=BIT},
+      action_place = #{actionPlace,jdbcType=BIT},
+      action_note = #{actionNote,jdbcType=VARCHAR},
+      log_time = #{logTime,jdbcType=INTEGER}
+    where action_id = #{actionId,jdbcType=INTEGER}
+  </update>
+</mapper>

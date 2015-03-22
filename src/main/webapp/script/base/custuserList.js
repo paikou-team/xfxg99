@@ -136,7 +136,7 @@ var CustUserManage = {
 					.dialog({
 						id : 'dlgCustUserBill',
 						title : '客户资料',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/base/customerBill.jsp?optType="+optType+"' style='width:500px;height:380px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/base/customerBill.jsp?optType="+optType+"' style='width:500px;height:420px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {

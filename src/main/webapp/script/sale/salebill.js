@@ -5,13 +5,12 @@ var user = getCurrentUser();
 var m_selectCustomer_dlg;
 $(function() {
 	var args = getUrlArgs();
-	if (args.optType == 0 || args.optType == "0") {
-alert("add");
-	}else
-		{
-		alert("edit");
-		}
-	$('#dgSaleDetail').datagrid({
+	if (args.optType == 1 || args.optType == "1") {
+		$("#tb_operationtb").hide();
+		$("#viewBillInfo").hide();
+		fillInBlankInfo();
+	}
+	$('#dgSaleDetail').datagrid({ 
 		fitColumns : true,
 		rownumbers : true,
 		resizable : true,
@@ -114,7 +113,36 @@ function loadOrgs() {
 	// var userOrgId = user.orgId;
 	// $("#cmbSaleDetp").combobox('select',userOrgId);
 }
-
+function fillInBlankInfo() {
+	$("#textSaleCustomer").val(parent.m_sale_obj.customerName);
+	$.ajax({
+		url : 'sale/loadProductListByBillId.do',
+		type : "POST",
+		dataType : "json",
+		data : {
+			'id' : parent.m_sale_obj.id
+		},
+		success : function(req) {
+			if (req.isSuccess) {
+				if(req.rows.length>0){
+					for(var i =0; i<req.rows.length;i++){
+						var row = {};
+						row.id = 0;
+						row.goodsId = 0;
+						row.goodsName = req.rows[i].goodsName;
+						row.goodsNumber = req.rows[i].goodsNumber;
+						row.goodsPrice = req.rows[i].goodsPrice;
+						row.amount = req.rows[i].goodsNumber * req.rows[i].goodsPrice;
+						$('#dgSaleDetail').datagrid('appendRow', row);
+					}
+				}
+				
+			} else {
+				$.messager.alert("系统提示", req.msg, "info");
+			}
+		},
+	});
+}
 function loadBill(billType, id) {
 	if (id == 0) {
 		$.ajax({
@@ -309,7 +337,7 @@ function view2stockBill() {
 	}
 	m_sale_bill.billTime = $('#dteSaleTime').datetimebox('getValue');
 	m_sale_bill.description = $('#txtDescription').val();
-	
+
 	m_sale_bill.custId = $("#txtcustId").val();
 	m_sale_bill.customerName = $("#textSaleCustomer").val();
 }
@@ -353,7 +381,7 @@ function onSaveSaleBill() {
 		return;
 	}
 
-	var data = $('#dgSaleDetail').datagrid('getData'); 
+	var data = $('#dgSaleDetail').datagrid('getData');
 	m_sale_bill.stockGoods = data.rows;
 
 	$.ajax({
@@ -369,6 +397,8 @@ function onSaveSaleBill() {
 				m_sale_bill = req.data;
 				// $("#policeInfoinportwindow").window("close");
 				$("#txtSerialNo").val(m_sale_bill.serialNo);
+				parent.onSaleSearch();
+				parent.m_sale_dlg.close();
 			} else {
 				$.messager.alert("提示信息", req.msg, "info");
 			}
@@ -383,7 +413,7 @@ function onSaveSaleBill() {
 
 }
 function onExit() {
-	parent.art.dialog.list['dlgSaleBillView'].close();
+	parent.m_sale_dlg.close();
 }
 function SelectCustUser() {
 	m_selectCustomer_dlg = art.dialog({

@@ -171,7 +171,7 @@ var ChargeManage = {
 					.dialog({
 						id : 'dlgChargeBill',
 						title : '充值单据',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=1' style='width:500px;height:380px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/sale/chargeBill.jsp?type=1' style='width:500px;height:450px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
