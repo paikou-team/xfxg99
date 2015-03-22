@@ -3,14 +3,12 @@ var m_saleDetail_rowIndex = undefined;
 var m_sale_bill;
 var user = getCurrentUser();
 var m_selectCustomer_dlg;
+var m_customer=undefined;
+var m_verif_time=120*1000;
+
 $(function() {
 	var args = getUrlArgs();
-	if (args.optType == 0 || args.optType == "0") {
-alert("add");
-	}else
-		{
-		alert("edit");
-		}
+
 	$('#dgSaleDetail').datagrid({
 		fitColumns : true,
 		rownumbers : true,
@@ -272,6 +270,53 @@ function onCheckStockBill() {
 
 	setBillLockState();
 }
+/**
+ * 获取短信验证码
+ */
+function onGetVerifCode(){
+
+	if(!checkStockBill()){
+		return ;
+	}
+	$.ajax({
+		url : "sale/sendVerifCode.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		data : {'mobile' : m_customer.mobile,'custId':m_customer.id},
+		success : function(req) {
+			if (req.isSuccess) {
+				verifCodeDelay();
+			} else {
+				$.messager.alert("提示信息", req.msg, "info");
+			}
+		},
+		failer : function(a, b) {
+			$.messager.alert("消息提示", "保存失败", "info");
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.messager.alert("错误提示", "保存失败", "error");
+		}
+	});
+	
+	
+	
+}
+
+function verifCodeDelay(){
+	var cts=m_verif_time;
+	$('#btnGetVerifCode').linkbutton({disabled:true});
+	var tt=setInterval(function(){
+		$('#btnGetVerifCode').text("还有"+cts/1000+"秒");
+		cts-=1000;
+		if(cts<=0){
+			clearInterval(tt);
+			$('#btnGetVerifCode').linkbutton({disabled:false});
+			$('#btnGetVerifCode').val("获取验证码");
+		}
+	},1000);
+}
+
 
 function stockBill2View(bill) {
 	$('#txtSerialNo').val(bill.serialNo);
@@ -320,6 +365,16 @@ function view2stockBill() {
  */
 function checkStockBill() {
 
+	if(m_customer==undefined ){
+		$.messager.alert("提示", "请选择客户!", "info");
+		return false;
+	}
+	
+	if(m_customer.phone ==undefined || m_customer.phone==""){
+		$.messager.alert("提示", "客户必须绑定手机号码!", "info");
+		return false;
+	}
+	
 	if (m_sale_bill.billType == 10 && !m_sale_bill.orgId > 0) {
 		$.messager.alert("提示", "请选择销售部门!", "error");
 		return false;
@@ -353,6 +408,11 @@ function onSaveSaleBill() {
 		return;
 	}
 
+	if($('#txtVerifCode').val()==""){
+		$.messager.alert("提示信息", "请输入验证码", "info");
+		return;
+	}
+	
 	var data = $('#dgSaleDetail').datagrid('getData'); 
 	m_sale_bill.stockGoods = data.rows;
 
@@ -447,8 +507,15 @@ var CustomerSelectManage = {
 		});
 	},
 	SelectCustUserAction : function(index, rowData) {
-		$("#txtcustId").val(rowData.id);
-		$("#textSaleCustomer").val(rowData.name);
+		
+		m_customer={};
+		m_customer.id=rowData.id;
+		m_customer.name=rowData.name;
+		m_customer.phone = rowData.phone;
+		
+		$("#txtcustId").val(m_customer.id);
+		$("#textSaleCustomer").val(m_customer.name);
+		$("#txtMobile").val(m_customer.phone);
 		m_selectCustomer_dlg.close();
 	}
 };

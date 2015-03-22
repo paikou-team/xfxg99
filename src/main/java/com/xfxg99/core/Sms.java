@@ -27,4 +27,8 @@ public class Sms {
 		
 		
 	}
+	
+	public void sendMessage(String mobile,String msg){
+		
+	}
 }

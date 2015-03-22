@@ -23,6 +23,8 @@ import com.xfxg99.sale.viewmodel.StockGoodsVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
+import com.xfxg99.core.Sms;
+import com.xfxg99.core.SmsInfo;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.SaleService;
@@ -189,5 +191,55 @@ public class SaleController {
 		return result.toJson();
 
 	}
-	 
+	@RequestMapping(value = "sendVerifCode.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String sendVerifCode(
+			@RequestParam(value = "mobile", required = false) String mobile,
+			@RequestParam(value = "custId", required = false) Integer custId,
+			HttpServletRequest request) throws Exception {
+		
+		User user =(User)request.getSession().getAttribute("user");
+		Result<String> result=new Result<String>();
+		
+		if(user ==null){
+			result =new Result<String>(null,false,true,false,"请从新登录");
+			return result.toJson();
+		}
+		
+		if(mobile==null || "".equals(mobile) || custId==null || custId==0){
+			result.setIsSuccess(false);
+			result.setMsg("手机号码或者客户id不能为空!");
+			return result.toJson();
+		}
+		
+		@SuppressWarnings("unchecked")
+		Map<String,SmsInfo>  smss =(Map<String,SmsInfo>)request.getSession().getAttribute("verifCodes");
+		
+		if(smss==null){
+			smss=new HashMap<String,SmsInfo>();
+		}
+		
+		try{
+			String verifCode=GeneralUtil.createVerifCode();
+			
+			Sms sms=new Sms();
+			sms.sendMessage(mobile, verifCode);
+			
+			SmsInfo smsInfo=new SmsInfo();
+			smsInfo.setCustId(custId);
+			smsInfo.setMobile(mobile);
+			smsInfo.setSmsType(1);
+			smsInfo.setVerifCode(verifCode);
+			smsInfo.setSendTime(new Date());
+			
+			smss.put(verifCode,smsInfo);
+			
+			result.setIsSuccess(true);
+			return result.toJson();
+		}catch(Exception ex){
+			result.setIsSuccess(false);
+			result.setMsg(ex.getMessage());
+			return result.toJson();
+		}
+	}
 }

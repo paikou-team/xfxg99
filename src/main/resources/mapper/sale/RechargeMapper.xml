@@ -33,6 +33,7 @@
 			jdbcType="VARCHAR" />
 		<result column="userName" property="userName" jdbcType="VARCHAR" />
 	</resultMap>
+	
 	<insert id="insertAccountLog" parameterType="java.util.Map">
 		insert into
 		ecs_account_log (user_id, user_money,
@@ -84,9 +85,12 @@
 		from ecs_users order by user_id asc
 	</select>
 	<select id="loadrechargeCustUserlist" resultType="com.xfxg99.base.viewmodel.CustomerVM">
-		select user_id as id,user_name as name , email as email ,mobile_phone
-		as
-		phone ,tjr_name as recUser
+		select 
+			user_id 		as id,
+			user_name 		as name , 
+			email 			as email ,
+			mobile_phone 	as phone ,
+			tjr_name 		as recUser
 		from ecs_users
 		where 1=1
 

@@ -237,15 +237,5 @@ public class CustomerController {
 	}
 	
 	
-	public @ResponseBody
-	String sendVerifCode(
-			@RequestParam(value = "mobile", required = false) String mobile,
-			HttpServletRequest request) throws Exception {
-		
-		Result<String> result=null;
-		
-		String verifCode=GeneralUtil.createVerifCode();
-		
-		return null;
-	}
+
 }
