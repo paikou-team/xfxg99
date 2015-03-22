@@ -23,8 +23,10 @@ import com.xfxg99.base.service.CustomerService;
 import com.xfxg99.base.service.OrganizationService;
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
+import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result; 
+import com.xfxg99.core.Sms;
 
 @Scope("prototype")
 @Controller
@@ -136,6 +138,8 @@ public class CustomerController {
 		UserVM user =(UserVM)request.getSession().getAttribute("user");
 		ListResult<CustomerVM>  result =null;
 
+		Sms sms=new Sms();
+		
 		if(user ==null){
 			result =new ListResult<CustomerVM>(0,null);
 			result.setIsSessionExpired(true);
@@ -232,4 +236,16 @@ public class CustomerController {
 		
 	}
 	
+	
+	public @ResponseBody
+	String sendVerifCode(
+			@RequestParam(value = "mobile", required = false) String mobile,
+			HttpServletRequest request) throws Exception {
+		
+		Result<String> result=null;
+		
+		String verifCode=GeneralUtil.createVerifCode();
+		
+		return null;
+	}
 }

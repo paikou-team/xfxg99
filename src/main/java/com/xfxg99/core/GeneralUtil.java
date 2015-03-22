@@ -6,9 +6,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class GeneralUtil {
 
+	static  String[] seed={"0","1","2","3","4","5","6","7","8","9"};
+	
+	static int verifCodeLength=5;
+	
+	public static String createVerifCode(){
+		
+		String result="";
+		
+		for(int i=0;i<verifCodeLength;i++){
+			result +=Math.round(Math.random() * 9);
+		}
+		return result;
+	}
+	
 	
 	public static Map<String,Object> getSerialNoPars(Integer billType){
 		Calendar  calendar=Calendar.getInstance();
