@@ -96,4 +96,9 @@ public class UserService{
 	{
 		return userMapper.getUsedOrgIdCount(orgId);
 	}
+
+	public void updatePwdByPrimaryKey(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		userMapper.updatePwdByPrimaryKey(map);
+	}
 }
