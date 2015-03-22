@@ -1,11 +1,17 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=branch 'master' of https\://github.com/paikou-team/xfxg99.git
 eclipse.preferences.version=1
+encoding//src/main/resources/properties/sms.properties=UTF-8
 encoding//src/main/webapp/index.jsp=UTF-8
 encoding//src/main/webapp/script/common.js=UTF-8
 encoding//src/main/webapp/script/index.js=UTF-8
 encoding//src/main/webapp/script/sale/goodsList.js=UTF-8
 encoding//src/main/webapp/script/sale/stockList.js=UTF-8
 encoding//src/main/webapp/script/sale/stockbill.js=UTF-8
+encoding//src/main/webapp/view/base/birthdayInfo.jsp=UTF-8
 encoding//src/main/webapp/view/base/customerBill.jsp=UTF-8
+encoding//src/main/webapp/view/base/customerBirthdayLog.jsp=UTF-8
 encoding//src/main/webapp/view/sale=UTF-8
 encoding//src/main/webapp/view/sale/chargeList.jsp=UTF-8
 encoding//src/main/webapp/view/sale/goodsList.jsp=UTF-8

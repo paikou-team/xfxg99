@@ -41,13 +41,13 @@
                 	<td><input id="txtorgId" type="hidden" /></td>
                 </tr>
                     <tr>
-                        <td style="width: 60px; text-align: center">
+                        <td style="width: 60px; text-align: right">
                             <label>单据编号:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
                             <input id="txtSerialNo" class="easyui-validatebox" data-options="required:false" disabled="disabled" />
                         </td>
-                        <td style="width:60px; text-align: center">
+                        <td style="width:60px; text-align: right">
                             <label>单据日期:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
@@ -55,16 +55,16 @@
                         </td>                      
                     </tr>
                     <tr>
-                    	<td style="width:60px; text-align: center">
+                    	<td style="width:60px; text-align: right">
                             <label id="lblSaleDetp">门店名称:</label>
                         </td>
                         <td style="width: 100px; text-align: left" >
                             <input id="cmbSaleDetp" class="easyui-combobox"  disabled="disabled"  data-options="required:true,editable:false"   />
                         </td>
-                       	<td style="width:60px; text-align: center">
+                       	<td style="width:60px; text-align: right">
                             <label >客户名称:</label>
                         </td>
-                        <td style="width: 100px; text-align: left">
+                        <td style="width: 120px; text-align: left">
                             <input id="textSaleCustomer" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
                             <span id="viewBillInfo">
                             <a id="btnSelectCustomer"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-select" plain="true">客户选择</a>
@@ -72,6 +72,24 @@
                         </td>
                         
                     </tr>
+                    
+                    <tr>
+                    	<td style="width:60px; text-align: right">
+                    		<label >手机号码:</label>
+                    	</td>
+                    	<td style="width: 100px; text-align: left">
+                            <input id="txtMobile" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
+                            
+                        </td>
+                        <td style="width:60px; text-align: right">
+                    		<label >输入验证码:</label>
+                    	</td>
+                    	<td style="width: 120px; text-align: left">
+                            <input id="txtVerifCode"  class="easyui-validatebox" data-options="required:false" />
+                            <a id="btnGetVerifCode" sytle="width:60px" href="javascript:void(0);" iconcls="icon_xfxg_message" class="easyui-linkbutton"  onclick="onGetVerifCode()">获取验证码</input>
+                        </td>
+                    </tr>
+                    
                     <tr>
                         <td style="width:60px; text-align: center">
                             <label>备注说明:</label>

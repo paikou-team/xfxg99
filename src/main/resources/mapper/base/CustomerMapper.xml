@@ -6,6 +6,12 @@
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="user_name" property="name" jdbcType="VARCHAR" />
 		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="period" property="period" jdbcType="INTEGER" />
+		<result column="bless_id" property="blessId" jdbcType="INTEGER" />
+		<result column="mobile_phone" property="phone" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="bless_description" property="blessDescription" jdbcType="VARCHAR" />
+		<result column="rec_user" property="recUser" jdbcType="VARCHAR" />
 		<collection property="addresses" resultMap="AddressesVMMap" />
 	</resultMap>
 	<resultMap id="AddressesVMMap" type="com.xfxg99.sale.viewmodel.AddressVM">
@@ -19,7 +25,8 @@
 		s.email as email,
 		s.user_name as user_name,
 		s.birthday as birthday,
-		g.address as address
+		g.address as address,
+		s.mobile_phone as mobile_phone
 	</sql>
 	<insert id="insert" parameterType="com.xfxg99.base.viewmodel.CustomerVM">
 		insert into ecs_users
@@ -104,14 +111,19 @@
 
 	</select>
 
-	<select id="loadCustUserlist" resultType="com.xfxg99.base.viewmodel.CustomerVM">
-		select u.user_id as id,u.user_name as name , u.email as email
-		,u.mobile_phone
-		as
-		phone ,u.tjr_name as recUser,u.birthday as
-		birthday,u.sex as sex,(select name from t_organization where id =
-		u.org_id) as orgName
+	<select id="loadCustUserlist" resultMap="VMMap">
+		select 
+			u.user_id 		as id,
+			u.user_name 	as user_name , 
+			u.email 		as email,
+			u.mobile_phone	as mobile_phone ,
+			u.tjr_name 		as rec_user,
+			u.birthday 		as birthday,
+			u.sex 			as sex,
+			org.name		as org_name,
+			org.id			as org_id
 		from ecs_users as u
+		left join t_organization as org on u.org_id= org.id
 		where 1=1
 
 		<if test="name !=null">
@@ -133,4 +145,115 @@
 			and user_name like CONCAT('%','${name}','%' )
 		</if>
 	</select>
+	
+		<select id="countBirthdayInfo" resultType="java.lang.Integer"  parameterType="java.util.Map">
+		select 
+			count(*)
+		from
+		(
+
+			select 
+				*,
+				case 
+					when abs(v.p1) &lt; abs(v.p2) then v.p1
+					else v.p2
+				end as period,
+					case 
+					when abs(v.p1) &lt; abs(v.p2) then year(v.cb1)
+					else year(v.cb2)
+				end as cyear
+			from
+			(
+				SELECT   
+					user_id,
+					user_name,
+					email,
+					birthday ,
+					org_id,
+					mobile_phone,
+					DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR) as cb1,
+					datediff(DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR),now()) as p1,
+					date_add(birthday,interval year(now())-year(birthday) year) as cb2,
+					datediff(date_add(birthday,interval year(now())-year(birthday) year),now()) as p2
+				from ecs_users
+			)as v
+		) as vv
+		left join t_organization 	as org on vv.org_id=org.id
+		left join t_birthday_log 	as log on vv.cyear= log.birthday_year and vv.user_id = log.cust_id
+		where	
+			vv.period between -15 and 15
+			<if test="custName !=null">
+				and vv.user_name  like CONCAT('%',#{custName,jdbcType=VARCHAR},'%' )
+			</if>
+			<if test="orgName !=null">
+				and org.name  like CONCAT('%',#{orgName,jdbcType=VARCHAR},'%' )
+			</if>
+			<if test="userOrgPath !=null">
+				and (org.path  like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%' ) or org.path = #{userOrgPath,jdbcType=VARCHAR})
+			</if>
+	</select>
+	
+	<select id="loadBirthdayInfoList" resultMap="VMMap"  parameterType="java.util.Map">
+		select 
+			vv.user_id,
+			vv.user_name,
+			vv.birthday,
+			vv.email,
+			vv.period,
+			vv.cyear,
+			vv.org_id,
+			vv.mobile_phone,
+			org.name			as org_Name,
+			log.id				as bless_id,
+			log.description		as bless_description
+		from
+		(
+
+			select 
+				*,
+				case 
+					when abs(v.p1) &lt; abs(v.p2) then v.p1
+					else v.p2
+				end as period,
+					case 
+					when abs(v.p1) &lt; abs(v.p2) then year(v.cb1)
+					else year(v.cb2)
+				end as cyear
+			from
+			(
+				SELECT   
+					user_id,
+					user_name,
+					email,
+					birthday ,
+					org_id,
+					mobile_phone,
+					DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR) as cb1,
+					datediff(DATE_ADD(birthday,INTERVAL TIMESTAMPDIFF(YEAR,birthday,now()) YEAR),now()) as p1,
+					date_add(birthday,interval year(now())-year(birthday) year) as cb2,
+					datediff(date_add(birthday,interval year(now())-year(birthday) year),now()) as p2
+				from ecs_users
+			)as v
+		) as vv
+		left join t_organization 	as org on vv.org_id=org.id
+		left join t_birthday_log 	as log on vv.cyear= log.birthday_year and vv.user_id = log.cust_id
+		where	
+			vv.period between -15 and 15
+			<if test="custName !=null">
+				and vv.user_name  like CONCAT('%',#{custName,jdbcType=VARCHAR},'%' )
+			</if>
+			<if test="orgName !=null">
+				and org.name  like CONCAT('%',#{orgName,jdbcType=VARCHAR},'%' )
+			</if>
+			<if test="userOrgPath !=null">
+				and (org.path  like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%' ) or org.path = #{userOrgPath,jdbcType=VARCHAR})
+			</if>
+		order by
+			vv.period
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+	
 </mapper>

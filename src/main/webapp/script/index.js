@@ -58,6 +58,15 @@ function onTreeMenuDblClick(row) {
 	getCurrentUser();
 	
 	switch (row.funcKey) {
+	case "cust_data" :
+		src = "view/base/custuserList.jsp?viewType=1";
+		break;
+	case "cust_recharge":
+		src = "view/sale/chargeList.jsp?optType=0";
+		break;
+	case "cust_birthday":
+		src="view/base/birthdayInfoList.jsp";
+		break;
 	case "shop_stockin":
 		src = "view/sale/stockList.jsp?billType=10";
 		break;
@@ -73,18 +82,13 @@ function onTreeMenuDblClick(row) {
 	case "sys_user":
 		src = "view/base/user.jsp?optType=0";
 		break;
-	case "cust_data":
-		src = "view/base/customerList.jsp";
-		break;
 	case "sys_shop":
 		src = "view/base/organization.jsp";
 		break;
 	case "sys_setting":
 		src = "view/base/sysparameter.jsp";
 		break;
-	case "cust_recharge":
-		src = "view/sale/chargeList.jsp?optType=0";
-		break;
+	
 	case "biz_recharge_confirm":
 		src = "view/sale/chargeList.jsp?optType=1";
 		break;

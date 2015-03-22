@@ -37,4 +37,20 @@ public class CustomerService {
 		// TODO Auto-generated method stub
 		customerMapper.updateByPrimaryKey(customer);
 	}  
+	
+	public CustomerVM getCustomer(Integer id){
+		
+		return customerMapper.loadVMById(id);
+	}
+	
+	public ListResult<CustomerVM> loadBirthdayInfoList(Map<String ,Object> map){
+		
+		int count=customerMapper.countBirthdayInfo(map);
+		
+		List<CustomerVM> cs=customerMapper.loadBirthdayInfoList(map);
+		
+		ListResult<CustomerVM> result=new ListResult<CustomerVM>(count,cs);
+		
+		return result;
+	} 
 }

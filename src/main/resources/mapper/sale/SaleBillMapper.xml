@@ -15,6 +15,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cust_id" property="custId" jdbcType="INTEGER" />
     <result column="customerName" property="customerName" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="customerPhone" jdbcType="VARCHAR" />
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
     <result column="orgName" property="orgName" jdbcType="VARCHAR" />
     <result column="pay_id" property="payId" jdbcType="INTEGER" />
@@ -34,11 +35,14 @@
   	s.serial_no			as	serial_no,
   	o.name				as	orgName,
   	eu.user_name		as	customerName,
-  	eu.email 			as 	customerEmail
+  	eu.email 			as 	customerEmail,
+  	eu.mobile_phone		as	mobile_phone
   </sql>
+  
   <sql id="Base_Column_List" >
     id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time,serial_no
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

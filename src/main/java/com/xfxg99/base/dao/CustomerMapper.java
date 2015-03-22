@@ -28,5 +28,9 @@ public interface CustomerMapper {
 
 	void updateByPrimaryKey(CustomerVM customer);
  
+	List<CustomerVM> loadBirthdayInfoList(Map<String ,Object> map);
+	
+	int countBirthdayInfo(Map<String ,Object> map);
+ 
  
 }

@@ -1,4 +1,5 @@
 var m_custuser_dlg;
+var m_birthday_record_dlg;
 var m_custuser_type;
 var m_custuser_query = {
 	orgname : "",
@@ -6,10 +7,16 @@ var m_custuser_query = {
 	recUser : "",
 	isused : 0
 };
+
+var m_customer_viewType;
+
 var m_custuser_object = {};
 $(function() {
 	var args = getUrlArgs();
-
+	m_customer_viewType=parseInt( args["viewType"]);
+	
+	viewSwitch();
+	
 	// var optType = args.optType;
 	// if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
 	// $("#ConfirmCharge").hide();
@@ -95,8 +102,64 @@ $(function() {
 		} ] ]
 	});
 	$("#ShowCustUserInfo").bind("click", CustUserManage.ShowCustUser);
+	$("#btnBirthdayRecord").bind("click", onRecordBirthday);
+	$("#btnBirthdayLog").bind("click", onLogBirthday);
 	// $("#ShowChargeInfo").bind("click", CustUserManage.ShowCharge);
 });
+
+
+function loadCustomer(){
+	$.ajax({
+		url : "custuser/getCustomer.do",
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				var nodes = buildTreeOrg(req.rows);
+				$('#OrganizationTree').treegrid("loadData", nodes);
+			} 
+		}
+	});
+}
+
+function viewSwitch(){
+	if(m_customer_viewType ==1){
+		$('#btnBirthdayRecord').hide();
+		$('#btnBirthdayLog').hide();
+	}
+}
+
+
+function  onRecordBirthday(){
+	
+	var row = $("#custUserGrid").datagrid("getSelected");
+	
+	if(row){
+		try {
+			m_birthday_record_dlg = art
+					.dialog({
+						id : 'dlgBirthdayRecord',
+						title : '生日提示',
+						content : "<iframe scrolling='yes' frameborder='0' src='view/base/customerBirthdayRecord.jsp?id="+row.id+"' style='width:500px;height:380px;overflow:hidden'/>",
+						// content:"123",
+						lock : true,
+						initFn : function() {
+						}
+					});
+		} catch (ex) {
+			alert(ex);
+		}
+	}
+}
+
+function onLogBirthday(){
+	
+}
+
+function onSelRow(){
+	
+}
 
 var CustUserManage = {
 	ShowCustUser : function() {
@@ -159,4 +222,8 @@ var CustUserManage = {
 		m_custuser_query.custname = $.trim($("#sch_custname").val());
 		m_custuser_query.isused = $("#sch_isUsed").combobox("getValue");
 	}
+	
+	
+	
+	
 };
