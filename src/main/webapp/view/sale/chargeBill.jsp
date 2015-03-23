@@ -37,7 +37,7 @@
 		 </p>	
 		 <p style="padding:6px"><label>联系方式：</label><input id="txtcustPhone" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /> </p>
 		 <p style="padding:6px"><label>电子邮件：</label><input id="txtcustEmail" class="easyui-validatebox"  readonly="readonly"    style="width:324px"  /> </p>
-		 <p style="padding:6px"><label>充值备注：</label><textarea id="txtrechargeDesc" type="textarea" style="width:324px;height:40px" ></textarea></p> 
+		 <p><label>充值备注：</label><textarea id="txtrechargeDesc" type="textarea" style="width:324px;height:40px" ></textarea></p> 
 	</div>
 	<div id="div_custuser" style="width:500px;height:300px; display:none">
 		<div id="custUserGrid" fit="true">

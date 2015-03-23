@@ -1,15 +1,44 @@
 var m_index_user;
+var m_changePwd_dlg;
 
 var m_index_iconStyles = {};
 
 $(function() {
 	
-	getCurrentUser();
-	
+	var obj = getCurrentUser();
+	$("#labOrgName").text(obj.orgName);
+	$("#userName").text(obj.name);
 	var args = getUrlArgs();
-
+if(args.optType==1||args.optType=="1"){ 
+	$.messager.confirm("系统提示", "页面过期，请重新登录！", function(r) {
+		if (r) {
+			top.location.href="login.jsp";
+		}
+	});
+}else if(args.optType==2||args.optType=="2"){
+	$.messager.alert("操作提示","初始密码错误！","error");  
+	onChangePwd();
+}else if(args.optType==3||args.optType=="3"){
+	$.messager.alert("操作提示","两次密码不一致，请检查！","error"); 
+	onChangePwd();
+}else if(args.optType==4||args.optType=="4"){ 
+	$.messager.confirm("系统提示", "密码修改成功！是否重新登录？", function(r) {
+		if (r) {
+			top.location.href="login.jsp";
+		}
+	});
+}else if(args.optType==5||args.optType=="5") {
+	$.messager.alert("操作提示","初始密码不能为空！","error"); 
+	onChangePwd();
+}else if(args.optType==6||args.optType=="6") {
+	$.messager.alert("操作提示","请输入新密码！","error"); 
+	onChangePwd();
+}else if(args.optType==7||args.optType=="7") {
+	$.messager.alert("操作提示","请确认密码！","error"); 
+	onChangePwd();
+}
 	//isSignIn(gSetCurrentUserCallback);
-
+args.optType=0;
 	$('#treeMenu').tree({
 		checkbox : false,
 		cascadeCheck : true,
@@ -40,15 +69,28 @@ function loadMenu() {
 /**
  * 退出主页面，返回登录页面
  */
-/*function onExit() {
-	$.ajax({
-		url : "index/loginOff.do",
-		type : "POST".
-		dataType : "json",
-		async : false,
-		
+function onExit() {
+	$.messager.confirm("系统提示", "是否退出主页，返回登录页面？", function(r) {
+		if (r) {
+			location = "index/onExit.do"
+		}
 	});
-}*/
+//	location = "index/onExit.do"
+}
+/**
+ * 修改密码
+ */
+function onChangePwd() {
+	m_changePwd_dlg = art.dialog({
+		id: 'dlgchangePwd',
+        title: '修改密码',
+        content: document.getElementById("div_changePwd"),
+        //content:"123",
+        lock: true,
+        initFn: function () {
+        }
+	});
+}
 /**
  * 
  */
@@ -181,3 +223,4 @@ function iframeSize() {
 		ifm.width = subWeb.body.scrollWidth;
 	}
 }
+

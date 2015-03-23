@@ -124,6 +124,11 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updatePwdByPrimaryKey" parameterType="java.util.Map" >
+    update t_user
+    set password = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   <select id="loadAllUser" resultMap="BaseResultMap">
 	select 
     	<include refid="Base_Column_List" />

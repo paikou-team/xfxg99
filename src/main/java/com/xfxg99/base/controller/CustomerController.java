@@ -62,7 +62,7 @@ public class CustomerController {
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("name", name);
-		map.put("orgname", orgname);
+//		map.put("orgname", orgname);
 //		map.put("recUser", recUser);
 
 		ListResult<CustomerVM> rs = customerService

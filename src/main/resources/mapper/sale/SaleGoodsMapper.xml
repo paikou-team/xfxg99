@@ -12,6 +12,31 @@
   <sql id="Base_Column_List" >
     id, sale_id, goods_id, goods_number, market_price, goods_price
   </sql>
+  
+  
+	<select id="countByBillId" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*)
+		from t_sale_goods  
+		where 1=1 
+		<if test="id > 0" >
+			and sale_id = #{id,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+		<select id="loadProductListByBillId" parameterType="java.util.Map"
+		resultType="com.xfxg99.sale.viewmodel.StockGoodsVM">
+		SELECT sg.id as id,sg.sale_id as saleId,sg.goods_id as goodsId, g.goods_name as goodsName,sg.goods_number as goodsNumber,
+			sg.goods_price as goodsPrice ,sg.market_price as marketPrice
+
+ 				FROM paikou.t_sale_goods as sg
+				left join ecs_goods as g on sg.goods_id = g.goods_id
+				where 1=1  
+		<if test="id > 0" >
+			and sale_id = #{id,jdbcType=INTEGER}
+		</if>
+	</select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -23,6 +48,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xfxg99.sale.model.SaleGoods" useGeneratedKeys="true" keyProperty="id">
+  		<selectKey resultType="INTEGER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
     insert into t_sale_goods (id, sale_id, goods_id, 
       goods_number, market_price, goods_price
       )

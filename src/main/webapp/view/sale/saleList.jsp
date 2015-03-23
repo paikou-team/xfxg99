@@ -14,14 +14,8 @@
 	<div > 
 		<p style="float: left; width:100%; height:10px">
 			<a id="btnAddSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_add" plain="true" onclick="onSaleBillAdd()">新增</a> 
-
-			<a id="btnEditSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit" plain="true" onclick="onSaleBillEdit()">查看</a> 
-			<a id="btnConfirmSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onSaleConfirm()">确认</a> 
-			<a id="btnDelSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete" plain="true" onclick="onSaleDel()">删除</a>
-
-			<a id="btnEditSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_show" plain="true" onclick="onSaleBillEdit()">查看</a>  
-
-        </p>
+ 			<a id="btnShowSaleBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit" plain="true" onclick="onSaleBillShow()">查看</a> 
+   </p>
 	</div>
 	<div style="margin-top:10px;">
 		<table style="width:100%;height:20px;font-size: 12px">

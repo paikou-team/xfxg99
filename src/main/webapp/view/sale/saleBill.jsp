@@ -25,11 +25,13 @@
             <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid">销售单</label>
         </p>
         <p style="margin-top: -1px; margin-bottom: 0px">
+        <span id="tb_operationtb">
         	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_add" plain="true" onclick="onAddGoods()">添加</a>
         	<a id="btnDelGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete" plain="true" onclick="onDelGoods()">删除</a>
             <a id="btnSaveBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save" plain="true" onclick="onSaveSaleBill()">保存</a>
-            <a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onCheckStockBill()">确认</a>
-            <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-no" plain="true" onclick="exit()">退出</a>
+            <!--<a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onCheckStockBill()">确认</a>-->
+         </span>
+            <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true" onclick="onExit()">退出</a>
         </p>
         <div class="easyui-tabs" data-options="tabWidth:120" style="width: 100%; height: 340px; border-left: 1px solid #D4D4D4; border-right: 1px solid #D4D4D4">
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
@@ -57,14 +59,16 @@
                             <label id="lblSaleDetp">门店名称:</label>
                         </td>
                         <td style="width: 100px; text-align: left" >
-                            <input id="cmbSaleDetp" class="easyui-combobox"  data-options="required:true,editable:false"   />
+                            <input id="cmbSaleDetp" class="easyui-combobox"  disabled="disabled"  data-options="required:true,editable:false"   />
                         </td>
                        	<td style="width:60px; text-align: right">
                             <label >客户名称:</label>
                         </td>
                         <td style="width: 120px; text-align: left">
                             <input id="textSaleCustomer" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
+                            <span id="viewBillInfo">
                             <a id="btnSelectCustomer"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-select" plain="true">客户选择</a>
+                        	</span>
                         </td>
                         
                     </tr>

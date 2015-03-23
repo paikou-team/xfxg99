@@ -129,7 +129,9 @@
 		<if test="name !=null">
 			and user_name like CONCAT('%','${name}','%' )
 		</if>
-
+ 
+		
+		
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},
 			#{pageSize,jdbcType=INTEGER}

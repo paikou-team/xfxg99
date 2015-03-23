@@ -1,5 +1,6 @@
 var m_sale_query={};
 var m_sale_dlg;
+var m_sale_obj = {};
 $(function () {
 	var args = getUrlArgs();
 	
@@ -68,20 +69,9 @@ function setSaleQueryTime(){
 }
 
 
-function onSelRow(){
-	var row = $("#dgSale").datagrid("getSelected");
-	
-	if(row){
-		m_sale_dlg = art.dialog({
-            id: 'dlgSaleBillView',
-            title: '单据',
-            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/stockBill.jsp?optType=1&billType=" + m_stock_type + "&id="+row.id+"' style='width:760px;height:460px;'/>",
-            //content:"123",
-            lock: true,
-            initFn: function () {
-            }
-        });
-	}
+function onSelRow(rowIndex, rowData){ 
+	SaleManage.packageObject(rowData);
+	SaleManage.ShowDialog();
 }
 
 function loadSaleBills() {
@@ -123,9 +113,55 @@ function onSaleBillAdd(){
 }
 
 
-function onSaleBillEdit(){
-	onSelRow();
+function onSaleBillShow(){
+	var hasRows = $('#dgSale').datagrid('getRows');
+	if (hasRows.length == 0) {
+		$.messager.alert('操作提示', "没有可操作数据", "warning");
+		return;
+	}
+	var target = $("#dgSale").datagrid("getChecked");
+	if (!target || target.length == 0) {
+		$.messager.alert('操作提示', "请选择操作项!", "warning");
+		return;
+	}
+	if (target.length > 1) {
+		$.messager.alert('操作提示', "只能选择单个操作项!", "warning");
+		return;
+	}
+	SaleManage.packageObject(target[0]);
+	SaleManage.ShowDialog();
 }
+
+var SaleManage = {
+		packageObject:function(obj){
+			m_sale_obj.id = obj.id;
+			m_sale_obj.orgId = obj.orgId;
+			m_sale_obj.custId = obj.custId;
+			m_sale_obj.serialNo = obj.serialNo;
+			m_sale_obj.orgName = obj.orgName;
+			m_sale_obj.customerName = obj.customerName;
+			m_sale_obj.goodsAmount = obj.goodsAmount;
+			m_sale_obj.saleTime = obj.saleTime;
+			m_sale_obj.recTime = obj.recTime;
+		},
+		
+		ShowDialog:function(obj){
+			try {
+				m_sale_dlg = art.dialog({
+		            id: 'dlgSaleBillView',
+		            title: '单据',
+		            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?optType=1&billType=2&id=0' style='width:760px;height:460px;'/>",
+		            //content:"123",
+		            lock: true,
+		            initFn: function () {
+		            }
+		        });
+		    } catch (ex) {
+		        alert(ex);
+		    }
+		}
+};
+
 
 function onSaleDel(){
 var row = $("#dgSale").datagrid("getSelected");

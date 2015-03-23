@@ -1,7 +1,11 @@
 package com.xfxg99.sale.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.SaleGoods;
+import com.xfxg99.sale.viewmodel.StockGoodsVM;
 @MyBatisRepository
 public interface SaleGoodsMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,4 +19,8 @@ public interface SaleGoodsMapper {
     int updateByPrimaryKeySelective(SaleGoods record);
 
     int updateByPrimaryKey(SaleGoods record);
+
+	int countByBillId(Map<String, Object> map);
+
+	List<StockGoodsVM> loadProductListByBillId(Map<String, Object> map);
 }
