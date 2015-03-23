@@ -5,6 +5,7 @@ var user = getCurrentUser();
 var m_selectCustomer_dlg;
 var m_customer=undefined;
 var m_verif_time=120*1000;
+var m_time_interval;
 
 $(function() {
 	var args = getUrlArgs(); 
@@ -308,15 +309,19 @@ function onCheckStockBill() {
  */
 function onGetVerifCode(){
 
+	view2stockBill();
+	
 	if(!checkStockBill()){
 		return ;
 	}
+	
+	var amount=calcTotal();
 	$.ajax({
 		url : "sale/sendVerifCode.do",
 		type : "POST",
 		dataType : "json",
 		async : false,
-		data : {'mobile' : m_customer.mobile,'custId':m_customer.id},
+		data : {'mobile' : m_customer.phone,'custId':m_customer.id,'amount':amount},
 		success : function(req) {
 			if (req.isSuccess) {
 				verifCodeDelay();
@@ -330,26 +335,42 @@ function onGetVerifCode(){
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			$.messager.alert("错误提示", "保存失败", "error");
 		}
-	});
+	});	
+}
+
+function calcTotal(){
+	var data = $('#dgSaleDetail').datagrid('getData');
+	var rows=data.rows;
+	var total=data.total;
+	var amount=0;
+	var i=0;
 	
-	
-	
+	for(i=0;i<total;i++){
+		amount+=rows[i].amount;
+	}
+	return amount;
 }
 
 function verifCodeDelay(){
 	var cts=m_verif_time;
 	$('#btnGetVerifCode').linkbutton({disabled:true});
-	var tt=setInterval(function(){
+	$('#btnGetVerifCode').text("还有"+cts/1000+"秒");
+	cts-=1000;
+	m_time_interval=setInterval(function(){
 		$('#btnGetVerifCode').text("还有"+cts/1000+"秒");
 		cts-=1000;
 		if(cts<=0){
-			clearInterval(tt);
-			$('#btnGetVerifCode').linkbutton({disabled:false});
-			$('#btnGetVerifCode').val("获取验证码");
+			clearTimeInterval();
 		}
 	},1000);
 }
 
+
+function clearTimeInterval(){
+	clearInterval(m_time_interval);
+	$('#btnGetVerifCode').linkbutton({disabled:false});
+	$('#btnGetVerifCode').val("获取验证码");
+}
 
 function stockBill2View(bill) {
 	$('#txtSerialNo').val(bill.serialNo);
@@ -389,6 +410,7 @@ function view2stockBill() {
 	m_sale_bill.description = $('#txtDescription').val();
 
 	m_sale_bill.custId = $("#txtcustId").val();
+	m_sale_bill.customerPhone = $("#txtMobile").val();
 	m_sale_bill.customerName = $("#textSaleCustomer").val();
 }
 /**
@@ -446,6 +468,8 @@ function onSaveSaleBill() {
 		$.messager.alert("提示信息", "请输入验证码", "info");
 		return;
 	}
+	
+	clearTimeInterval();
 	
 	var data = $('#dgSaleDetail').datagrid('getData');  
 	m_sale_bill.stockGoods = data.rows;
