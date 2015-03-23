@@ -65,6 +65,7 @@ function getCurrentUser() {
 		success : function(req) {
 			if (req.isSuccess) {
 				user = req.data;
+				
 			} else {
 				alert(req.message);
 			}

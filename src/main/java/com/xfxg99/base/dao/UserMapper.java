@@ -18,7 +18,9 @@ public interface UserMapper {
     User selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(User record);
-
+    
+    void updatePwdByPrimaryKey(Map<String, Object> map);
+    
     int updateByPrimaryKey(User record);
     
     List<User> loadAllUser();
