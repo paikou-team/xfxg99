@@ -55,11 +55,12 @@ public class UserService{
 			 else
 			 {
 				 Integer result =  userMapper.insert(user);
-				 if(result != 0 )
-				 {
-					 user.setId(getMaxId());
-					 return result;
-				 }
+//				 if(result != 0 )
+//				 {
+//					 //user.setId(getMaxId());
+//					 return result;
+//				 }
+				 return result;
 			 }
 		 }
 		 return 0;
