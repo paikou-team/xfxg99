@@ -27,7 +27,7 @@
     delete from t_organization
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xfxg99.base.model.Organization" >
+  <insert id="insert" parameterType="com.xfxg99.base.model.Organization" useGeneratedKeys="true" keyProperty="id">
     insert into t_organization (id, name, parent_id, 
       level, is_leaf, path, lng, 
       lat, address, is_stock,phone)
