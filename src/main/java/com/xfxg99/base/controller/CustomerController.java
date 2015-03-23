@@ -138,8 +138,6 @@ public class CustomerController {
 		
 		UserVM user =(UserVM)request.getSession().getAttribute("user");
 		ListResult<CustomerVM>  result =null;
-
-		Sms sms=new Sms();
 		
 		if(user ==null){
 			result =new ListResult<CustomerVM>(0,null);

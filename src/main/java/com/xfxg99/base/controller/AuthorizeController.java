@@ -1,6 +1,7 @@
 package com.xfxg99.base.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xfxg99.base.model.Authorize;
 import com.xfxg99.base.service.AuthorizeService;
 import com.xfxg99.core.ListResult;
+import com.xfxg99.core.Result;
 
 /**
  *
@@ -52,4 +54,19 @@ public class AuthorizeController {
 		return authorizeService.deleteByUserId(userId);
 	}
 	
+	@RequestMapping(value = "isAuthorize.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody String isAuthorize (
+			@RequestParam(value = "userId", required = true) Integer userId,
+			@RequestParam(value = "key", required = true) String key,
+			HttpServletRequest request)
+	{
+		Result<Boolean> result=new Result<Boolean>();
+		
+		Boolean b=authorizeService.isAuthorize( key,userId);
+		
+		result.setData(b);
+		result.setIsSuccess(true);
+		
+		return result.toJson();
+	}
 }

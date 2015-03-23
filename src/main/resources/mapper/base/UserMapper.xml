@@ -35,7 +35,7 @@
     delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xfxg99.base.model.User" >
+  <insert id="insert" parameterType="com.xfxg99.base.model.User" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, name, password, 
       org_id, is_used, is_alldatapermission, description)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 

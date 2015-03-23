@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xfxg99.base.model.Organization;
 import com.xfxg99.base.model.User;
+import com.xfxg99.base.service.OrganizationService;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
@@ -39,6 +41,8 @@ public class StockController {
 	@Resource(name = "billSerialNoService")
 	protected BillSerialNoService billSerialNoService;
 	
+	@Resource(name = "organizationService")
+	protected OrganizationService orgService;
 	
 	/**
 	 * 获取数据列表
@@ -53,6 +57,15 @@ public class StockController {
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request
 			){
+		ListResult<StockBillVM> result=new ListResult<StockBillVM>();
+		
+		UserVM user =(UserVM)request.getSession().getAttribute("user");
+		
+		if(user ==null){
+			result.setIsSuccess(false);
+			result.setMsg("请重新登录");
+			return result.toJson();
+		}
 		
 		JSONObject joQuery = JSONObject.fromObject(query);
 		Map<String,Object> map=new HashMap<String,Object>();
@@ -74,12 +87,16 @@ public class StockController {
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		map.put("confirmState", confirmState);
+		if(!user.getIsAllDataPermission()){
+			Organization org=orgService.getOrganization(user.getOrgId());
+			map.put("userOrgPath", org.getPath());
+		}
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		
-		ListResult<StockBillVM> ls=stockService.loadVMListWithPage(map);
+		result=stockService.loadVMListWithPage(map);
 		
-		return ls.toJson();
+		return result.toJson();
 	}
 	
 	
@@ -266,6 +283,11 @@ public class StockController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("orgId", orgId);
 		map.put("goodsName", goodsName);
+		
+		if(!user.getIsAllDataPermission()){
+			Organization org=orgService.getOrganization(user.getOrgId());
+			map.put("userOrgPath", org.getPath());
+		}
 		
 		//Object x=map.get("goodsName");
 		

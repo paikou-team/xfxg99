@@ -326,30 +326,38 @@
   	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id 
   	where 1=1 
   	<if test="billType != null" >
-  	and s.bill_type =#{billType,jdbcType=VARCHAR}
+  		and s.bill_type =#{billType,jdbcType=VARCHAR}
   	</if>
   	<if test="serialNo != null" >
-  	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
+  		and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
   	</if>
   	<if test="stockInOrgId > 0" >
-  	and s.stock_in_org_id =#{stockInOrgId,jdbcType=INTEGER}
+  		and s.stock_in_org_id =#{stockInOrgId,jdbcType=INTEGER}
   	</if> 
   	<if test="stockOutOrgId > 0" >
-  	and s.stock_out_org_id =#{stockOutOrgId,jdbcType=INTEGER}
+  		and s.stock_out_org_id =#{stockOutOrgId,jdbcType=INTEGER}
   	</if>
   	<if test="beginDate != null" >
-  	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  		and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
   	</if>
   	<if test="endDate != null" >
-  	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  		and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
   	</if>
   	
   	<if test="confirmState == 1" >
-  	and  s.confirmer_id > 0
+  		and  s.confirmer_id > 0
   	</if> 
   	
   	<if test="confirmState == 2" >
-  	and  s.confirmer_id = 0 
+  		and  s.confirmer_id = 0 
+  	</if>
+  	
+  	<if test="userOrgPath != null" >
+  		and 
+  			(
+  				(sio.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or sio.path=#{userOrgPath,jdbcType=VARCHAR})
+  			or 	(soo.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or soo.path=#{userOrgPath,jdbcType=VARCHAR})
+  			)
   	</if>
   	
   	<if test="pageStart !=null">
@@ -414,12 +422,14 @@
   	left join ecs_goods 		as g on inv.goods_id=g.goods_id
 	where 1=1  	
   	<if test="orgId != 0" >
-  	and inv.org_id = #{orgId,jdbcType=INTEGER}
+  		and inv.org_id = #{orgId,jdbcType=INTEGER}
   	</if>
   	<if test="goodsName != null" >
-  	and g.goods_name like CONCAT( '%',#{goodsName,jdbcType=VARCHAR},'%')
+  		and g.goods_name like CONCAT( '%',#{goodsName,jdbcType=VARCHAR},'%')
   	</if> 
-  	
+  	<if test="userOrgPath != null" >
+  		and (org.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or org.path=#{userOrgPath,jdbcType=VARCHAR})
+  	</if>
   </select>
   
 </mapper>

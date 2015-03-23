@@ -79,12 +79,8 @@ $(function() {
 				}else if(p<-2){
 					text ="已过"+ ap +"天";
 				}
-
-				if(row.period < 1 && row.blessId==0){
-					return '<span style="color:red;">'+text+'</span>'; 
-				}else{
-					return text;
-				}
+				return text;
+				
 			}
 		},{
 			title : '问候',
@@ -128,7 +124,12 @@ $(function() {
 			field : 'email',
 			align : 'left',
 			width : 250
-		} ] ]
+		} ] ],
+		rowStyler:function(index,row){
+			if(row.period < 1 && row.blessId==0){
+				return 'color:red;';
+			}
+		}
 	});
 	$("#ShowCustUserInfo").bind("click", CustUserManage.ShowCustUser);
 	$("#btnBirthdayRecord").bind("click", onRecordBirthday);
