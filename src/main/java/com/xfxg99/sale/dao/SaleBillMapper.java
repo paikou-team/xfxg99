@@ -3,7 +3,10 @@ package com.xfxg99.sale.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.core.MyBatisRepository;
+import com.xfxg99.sale.model.OrderAction;
+import com.xfxg99.sale.model.OrderGoods;
 import com.xfxg99.sale.model.OrderInfo;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
@@ -29,5 +32,13 @@ public interface SaleBillMapper {
 
 	void insertAccountLog(Map<String, Object> map);
 
-	void insertOrderInfo(OrderInfo order);
+	int insertOrderInfo(OrderInfo order);
+
+	void insertOrderGoods(OrderGoods og);
+
+	void insertOrderAction(OrderAction orderaction);
+
+	CustomerVM getCustomerInfoById(int custId);
+
+	void updateUserInfoById(Map<String, Object> map);
 }

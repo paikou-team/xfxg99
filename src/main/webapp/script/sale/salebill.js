@@ -442,10 +442,10 @@ function onSaveSaleBill() {
 	}
  
 	var data = $('#dgSaleDetail').datagrid('getData'); 
-	if($('#txtVerifCode').val()==""){
-		$.messager.alert("提示信息", "请输入验证码", "info");
-		return;
-	}
+//	if($('#txtVerifCode').val()==""){
+//		$.messager.alert("提示信息", "请输入验证码", "info");
+//		return;
+//	}
 	
 	var data = $('#dgSaleDetail').datagrid('getData');  
 	m_sale_bill.stockGoods = data.rows;

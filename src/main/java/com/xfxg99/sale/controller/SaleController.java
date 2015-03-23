@@ -1,5 +1,6 @@
 package com.xfxg99.sale.controller;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xfxg99.base.model.User;
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
@@ -135,20 +137,19 @@ public class SaleController {
 	public @ResponseBody
 	String loadProductListByBillId(
 			@RequestParam(value = "id", required = false) Integer id,
-			HttpServletRequest request) { 
-			Result<SaleBill> result = new Result<SaleBill>();
-			Map<String, Object> map = new HashMap<String, Object>();
-			UserVM user = (UserVM) request.getSession().getAttribute("user");
+			HttpServletRequest request) {
+		Result<SaleBill> result = new Result<SaleBill>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		UserVM user = (UserVM) request.getSession().getAttribute("user");
 
-			if (user == null) {
-				result = new Result<SaleBill>(null, false, true, false,
-						"请从新登录!");
-				return result.toJson();
-			}
-			map.put("id", id);
-			ListResult<StockGoodsVM> ls = saleService.loadProductListByBillId(map);
-			return ls.toJson();
-		 
+		if (user == null) {
+			result = new Result<SaleBill>(null, false, true, false, "请从新登录!");
+			return result.toJson();
+		}
+		map.put("id", id);
+		ListResult<StockGoodsVM> ls = saleService.loadProductListByBillId(map);
+		return ls.toJson();
+
 	}
 
 	/**
@@ -207,9 +208,35 @@ public class SaleController {
 			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj,
 					SaleBillVM.class, classMap);
 
-			saleService.saveSaleBill(bill);
+			int custId = bill.getCustId();
+			double goodsAmount = 0.0f;
+			for (StockGoodsVM sg : bill.getStockGoods()) {
+				if (sg.getGoodsId() > 0) {
+					goodsAmount += sg.getGoodsPrice() * sg.getGoodsNumber();
+				}
+			}
 
-			result = new Result<SaleBillVM>(bill);
+			CustomerVM costomer = new CustomerVM();
+			costomer = saleService.getCustomerInfoById(custId);
+
+			if (costomer != null) {
+
+				BigDecimal bd1 = new BigDecimal(goodsAmount);
+
+				BigDecimal bd2 = costomer.getUsermoney();
+				if (bd1.compareTo(bd2) < 0) {
+					double subMoney = bd2.subtract(bd1).doubleValue();
+					saleService.saveSaleBill(bill, user, subMoney);
+
+					result = new Result<SaleBillVM>(bill);
+				} else {
+					result = new Result<SaleBillVM>(null, false, true, true,
+							"当前选择用户，系统积分不足，不能完成支付，请先充值");
+				}
+			} else {
+				result = new Result<SaleBillVM>(null, false, true, true,
+						"获取对象失败，请重新登录后进行操作");
+			}
 
 		} catch (Exception ex) {
 			result = new Result<SaleBillVM>(null, false, true, true,
@@ -217,56 +244,59 @@ public class SaleController {
 		}
 		return result.toJson();
 
-	} 
-	@RequestMapping(value = "sendVerifCode.do",produces = "application/json;charset=UTF-8")
+	}
+
+	@RequestMapping(value = "sendVerifCode.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String sendVerifCode(
 			@RequestParam(value = "mobile", required = false) String mobile,
 			@RequestParam(value = "custId", required = false) Integer custId,
 			HttpServletRequest request) throws Exception {
-		
-		User user =(User)request.getSession().getAttribute("user");
-		Result<String> result=new Result<String>();
-		
-		if(user ==null){
-			result =new Result<String>(null,false,true,false,"请从新登录");
+
+		User user = (User) request.getSession().getAttribute("user");
+		Result<String> result = new Result<String>();
+
+		if (user == null) {
+			result = new Result<String>(null, false, true, false, "请从新登录");
 			return result.toJson();
 		}
-		
-		if(mobile==null || "".equals(mobile) || custId==null || custId==0){
+
+		if (mobile == null || "".equals(mobile) || custId == null
+				|| custId == 0) {
 			result.setIsSuccess(false);
 			result.setMsg("手机号码或者客户id不能为空!");
 			return result.toJson();
 		}
-		
+
 		@SuppressWarnings("unchecked")
-		Map<String,SmsInfo>  smss =(Map<String,SmsInfo>)request.getSession().getAttribute("verifCodes");
-		
-		if(smss==null){
-			smss=new HashMap<String,SmsInfo>();
+		Map<String, SmsInfo> smss = (Map<String, SmsInfo>) request.getSession()
+				.getAttribute("verifCodes");
+
+		if (smss == null) {
+			smss = new HashMap<String, SmsInfo>();
 		}
-		
-		try{
-			String verifCode=GeneralUtil.createVerifCode();
-			
-			Sms sms=new Sms();
+
+		try {
+			String verifCode = GeneralUtil.createVerifCode();
+
+			Sms sms = new Sms();
 			sms.sendMessage(mobile, verifCode);
-			
-			SmsInfo smsInfo=new SmsInfo();
+
+			SmsInfo smsInfo = new SmsInfo();
 			smsInfo.setCustId(custId);
 			smsInfo.setMobile(mobile);
 			smsInfo.setSmsType(1);
 			smsInfo.setVerifCode(verifCode);
 			smsInfo.setSendTime(new Date());
-			
-			smss.put(verifCode,smsInfo);
-			
+
+			smss.put(verifCode, smsInfo);
+
 			result.setIsSuccess(true);
 			return result.toJson();
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			result.setIsSuccess(false);
 			result.setMsg(ex.getMessage());
 			return result.toJson();
 		}
-	} 
+	}
 }

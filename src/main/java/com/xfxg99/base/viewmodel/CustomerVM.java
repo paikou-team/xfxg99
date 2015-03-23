@@ -1,5 +1,6 @@
 package com.xfxg99.base.viewmodel;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class CustomerVM {
 	private Integer period; //到期时间
 	private Integer blessId;
 	private String blessDescription;
+	
+	private BigDecimal usermoney;
 	
 	public Integer getAge() throws Exception {
 		if(this.birthday ==null){
@@ -121,6 +124,12 @@ public class CustomerVM {
 	}
 	public void setBlessDescription(String blessDescription) {
 		this.blessDescription = blessDescription;
+	}
+	public BigDecimal getUsermoney() {
+		return usermoney;
+	}
+	public void setUsermoney(BigDecimal usermoney) {
+		this.usermoney = usermoney;
 	}
 	
 }
