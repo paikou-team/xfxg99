@@ -20,8 +20,8 @@
 				<h1 style="color: orange; margin: 0; padding-left: 27px;">O2O线下管理平台</h1>
 			</div>
 			<div style="float: right; padding-top: 54px; padding-right: 12px;">
-				<a href="javascript:void(0);" class="easyui-linkbutton"  plain="true" style="color: black;" onclick="onChangePwd()">修改密码</a>
-				<a href="javascript:void(0);" class="easyui-linkbutton"  plain="true"  onclick="onExit()" style="color: black;">退出</a> 
+				<a href="javascript:void(0);" class="easyui-linkbutton" style="color: white" plain="true" style="color: black;" onclick="onChangePwd()">修改密码</a>
+				<a href="javascript:void(0);" class="easyui-linkbutton" style="color: white" plain="true"  onclick="onExit()" style="color: black;">退出</a> 
 			</div>
 		</div> 
 	</div>

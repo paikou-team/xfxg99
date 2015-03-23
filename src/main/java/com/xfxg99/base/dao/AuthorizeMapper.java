@@ -1,6 +1,7 @@
 package com.xfxg99.base.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xfxg99.base.model.Authorize;
 import com.xfxg99.core.MyBatisRepository;
@@ -22,4 +23,6 @@ public interface AuthorizeMapper {
     List<Authorize> getFunctionByUserId(Integer userId);
     
     int deleteByUserId(Integer userId);
+    
+    int isAuthorize(Map<String,Object> map);
 }

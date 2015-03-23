@@ -78,4 +78,15 @@
     delete from t_authorize
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
+  
+  <select id="isAuthorize" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select 
+  		count(*)
+  	from t_authorize as a 
+  	left join t_function as f on a.function_id= f.id
+  	where 
+  		f.func_key=#{key,jdbcType=VARCHAR} and
+  		a.user_id=#{userId,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

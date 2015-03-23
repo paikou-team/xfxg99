@@ -9,33 +9,33 @@ $(function() {
 	$("#labOrgName").text(obj.orgName);
 	$("#userName").text(obj.name);
 	var args = getUrlArgs();
-if(args.optType==1||args.optType=="1"){ 
-	$.messager.confirm("系统提示", "页面过期，请重新登录！", function(r) {
+	if(args.optType==1||args.optType=="1"){ 
+		$.messager.confirm("系统提示", "页面过期，请重新登录！", function(r) {
 		if (r) {
 			top.location.href="login.jsp";
 		}
 	});
-}else if(args.optType==2||args.optType=="2"){
-	$.messager.alert("操作提示","初始密码错误！","error");  
-	onChangePwd();
-}else if(args.optType==3||args.optType=="3"){
-	$.messager.alert("操作提示","两次密码不一致，请检查！","error"); 
-	onChangePwd();
-}else if(args.optType==4||args.optType=="4"){ 
-	$.messager.confirm("系统提示", "密码修改成功！是否重新登录？", function(r) {
+	}else if(args.optType==2||args.optType=="2"){
+		$.messager.alert("操作提示","初始密码错误！","error");  
+		onChangePwd();
+	}else if(args.optType==3||args.optType=="3"){
+		$.messager.alert("操作提示","两次密码不一致，请检查！","error"); 
+		onChangePwd();
+	}else if(args.optType==4||args.optType=="4"){ 
+		$.messager.confirm("系统提示", "密码修改成功！是否重新登录？", function(r) {
 		if (r) {
 			top.location.href="login.jsp";
 		}
 	});
-}else if(args.optType==5||args.optType=="5") {
-	$.messager.alert("操作提示","初始密码不能为空！","error"); 
-	onChangePwd();
-}else if(args.optType==6||args.optType=="6") {
-	$.messager.alert("操作提示","请输入新密码！","error"); 
-	onChangePwd();
-}else if(args.optType==7||args.optType=="7") {
+	}else if(args.optType==5||args.optType=="5") {
+		$.messager.alert("操作提示","初始密码不能为空！","error"); 
+		onChangePwd();
+	}else if(args.optType==6||args.optType=="6") {
+		$.messager.alert("操作提示","请输入新密码！","error"); 
+		onChangePwd();
+	}else if(args.optType==7||args.optType=="7") {
 	$.messager.alert("操作提示","请确认密码！","error"); 
-	onChangePwd();
+		onChangePwd();
 }
 	//isSignIn(gSetCurrentUserCallback);
 args.optType=0;
@@ -72,7 +72,7 @@ function loadMenu() {
 function onExit() {
 	$.messager.confirm("系统提示", "是否退出主页，返回登录页面？", function(r) {
 		if (r) {
-			location = "index/onExit.do"
+			location = "index/onExit.do";
 		}
 	});
 //	location = "index/onExit.do"
@@ -97,7 +97,9 @@ function onChangePwd() {
 function onTreeMenuDblClick(row) {
 	var src = null;
 
-	getCurrentUser();
+	var user=getCurrentUser();
+	
+	
 	
 	switch (row.funcKey) {
 	case "cust_data" :
@@ -145,9 +147,33 @@ function onTreeMenuDblClick(row) {
 		break;
 
 	}
-
-	$("#ifrContent").attr("src", src);
+	
+	if(checkAuthorize(row.funcKey,user.id)){
+		$("#ifrContent").attr("src", src);
+	}else{
+		$.messager.alert('提示ʾ', "用户:"+user.name+"没有对应的权限!", "warning");
+	}
 }
+
+function checkAuthorize(key,userId){
+	var isAuthorize=false;
+	$.ajax({
+		url : "authorize/isAuthorize.do",
+		type : "POST",
+		dataType : "json",
+		data:{'userId':userId,'key':key},
+		async : false,
+		success : function(req) {
+			if (req.isSuccess) {
+				isAuthorize=req.data;
+			} else {
+				$.messager.alert('提示ʾ', req.msg, "warning");
+			}
+		}
+	});
+	return isAuthorize;
+}
+
 /**
  * 建立主菜单
  * 
