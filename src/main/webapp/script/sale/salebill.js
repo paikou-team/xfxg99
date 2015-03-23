@@ -463,7 +463,6 @@ function onSaveSaleBill() {
 		return;
 	}
  
-	var data = $('#dgSaleDetail').datagrid('getData'); 
 	if($('#txtVerifCode').val()==""){
 		$.messager.alert("提示信息", "请输入验证码", "info");
 		return;
@@ -500,10 +499,10 @@ function onSaveSaleBill() {
 			$.messager.alert("错误提示", "保存失败", "error");
 		}
 	});
-
 }
+
 function onExit() {
-	parent.m_sale_dlg.close();
+	parent.art.dialog.list['dlgSaleBillView'].close();
 }
 function SelectCustUser() {
 	m_selectCustomer_dlg = art.dialog({
