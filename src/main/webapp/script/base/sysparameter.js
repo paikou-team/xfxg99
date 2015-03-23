@@ -81,12 +81,7 @@ var SysParamManage = {
 						async : false,
 						data : "dataStr=" + JsonStr,
 						success : function(req) {
-							if (req.isSuccess) {
-
-								alert(
-										"系统提示",
-										"#*********前台字符串，转换成json字符串之后，后台是否接受，还未测试**********",
-										"info");
+							if (req.isSuccess) { 
 								SysParamManage.RefreshAction();
 							} else {
 								$.messager.alert("系统提示", req.msg, "error")
