@@ -74,7 +74,6 @@
 	background:url('icons/lock.png') no-repeat center center;
 }
 
-
 .icon-mini-add{
 	background:url('icons/mini_add.png') no-repeat center center;
 }
@@ -102,6 +101,13 @@
 }
 .displaynone{
 	display:none;
+}
+.icon_prev{
+	background:url('icons/prev.png') no-repeat center center;
+}
+
+.icon_next{
+	background:url('icons/next2.png') no-repeat center center;
 }
 .icon_xfxg_add{
 	background:url('icons/add.png') no-repeat center center;
@@ -136,3 +142,4 @@
 .icon_xfxg_unlock{
 	background:url('icons/tianyi_unlock.png') no-repeat center center;
 }
+

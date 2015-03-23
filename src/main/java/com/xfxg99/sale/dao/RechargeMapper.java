@@ -3,9 +3,9 @@ package com.xfxg99.sale.dao;
 import java.util.List;
 import java.util.Map;
   
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.Recharge;
-import com.xfxg99.sale.viewmodel.CustomerVM;
 import com.xfxg99.sale.viewmodel.RechargeVM;
 
 @MyBatisRepository

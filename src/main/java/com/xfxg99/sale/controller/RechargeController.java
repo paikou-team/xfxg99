@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.Recharge; 
 import com.xfxg99.sale.service.RechargeService;
-import com.xfxg99.sale.viewmodel.CustomerVM;
 import com.xfxg99.sale.viewmodel.RechargeVM;
 
 @Scope("prototype")

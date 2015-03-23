@@ -78,12 +78,12 @@
 		</if>
 	</select>
 
-	<select id="selectCustomerList" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+	<select id="selectCustomerList" resultType="com.xfxg99.base.viewmodel.CustomerVM">
 		select user_id as
 		id,user_name as name
 		from ecs_users order by user_id asc
 	</select>
-	<select id="loadrechargeCustUserlist" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+	<select id="loadrechargeCustUserlist" resultType="com.xfxg99.base.viewmodel.CustomerVM">
 		select user_id as id,user_name as name , email as email ,mobile_phone
 		as
 		phone ,tjr_name as recUser
@@ -110,7 +110,7 @@
 	</select>
 
 
-	<select id="selectOrganList" resultType="com.xfxg99.sale.viewmodel.CustomerVM">
+	<select id="selectOrganList" resultType="com.xfxg99.base.viewmodel.CustomerVM">
 		select id,name
 		from
 		t_organization order by id asc

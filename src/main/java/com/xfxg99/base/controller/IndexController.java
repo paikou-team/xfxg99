@@ -115,7 +115,12 @@ public class IndexController {
 				//输入与原密码是否一致
 				if (!pwd.equals(user.getPassword())) {
 					response.sendRedirect("../index.jsp?optType=2");
-					
+				} else if(password.equals(null) && password.equals("")) {
+					response.sendRedirect("../index.jsp?optType=5");
+				} else if(newPassword.equals(null) && newPassword.equals("")) {
+					response.sendRedirect("../index.jsp?optType=6");
+				} else if(TooNewPassword.equals(null) && TooNewPassword.equals("")) {
+					response.sendRedirect("../index.jsp?optType=7");
 				} else {
 					//两次输入
 					if (!newPassword.equals(TooNewPassword)) {

@@ -24,8 +24,14 @@
         <div>
             <p> 
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_show"
-                    plain="true">查看客户资料</a>
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
+                    plain="true">资料查看</a>
+                <a id="btnBirthdayRecord" name="btnBirthdayRecord"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
+                    plain="true" >生日祝福</a>
+                <a id="btnBirthdayLog" name="btnBirthdayLog"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
+                    plain="true">祝福记录</a>
                 <!--  <a id="UnlockCustomer" name="UnlockCustomer"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-unlock"
                     plain="true">启用</a>

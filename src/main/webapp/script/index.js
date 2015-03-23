@@ -5,8 +5,9 @@ var m_index_iconStyles = {};
 
 $(function() {
 	
-	getCurrentUser();
-	
+	var obj = getCurrentUser();
+	$("#labOrgName").text(obj.orgName);
+	$("#userName").text(obj.name);
 	var args = getUrlArgs();
 if(args.optType==1||args.optType=="1"){ 
 	$.messager.confirm("系统提示", "页面过期，请重新登录！", function(r) {
@@ -26,6 +27,15 @@ if(args.optType==1||args.optType=="1"){
 			top.location.href="login.jsp";
 		}
 	});
+}else if(args.optType==5||args.optType=="5") {
+	$.messager.alert("操作提示","初始密码不能为空！","error"); 
+	onChangePwd();
+}else if(args.optType==6||args.optType=="6") {
+	$.messager.alert("操作提示","请输入新密码！","error"); 
+	onChangePwd();
+}else if(args.optType==7||args.optType=="7") {
+	$.messager.alert("操作提示","请确认密码！","error"); 
+	onChangePwd();
 }
 	//isSignIn(gSetCurrentUserCallback);
 args.optType=0;
@@ -60,7 +70,12 @@ function loadMenu() {
  * 退出主页面，返回登录页面
  */
 function onExit() {
-	location = "index/onExit.do"
+	$.messager.confirm("系统提示", "是否退出主页，返回登录页面？", function(r) {
+		if (r) {
+			location = "index/onExit.do"
+		}
+	});
+//	location = "index/onExit.do"
 }
 /**
  * 修改密码
@@ -85,6 +100,15 @@ function onTreeMenuDblClick(row) {
 	getCurrentUser();
 	
 	switch (row.funcKey) {
+	case "cust_data" :
+		src = "view/base/custuserList.jsp?viewType=1";
+		break;
+	case "cust_recharge":
+		src = "view/sale/chargeList.jsp?optType=0";
+		break;
+	case "cust_birthday":
+		src="view/base/birthdayInfoList.jsp";
+		break;
 	case "shop_stockin":
 		src = "view/sale/stockList.jsp?billType=10";
 		break;
@@ -100,18 +124,13 @@ function onTreeMenuDblClick(row) {
 	case "sys_user":
 		src = "view/base/user.jsp?optType=0";
 		break;
-	case "cust_data":
-		src = "view/base/custuserList.jsp";
-		break;
 	case "sys_shop":
 		src = "view/base/organization.jsp";
 		break;
 	case "sys_setting":
 		src = "view/base/sysparameter.jsp";
 		break;
-	case "cust_recharge":
-		src = "view/sale/chargeList.jsp?optType=0";
-		break;
+	
 	case "biz_recharge_confirm":
 		src = "view/sale/chargeList.jsp?optType=1";
 		break;
@@ -204,3 +223,4 @@ function iframeSize() {
 		ifm.width = subWeb.body.scrollWidth;
 	}
 }
+
