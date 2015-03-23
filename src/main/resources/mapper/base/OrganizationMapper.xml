@@ -30,7 +30,7 @@
   <insert id="insert" parameterType="com.xfxg99.base.model.Organization" >
     insert into t_organization (id, name, parent_id, 
       level, is_leaf, path, lng, 
-      lat, address, is_stock)
+      lat, address, is_stock,phone)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
       #{level,jdbcType=INTEGER}, #{isLeaf,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{lng,jdbcType=DECIMAL}, 
       #{lat,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{isStock,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR})
