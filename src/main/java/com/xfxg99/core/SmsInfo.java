@@ -6,12 +6,10 @@ public class SmsInfo {
 
 	private Integer custId;
 	private String mobile;
-	private Integer smsType;
+	private Integer smsType;//1:验证码
 	private String message;
 	private Date	sendTime;
 	private String  verifCode;
-	
-
 	
 	public Integer getCustId() {
 		return custId;

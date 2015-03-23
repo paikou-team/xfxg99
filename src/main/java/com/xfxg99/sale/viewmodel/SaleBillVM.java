@@ -8,8 +8,10 @@ public class SaleBillVM  extends SaleBill{
 	private String orgName;
 	private String customerName;
 	private String customerEmail;
+	private String customerPhone;
 	private String preparerOrgName;
 	private String preparerName;
+	
 	private List<StockGoodsVM>  stockGoods;
 	
 	public String getOrgName() {
@@ -29,6 +31,13 @@ public class SaleBillVM  extends SaleBill{
 	}
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
 	}
 	public String getPreparerOrgName() {
 		return preparerOrgName;

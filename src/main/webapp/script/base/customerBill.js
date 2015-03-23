@@ -1,8 +1,9 @@
 var custUserObj = {};
+var myDate ;
 $(function() {
 
 	var args = getUrlArgs();
-	var myDate = new Date();
+	myDate = new Date();
 	// var myDate = new Date();
 	// var typeid = args.optType;
 	// if (typeid == 0 || typeid == "0") {

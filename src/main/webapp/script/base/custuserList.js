@@ -1,11 +1,8 @@
 var m_custuser_dlg;
 var m_birthday_record_dlg;
 var m_custuser_type;
-var m_custuser_query = {
-	orgname : "",
-	custname : "",
-	recUser : "",
-	isused : 0
+var m_custuser_query = { 
+	custname : "" 
 };
 
 var m_customer_viewType;
@@ -104,7 +101,7 @@ $(function() {
 	$("#ShowCustUserInfo").bind("click", CustUserManage.ShowCustUser);
 	$("#btnBirthdayRecord").bind("click", onRecordBirthday);
 	$("#btnBirthdayLog").bind("click", onLogBirthday);
-	// $("#ShowChargeInfo").bind("click", CustUserManage.ShowCharge);
+	$("#btnSearch").bind("click", CustUserManage.SearchAction);
 });
 
 
@@ -199,7 +196,7 @@ var CustUserManage = {
 					.dialog({
 						id : 'dlgCustUserBill',
 						title : '客户资料',
-						content : "<iframe scrolling='yes' frameborder='0' src='view/base/customerBill.jsp?optType="+optType+"' style='width:500px;height:380px;overflow:hidden'/>",
+						content : "<iframe scrolling='yes' frameborder='0' src='view/base/customerBill.jsp?optType="+optType+"' style='width:500px;height:420px;overflow:hidden'/>",
 						// content:"123",
 						lock : true,
 						initFn : function() {
@@ -217,10 +214,8 @@ var CustUserManage = {
 		});
 	},
 	packQuery : function() {
-		m_custuser_query.orgname = $.trim($("#sch_orgname").val());
-		m_custuser_query.recname = $.trim($("#sch_recname").val());
-		m_custuser_query.custname = $.trim($("#sch_custname").val());
-		m_custuser_query.isused = $("#sch_isUsed").combobox("getValue");
+//		m_custuser_query.orgname = $.trim($("#sch_orgname").val()); 
+		m_custuser_query.custname = $.trim($("#sch_custname").val()); 
 	}
 	
 	

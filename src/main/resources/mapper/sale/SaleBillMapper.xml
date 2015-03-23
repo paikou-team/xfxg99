@@ -15,6 +15,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cust_id" property="custId" jdbcType="INTEGER" />
     <result column="customerName" property="customerName" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="customerPhone" jdbcType="VARCHAR" />
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
     <result column="orgName" property="orgName" jdbcType="VARCHAR" />
     <result column="pay_id" property="payId" jdbcType="INTEGER" />
@@ -34,11 +35,14 @@
   	s.serial_no			as	serial_no,
   	o.name				as	orgName,
   	eu.user_name		as	customerName,
-  	eu.email 			as 	customerEmail
+  	eu.email 			as 	customerEmail,
+  	eu.mobile_phone		as	mobile_phone
   </sql>
+  
   <sql id="Base_Column_List" >
     id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time,serial_no
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -50,6 +54,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xfxg99.sale.model.SaleBill" >
+  		<selectKey resultType="INTEGER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
     insert into t_sale (id, cust_id, org_id, 
       pay_id, serial_no, goods_amount, sale_time, 
       rec_time)
@@ -111,6 +118,62 @@
         #{recTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
+  </insert>
+  <insert id="insertAccountLog" parameterType="java.util.Map">
+		insert into
+		ecs_account_log (user_id, user_money,
+		frozen_money, rank_points,
+		pay_points,
+		change_time,change_desc,change_type)
+		values
+		(#{userId,jdbcType=INTEGER}, #{userMoney,jdbcType=DECIMAL},
+		#{frozenMoney,jdbcType=DECIMAL}, #{rankPoints,jdbcType=INTEGER},
+		#{payPoints,jdbcType=INTEGER},
+		#{changeTime,jdbcType=TIMESTAMP},#{changeDesc,jdbcType=VARCHAR},#{changeType,jdbcType=INTEGER})
+	</insert>
+	 <insert id="insertOrderInfo" parameterType="com.xfxg99.sale.model.OrderInfo" >
+    insert into ecs_order_info (order_id, order_sn, user_id, 
+      order_status, shipping_status, pay_status, 
+      consignee, country, province, 
+      city, district, address, 
+      zipcode, tel, mobile, 
+      email, best_time, sign_building, 
+      postscript, shipping_id, shipping_name, 
+      pay_id, pay_name, how_oos, 
+      how_surplus, pack_name, card_name, 
+      card_message, inv_payee, inv_content, 
+      goods_amount, shipping_fee, insure_fee, 
+      pay_fee, pack_fee, card_fee, 
+      money_paid, surplus, integral, 
+      integral_money, bonus, order_amount, 
+      from_ad, referer, add_time, 
+      confirm_time, pay_time, shipping_time, 
+      pack_id, card_id, bonus_id, 
+      invoice_no, extension_code, extension_id, 
+      to_buyer, pay_note, agency_id, 
+      inv_type, tax, is_separate, 
+      parent_id, discount)
+    values (#{orderId,jdbcType=INTEGER}, #{orderSn,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=BIT}, #{shippingStatus,jdbcType=BIT}, #{payStatus,jdbcType=BIT}, 
+      #{consignee,jdbcType=VARCHAR}, #{country,jdbcType=SMALLINT}, #{province,jdbcType=SMALLINT}, 
+      #{city,jdbcType=SMALLINT}, #{district,jdbcType=SMALLINT}, #{address,jdbcType=VARCHAR}, 
+      #{zipcode,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{bestTime,jdbcType=VARCHAR}, #{signBuilding,jdbcType=VARCHAR}, 
+      #{postscript,jdbcType=VARCHAR}, #{shippingId,jdbcType=TINYINT}, #{shippingName,jdbcType=VARCHAR}, 
+      #{payId,jdbcType=TINYINT}, #{payName,jdbcType=VARCHAR}, #{howOos,jdbcType=VARCHAR}, 
+      #{howSurplus,jdbcType=VARCHAR}, #{packName,jdbcType=VARCHAR}, #{cardName,jdbcType=VARCHAR}, 
+      #{cardMessage,jdbcType=VARCHAR}, #{invPayee,jdbcType=VARCHAR}, #{invContent,jdbcType=VARCHAR}, 
+      #{goodsAmount,jdbcType=DECIMAL}, #{shippingFee,jdbcType=DECIMAL}, #{insureFee,jdbcType=DECIMAL}, 
+      #{payFee,jdbcType=DECIMAL}, #{packFee,jdbcType=DECIMAL}, #{cardFee,jdbcType=DECIMAL}, 
+      #{moneyPaid,jdbcType=DECIMAL}, #{surplus,jdbcType=DECIMAL}, #{integral,jdbcType=INTEGER}, 
+      #{integralMoney,jdbcType=DECIMAL}, #{bonus,jdbcType=DECIMAL}, #{orderAmount,jdbcType=DECIMAL}, 
+      #{fromAd,jdbcType=SMALLINT}, #{referer,jdbcType=VARCHAR}, #{addTime,jdbcType=INTEGER}, 
+      #{confirmTime,jdbcType=INTEGER}, #{payTime,jdbcType=INTEGER}, #{shippingTime,jdbcType=INTEGER}, 
+      #{packId,jdbcType=TINYINT}, #{cardId,jdbcType=TINYINT}, #{bonusId,jdbcType=SMALLINT}, 
+      #{invoiceNo,jdbcType=VARCHAR}, #{extensionCode,jdbcType=VARCHAR}, #{extensionId,jdbcType=INTEGER}, 
+      #{toBuyer,jdbcType=VARCHAR}, #{payNote,jdbcType=VARCHAR}, #{agencyId,jdbcType=SMALLINT}, 
+      #{invType,jdbcType=VARCHAR}, #{tax,jdbcType=DECIMAL}, #{isSeparate,jdbcType=BIT}, 
+      #{parentId,jdbcType=INTEGER}, #{discount,jdbcType=DECIMAL})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xfxg99.sale.model.SaleBill" >
     update t_sale

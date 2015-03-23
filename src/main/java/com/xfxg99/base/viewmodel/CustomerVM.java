@@ -26,8 +26,12 @@ public class CustomerVM {
 	private String blessDescription;
 	
 	public Integer getAge() throws Exception {
-		age=new Integer(GeneralUtil.getAge(birthday));
-		return age;
+		if(this.birthday ==null){
+			return 0;
+		}else{
+			age=new Integer(GeneralUtil.getAge(birthday));
+			return age;
+		}
 	}
 	public void setAge(Integer age) {
 		this.age = age;
