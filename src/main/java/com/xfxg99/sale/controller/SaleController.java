@@ -1,5 +1,6 @@
 package com.xfxg99.sale.controller;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -172,6 +173,9 @@ public class SaleController {
 			return result.toJson();
 		}
 		
+		
+		
+		
 		try{
 			JSONObject jObj = JSONObject.fromObject(billJson);
 			
@@ -181,10 +185,36 @@ public class SaleController {
 			
 			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
 			
-			saleService.saveSaleBill(bill);
-
-			result=new Result<SaleBillVM>(bill);
+			@SuppressWarnings("unchecked")
+			Map<String,SmsInfo>  smss =(Map<String,SmsInfo>)request.getSession().getAttribute("verifCodes");
 			
+			result=new Result<SaleBillVM>(null);
+			
+			if(smss==null){
+				result.setIsSuccess(false);
+				result.setMsg("没有正确的验证码!");
+			}else{
+				if(!smss.containsKey(bill.getCustomerPhone())){
+					result=new Result<SaleBillVM>(bill);
+					result.setIsSuccess(false);
+					result.setMsg("没有验证码!");
+				}else{
+					SmsInfo smsInfo=smss.get(bill.getCustomerPhone());
+					Date cdate=new Date();
+					long interval =cdate.getTime()- smsInfo.getSendTime().getTime();
+					
+					if(interval/1000 > 5*60){ //验证码5发分钟内有效
+						result.setIsSuccess(false);
+						result.setMsg("验证码已经过期!");
+						smss.remove(bill.getCustomerPhone());
+					}else{
+						saleService.saveSaleBill(bill);
+
+						result=new Result<SaleBillVM>(bill);
+					}
+				}
+			}
+
 		}catch(Exception ex){
 			result=new Result<SaleBillVM>(null,false,true,true,ex.getMessage());
 		}
@@ -196,6 +226,7 @@ public class SaleController {
 	String sendVerifCode(
 			@RequestParam(value = "mobile", required = false) String mobile,
 			@RequestParam(value = "custId", required = false) Integer custId,
+			@RequestParam(value = "amount", required = false) Double amount,
 			HttpServletRequest request) throws Exception {
 		
 		User user =(User)request.getSession().getAttribute("user");
@@ -212,18 +243,28 @@ public class SaleController {
 			return result.toJson();
 		}
 		
+		
+		
 		@SuppressWarnings("unchecked")
 		Map<String,SmsInfo>  smss =(Map<String,SmsInfo>)request.getSession().getAttribute("verifCodes");
 		
 		if(smss==null){
 			smss=new HashMap<String,SmsInfo>();
+			request.getSession().setAttribute("verifCodes", smss);
 		}
 		
 		try{
 			String verifCode=GeneralUtil.createVerifCode();
 			
 			Sms sms=new Sms();
-			sms.sendMessage(mobile, verifCode);
+			
+			DecimalFormat fmt=new DecimalFormat("0.00");
+			String amountFmt=fmt.format(amount);
+			
+			String message="您消费了"+amountFmt+"元,验证码:"+verifCode;
+			//13810700012
+			//13540630019
+			sms.sendMessage(mobile, message);
 			
 			SmsInfo smsInfo=new SmsInfo();
 			smsInfo.setCustId(custId);
