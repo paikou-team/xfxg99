@@ -77,6 +77,7 @@ public class SaleController {
 
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime");
+		String serialNo = joQuery.getString("serialNo");
 
 		page = page == 0 ? 1 : page;
 
@@ -85,6 +86,7 @@ public class SaleController {
 		map.put("endTime", endTime);
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
+		map.put("serialNo", serialNo);
 
 		ListResult<SaleBillVM> ls = saleService.loadListWithPage(map);
 
