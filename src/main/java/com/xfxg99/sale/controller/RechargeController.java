@@ -176,6 +176,7 @@ public class RechargeController {
 	public @ResponseBody
 	String getcustList(
 			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "phone", required = false) String phone,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request) throws Exception {
@@ -186,6 +187,7 @@ public class RechargeController {
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("name", name);
+		map.put("phone", phone);
 
 		ListResult<CustomerVM> rs = rechargeService
 				.loadrechargeCustUserlist(map);

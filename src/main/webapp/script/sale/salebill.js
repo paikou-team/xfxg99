@@ -539,7 +539,8 @@ var CustomerSelectManage = {
 
 	SearchCustUser : function() {
 		$('#custUserGrid').datagrid("reload", {
-			"name" : $("#search_custname").val()
+			"name" : $("#search_custname").val(),
+			"phone": $("#search_phone").val()
 		});
 	},
 	SelectCustUserAction : function(index, rowData) {

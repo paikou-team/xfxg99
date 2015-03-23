@@ -127,9 +127,14 @@
 		where 1=1
 
 		<if test="name !=null">
-			and user_name like CONCAT('%','${name}','%' )
+			and u.user_name like CONCAT('%','${name}','%' )
 		</if>
  
+		<if test="phone !=null">
+			and u.mobile_phone like CONCAT('%','${phone}','%' )
+		</if>
+ 
+		
 		
 		
 		<if test="pageStart !=null">
