@@ -147,12 +147,17 @@ function onTreeMenuDblClick(row) {
 		break;
 
 	}
-	
-	if(checkAuthorize(row.funcKey,user.id)){
-		$("#ifrContent").attr("src", src);
-	}else{
-		$.messager.alert('提示ʾ', "用户:"+user.name+"没有对应的权限!", "warning");
+	if(user.isAllDataPermission == false){
+		if(checkAuthorize(row.funcKey,user.id)){
+			$("#ifrContent").attr("src", src);
+		}else{
+			$.messager.alert('提示ʾ', "用户:"+user.name+"没有对应的权限!", "warning");
+		}
 	}
+	else{
+		$("#ifrContent").attr("src", src);
+	}
+	
 }
 
 

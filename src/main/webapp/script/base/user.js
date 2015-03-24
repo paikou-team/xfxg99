@@ -60,7 +60,7 @@ function imgcheckbox(value, rowData, index) {
 var UserManage = {
 	    AddUser: function () {
 	        ClearForm();
-	        ShowDialog("新增用户", "div_userProfile","","0");
+	        ShowDialog("新增用户", "div_userProfile",null,"0");
 	        $("#txt_Id").val("0");
 	        document.getElementById("IsUsedCheck").checked = true;
 	        $("#txt_Password").removeAttr("readonly");
@@ -139,15 +139,26 @@ function SaveInfo() {
     
     UserObj.orgId = $('#txt_OrganizationId').combobox('getValue');
     
+    var nodes = $('#functionTree').tree('getChecked');
+	var ids = '';
+	if(nodes.length>0)
+	{
+		for (var i = 0; i < nodes.length; i++) {
+			if (ids != '') 
+				ids += ',';
+			ids += nodes[i].id;
+		}
+	}
+    
     $.ajax({
-		url :  "user/saveUser.do",
+		url :  "user/saveUserAndAuthorize.do?ids="+ids,
 		type : "POST",
 		dataType : "json",
 		async : false,
 		data : UserObj,
-		success : function(userId) {
-			if (userId) {
-				saveAutorizeSelected(userId);
+		success : function(seq) {
+			if (seq.isSuccess) {
+				//saveAutorizeSelected(userId);
 				DialogForUser.close();
 				$('#UserGrid').datagrid("reload");
 			} else {
@@ -203,7 +214,8 @@ function ClearForm() {
     $("#txt_Id").val("");
     $("#txt_Name").val("");
     $("#txt_Password").val("");
-    $("#txt_OrganizationId").combotree('setValue', null);
+    //$("#txt_OrganizationId").combotree('setValue', null);
+    $("#txt_OrganizationId").combotree('clear');
     $("#txt_Description").val("");
 };
 /**
@@ -227,7 +239,7 @@ function loadComBoxData(selectId) {
 				var t = $('#txt_OrganizationId').combotree('tree');
 				t.tree("loadData", nodes);
 				if (!selectId || selectId.length == 0 || selectId == 0) {
-	                $('#txt_OrganizationId').combotree('setValue', null);
+	                //$('#txt_OrganizationId').combotree('setValue', null);
 	            }
 	            else {
 	                $('#txt_OrganizationId').combotree('setValue', selectId);
@@ -299,7 +311,7 @@ function buildTreeMenu2(items){
  */
 function loadRoleTreeData(selectId) {
     $.ajax({
-		url : "index/getList.do",
+		url : "index/getAllList.do",
 		type : "POST",
 		dataType : "json",
 		async : false,
