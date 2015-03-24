@@ -53,7 +53,7 @@ $(function() {
 		}, {
 			title : '充值状态',
 			field : 'isConfirm',
-			align : 'center',
+			align : 'left',
 			width : 100,
 			formatter : function(value, row, index) {
 				if (row.confirmUserId > 0) {
@@ -66,46 +66,46 @@ $(function() {
 			title : '注册用户',
 			field : 'custName',
 			width : 150,
-			align : 'center'
+			align : 'left'
 		}, {
 			title : '电子邮件',
 			field : 'custEmail',
-			align : 'center',
+			align : 'left',
 			width : 200
 		}, {
 			title : '联系方式',
 			field : 'custPhone',
-			align : 'center',
+			align : 'left',
 			width : 150
 		}, {
 			title : '门店信息',
 			field : 'orgName',
-			align : 'center',
+			align : 'left',
 			width : 250
 		}, {
 			title : '充值金额',
 			field : 'money',
-			align : 'center',
+			align : 'right',
 			width : 120
 		}, {
 			title : '充值时间',
 			field : 'rechargeTime',
-			align : 'center',
+			align : 'left',
 			width : 250
 		}, {
 			title : '确认人',
 			field : 'userName',
-			align : 'center',
+			align : 'left',
 			width : 120
 		}, {
 			title : '确认时间',
 			field : 'confirmTime',
-			align : 'center',
+			align : 'left',
 			width : 250
 		}, {
 			title : '充值描述',
 			field : 'rechargeDesc',
-			align : 'center',
+			align : 'left',
 			width : 150
 		} ] ]
 	});
@@ -122,6 +122,11 @@ function onSelRow(rowIndex, rowData) {
 
 var ChargeManage = {
 	AddCharge : function() {
+		
+		if(!checkAuthorize2("cust_recharge_add")){
+			return;
+		}
+		
 		try {
 			m_charge_dlg = art
 					.dialog({
@@ -182,6 +187,12 @@ var ChargeManage = {
 		}
 	},
 	ConfirmCharge : function() {
+		
+		if(!checkAuthorize2("cust_recharge_add")){
+			return;
+		}
+		
+		
 		var hasRows = $('#chargeGrid').datagrid('getRows');
 		if (hasRows.length == 0) {
 			$.messager.alert('操作提示', "没有可操作数据", "warning");

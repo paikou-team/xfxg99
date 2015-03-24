@@ -2,7 +2,6 @@ package com.xfxg99.sale.viewmodel;
 
 import java.util.List;
 
-import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.SaleBill;;
 
 public class SaleBillVM  extends SaleBill{

@@ -203,7 +203,7 @@ public class SaleController {
 			JSONObject jObj = JSONObject.fromObject(billJson);
 
 			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
-
+			classMap.put("stockGoods", StockGoodsVM.class);
 
 			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
 			
@@ -248,6 +248,7 @@ public class SaleController {
 						if (bd1.compareTo(bd2) < 0) {
 							double subMoney = bd2.subtract(bd1).doubleValue();
 							saleService.saveSaleBill(bill, user, subMoney);
+							smss.remove(bill.getCustomerPhone());
 							result = new Result<SaleBillVM>(bill);
 						} else {
 							result = new Result<SaleBillVM>(null, false, true, true,"当前选择用户，积分余额不足，不能交易，请先充值");
@@ -310,7 +311,7 @@ public class SaleController {
 			smsInfo.setVerifCode(verifCode);
 			smsInfo.setSendTime(new Date());
 
-			smss.put(verifCode, smsInfo);
+			smss.put(mobile, smsInfo);
 
 			result.setIsSuccess(true);
 			return result.toJson();
