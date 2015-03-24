@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.SaleGoods;
-import com.xfxg99.sale.viewmodel.StockGoodsVM;
+import com.xfxg99.sale.viewmodel.SaleGoodsVM;
 @MyBatisRepository
 public interface SaleGoodsMapper {
     int deleteByPrimaryKey(Integer id);
@@ -22,5 +22,5 @@ public interface SaleGoodsMapper {
 
 	int countByBillId(Map<String, Object> map);
 
-	List<StockGoodsVM> loadProductListByBillId(Map<String, Object> map);
+	List<SaleGoodsVM> loadProductListByBillId(Map<String, Object> map);
 }

@@ -25,6 +25,7 @@ import com.xfxg99.sale.model.OrderInfo;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.model.SaleGoods;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
+import com.xfxg99.sale.viewmodel.SaleGoodsVM;
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
 
 @Service("saleService")
@@ -286,13 +287,13 @@ public class SaleService {
 
 	}
 
-	public ListResult<StockGoodsVM> loadProductListByBillId(
+	public ListResult<SaleGoodsVM> loadProductListByBillId(
 			Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		List<StockGoodsVM> ls = saleGoodsMapper.loadProductListByBillId(map);
+		List<SaleGoodsVM> ls = saleGoodsMapper.loadProductListByBillId(map);
 		int count = saleGoodsMapper.countByBillId(map);
 
-		ListResult<StockGoodsVM> result = new ListResult<StockGoodsVM>(count,
+		ListResult<SaleGoodsVM> result = new ListResult<SaleGoodsVM>(count,
 				ls);
 
 		return result;

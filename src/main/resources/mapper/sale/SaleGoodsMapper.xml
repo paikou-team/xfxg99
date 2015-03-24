@@ -25,7 +25,7 @@
 	</select>
 	
 		<select id="loadProductListByBillId" parameterType="java.util.Map"
-		resultType="com.xfxg99.sale.viewmodel.StockGoodsVM">
+		resultType="com.xfxg99.sale.viewmodel.SaleGoodsVM">
 		SELECT sg.id as id,sg.sale_id as saleId,sg.goods_id as goodsId, g.goods_name as goodsName,sg.goods_number as goodsNumber,
 			sg.goods_price as goodsPrice ,sg.market_price as marketPrice
 

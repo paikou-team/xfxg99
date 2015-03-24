@@ -273,7 +273,7 @@ function setBillLockState() {
  */
 function onCheckStockBill() {
 
-	if (m_sale_bill.id == undefined || m_stokc_bill.id == null
+	if (m_sale_bill.id == undefined || m_sale_bill.id == null
 			|| m_sale_bill.id == 0) {
 		$.messager.alert("提示", "请先保存单据!", "info");
 	} else {
@@ -283,7 +283,7 @@ function onCheckStockBill() {
 			dataType : "json",
 			async : false,
 			data : {
-				'id' : m_stokc_bill.id
+				'id' : m_sale_bill.id
 			},
 			success : function(req) {
 				if (req.isSuccess) {
@@ -391,13 +391,13 @@ function stockBill2View(bill) {
 	// $("#txtConfirmerName").val(bill.confirmerName);
 	// $("#txtConfirmTime").val(bill.confirmTime);
 
-	if (bill.stockGoods != undefined && bill.stockGoods != null) {
-		for ( var i = 0; i++; i < bill.stockGoods) {
-			var row = bill.stockGoods[i];
+	if (bill.saleGoods != undefined && bill.saleGoods != null) {
+		for ( var i = 0; i++; i < bill.saleGoods) {
+			var row = bill.saleGoods[i];
 			row.amount = row.goodsPrice * row.number;
 		}
 
-		$('#dgSaleDetail').datagrid('loadData', bill.stockGoods);
+		$('#dgSaleDetail').datagrid('loadData', bill.saleGoods);
 	}
 
 }
@@ -476,7 +476,7 @@ function onSaveSaleBill() {
 	clearTimeInterval(); 
 	
 	var data = $('#dgSaleDetail').datagrid('getData');  
-	m_sale_bill.stockGoods = data.rows;
+	m_sale_bill.saleGoods = data.rows;
 
 	$.ajax({
 		url : "sale/saveSaleBill.do",

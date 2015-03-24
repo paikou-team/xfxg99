@@ -22,7 +22,7 @@ import com.xfxg99.base.model.User;
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
-import com.xfxg99.sale.viewmodel.StockGoodsVM;
+import com.xfxg99.sale.viewmodel.SaleGoodsVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
@@ -148,7 +148,7 @@ public class SaleController {
 			return result.toJson();
 		}
 		map.put("id", id);
-		ListResult<StockGoodsVM> ls = saleService.loadProductListByBillId(map);
+		ListResult<SaleGoodsVM> ls = saleService.loadProductListByBillId(map);
 		return ls.toJson();
 
 	}
