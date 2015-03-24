@@ -15,6 +15,8 @@ $(function() {
 		$("#txtVerifCode").hide();
 		$("#btnGetVerifCode").hide();
 		$("#labelCode").hide();
+		$("#dteSaleTime").datebox('disable');
+		$('#txtDescription').attr("disabled", true);
 		
 		fillInBlankInfo();
 	}
@@ -263,7 +265,7 @@ function calcAmount(rowIndex, row) {
 function setBillLockState() {
 	if (m_sale_bill.confirmerId > 0) {
 		$('#cmbSaleDetp').combobox("disable");
-		$("#dteSaleTime").datetimebox('disable');
+		$("#dteSaleTime").datebox('disable');
 		$('#txtDescription').attr("disabled", true);
 
 		$('#btnAddGoods').hide();
@@ -384,7 +386,7 @@ function stockBill2View(bill) {
 	}
 
 	if (bill.saleTime) {
-		$("#dteSaleTime").datetimebox("setValue", bill.saleTime);
+		$("#dteSaleTime").datebox("setValue", bill.saleTime);
 	}
 	
 	if(bill.customerPhone){
@@ -414,7 +416,7 @@ function view2stockBill() {
 	if (m_saleDetail_rowIndex != undefined) {
 		endEdit(m_saleDetail_rowIndex);
 	}
-	m_sale_bill.billTime = $('#dteSaleTime').datetimebox('getValue');
+	m_sale_bill.billTime = $('#dteSaleTime').datebox('getValue');
 	m_sale_bill.description = $('#txtDescription').val();
 
 	m_sale_bill.custId = $("#txtcustId").val();

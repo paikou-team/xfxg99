@@ -51,7 +51,7 @@
                             <label>单据日期:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
-                            <input id="dteSaleTime" class="easyui-datetimebox" data-options="required:true,editable:false"   />
+                            <input id="dteSaleTime" class="easyui-datebox" data-options="required:true,editable:false"   />
                         </td>                      
                     </tr>
                     <tr>
