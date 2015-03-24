@@ -123,9 +123,9 @@
 		from
 		t_organization order by id asc
 	</select>
-	<select id="loadrechargelistWithPage" parameterType="java.util.Map"
-		resultMap="ViewModelResultMap">
-		select r.id as id,
+	<select id="loadrechargelistWithPage" parameterType="java.util.Map"	resultMap="ViewModelResultMap">
+		select 
+		r.id as id,
 		r.org_id as org_id,
 		o.name as orgName,
 		r.cust_id as
@@ -152,8 +152,7 @@
 		join t_user as u on r.confirm_user_id = u.id
 		left join ecs_users as c
 		on r.cust_id = c.user_id
-		left join t_organization as o on o.id =
-		r.org_id
+		left join t_organization as o on o.id =	r.org_id
 
 		where 1=1
 
@@ -172,6 +171,11 @@
 		<if test="custname !=null">
 			and c.user_name like CONCAT('%','${custname}','%' )
 		</if>
+
+		<if test="userOrgPath != null" >
+  			and (o.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or o.path=#{userOrgPath,jdbcType=VARCHAR})
+
+  		</if>
 
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},
