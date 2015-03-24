@@ -122,6 +122,11 @@ function onSelRow(rowIndex, rowData) {
 
 var ChargeManage = {
 	AddCharge : function() {
+		
+		if(!checkAuthorize2("cust_recharge_add")){
+			return;
+		}
+		
 		try {
 			m_charge_dlg = art
 					.dialog({
@@ -182,6 +187,12 @@ var ChargeManage = {
 		}
 	},
 	ConfirmCharge : function() {
+		
+		if(!checkAuthorize2("cust_recharge_add")){
+			return;
+		}
+		
+		
 		var hasRows = $('#chargeGrid').datagrid('getRows');
 		if (hasRows.length == 0) {
 			$.messager.alert('操作提示', "没有可操作数据", "warning");
