@@ -144,7 +144,7 @@
 	select 
     	<include refid="Base_Column_List" />
     from t_function 
-    order by node_level
+    order by node_level , order_no
   </select>
   
   <select id="loadMainMenu" resultMap="BaseResultMap">
