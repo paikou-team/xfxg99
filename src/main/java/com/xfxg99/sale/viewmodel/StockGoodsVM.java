@@ -12,4 +12,6 @@ public class StockGoodsVM extends StockGoods{
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
 	}
+	
+
 }
