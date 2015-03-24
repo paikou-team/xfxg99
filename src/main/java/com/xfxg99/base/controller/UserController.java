@@ -21,6 +21,7 @@ import com.xfxg99.base.model.User;
 import com.xfxg99.base.service.UserService;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result; 
+import com.xfxg99.sale.viewmodel.StockBillVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.base.service.AuthorizeService;
 
@@ -232,5 +233,64 @@ public class UserController {
        }
        return re_md5;
    }
+   
+   @RequestMapping(value = "saveUserAndAuthorize.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String  saveUserAndAuthorize(
+			User user,
+			@RequestParam(value = "ids", required = true) String ids,
+			HttpServletRequest request)
+	{
+	   	UserVM cuser =(UserVM)request.getSession().getAttribute("user");
+		Result<User>  result =null;
+
+		if(cuser ==null){
+			result =new Result<User>(null,false,true,false,"请从新登录");
+			return result.toJson();
+		}
+		
+		if(user == null)
+		{
+			result =new Result<User>(null,false,true,false,"用户信息错误");
+			return result.toJson();
+		}
+		
+		if(user.getId() == 0)
+		{
+			String userPw = user.getPassword();
+			String md5Pw = encryption(userPw);
+			user.setPassword(md5Pw);
+		}
+		
+		int flag = userService.saveUser(user);
+		if(flag == 0)
+		{
+			result =new Result<User>(null,false,true,false,"用户保存失败");
+			return result.toJson();
+		}
+		if(user.getId() == 0)
+		{
+			result =new Result<User>(null,false,true,false,"用户保存失败");
+			return result.toJson();
+		}
+		if( cuser.getId() ==  user.getId())
+		{
+			request.getSession().setAttribute("user", user);  
+		}
+		
+		authorizeService.deleteByUserId(user.getId());
+		if(ids.length()>0)
+		{
+			String[]  destString = ids.split(","); 
+			for(int i=0; i < destString.length; i++) 
+			{
+				Integer funId=new Integer(destString[i]); 
+				authorizeService.insert(user.getId(),funId);
+			}
+		}
+		
+		result =new Result<User>(user,true,false,false,null);
+	
+		return result.toJson();
+	}
 
 }
