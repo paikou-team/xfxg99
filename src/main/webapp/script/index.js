@@ -155,24 +155,7 @@ function onTreeMenuDblClick(row) {
 	}
 }
 
-function checkAuthorize(key,userId){
-	var isAuthorize=false;
-	$.ajax({
-		url : "authorize/isAuthorize.do",
-		type : "POST",
-		dataType : "json",
-		data:{'userId':userId,'key':key},
-		async : false,
-		success : function(req) {
-			if (req.isSuccess) {
-				isAuthorize=req.data;
-			} else {
-				$.messager.alert('提示ʾ', req.msg, "warning");
-			}
-		}
-	});
-	return isAuthorize;
-}
+
 
 /**
  * 建立主菜单
