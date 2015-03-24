@@ -82,7 +82,7 @@
                             
                         </td>
                         <td style="width:60px; text-align: right">
-                    		<label >输入验证码:</label>
+                    		<label id="labelCode" >输入验证码:</label>
                     	</td>
                     	<td style="width: 120px; text-align: left">
                             <input id="txtVerifCode"  class="easyui-validatebox" data-options="required:false" />

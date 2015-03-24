@@ -150,7 +150,7 @@ var SaleManage = {
 				m_sale_dlg = art.dialog({
 		            id: 'dlgSaleBillView',
 		            title: '单据',
-		            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?optType=1&billType=2&id=0' style='width:760px;height:460px;'/>",
+		            content: "<iframe scrolling='yes' frameborder='0' src='view/sale/saleBill.jsp?optType=1&billType=2&id="+m_sale_obj.id+"' style='width:760px;height:460px;'/>",
 		            //content:"123",
 		            lock: true,
 		            initFn: function () {
@@ -163,43 +163,5 @@ var SaleManage = {
 };
 
 
-function onSaleDel(){
-var row = $("#dgSale").datagrid("getSelected");
-	
-	if(row){
-		
-		$.messager.confirm('操作提示', "确定删除编号为： " + row.serialNo + " 的单据?", function (r) {
-			if(r){
-				$.ajax({
-					url : "stock/delStockBill.do",
-					type : "POST",
-					dataType : "json",
-					async : false,
-					data : {
-						'id' : row.id
-					},
-					success : function(req) {
-						gRequestData(req);
-						
-						if(req.isSuccess){
-							$.messager.alert("消息提示", "单据删除成功!", "info");
-							loadSaleBills();
-						}
-						
-					},
-					failer : function(a, b) {
-						$.messager.alert("消息提示", "保存失败", "error");
-					},
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						$.messager.alert("错误提示", "保存失败", "error");
-					}
-				});
-			}
-		});
-		
-		
-	}else{
-		$.messager.alert("提示", "请选择单据!", "info");
-	}
-}
+
 

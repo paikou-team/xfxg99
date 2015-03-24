@@ -121,7 +121,7 @@ public class SaleController {
 		if (id == 0) {// 新建一个单据
 			bill = this.newSaleBill(billType, user);
 		} else {// 从数据库读取一个单据
-			// bill = saleService.loadVMById(id);
+			 bill = saleService.loadVMById(id);
 		}
 
 		result.setData(bill);
@@ -203,7 +203,7 @@ public class SaleController {
 			JSONObject jObj = JSONObject.fromObject(billJson);
 
 			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
-			classMap.put("stockGoods", StockGoodsVM.class);
+			classMap.put("saleGoods", SaleGoodsVM.class);
 
 			SaleBillVM bill = (SaleBillVM) JSONObject.toBean(jObj, SaleBillVM.class, classMap);
 			

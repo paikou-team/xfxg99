@@ -12,6 +12,10 @@ $(function() {
 	if (args.optType == 1 || args.optType == "1") {
 		$("#tb_operationtb").hide();
 		$("#viewBillInfo").hide();
+		$("#txtVerifCode").hide();
+		$("#btnGetVerifCode").hide();
+		$("#labelCode").hide();
+		
 		fillInBlankInfo();
 	}
 	$('#dgSaleDetail').datagrid({  
@@ -148,7 +152,7 @@ function fillInBlankInfo() {
 	});
 }
 function loadBill(billType, id) {
-	if (id == 0) {
+//	if (id == 0) {
 		$.ajax({
 			url : 'sale/loadBill.do',
 			type : "POST",
@@ -165,7 +169,7 @@ function loadBill(billType, id) {
 				}
 			},
 		});
-	}
+//	}
 }
 
 // 添加商品
@@ -382,8 +386,12 @@ function stockBill2View(bill) {
 	if (bill.saleTime) {
 		$("#dteSaleTime").datetimebox("setValue", bill.saleTime);
 	}
+	
+	if(bill.customerPhone){
+		$("#txtMobile").val(bill.customerPhone);
+	}
 
-	$("#txtPreparerOrgName").val(bill.preparerOrgName);
+	$("#txtPreparerOrgName").val(bill.orgName);
 	$("#txtPreparerName").val(bill.preparerName);
 	$("#txtPrepareTime").val(bill.recTime);
 	//	
@@ -391,14 +399,14 @@ function stockBill2View(bill) {
 	// $("#txtConfirmerName").val(bill.confirmerName);
 	// $("#txtConfirmTime").val(bill.confirmTime);
 
-	if (bill.saleGoods != undefined && bill.saleGoods != null) {
-		for ( var i = 0; i++; i < bill.saleGoods) {
-			var row = bill.saleGoods[i];
-			row.amount = row.goodsPrice * row.number;
-		}
-
-		$('#dgSaleDetail').datagrid('loadData', bill.saleGoods);
-	}
+//	if (bill.saleGoods != undefined && bill.saleGoods != null) {
+//		for ( var i = 0; i < bill.saleGoods.length;i++) {
+//			var row = bill.saleGoods[i];
+//			row.amount = row.goodsPrice * row.number;
+//		}
+//
+//		$('#dgSaleDetail').datagrid('loadData', bill.saleGoods);
+//	}
 
 }
 
@@ -475,7 +483,7 @@ function onSaveSaleBill() {
 	
 	clearTimeInterval(); 
 	
-	var data = $('#dgSaleDetail').datagrid('getData');  
+	//var data = $('#dgSaleDetail').datagrid('getData');  
 	m_sale_bill.saleGoods = data.rows;
 
 	$.ajax({
