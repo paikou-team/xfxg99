@@ -133,10 +133,10 @@ function onTreeMenuDblClick(row) {
 		src = "view/base/sysparameter.jsp";
 		break;
 	
-	case "biz_recharge_confirm":
+	case "biz_recharge":
 		src = "view/sale/chargeList.jsp?optType=1";
 		break;
-	case "biz_recharge_noconfirm":
+	case "biz_report":
 		src = "view/sale/chargeList.jsp?optType=2";
 		break;
 	case "sys_authorize":
@@ -160,24 +160,7 @@ function onTreeMenuDblClick(row) {
 	
 }
 
-function checkAuthorize(key,userId){
-	var isAuthorize=false;
-	$.ajax({
-		url : "authorize/isAuthorize.do",
-		type : "POST",
-		dataType : "json",
-		data:{'userId':userId,'key':key},
-		async : false,
-		success : function(req) {
-			if (req.isSuccess) {
-				isAuthorize=req.data;
-			} else {
-				$.messager.alert('提示ʾ', req.msg, "warning");
-			}
-		}
-	});
-	return isAuthorize;
-}
+
 
 /**
  * 建立主菜单

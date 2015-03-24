@@ -2,6 +2,7 @@ package com.xfxg99.sale.viewmodel;
 
 import java.util.List;
 
+import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.SaleBill;;
 
 public class SaleBillVM  extends SaleBill{
@@ -56,5 +57,20 @@ public class SaleBillVM  extends SaleBill{
 	}
 	public void setStockGoods(List<StockGoodsVM> stockGoods) {
 		this.stockGoods = stockGoods;
+	}
+	/**
+	 * 合计金额
+	 * @return
+	 */
+	public double calcTotal(){
+		double amt=0.0d;
+		if(this.stockGoods!=null && this.stockGoods.size()>0){
+			for (StockGoodsVM sg : this.stockGoods) {
+				if (sg.getGoodsId() > 0) {
+					amt += sg.getGoodsPrice() * sg.getGoodsNumber(); 
+				} 
+			}
+		}
+		return amt;
 	}
 }
