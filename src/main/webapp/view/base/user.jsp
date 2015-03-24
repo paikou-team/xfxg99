@@ -86,7 +86,7 @@
                         <td>
                             <input id="IsAllDataPermissionCheck" type="checkbox" /></td>   
             		</table>
-                	<div id="functionTree" style="width: 100%; height:100%; font-size: 12px"></div>
+                	<div id="functionTree" style="width: 100%; height:300px; font-size: 12px"></div>
             	</div>
             </div>
      </div>
