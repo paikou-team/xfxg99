@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xfxg99.base.model.Organization;
+import com.xfxg99.base.service.OrganizationService;
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.ListResult;
@@ -26,6 +28,7 @@ import com.xfxg99.core.Result;
 import com.xfxg99.sale.model.Recharge; 
 import com.xfxg99.sale.service.RechargeService;
 import com.xfxg99.sale.viewmodel.RechargeVM;
+import com.xfxg99.sale.viewmodel.StockBillVM;
 
 @Scope("prototype")
 @Controller
@@ -35,6 +38,9 @@ public class RechargeController {
 	@Resource(name = "rechargeService")
 	protected RechargeService rechargeService; 
 
+	@Resource(name = "organizationService")
+	protected OrganizationService orgService;
+	
 	@RequestMapping(value = "getList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String getList(
@@ -43,6 +49,17 @@ public class RechargeController {
 			@RequestParam(value = "rows", required = false) Integer rows,
 			HttpServletRequest request) throws Exception {
 
+		ListResult<RechargeVM> result=new ListResult<RechargeVM>();
+		
+		UserVM user =(UserVM)request.getSession().getAttribute("user");
+		
+		if(user ==null){
+			result.setIsSuccess(false);
+			result.setMsg("请重新登录");
+			return result.toJson();
+		}
+		
+		
 		JSONObject joQuery = JSONObject.fromObject(query);
 		String orgname = joQuery.getString("orgname");
 		String custname = joQuery.getString("custname");
@@ -57,11 +74,15 @@ public class RechargeController {
 		map.put("orgname", orgname);
 		map.put("custname", custname);
 		map.put("isConfirm", isConfirm);
+		if(!user.getIsAllDataPermission()){
+			Organization org=orgService.getOrganization(user.getOrgId());
+			map.put("userOrgPath", org.getPath());
+		}
 		//map.put("confirmname", confirmname);
 
-		ListResult<RechargeVM> rs = rechargeService.loadrechargelist(map);
+		result = rechargeService.loadrechargelist(map);
 
-		return rs.toJson();
+		return result.toJson();
 	}
 
 	/*

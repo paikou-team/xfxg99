@@ -86,7 +86,10 @@ $(function() {
 			title : '充值金额',
 			field : 'money',
 			align : 'right',
-			width : 120
+			width : 120,
+			formatter:function(value,row,index){
+				return value.toFixed(2);
+			}
 		}, {
 			title : '充值时间',
 			field : 'rechargeTime',
@@ -107,7 +110,12 @@ $(function() {
 			field : 'rechargeDesc',
 			align : 'left',
 			width : 150
-		} ] ]
+		} ] ],
+		rowStyler:function(index,row){
+			if(row.confirmUserId ==0 || row.confirmUserId ==undefined || row.confirmUserId==null){
+				return 'color:red;';
+			}
+		}
 	});
 	$("#AddCharge").bind("click", ChargeManage.AddCharge);
 	$("#btnSearch").bind("click", ChargeManage.SearchAction);
