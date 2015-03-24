@@ -133,10 +133,10 @@ function onTreeMenuDblClick(row) {
 		src = "view/base/sysparameter.jsp";
 		break;
 	
-	case "biz_recharge_confirm":
+	case "biz_recharge":
 		src = "view/sale/chargeList.jsp?optType=1";
 		break;
-	case "biz_recharge_noconfirm":
+	case "biz_report":
 		src = "view/sale/chargeList.jsp?optType=2";
 		break;
 	case "sys_authorize":

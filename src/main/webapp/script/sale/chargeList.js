@@ -17,7 +17,7 @@ $(function() {
 	{
 		$("#AddCharge").hide();
 	} else {
-		// $("#ConfirmCharge").hide();
+		$("#ConfirmCharge").hide();
 		$("#AddCharge").hide();
 		$("#tb_searchbox").hide();
 		m_charge_query = {
