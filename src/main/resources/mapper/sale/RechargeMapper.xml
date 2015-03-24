@@ -98,6 +98,10 @@
 			and user_name like CONCAT('%','${name}','%' )
 		</if>
 
+		<if test="phone !=null">
+			and mobile_phone like CONCAT('%','${phone}','%' )
+		</if>
+
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},
 			#{pageSize,jdbcType=INTEGER}

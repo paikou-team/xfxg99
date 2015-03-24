@@ -462,13 +462,18 @@ function onSaveSaleBill() {
 	if (!checkStockBill()) {
 		return;
 	}
- 
+  
+	var data = $('#dgSaleDetail').datagrid('getData'); 
+//	if($('#txtVerifCode').val()==""){
+//		$.messager.alert("提示信息", "请输入验证码", "info");
+//		return;
+//	} 
 	if($('#txtVerifCode').val()==""){
 		$.messager.alert("提示信息", "请输入验证码", "info");
 		return;
 	}
 	
-	clearTimeInterval();
+	clearTimeInterval(); 
 	
 	var data = $('#dgSaleDetail').datagrid('getData');  
 	m_sale_bill.stockGoods = data.rows;
@@ -562,7 +567,8 @@ var CustomerSelectManage = {
 
 	SearchCustUser : function() {
 		$('#custUserGrid').datagrid("reload", {
-			"name" : $("#search_custname").val()
+			"name" : $("#search_custname").val(),
+			"phone": $("#search_phone").val()
 		});
 	},
 	SelectCustUserAction : function(index, rowData) {

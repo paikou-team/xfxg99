@@ -56,12 +56,13 @@ public class CustomerController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		JSONObject joQuery = JSONObject.fromObject(query);
 		String name = joQuery.getString("custname");
-		String orgname = joQuery.getString("orgname");
+		String phone = joQuery.getString("phone");
 //		String recUser = joQuery.getString("recUser");
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("name", name);
+		map.put("phone", phone);
 //		map.put("orgname", orgname);
 //		map.put("recUser", recUser);
 

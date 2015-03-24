@@ -2,7 +2,8 @@ var m_custuser_dlg;
 var m_birthday_record_dlg;
 var m_custuser_type;
 var m_custuser_query = { 
-	custname : "" 
+	custname : "" ,
+	phone:""
 };
 
 var m_customer_viewType;
@@ -214,7 +215,7 @@ var CustUserManage = {
 		});
 	},
 	packQuery : function() {
-//		m_custuser_query.orgname = $.trim($("#sch_orgname").val()); 
+		m_custuser_query.phone = $.trim($("#sch_phone").val()); 
 		m_custuser_query.custname = $.trim($("#sch_custname").val()); 
 	}
 	

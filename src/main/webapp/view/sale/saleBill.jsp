@@ -134,6 +134,7 @@
 		</div>
 		<div id="tb_custUser">
 			<label>客户姓名:</label><input id="search_custname" class="easyui-validatebox" style="width:120px" />
+			<label>电话号码:</label><input id="search_phone" class="easyui-validatebox" style="width:120px" />
 			<a id="btnSearchCustUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">查询</a>
 		</div>
 	</div>

@@ -29,7 +29,12 @@ $(function() {
 		$("#txtcustEmail").val(score.custEmail);
 		$("#txtcustPhone").val(score.custPhone);
 		$("#txtmoney").numberbox('setValue', score.money);
+
+		$("#txtmoney").numberbox('disable');
+		
 		$("#txtrechargeTime").datetimebox('setValue', score.rechargeTime);
+
+		$("#txtrechargeTime").datetimebox('disable');
 		$("#txtrechargeDesc").val(score.rechargeDesc);
 	}
 
@@ -145,7 +150,8 @@ var ChargeBillManage = {
 	},
 	SearchCustUser : function() {
 		$('#custUserGrid').datagrid("reload", {
-			"name" : $("#search_custname").val()
+			"name" : $("#search_custname").val(),
+			"phone": $("#search_phone").val()
 		});
 	},
 	SelectCustUserAction : function(index, rowData) {

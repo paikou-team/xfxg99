@@ -27,16 +27,16 @@
 		 	<span  id="tb_operation"><a id="btnSaveChargeInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_save" plain="true">确定</a></span>
 		 	<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true">取消</a>  
 		 </p>
-		 <p style="padding:6px"><label>门店信息：</label><input id="txtorgName" class="easyui-validatebox" readonly="readonly" style="width:324px" /><input id="txtorgId" type="hidden"/></p>
-		 <p style="padding:6px"><label>充值金额：</label><input id="txtmoney" type="text" class="easyui-numberbox"  data-options="required:true,min:0,precision:2"  style="width:324px" /></p> 
-		 <p style="padding:6px"><label>充值时间：</label><input id="txtrechargeTime" class="easyui-datetimebox" data-options="required:true,editable:false,showSeconds:false" style="width:324px"  /></p> 
+		 <p><label>门店信息：</label><input id="txtorgName" class="easyui-validatebox" readonly="readonly" style="width:324px" /><input id="txtorgId" type="hidden"/></p>
+		 <p><label>充值金额：</label><input id="txtmoney" type="text" class="easyui-numberbox"  data-options="required:true,min:0,precision:2"  style="width:324px" /></p> 
+		 <p><label>充值时间：</label><input id="txtrechargeTime" class="easyui-datetimebox" data-options="required:true,editable:false,showSeconds:false" style="width:324px"  /></p> 
 		 
-		 <p style="padding:6px">
+		 <p>
 		 	<label>客户姓名：</label><input id="txtcustName" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /><input id="txtcustId" type="hidden"/>
 		 	<a id="btnSelectCustUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">客户选择</a>
 		 </p>	
-		 <p style="padding:6px"><label>联系方式：</label><input id="txtcustPhone" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /> </p>
-		 <p style="padding:6px"><label>电子邮件：</label><input id="txtcustEmail" class="easyui-validatebox"  readonly="readonly"    style="width:324px"  /> </p>
+		 <p><label>联系方式：</label><input id="txtcustPhone" class="easyui-validatebox"  readonly="readonly"   style="width:324px"  /> </p>
+		 <p><label>电子邮件：</label><input id="txtcustEmail" class="easyui-validatebox"  readonly="readonly"    style="width:324px"  /> </p>
 		 <p><label>充值备注：</label><textarea id="txtrechargeDesc" type="textarea" style="width:324px;height:40px" ></textarea></p> 
 	</div>
 	<div id="div_custuser" style="width:500px;height:300px; display:none">
@@ -45,6 +45,7 @@
 		</div>
 		<div id="tb_custUser">
 			<label>客户姓名:</label><input id="search_custname" class="easyui-validatebox" style="width:120px" />
+			<label>电话号码:</label><input id="search_phone" class="easyui-validatebox" style="width:120px" />
 			<a id="btnSearchCustUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">查询</a>
 		</div>
 	</div>

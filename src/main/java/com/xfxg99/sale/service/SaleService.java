@@ -12,11 +12,15 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xfxg99.base.model.User;
+import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
-import com.xfxg99.sale.dao.BillSerialNoMapper; 
+import com.xfxg99.sale.dao.BillSerialNoMapper;
 import com.xfxg99.sale.dao.SaleBillMapper;
 import com.xfxg99.sale.dao.SaleGoodsMapper;
+import com.xfxg99.sale.model.OrderAction;
+import com.xfxg99.sale.model.OrderGoods;
 import com.xfxg99.sale.model.OrderInfo;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.model.SaleGoods;
@@ -34,7 +38,6 @@ public class SaleService {
 
 	@Resource(name = "billSerialNoMapper")
 	private BillSerialNoMapper billSerialNoMapper;
-  
 
 	public ListResult<SaleBillVM> loadListWithPage(Map<String, Object> map) {
 		int total = saleBillMapper.countByVMMap(map);
@@ -51,21 +54,23 @@ public class SaleService {
 	 * 保存库存单据
 	 * 
 	 * @param bill
+	 * @param user
+	 * @param subMoney
 	 */
 	@Transactional
-	public void saveSaleBill(SaleBillVM bill) {
+	public void saveSaleBill(SaleBillVM bill, User user, double subMoney) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> billNoMap = GeneralUtil.getSerialNoPars(2);
 
 		double goodsAmount = 0.0f;
+		List<StockGoodsVM> glist = new ArrayList<StockGoodsVM>();
+
 		int saleId = 0;
-		int goodId = 0;
 		int custId = 0;
 		if (bill.getId() == 0) {
 			for (StockGoodsVM sg : bill.getStockGoods()) {
 				if (sg.getGoodsId() > 0) {
-					goodId = sg.getGoodsId();
 					goodsAmount += sg.getGoodsPrice() * sg.getGoodsNumber();
 				}
 
@@ -101,19 +106,85 @@ public class SaleService {
 			sg.setStockId(bill.getId());
 			if (sg.getId() == 0) {
 				SaleGoods gs = new SaleGoods();
+
 				gs.setId(0);
 				gs.setSaleId(saleId);
-				gs.setGoodsId(goodId);
-				sg.getGoodsNumber();
+				gs.setGoodsId(sg.getGoodsId());
+				// sg.getGoodsNumber();
 				gs.setGoodsNumber(sg.getGoodsNumber());
 				gs.setMarketPrice(sg.getMarketPrice());
 				gs.setGoodsPrice(sg.getGoodsPrice());
 				saleGoodsMapper.insert(gs);
+				glist.add(sg);
 			}
 		}
 
-		saveOrderInfo(custId, goodsAmount);
+		int orderid = saveOrderInfo(custId, goodsAmount);
+		saveOrderGoods(orderid, glist);
+		saveOrderAction(orderid, user);
+		saveEcsUserInfo(subMoney, custId);
 		saveAccountLog(custId, goodsAmount);
+	}
+
+	private void saveEcsUserInfo(double subMoney, int custId) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", custId); 
+		map.put("usermoney", subMoney);
+		saleBillMapper.updateUserInfoById(map);
+	}
+
+	private void saveOrderAction(int orderid, User user) {
+		// TODO Auto-generated method stub
+		OrderAction orderaction = new OrderAction();
+		orderaction.setActionId(0);
+		orderaction.setOrderId(orderid);
+		orderaction.setActionUser(user.getName());
+		orderaction.setOrderStatus(true);
+		orderaction.setShippingStatus(false);
+		orderaction.setPayStatus(false);
+		orderaction.setActionPlace(true);
+		orderaction.setActionNote("用户购买");
+		Calendar cal = Calendar.getInstance();
+		String changeTime = Long.toString(cal.getTimeInMillis());
+		if (changeTime.length() > 10) {
+			changeTime = changeTime.substring(0, 10);
+		}
+		orderaction.setLogTime(Integer.parseInt(changeTime));
+
+		saleBillMapper.insertOrderAction(orderaction);
+	}
+
+	private void saveOrderGoods(int orderid, List<StockGoodsVM> glist) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < glist.size(); i++) {
+			OrderGoods og = new OrderGoods();
+			og.setRecId(0);
+			og.setOrderId(orderid);
+			og.setGoodsId(glist.get(i).getGoodsId());
+			og.setGoodsName(glist.get(i).getGoodsName());
+			int s = glist.get(i).getGoodsNumber();
+			og.setGoodsNumber((short) s);
+			og.setGoodsSn(" ");
+
+			java.math.BigDecimal bd1 = new java.math.BigDecimal(glist.get(i)
+					.getMarketPrice());
+			og.setMarketPrice(bd1);
+
+			java.math.BigDecimal bd2 = new java.math.BigDecimal(glist.get(i)
+					.getGoodsPrice());
+			og.setGoodsPrice(bd2);
+			og.setGoodsAttr(" ");
+			og.setSendNumber((short) 0);
+			og.setIsReal(true);
+			og.setExtensionCode(" ");
+			og.setParentId(0);
+			og.setIsGift((short) 0);
+			og.setGoodsAttrId(" ");
+			og.setProductId(0);
+			saleBillMapper.insertOrderGoods(og);
+
+		}
 	}
 
 	private void saveAccountLog(int custId, double goodsAmount) {
@@ -135,7 +206,7 @@ public class SaleService {
 		saleBillMapper.insertAccountLog(map);
 	}
 
-	private void saveOrderInfo(int custId, double goodsAmount) {
+	private int saveOrderInfo(int custId, double goodsAmount) {
 		// TODO Auto-generated method stub
 		OrderInfo order = new OrderInfo();
 		order.setOrderId(0);
@@ -208,8 +279,11 @@ public class SaleService {
 		order.setDiscount(bd2);
 		order.setBonusId((short) 0);
 		order.setExtensionCode(" ");
-		
-		saleBillMapper.insertOrderInfo(order);
+
+		int ordId = saleBillMapper.insertOrderInfo(order);
+
+		return ordId;
+
 	}
 
 	public ListResult<StockGoodsVM> loadProductListByBillId(
@@ -222,5 +296,10 @@ public class SaleService {
 				ls);
 
 		return result;
+	}
+
+	public CustomerVM getCustomerInfoById(int custId) {
+		// TODO Auto-generated method stub
+		return saleBillMapper.getCustomerInfoById(custId);
 	}
 }
