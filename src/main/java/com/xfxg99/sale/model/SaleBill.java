@@ -19,6 +19,12 @@ public class SaleBill {
     private Date recTime;
     
     private String serialNo;
+    
+    private Integer preparerOrgId;
+
+    private Integer preparerId;
+
+    private String description;
 
     public Integer getId() {
         return id;
@@ -83,4 +89,28 @@ public class SaleBill {
     public void setSerialNo(String serialNo) {
     	  this.serialNo = serialNo;
     }
+    
+    public Integer getPreparerOrgId() {
+        return preparerOrgId;
+    }
+
+    public void setPreparerOrgId(Integer preparerOrgId) {
+        this.preparerOrgId = preparerOrgId;
+    }
+
+    public Integer getPreparerId() {
+        return preparerId;
+    }
+
+    public void setPreparerId(Integer preparerId) {
+        this.preparerId = preparerId;
+    }
+    
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

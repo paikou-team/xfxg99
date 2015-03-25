@@ -393,9 +393,10 @@ function stockBill2View(bill) {
 		$("#txtMobile").val(bill.customerPhone);
 	}
 
-	$("#txtPreparerOrgName").val(bill.orgName);
+	$("#txtPreparerOrgName").val(bill.preparerOrgName);
 	$("#txtPreparerName").val(bill.preparerName);
 	$("#txtPrepareTime").val(bill.recTime);
+	$('#txtDescription').val(bill.description);
 	//	
 	// $("#txtConfirmerOrgName").val(bill.confirmerOrgName);
 	// $("#txtConfirmerName").val(bill.confirmerName);

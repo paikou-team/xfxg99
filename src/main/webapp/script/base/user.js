@@ -22,13 +22,13 @@ $(function () {
         toolbar: "#UserTb",
         columns: [[
                { title: 'Id', field: 'id', align: 'left', width: 5, hidden: true },
-               { title: '有效', field: 'isUsed', width: 50, align: 'center' ,formatter: imgcheckbox },
-               { title: '用户姓名', field: 'name', align: 'center', width: 120 },
-               { title: 'password', field: 'password', align: 'center', width: 120, hidden: true },
-               { title: 'isalldatapermission', field: 'isalldatapermission', align: 'center', width: 120, hidden: true},
-               { title: '组织机构', field: 'orgId', align: 'center', width: 120, hidden: true},
-               { title: '组织机构名称', field: 'orgName', align: 'center', width: 120},
-               { title: '用户备注', field: 'description', align: 'center', width: 200}
+               { title: '有效', field: 'isUsed', width: 50, align: 'left' ,formatter: imgcheckbox },
+               { title: '用户姓名', field: 'name', align: 'left', width: 120 },
+               { title: 'password', field: 'password', align: 'left', width: 120, hidden: true },
+               { title: 'isalldatapermission', field: 'isalldatapermission', align: 'left', width: 120, hidden: true},
+               { title: '组织机构', field: 'orgId', align: 'left', width: 120, hidden: true},
+               { title: '组织机构名称', field: 'orgName', align: 'left', width: 120},
+               { title: '用户备注', field: 'description', align: 'left', width: 200}
         ]]
     });
 	

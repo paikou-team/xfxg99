@@ -177,9 +177,11 @@ public class SaleController {
 		bill.setOrgName(u.getOrgName());
 
 		bill.setRecTime(ct);
+		bill.setPreparerOrgId(u.getOrgId());
 		bill.setPreparerOrgName(u.getOrgName());
+		bill.setPreparerId(u.getId());
 		bill.setPreparerName(u.getName());
-		// bill.setState(0);
+		
 
 		return bill;
 	}

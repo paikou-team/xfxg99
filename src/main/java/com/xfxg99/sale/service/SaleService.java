@@ -86,6 +86,9 @@ public class SaleService {
 			bs.setSerialNo(bill.getSerialNo());
 			bs.setSaleTime(bill.getSaleTime());
 			bs.setRecTime(bill.getRecTime());
+			bs.setPreparerOrgId(bill.getPreparerOrgId());
+			bs.setPreparerId(bill.getPreparerId());
+			bs.setDescription(bill.getDescription());
 			// saleBillMapper.insert(bill);
 			saleBillMapper.insert(bs);
 			saleId = bs.getId();
