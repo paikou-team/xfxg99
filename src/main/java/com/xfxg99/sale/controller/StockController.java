@@ -73,7 +73,8 @@ public class StockController {
 		int billType=joQuery.getInt("billType");
 		int stockInOrgId=joQuery.getInt("stockInOrgId");
 		int stockOutOrgId=joQuery.getInt("stockOutOrgId");
-		String serialNo=joQuery.getString("serialNo");
+		String serialNo=joQuery.getString("serialNo").trim();
+		serialNo ="".equals(serialNo)?null:serialNo;
 		String beginTime=joQuery.getString("beginTime");
 		String endTime=joQuery.getString("endTime");
 		int	confirmState =joQuery.getInt("confirmState");
