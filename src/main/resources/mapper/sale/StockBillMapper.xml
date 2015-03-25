@@ -292,9 +292,10 @@
   	left join 	t_organization 	as co	on	s.confirmer_org_id	=co.id
   	left join	t_user			as pu	on	s.preparer_id		=pu.id
   	left join	t_user			as ru	on	s.confirmer_id		=ru.id
-  	left join	t_stock_goods	as sg	on	sg.stock_id			=s.id
-  	left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
   	where 1=1 
+  	<if test="billType != null" >
+  		and s.bill_type =#{billType,jdbcType=VARCHAR}
+  	</if>
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
   	</if>
@@ -309,7 +310,21 @@
   	</if>
   	<if test="endDate != null" >
   	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="confirmState == 1" >
+  		and  s.confirmer_id > 0
   	</if> 
+  	
+  	<if test="confirmState == 2" >
+  		and  s.confirmer_id = 0 
+  	</if>
+  	<if test="userOrgPath != null" >
+  		and 
+  			(
+  				(sio.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or sio.path=#{userOrgPath,jdbcType=VARCHAR})
+  			or 	(soo.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or soo.path=#{userOrgPath,jdbcType=VARCHAR})
+  			)
+  	</if>
   </select>
   
   <select id="loadVMListWithPage" parameterType="java.util.Map" resultMap="VMMap">
