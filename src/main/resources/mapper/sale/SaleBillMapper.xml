@@ -70,6 +70,25 @@
 		eu.user_name as customer_name,
 		eu.email as customer_email,
 		eu.mobile_phone as mobile_phone,
+  		po.name				as	preparer_org_name,
+  		pu.name				as	preparer_name
+	</sql>
+	<sql id="VM_Column_List_load">
+		s.id as id,
+		s.cust_id as cust_id,
+		s.org_id as org_id,
+		s.pay_id as pay_id,
+		s.goods_amount as goods_amount,
+		s.sale_time as sale_time,
+		s.rec_time as rec_time,
+		s.serial_no as serial_no,
+		s.preparer_org_id	as	preparer_org_id,
+  		s.preparer_id		as	preparer_id,
+  		s.description		as description,
+		o.name as org_name,
+		eu.user_name as customer_name,
+		eu.email as customer_email,
+		eu.mobile_phone as mobile_phone,
 		sg.id				as	sale_goods_id,
   		sg.sale_id			as	sale_id,
   		sg.goods_id			as	goods_id,
@@ -364,8 +383,6 @@
 		from t_sale as s
 		left join t_organization as o on s.org_id = o.id
 		left join ecs_users as eu on s.cust_id = eu.user_id
-		left join	t_sale_goods	as sg	on	sg.sale_id			=s.id
-  		left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
   		left join 	t_organization 	as po 	on 	s.preparer_org_id 	= po.id
   		left join	t_user			as pu	on	s.preparer_id		=pu.id
 		where 1=1
@@ -418,7 +435,7 @@
 	</delete>
 	<select id="loadVMById" parameterType="java.lang.Integer" resultMap="ViewModelResultMap">
 	select 
-  		<include refid="VM_Column_List" />
+  		<include refid="VM_Column_List_load" />
   	from t_sale as s
 		left join t_organization as o on s.org_id = o.id
 		left join ecs_users as eu on s.cust_id = eu.user_id

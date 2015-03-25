@@ -80,6 +80,8 @@ public class SaleController {
 
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime");
+		if(endTime !=null && endTime !=" " && endTime.length()>0 )
+			endTime += " 23:59:59"; 
 		String serialNo = joQuery.getString("serialNo");
 
 		page = page == 0 ? 1 : page;

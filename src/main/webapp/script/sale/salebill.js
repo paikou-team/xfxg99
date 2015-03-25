@@ -18,7 +18,7 @@ $(function() {
 		$("#dteSaleTime").datebox('disable');
 		$('#txtDescription').attr("disabled", true);
 		
-		fillInBlankInfo();
+//		fillInBlankInfo();
 	}
 	$('#dgSaleDetail').datagrid({  
 		fitColumns : true,
@@ -402,14 +402,14 @@ function stockBill2View(bill) {
 	// $("#txtConfirmerName").val(bill.confirmerName);
 	// $("#txtConfirmTime").val(bill.confirmTime);
 
-//	if (bill.saleGoods != undefined && bill.saleGoods != null) {
-//		for ( var i = 0; i < bill.saleGoods.length;i++) {
-//			var row = bill.saleGoods[i];
-//			row.amount = row.goodsPrice * row.number;
-//		}
-//
-//		$('#dgSaleDetail').datagrid('loadData', bill.saleGoods);
-//	}
+	if (bill.saleGoods != undefined && bill.saleGoods != null) {
+		for ( var i = 0; i < bill.saleGoods.length;i++) {
+			var row = bill.saleGoods[i];
+			row.amount = row.goodsPrice * row.goodsNumber;
+		}
+
+		$('#dgSaleDetail').datagrid('loadData', bill.saleGoods);
+	}
 
 }
 
