@@ -305,11 +305,11 @@
   	<if test="stock_out_org_id != null" >
   	and s.stock_out_org_id =#{stockOutOrgId,jdbcType=INTEGER}
   	</if>
-  	<if test="beginDate != null" >
-  	and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  	<if test="beginTime != null" >
+  	and s.bill_time &gt;=#{beginTime,jdbcType=TIMESTAMP}
   	</if>
-  	<if test="endDate != null" >
-  	and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	<if test="endTime != null" >
+  	and s.bill_time &lt;=#{endTime,jdbcType=TIMESTAMP}
   	</if>
   	<if test="confirmState == 1" >
   		and  s.confirmer_id > 0
@@ -352,11 +352,11 @@
   	<if test="stockOutOrgId > 0" >
   		and s.stock_out_org_id =#{stockOutOrgId,jdbcType=INTEGER}
   	</if>
-  	<if test="beginDate != null" >
-  		and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+  	<if test="beginTime != null" >
+  		and s.bill_time &gt;=#{beginTime,jdbcType=TIMESTAMP}
   	</if>
-  	<if test="endDate != null" >
-  		and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+  	<if test="endTime != null" >
+  		and s.bill_time &lt;=#{endTime,jdbcType=TIMESTAMP}
   	</if>
   	
   	<if test="confirmState == 1" >

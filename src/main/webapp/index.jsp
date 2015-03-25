@@ -16,8 +16,8 @@
 		</div>
 		<div>
 			<div style="float: left;">
-				<h1 style="color: white; margin: 0; padding-top: 20px;padding-left:50;">幸福享购商城</h1>
-				<h2 style="color: orange; margin: 0; padding-left: 53px;">O2O线下管理平台</h1>
+				<h1 style="color: white; margin: 0; padding-top: 20px;padding-left:50;">欣雨禾集团</h1>
+				<h2 style="color: orange; margin: 0; padding-left: 53px;">O2O综合管理平台</h1>
 			</div>
 			<div style="float: right; padding-top: 54px; padding-right: 12px;">
 				<a href="javascript:void(0);" class="easyui-linkbutton" style="color: white" plain="true" style="color: black;" onclick="onChangePwd()">修改密码</a>

@@ -38,7 +38,7 @@ $(function() {
 		resizable : true,
 		pagination : true,
 		pageNumber : 1,
-		pageSize : 20,
+		pageSize : 16,
 		nowrap : false,
 		idField : 'id',
 		singleSelect : true,
