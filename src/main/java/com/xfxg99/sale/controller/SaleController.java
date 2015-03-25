@@ -85,8 +85,8 @@ public class SaleController {
 		page = page == 0 ? 1 : page;
 
 		map.put("orgId", orgId);
-		map.put("beginTime", beginTime);
-		map.put("endTime", endTime);
+		map.put("beginDate", beginTime);
+		map.put("endDate", endTime);
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("serialNo", serialNo);

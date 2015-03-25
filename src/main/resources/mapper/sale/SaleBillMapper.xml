@@ -65,6 +65,7 @@
 		s.serial_no as serial_no,
 		s.preparer_org_id	as	preparer_org_id,
   		s.preparer_id		as	preparer_id,
+  		s.description		as description,
 		o.name as org_name,
 		eu.user_name as customer_name,
 		eu.email as customer_email,
@@ -375,10 +376,10 @@
 			and s.org_id = #{orgId,jdbcType=INTEGER}
 		</if>
 		<if test="beginDate != null">
-			and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+			and s.sale_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endDate != null">
-			and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+			and s.sale_time &lt;=#{endDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -390,8 +391,6 @@
 		from t_sale as s
 		left join 	t_organization as o 	on 	s.org_id = o.id
 		left join 	ecs_users as eu 		on 	s.cust_id = eu.user_id
-		left join	t_sale_goods	as sg	on	sg.sale_id			=s.id
-  		left join	ecs_goods		as g	on	sg.goods_id			=g.goods_id
   		left join 	t_organization 	as po 	on 	s.preparer_org_id 	=po.id
   		left join	t_user			as pu	on	s.preparer_id		=pu.id
 		where 1=1
@@ -402,10 +401,10 @@
 			and s.org_id = #{orgId,jdbcType=INTEGER}
 		</if>
 		<if test="beginDate != null">
-			and s.bill_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
+			and s.sale_time &gt;=#{beginDate,jdbcType=TIMESTAMP}
 		</if>
 		<if test="endDate != null">
-			and s.bill_time &lt;=#{endDate,jdbcType=TIMESTAMP}
+			and s.sale_time &lt;=#{endDate,jdbcType=TIMESTAMP}
 		</if>
 	</select>
 	<delete id="deleteByNotExistId" parameterType="java.util.Map">
