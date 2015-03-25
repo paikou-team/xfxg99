@@ -8,6 +8,7 @@ import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.OrderAction;
 import com.xfxg99.sale.model.OrderGoods;
 import com.xfxg99.sale.model.OrderInfo;
+import com.xfxg99.sale.model.PayLog;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 @MyBatisRepository
@@ -43,4 +44,6 @@ public interface SaleBillMapper {
 	void updateUserInfoById(Map<String, Object> map);
 	
 	SaleBillVM loadVMById(Integer id);
+
+	void saveEcsCustomerPayInfo(PayLog plog);
 }
