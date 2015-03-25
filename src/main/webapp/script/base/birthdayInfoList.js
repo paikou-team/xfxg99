@@ -42,7 +42,7 @@ $(function() {
 		resizable : true,
 		pagination : true,
 		pageNumber : 1,
-		pageSize : 10,
+		pageSize : 16,
 		nowrap : false,
 		idField : 'id',
 		singleSelect : true,
