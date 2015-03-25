@@ -27,7 +27,7 @@ $(function () {
         fitColumns: true,
         rownumbers: true,
         resizable: true,
-        pagination: true,
+        pagination: false,
         pageNumber: 1,
         pageSize: 10,
         nowrap: false,
