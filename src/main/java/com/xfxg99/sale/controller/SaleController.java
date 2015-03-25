@@ -80,13 +80,15 @@ public class SaleController {
 
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime");
+		if(endTime !=null && endTime !=" " && endTime.length()>0 )
+			endTime += " 23:59:59"; 
 		String serialNo = joQuery.getString("serialNo");
 
 		page = page == 0 ? 1 : page;
 
 		map.put("orgId", orgId);
-		map.put("beginTime", beginTime);
-		map.put("endTime", endTime);
+		map.put("beginDate", beginTime);
+		map.put("endDate", endTime);
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("serialNo", serialNo);
