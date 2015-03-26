@@ -6,10 +6,11 @@ var m_selectCustomer_dlg;
 var m_customer=undefined;
 var m_verif_time=120*1000;
 var m_time_interval;
-
+var m_optType = 0;
 $(function() {
 	var args = getUrlArgs(); 
 	if (args.optType == 1 || args.optType == "1") {
+		m_optType = 1;
 		$("#tb_operationtb").hide();
 		$("#viewBillInfo").hide();
 		$("#txtVerifCode").hide();
@@ -17,6 +18,8 @@ $(function() {
 		$("#labelCode").hide();
 		$("#dteSaleTime").datebox('disable');
 		$('#txtDescription').attr("disabled", true);
+		$("#textSaleCustomer").attr("disabled",true);
+		$("#txtMobile").attr("disabled",true);
 		
 //		fillInBlankInfo();
 	}
@@ -223,6 +226,9 @@ function onSelGoods(goods) {
 
 function beginEdit(rowIndex) {
 
+	if(m_optType == 1 || m_optType == "1"){
+		return;
+	}
 	if (rowIndex != m_saleDetail_rowIndex) {
 
 		if (m_saleDetail_rowIndex != undefined) {
@@ -262,54 +268,7 @@ function calcAmount(rowIndex, row) {
 	row.amount = row.goodsPrice * row.number;
 }
 
-function setBillLockState() {
-	if (m_sale_bill.confirmerId > 0) {
-		$('#cmbSaleDetp').combobox("disable");
-		$("#dteSaleTime").datebox('disable');
-		$('#txtDescription').attr("disabled", true);
 
-		$('#btnAddGoods').hide();
-		$('#btnDelGoods').hide();
-		$('#btnSaveBill').hide();
-		$('#btnCheckBill').hide();
-	}
-}
-/*
- * 确认入库
- */
-function onCheckStockBill() {
-
-	if (m_sale_bill.id == undefined || m_sale_bill.id == null
-			|| m_sale_bill.id == 0) {
-		$.messager.alert("提示", "请先保存单据!", "info");
-	} else {
-		$.ajax({
-			url : "stock/confirmBill.do",
-			type : "POST",
-			dataType : "json",
-			async : false,
-			data : {
-				'id' : m_sale_bill.id
-			},
-			success : function(req) {
-				if (req.isSuccess) {
-					m_sale_bill = req.data;
-					$("#txtConfirmerOrgName").val(m_sale_bill.serialNo);
-				} else {
-					$.messager.alert("提示信息", req.msg, "info");
-				}
-			},
-			failer : function(a, b) {
-				$.messager.alert("消息提示", "保存失败", "info");
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				$.messager.alert("错误提示", "保存失败", "error");
-			}
-		});
-	}
-
-	setBillLockState();
-}
 /**
  * 获取短信验证码
  */
@@ -392,15 +351,14 @@ function stockBill2View(bill) {
 	if(bill.customerPhone){
 		$("#txtMobile").val(bill.customerPhone);
 	}
+	if(bill.customerName){
+		$("#textSaleCustomer").val(bill.customerName);
+	}
 
 	$("#txtPreparerOrgName").val(bill.preparerOrgName);
 	$("#txtPreparerName").val(bill.preparerName);
 	$("#txtPrepareTime").val(bill.recTime);
 	$('#txtDescription').val(bill.description);
-	//	
-	// $("#txtConfirmerOrgName").val(bill.confirmerOrgName);
-	// $("#txtConfirmerName").val(bill.confirmerName);
-	// $("#txtConfirmTime").val(bill.confirmTime);
 
 	if (bill.saleGoods != undefined && bill.saleGoods != null) {
 		for ( var i = 0; i < bill.saleGoods.length;i++) {

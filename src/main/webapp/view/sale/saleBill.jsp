@@ -47,7 +47,7 @@
                         <td style="width: 100px; text-align: left">
                             <input id="txtSerialNo" class="easyui-validatebox" data-options="required:false" disabled="disabled" />
                         </td>
-                        <td style="width:60px; text-align: right">
+                        <td style="width:70px; text-align: right">
                             <label>单据日期:</label>
                         </td>
                         <td style="width: 100px; text-align: left">
@@ -61,7 +61,7 @@
                         <td style="width: 100px; text-align: left" >
                             <input id="cmbSaleDetp" class="easyui-combobox"  disabled="disabled"  data-options="required:true,editable:false"   />
                         </td>
-                       	<td style="width:60px; text-align: right">
+                       	<td style="width:70px; text-align: right">
                             <label >客户名称:</label>
                         </td>
                         <td style="width: 120px; text-align: left">
@@ -81,7 +81,7 @@
                             <input id="txtMobile" readonly="readonly" class="easyui-validatebox" data-options="required:false" />
                             
                         </td>
-                        <td style="width:60px; text-align: right">
+                        <td style="width:70px; text-align: right">
                     		<label id="labelCode" >输入验证码:</label>
                     	</td>
                     	<td style="width: 120px; text-align: left">
