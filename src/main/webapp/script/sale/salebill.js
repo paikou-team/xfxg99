@@ -120,7 +120,8 @@ $(function() {
 });
 
 function loadOrgs() {
-	var orgs = loadStockOrg();
+//	var orgs = loadStockOrg();
+	var orgs = loadAllOrg();
 	$("#cmbSaleDetp").combobox('loadData', orgs);
 
 	// var userOrgId = user.orgId;
