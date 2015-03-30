@@ -24,7 +24,7 @@
         body {
             text-align: center;
             width:100%; 
-            background-color:#4974a4;
+            background-color:#ffffff;
         }
 
         #login {
@@ -34,7 +34,7 @@
         }
 
         #loginlogo {
-            width: 729px;
+            width: 799px;
             height: 100px;
             overflow: hidden;
             background: url('resource/icon/login/logo1.png') no-repeat;
