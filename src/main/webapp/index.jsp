@@ -28,7 +28,7 @@
 	<div region="west" title="功能菜单" split=true style="width:220px;">
 		<ul id="treeMenu"></ul>
 	</div> 
-	<div region=center title="业务" >
+	<div region=center title="业务" > 
 		<iframe id="ifrContent"  scrolling='no' frameborder='0'  style="width:100%;height:98%;" onLoad="iframeSize()">
 		</iframe>
 	</div> 

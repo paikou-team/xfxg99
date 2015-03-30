@@ -25,7 +25,7 @@
             <p> 
                 <a id="ShowCustUserInfo" name="ShowCustUserInfo"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_custview"
-                    plain="true">查看</a>
+                    plain="true">查看</a> 
                 <a id="btnBirthdayRecord" name="btnBirthdayRecord"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-large-smartart"
                     plain="true" >生日祝福</a>
@@ -48,5 +48,6 @@
         </div>
     </div>
     <div id="custUserGrid"  style="margin:10px" ></div>
+    
   </body>
 </html>

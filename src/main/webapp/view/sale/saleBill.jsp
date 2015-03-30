@@ -138,5 +138,84 @@
 			<a id="btnSearchCustUser"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">查询</a>
 		</div>
 	</div>
+	 <div style="display:none">
+	     <div id="div_printSaleBill">
+	     <!--startprint-->
+	     	<table style="text-align:center;font-size:14px;">
+	     		<tr>
+	     			<td colspan="3">
+	     				<img alt="logo" src="resource/icon/menu/title.png">
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				<label id="lbl_orgName"></label>
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				——————————————————
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td>业务日期：</td><td colspan="2"><label id="lbl_saleTime"></label></td> 
+	     		</tr>
+	     		<tr>
+	     			<td>业务类型：</td><td colspan="2">商品消费</td> 
+	     		</tr>
+	     		<tr>
+	     			<td>客户名称：</td><td colspan="2"><label id="lbl_customerName"></label></td> 
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				—————————————————
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td>商品</td><td>数量</td><td>金额(元)</td>
+	     		</tr>
+	     		<tr> 
+	     			<td colspan="3">
+	     				<table id="tbl_productList" style="width:100%;text-align:center;"> 
+	     				</table> 
+	     			</td>
+	     		</tr> 
+	     		<tr>
+	     			<td>合计：</td><td><label id="lbl_totalcount"></label></td><td><label id="lbl_totalAmount"></label></td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				—————————————————
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				电话：028-88888888 
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				投诉电话：028-88888888
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				欢迎访问欣雨禾官网了解更多产品咨询！
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				网址：www.xfxg99.com
+	     			</td>
+	     		</tr>
+	     		<tr>
+	     			<td colspan="3">
+	     				如无积分卡请办理，未带请报卡号。
+	     			</td>
+	     		</tr>
+	     	</table>
+	     	<!--endprint-->
+	     </div>
+     </div>
 </body>
 </html>

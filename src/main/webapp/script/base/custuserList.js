@@ -1,5 +1,6 @@
 var m_custuser_dlg;
 var m_birthday_record_dlg;
+var m_print_dlg;
 var m_custuser_type;
 var m_custuser_query = { 
 	custname : "" ,
@@ -85,7 +86,7 @@ $(function() {
 	$("#ShowCustUserInfo").bind("click", CustUserManage.ShowCustUser);
 	$("#btnBirthdayRecord").bind("click", onRecordBirthday);
 	$("#btnBirthdayLog").bind("click", onLogBirthday);
-	$("#btnSearch").bind("click", CustUserManage.SearchAction);
+	$("#btnSearch").bind("click", CustUserManage.SearchAction); 
 });
 
 
@@ -109,6 +110,7 @@ function viewSwitch(){
 		$('#btnBirthdayRecord').hide();
 		$('#btnBirthdayLog').hide();
 	}
+	
 }
 
 
@@ -142,7 +144,7 @@ function onSelRow(){
 	
 }
 
-var CustUserManage = {
+var CustUserManage = { 
 	ShowCustUser : function() {
 		var hasRows = $('#custUserGrid').datagrid('getRows');
 		if (hasRows.length == 0) {

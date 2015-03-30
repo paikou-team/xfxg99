@@ -57,7 +57,7 @@ var ChargeBillManage = {
 			$.messager.alert("操作提示", "请选择客户！", "error");
 			return;
 		}
-		chargeObj.custId = custid;
+		chargeObj.custId = custid; 
 		var money = $("#txtmoney").numberbox('getValue');
 		chargeObj.money = money;
 		var chargetime = $("#txtrechargeTime").datetimebox("getValue");
@@ -71,8 +71,10 @@ var ChargeBillManage = {
 			data : chargeObj,
 			success : function(req) {
 				if (req.isSuccess) {
+					ChargeBillManage.printChargeBill(money,chargetime);
 					parent.ChargeManage.SearchAction();
 					parent.m_charge_dlg.close();
+					
 				} else {
 					$.messager.alert("系统提示", req.msg, "error")
 				}
@@ -159,7 +161,20 @@ var ChargeBillManage = {
 		$("#txtcustName").val(rowData.name);
 		$("#txtcustPhone").val(rowData.phone);
 		$("#txtcustEmail").val(rowData.email);
+		$("#lbl_customerName").html(rowData.name);
 		m_chargeuser_dlg.close();
+	},
+	printChargeBill:function(amount,cdate){
+		$("#lbl_chargeAmount").html(amount);
+		$("#lbl_totalAmount").html(amount);
+		$("#lbl_chargeTime").html(cdate);
+		var bdhtml=document.getElementById("div_printchargeBill").innerHTML;    
+        var sprnstr="<!--startprint-->";    
+        var eprnstr="<!--endprint-->";    
+        var prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+17);    
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));     
+        window.document.body.innerHTML=prnhtml;
+        window.print();      
 	}
 };
 
@@ -172,6 +187,7 @@ function getCurrentUserInfo() {
 		success : function(req) {
 			if (req.isSuccess) {
 				$("#txtorgName").val(req.data.orgName);
+				$("#lbl_orgName").html(req.data.orgName+"欢迎您！");
 				$("#txtorgId").val(req.data.orgId);
 			} else {
 				$.messager.alert("系统提示", "获取用户登录信息失败，请重新登录", "info");

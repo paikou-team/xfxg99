@@ -426,7 +426,8 @@ function checkStockBill() {
 }
 
 function onSaveSaleBill() {
-
+	printSaleBill();
+	return;
 	view2stockBill();
 
 	if (!checkStockBill()) {
@@ -461,6 +462,7 @@ function onSaveSaleBill() {
 				m_sale_bill = req.data;
 				// $("#policeInfoinportwindow").window("close");
 				$("#txtSerialNo").val(m_sale_bill.serialNo);
+				printSaleBill();
 				parent.onSaleSearch();
 				parent.m_sale_dlg.close();
 			} else {
@@ -493,6 +495,7 @@ function SelectCustUser() {
 	});
 
 }
+
 var CustomerSelectManage = {
 	InitCustGrid : function() {
 		$('#custUserGrid').datagrid({
@@ -550,7 +553,45 @@ var CustomerSelectManage = {
 		
 		$("#txtcustId").val(m_customer.id);
 		$("#textSaleCustomer").val(m_customer.name);
+		$("#lbl_customerName").html(m_customer.name);
 		$("#txtMobile").val(m_customer.phone);
 		m_selectCustomer_dlg.close();
 	}
 };
+
+function printSaleBill(){
+	var myDate = new Date();
+	var orgname = $("#cmbSaleDetp").combobox("getText");
+	$("#lbl_orgName").html(orgname+"欢迎您！");
+	$("#lbl_saleTime").html(myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
+			+ myDate.getDate() + " " + myDate.getHours() + ":"
+			+ myDate.getMinutes());
+	var data = $('#dgSaleDetail').datagrid('getData');
+	var goodsList = data.rows;
+	if(goodsList.length>0){
+		var productHtml="";
+		var totalCount = 0;
+		var totalAmout = 0;
+		for(var i = 0; i<goodsList.length;i++){
+			var obj = goodsList[i];
+			var goodsName = obj.goodsName;
+			if(goodsName.length>3){
+				goodsName = goodsName.substring(0,2)+"…";
+			}
+			productHtml+="<tr><td><label>"+goodsName+"</label></td><td><label>"+obj.goodsNumber+"</label></td><td><label>"+obj.goodsPrice+"</label></td></tr>"
+			totalCount +=Number(obj.goodsNumber);
+			totalAmout +=obj.amount;
+		}
+		$("#tbl_productList").html(productHtml);
+		$("#lbl_totalcount").html(totalCount);
+		$("#lbl_totalAmount").html(totalAmout);
+		var bdhtml=document.getElementById("div_printSaleBill").innerHTML;    
+        var sprnstr="<!--startprint-->";    
+        var eprnstr="<!--endprint-->";    
+        var prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+17);    
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));     
+        window.document.body.innerHTML=prnhtml;
+        window.print();      
+	}
+	
+}
