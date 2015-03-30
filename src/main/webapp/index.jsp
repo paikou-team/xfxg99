@@ -10,15 +10,15 @@
     
 </head> 
 <body id="cc" class="easyui-layout"  style="width:100%;height:100%; overflow: hidden;" oncontextmenu=self.event.returnValue=false>
-	<div region="north" style="background-color: #4974a4; height: 80px; overflow:hidden">
+	<div region="north" style="background-color: #ffffff; height: 80px; overflow:hidden">
 		<div style="float: left; padding-left: 15px;">
-			<img height="75px" src="resource/icon/menu/banner_logo.png" />
+			<img height="75px" src="resource/icon/login/logo1.png" />
 		</div>
 		<div>
-			<div style="float: left;">
-				<h1 style="color: white; margin: 0; padding-top: 20px;padding-left:50;">欣雨禾集团</h1>
-				<h2 style="color: orange; margin: 0; padding-left: 53px;">O2O综合管理平台</h1>
-			</div>
+			<!-- <div style="float: left;">
+				<h1 style="color: #72bb38; margin: 0; padding-top: 20px;padding-left:50;">欣雨禾集团</h1>
+				<h2 style="color: #fa9e0d; margin: 0; padding-left: 53px;">O2O综合管理平台</h1>
+			</div> -->
 			<div style="float: right; padding-top: 54px; padding-right: 12px;">
 				<a href="javascript:void(0);" class="easyui-linkbutton" style="color: white" plain="true" style="color: black;" onclick="onChangePwd()">修改密码</a>
 				<a href="javascript:void(0);" class="easyui-linkbutton" style="color: white" plain="true"  onclick="onExit()" style="color: black;">退出</a> 
