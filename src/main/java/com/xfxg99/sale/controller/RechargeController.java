@@ -1,5 +1,7 @@
 package com.xfxg99.sale.controller;
 
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -134,7 +136,18 @@ public class RechargeController {
 				map.put("changeDesc", "用户充值，充值金额" + charge.getMoney());
 				map.put("changeType", 2);
 				rechargeService.saveRecharge(map);
-
+//
+//
+//				
+//				Socket client = new Socket("192.168.1.87", 9100); 
+//				OutputStream output = client.getOutputStream();
+//				byte[] chars = "strings".getBytes();
+//				output.write(chars);
+//				output.flush();
+//				client.close();
+//				
+//				
+				
 				Result<Recharge> s = new Result<Recharge>(null, true, false,
 						false, "保存成功");
 				return s.toJson();
@@ -181,6 +194,8 @@ public class RechargeController {
 				isSessionExpired = true;
 				message = "Session过期，请重新登录";
 			}
+			
+			
 			Result<Recharge> s = new Result<Recharge>(charge, isSuccess,
 					isSessionExpired, isTimeout, message);
 			return s.toJson();
