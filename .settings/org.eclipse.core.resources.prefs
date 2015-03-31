@@ -2,6 +2,7 @@
 <<<<<<<=HEAD
 >>>>>>>=branch 'master' of https\://github.com/paikou-team/xfxg99.git
 eclipse.preferences.version=1
+encoding//src/main/java/com/xfxg99/sale/model/SaleBill.java=UTF-8
 encoding//src/main/resources/properties/sms.properties=UTF-8
 encoding//src/main/webapp/index.jsp=UTF-8
 encoding//src/main/webapp/script/common.js=UTF-8

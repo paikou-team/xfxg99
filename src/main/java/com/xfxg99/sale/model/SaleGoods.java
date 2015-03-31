@@ -2,6 +2,7 @@ package com.xfxg99.sale.model;
  
 
 public class SaleGoods {
+	
     private Integer id;
 
     private Integer saleId;
