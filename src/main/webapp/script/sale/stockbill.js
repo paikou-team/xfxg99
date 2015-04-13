@@ -92,9 +92,14 @@ function setOrgEnable(){
 	switch(m_stock_bill.billType){
 	case 10:
 		$("#cmbStockOutDetp").combobox('disable');
+		$("#billTypeName").html("商品入库单");
 		break;
 	case 11:
 		$("#cmbStockInDetp").combobox('disable');
+		$("#billTypeName").html("商品出库单");
+		break;
+	case 12:
+		$("#billTypeName").html("商品调拨单");
 		break;
 	}
 }

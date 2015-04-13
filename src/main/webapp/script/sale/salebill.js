@@ -557,41 +557,47 @@ var CustomerSelectManage = {
 };
 
 function printSaleBill(){
-	var myDate = new Date();
-	var orgname = $("#cmbSaleDetp").combobox("getText");
-	$("#lbl_orgName").html(orgname+"欢迎您！");
-	$("#lbl_saleTime").html(myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
-			+ myDate.getDate() + " " + myDate.getHours() + ":"
-			+ myDate.getMinutes());
-	var data = $('#dgSaleDetail').datagrid('getData');
-	var goodsList = data.rows;
-	if(goodsList.length>0){
-		var productHtml="";
-		var totalCount = 0;
-		var totalAmout = 0;
-		for(var i = 0; i<goodsList.length;i++){
-			var obj = goodsList[i];
-			var goodsName = obj.goodsName;
-			if(goodsName.length>3){
-				goodsName = goodsName.substring(0,2)+"…";
+	try{
+		var myDate = new Date();
+		var orgname = $("#cmbSaleDetp").combobox("getText");
+		$("#lbl_orgName").html(orgname+"欢迎您！");
+		$("#lbl_saleTime").html(myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
+				+ myDate.getDate() + " " + myDate.getHours() + ":"
+				+ myDate.getMinutes());
+		var data = $('#dgSaleDetail').datagrid('getData');
+		var goodsList = data.rows;
+		if(goodsList.length>0){
+			var productHtml="";
+			var totalCount = 0;
+			var totalAmout = 0;
+			for(var i = 0; i<goodsList.length;i++){
+				var obj = goodsList[i];
+				var goodsName = obj.goodsName;
+				if(goodsName.length>7){
+					goodsName = goodsName.substring(0,7)+"…";
+				}
+				productHtml+="<tr><td style='text-align:left;'><label>"+goodsName+"</label></td><td style='text-align:left;'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
+				totalCount +=Number(obj.goodsNumber);
+				totalAmout +=obj.amount;
 			}
-			productHtml+="<tr><td><label>"+goodsName+"</label></td><td><label>"+obj.goodsNumber+"</label></td><td><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
-			totalCount +=Number(obj.goodsNumber);
-			totalAmout +=obj.amount;
+			totalAmout = fmoney(totalAmout,2);
+			$("#tbl_productList").html(productHtml);
+			$("#lbl_totalcount").html(totalCount);
+			$("#lbl_totalAmount").html(totalAmout);
+			var bdhtml=document.getElementById("div_printSaleBill").innerHTML;    
+	        var sprnstr="<!--startprint-->";    
+	        var eprnstr="<!--endprint-->";    
+	        var prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+17);    
+	        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));     
+	        window.document.body.innerHTML=prnhtml;
+	        window.print();      
 		}
-		totalAmout = fmoney(totalAmout,2);
-		$("#tbl_productList").html(productHtml);
-		$("#lbl_totalcount").html(totalCount);
-		$("#lbl_totalAmount").html(totalAmout);
-		var bdhtml=document.getElementById("div_printSaleBill").innerHTML;    
-        var sprnstr="<!--startprint-->";    
-        var eprnstr="<!--endprint-->";    
-        var prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+17);    
-        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));     
-        window.document.body.innerHTML=prnhtml;
-        window.print();      
+
 	}
-	
+	catch(ex){
+		$.messager.alert("系统提示","打印小票出错，请查看是否设置为默认打印机或者采用其他兼容浏览器","error");
+	}
+
 }
 function fmoney(s, n) { 
 	n = n > 0 && n <= 20 ? n : 2; 

@@ -145,7 +145,7 @@
 	     	<table style="text-align:center;font-size:14px;">
 	     		<tr>
 	     			<td colspan="3">
-	     				<img alt="logo" src="resource/icon/menu/title.png">
+	     				<img alt="logo" src="resource/icon/menu/titleblack.png">
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -155,7 +155,7 @@
 	     		</tr>
 	     		<tr>
 	     			<td colspan="3">
-	     				——————————————————
+	     				—————————————————
 	     			</td>
 	     		</tr>
 	     		<tr>
@@ -177,7 +177,7 @@
 	     		</tr>
 	     		<tr> 
 	     			<td colspan="3">
-	     				<table id="tbl_productList" style="width:100%;text-align:center;"> 
+	     				<table id="tbl_productList" style="width:100%;"> 
 	     				</table> 
 	     			</td>
 	     		</tr> 

@@ -165,16 +165,22 @@ var ChargeBillManage = {
 		m_chargeuser_dlg.close();
 	},
 	printChargeBill:function(amount,cdate){
-		$("#lbl_chargeAmount").html(amount);
-		$("#lbl_totalAmount").html(amount);
-		$("#lbl_chargeTime").html(cdate);
-		var bdhtml=document.getElementById("div_printchargeBill").innerHTML;    
-        var sprnstr="<!--startprint-->";    
-        var eprnstr="<!--endprint-->";    
-        var prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+17);    
-        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));     
-        window.document.body.innerHTML=prnhtml;
-        window.print();      
+		try{
+			$("#lbl_chargeAmount").html(amount);
+			$("#lbl_totalAmount").html(amount);
+			$("#lbl_chargeTime").html(cdate);
+			var bdhtml=document.getElementById("div_printchargeBill").innerHTML;    
+	        var sprnstr="<!--startprint-->";    
+	        var eprnstr="<!--endprint-->";    
+	        var prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+17);    
+	        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));     
+	        window.document.body.innerHTML=prnhtml;
+	        window.print();    
+		}
+		catch(ex){
+			$.messager.alert("系统提示","打印小票出错，请查看是否设置为默认打印机或者采用其他兼容浏览器","error");
+		}
+		   
 	}
 };
 

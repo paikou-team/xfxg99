@@ -55,7 +55,7 @@
 	     	<table style="text-align:center;font-size:14px;">
 	     		<tr>
 	     			<td colspan="3">
-	     				<img alt="logo" src="resource/icon/menu/title.png">
+	     				<img alt="logo" src="resource/icon/menu/titleblack.png">
 	     			</td>
 	     		</tr>
 	     		<tr>

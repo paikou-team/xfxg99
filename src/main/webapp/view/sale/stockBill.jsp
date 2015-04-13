@@ -21,7 +21,7 @@
 <body style="overflow: hidden;">
     <div id="stockBillDiv">
         <p style="width: 100%; text-align: center; height: 18px;">
-            <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid">商品入库单</label>
+            <label id="billTypeName" style="font-size: 16pt; border-bottom: 1px solid"></label>
         </p>
         <p style="margin-top: -1px; margin-bottom: 0px">
         	<a id="btnAddGoods" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_add" plain="true" onclick="onAddGoods()">添加</a>
