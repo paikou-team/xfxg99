@@ -12,16 +12,27 @@ var m_charge_query = {
 var m_charge_object = {};
 $(function() {
 	var args = getUrlArgs();
+	var d=getCurrentTime();
+	var bt=new Date(d);
+	
 
+	bt.add('d',-7);
+	var et=new Date(d);
+	
+	
 	setSaleQueryTime();
 	m_charge_orgId = args.orgId;
 	var optType = args.optType;
 	m_charge_query.orgId = m_charge_orgId;
 	if (optType == 0 || optType == "0") {// 门店--客户充值，只有新增、查看操作
 		$("#ConfirmCharge").hide();
+		m_charge_query.beginTime = bt.toSimpleString();
+		m_charge_query.endTime = et.toSimpleString();
 	} else if (optType == 1 || optType == "1")// 商务中心--充值记录，只有确认、查看操作
 	{
 		$("#AddCharge").hide();
+		m_charge_query.beginTime = bt.toSimpleString();
+		m_charge_query.endTime = et.toSimpleString();
 	} else {
 		$("#ConfirmCharge").hide();
 		$("#AddCharge").hide();
@@ -34,8 +45,8 @@ $(function() {
 			custname : "",
 			//username : "",
 			isconfirm : 2,
-			beginTime :"",
-			endTime :""
+			beginTime :bt.toSimpleString(),
+			endTime :et.toSimpleString()
 		};
 	}
 
