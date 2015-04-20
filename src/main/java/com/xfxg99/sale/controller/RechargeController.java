@@ -85,6 +85,7 @@ public class RechargeController {
 		
 
 		if(!"".equals(endTime)&&endTime!=null){
+			endTime += " 23:59:59";
 			map.put("endDate", endTime);
 		}
 		
@@ -128,12 +129,25 @@ public class RechargeController {
 			JSONObject joQuery = JSONObject.fromObject(query);
 			int orgId = joQuery.getInt("orgId");
 
+			String beginTime  = joQuery.getString("beginTime"); 
+			String endTime  = joQuery.getString("endTime");
 			String custname = joQuery.getString("custname");
+
+			
 			int isConfirm = Integer.parseInt(joQuery.getString("isconfirm"));
 			// String confirmname = joQuery.getString("username");
 
 			Map<String, Object> map = new HashMap<String, Object>();
 
+			if(!"".equals(beginTime)&&beginTime!=null){
+				map.put("beginDate", beginTime);
+			}
+			
+
+			if(!"".equals(endTime)&&endTime!=null){
+				endTime += " 23:59:59";
+				map.put("endDate", endTime);
+			}
 			Organization og = new Organization();
 			og = organizationService.getOrganization(orgId);
 
@@ -190,7 +204,11 @@ public class RechargeController {
 				if (charge.getId() > 0) {
 					rechargeService.updateByPrimaryKey(charge);
 				} else {
-					charge.setId(0);
+					charge.setId(0); 
+					Date now = new Date();
+					Calendar cal = Calendar.getInstance();
+					now = cal.getTime();
+					charge.setRechargeTime(now);
 					rechargeService.insert(charge);
 				}
 				Calendar cal = Calendar.getInstance();
@@ -296,6 +314,7 @@ public class RechargeController {
 	public @ResponseBody
 	String getcustList(
 			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "realname", required = false) String realname,
 			@RequestParam(value = "phone", required = false) String phone,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "typeId", required = false) Integer typeId,
@@ -308,6 +327,7 @@ public class RechargeController {
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("name", name);
+		map.put("realname", realname);
 		map.put("phone", phone);
 		map.put("typeId", typeId);
 		ListResult<CustomerVM> rs = rechargeService

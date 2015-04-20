@@ -114,6 +114,11 @@
 			and user_name like CONCAT('%','${name}','%' )
 		</if>
 
+
+		<if test="realname !=null">
+			and user_real_name like CONCAT('%','${realname}','%' )
+		</if>
+
 		<if test="phone !=null">
 			and mobile_phone like CONCAT('%','${phone}','%' )
 		</if>

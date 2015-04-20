@@ -543,6 +543,7 @@ var CustomerSelectManage = {
 	SearchCustUser : function() {
 		$('#custUserGrid').datagrid("reload", {
 			"name" : $("#search_custname").val(),
+			"realname" : $("#search_realname").val(),
 			"phone": $("#search_phone").val()
 		});
 	},

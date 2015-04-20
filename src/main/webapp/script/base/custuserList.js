@@ -77,7 +77,11 @@ $(function() {
 			title : '出生日期',
 			field : 'birthday',
 			width : 150,
-			align : 'left'
+			align : 'left',
+			formatter:function(value,rowData,index){
+				 value = value.replace(" 00:00","");
+					return value;
+			}
 		}, {
 			title : '电子邮件',
 			field : 'email',
