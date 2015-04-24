@@ -169,7 +169,7 @@ var ChargeBillManage = {
 		$("#txtcustPhone").val(rowData.phone);
 		$("#txtcustEmail").val(rowData.email);
 		$("#txtrealname").val(rowData.realname);
-		$("#lbl_customerName").html(rowData.name);
+		$("#lbl_customerName").html(rowData.realname);
 		m_chargeuser_dlg.close();
 	},
 	printChargeBill:function(amount,cdate){

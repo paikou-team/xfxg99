@@ -489,7 +489,7 @@ var CustomerSelectManage = {
 		
 		$("#txtcustId").val(m_customer.id);
 		$("#textSaleCustomer").val(m_customer.name);
-		$("#lbl_customerName").html(m_customer.name);
+		$("#lbl_customerName").html(m_customer.realname);
 		$("#txtMobile").val(m_customer.phone);
 		$("#txtrealName").val(m_customer.realname);
 		m_selectCustomer_dlg.close();

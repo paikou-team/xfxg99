@@ -247,10 +247,14 @@ public class SaleService {
 		String month = "";
 		if (cal.get(Calendar.MONTH) < 10) {
 			month = "0" + Integer.toString(cal.get(Calendar.MONTH));
+		} else {
+			month = Integer.toString(cal.get(Calendar.MONTH));
 		}
 		String date = "";
 		if (cal.get(Calendar.DATE) < 10) {
 			date = "0" + Integer.toString(cal.get(Calendar.DATE));
+		} else {
+			date = Integer.toString(cal.get(Calendar.DATE));
 		}
 		Random r = new Random();
 		String subSn = Integer.toString(r.nextInt(99999));
