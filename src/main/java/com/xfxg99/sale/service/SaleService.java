@@ -90,7 +90,8 @@ public class SaleService {
 			SaleBill bs = new SaleBill();
 			custId = bill.getCustId();
 			bs.setCustId(bill.getCustId());
-			bs.setId(0);
+			bs.setId(0); 
+			bs.setIsdelivery(1);
 			bs.setGoodsAmount(new BigDecimal(goodsAmount));
 			bs.setOrgId(bill.getOrgId());
 			bs.setPayId(1);
@@ -361,5 +362,10 @@ public class SaleService {
 
 	public SaleBillVM loadVMById(Integer id) {
 		return saleBillMapper.loadVMById(id);
+	}
+
+	public void updateByPrimaryKey(SaleBill bill) {
+		// TODO Auto-generated method stub
+		saleBillMapper.updateByPrimaryKey(bill);
 	}
 }

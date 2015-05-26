@@ -28,6 +28,8 @@ public class SaleBill {
     private String description;
     
     private Integer saletype;
+    
+    private Integer isdelivery;
 
     public Integer getId() {
         return id;
@@ -123,5 +125,13 @@ public class SaleBill {
 
 	public void setSaletype(Integer saletype) {
 		this.saletype = saletype;
+	} 
+
+	public Integer getIsdelivery() {
+		return isdelivery;
+	}
+
+	public void setIsdelivery(Integer isdelivery) {
+		this.isdelivery = isdelivery;
 	}
 }

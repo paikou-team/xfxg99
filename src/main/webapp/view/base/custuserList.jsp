@@ -42,7 +42,7 @@
             <p id="tb_searchbox" style="margin-left:5px">
             	
             	  <label>手机号码:</label><input id="sch_phone" class="easyui-validatebox" style="width:120px" /> 
-            	<label>客户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />  
+            	<label>真实姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />  
             	<a id="btnSearch"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_search" plain="true">查询</a> 
             </p>
         </div>

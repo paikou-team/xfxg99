@@ -17,7 +17,7 @@ public interface CustomerMapper {
     CustomerVM loadVMById(Integer id);
     
 
-	 int getCustUserCount();
+	 int getCustUserCount(Map<String, Object> map);
 		 
 
 	 List<CustomerVM> loadCustUserlist(Map<String, Object> map);

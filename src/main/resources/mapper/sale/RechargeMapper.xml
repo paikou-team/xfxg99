@@ -207,7 +207,7 @@
 		</if>
 
 		<if test="custname !=null">
-			and c.user_name like CONCAT('%','${custname}','%' )
+			and c.user_real_name like CONCAT('%','${custname}','%' )
 		</if>
 			order by r.recharge_time desc
 		<if test="pageStart !=null">

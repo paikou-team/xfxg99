@@ -26,7 +26,7 @@ $(function() {
 		rownumbers : true,
 		resizable : true,
 		pagination : true,
-		pageNumber : 1,
+		pageNumber : 1, 
 		pageSize : 10,
 		nowrap : false,
 		idField : 'id',

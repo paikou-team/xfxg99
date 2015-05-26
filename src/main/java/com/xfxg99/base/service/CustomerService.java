@@ -21,8 +21,7 @@ public class CustomerService {
 	public ListResult<CustomerVM> loadrechargeCustUserlist(
 			Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		
-				int count=customerMapper.getCustUserCount();
+				int count=customerMapper.getCustUserCount(map);
 				List<CustomerVM> ls=customerMapper.loadCustUserlist(map);
 				
 				ListResult<CustomerVM> result=new ListResult<CustomerVM>(count,ls);

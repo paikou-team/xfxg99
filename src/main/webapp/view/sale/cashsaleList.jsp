@@ -21,28 +21,34 @@
 		<table style="width:100%;height:20px;font-size: 12px">
 			<tr>
 				<td>
+					<label style="width: 70px;vertical-align:middle">提货状态:</label>
+				</td>
+				<td>
+					<input id="cmbisdelivery" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '未提货'},{id: 2,name: '已提货'}]" style="width:100px" />
+				</td>
+				<td>
 					<label style="width: 70px;vertical-align:middle">销售部门:</label>
 				</td>
 				<td>
-					<input id=cmbSaleDept class="easyui-combobox" style="width:150px" />
+					<input id=cmbSaleDept class="easyui-combobox" style="width:100px" />
 				</td>
 				<td>
 					<label style="width: 70px">单据编号:</label>
 				</td>
 				<td  >
-					<input id="txtSerialNo" class="easyui-validatebox" style="width:150px"/>
+					<input id="txtSerialNo" class="easyui-validatebox" style="width:100px"/>
 				</td>
 				<td>
 					<label style="width: 70px;vertical-align:middle">开始日期:</label>
 				</td>
 				<td >
-					<input id="dteBeginTime" class="easyui-datebox"  style="width:150px"/>
+					<input id="dteBeginTime" class="easyui-datebox"  style="width:100px"/>
 				</td>
 				<td>
 					<label style="width: 70px">结束日期:</label>
 				</td>
 				<td>
-					<input id="dteEndTime" class="easyui-datebox" style="width:150px" />
+					<input id="dteEndTime" class="easyui-datebox" style="width:100px" />
 				</td>
 				<td>
 					<a id="btnSaleSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="onSaleSearch()">查询</a>

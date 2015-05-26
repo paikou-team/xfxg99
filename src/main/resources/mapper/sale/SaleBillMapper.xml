@@ -13,6 +13,7 @@
 		<result column="preparer_org_id" jdbcType="INTEGER" property="preparerOrgId" />
     	<result column="preparer_id" jdbcType="INTEGER" property="preparerId" />
     	<result column="saletype" jdbcType="INTEGER" property="saletype" />
+    	<result column="isdelivery" jdbcType="INTEGER" property="isdelivery" />
 		<result column="description" jdbcType="VARCHAR" property="description" />
 	</resultMap>
 	<resultMap id="ViewModelResultMap" type="com.xfxg99.sale.viewmodel.SaleBillVM">
@@ -32,6 +33,7 @@
     	<result column="preparer_org_name" property="preparerOrgName" jdbcType="VARCHAR" />
     	<result column="preparer_id" property="preparerId" jdbcType="INTEGER" />
     	<result column="saletype" jdbcType="INTEGER" property="saletype" />
+    	<result column="isdelivery" jdbcType="INTEGER" property="isdelivery" />
     	<result column="preparer_name" property="preparerName" jdbcType="VARCHAR" />
     	 <result column="description" property="description" jdbcType="VARCHAR" />
 		<collection property="saleGoods" resultMap="GoodsVMMap"/>
@@ -66,6 +68,7 @@
 		s.goods_amount as goods_amount,
 		s.sale_time as sale_time,
 		s.rec_time as rec_time,
+		s.isdelivery as isdelivery,
 		s.serial_no as serial_no,
 		s.preparer_org_id	as	preparer_org_id,
   		s.preparer_id		as	preparer_id,
@@ -87,6 +90,7 @@
 		s.sale_time as sale_time,
 		s.rec_time as rec_time,
 		s.serial_no as serial_no,
+		s.isdelivery as isdelivery,
 		s.preparer_org_id	as	preparer_org_id,
   		s.preparer_id		as	preparer_id,
   		s.description		as description,
@@ -107,7 +111,7 @@
 	</sql>
 
 	<sql id="Base_Column_List">
-		id, cust_id, org_id, pay_id, goods_amount, sale_time, rec_time,serial_no,preparer_id, prepare_time,description
+		id, cust_id, org_id, pay_id, goods_amount, sale_time, isdelivery, rec_time,serial_no,preparer_id, saletype,preparer_org_id,description
 	</sql>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -144,13 +148,13 @@
 		insert into t_sale (id, cust_id, org_id,
 		pay_id, serial_no, goods_amount, sale_time,
 		rec_time,preparer_org_id, preparer_id, 
-      	description,saletype)
+      	description,saletype,isdelivery)
 		values (#{id,jdbcType=INTEGER}, #{custId,jdbcType=INTEGER},
 		#{orgId,jdbcType=INTEGER},
 		#{payId,jdbcType=INTEGER},#{serialNo,jdbcType=VARCHAR},
 		#{goodsAmount,jdbcType=DECIMAL}, #{saleTime,jdbcType=TIMESTAMP},
 		#{recTime,jdbcType=TIMESTAMP},#{preparerOrgId,jdbcType=INTEGER}, #{preparerId,jdbcType=INTEGER}, 
-      	#{description,jdbcType=VARCHAR},#{saletype,jdbcType=INTEGER})
+      	#{description,jdbcType=VARCHAR},#{saletype,jdbcType=INTEGER},#{isdelivery,jdbcType=INTEGER})
 	</insert>
 	<insert id="insertSelective" parameterType="com.xfxg99.sale.model.SaleBill" useGeneratedKeys="true" keyProperty="id">
 		insert into t_sale
@@ -191,6 +195,9 @@
       		<if test="saletype != null">
         		saletype,
      		 </if>	
+      		<if test="isdelivery != null">
+        		isdelivery,
+     		 </if>	
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -229,6 +236,9 @@
       		<if test="saletype != null">
         		#{saletype,jdbcType=INTEGER},
       		</if>
+      		<if test="isdelivery != null">
+        		#{isdelivery,jdbcType=INTEGER},
+     		 </if>
 		</trim>
 	</insert>
 	<insert id="insertAccountLog" parameterType="java.util.Map">
@@ -374,6 +384,9 @@
 			<if test="saletype != null">
         		saletype = #{saletype,jdbcType=INTEGER},
       		</if>
+			<if test="isdelivery != null">
+        		isdelivery = #{isdelivery,jdbcType=INTEGER},
+      		</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
@@ -389,7 +402,8 @@
 		preparer_org_id = #{preparerOrgId,jdbcType=INTEGER},
       	preparer_id = #{preparerId,jdbcType=INTEGER},
       	description = #{description,jdbcType=VARCHAR},
-      	saletype = #{saletype,jdbcType=INTEGER}
+      	saletype = #{saletype,jdbcType=INTEGER},
+      	isdelivery = #{isdelivery,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<select id="loadListWithPage" parameterType="java.util.Map"
@@ -404,6 +418,9 @@
 		where 1=1 
 		<if test="saletype != null">
 			and s.saletype = #{saletype,jdbcType=INTEGER}
+		</if>
+		<if test="isdelivery > 0 ">
+			and s.isdelivery = #{isdelivery,jdbcType=INTEGER}
 		</if>
 		<if test="serialNo != null">
 			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
@@ -433,6 +450,9 @@
 		where 1=1
 		<if test="saletype != null">
 			and s.saletype = #{saletype,jdbcType=INTEGER}
+		</if>
+		<if test="isdelivery > 0">
+			and s.isdelivery = #{isdelivery,jdbcType=INTEGER}
 		</if>
 		<if test="serialNo != null">
 			and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')

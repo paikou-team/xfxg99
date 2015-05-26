@@ -7,6 +7,9 @@ var m_customer=undefined;
 var m_verif_time=120*1000;
 var m_time_interval;
 var m_optType = 0;
+var m_serial_number = "";
+var m_sale_billtime =""; 
+var m_sale_billId ;
 $(function() {
 	var args = getUrlArgs(); 
 	if (args.optType == 1 || args.optType == "1") {
@@ -21,8 +24,15 @@ $(function() {
 		$("#textSaleCustomer").attr("disabled",true);
 		$("#txtMobile").attr("disabled",true);
 		$("#txtrealname").attr("disabled",true);
-		
+
+		if(parent.m_sale_isdelivery==undefined){
+			$("#tb_Deliverytb").hide();
+		}else if(parent.m_sale_isdelivery==2){
+			$("#tb_Deliverytb").hide();
+		}
 //		fillInBlankInfo();
+	}else{
+		$("#tb_Deliverytb").hide();
 	}
 	$('#dgSaleDetail').datagrid({  
 		fitColumns : true,
@@ -107,7 +117,7 @@ $(function() {
 
 	var billType = args["billType"];
 	var id = args["id"];
-
+	m_sale_billId = id;
 	loadOrgs();
 
 	loadBill(billType, id);
@@ -208,6 +218,31 @@ function onDelGoods() {
 	}
 }
 
+function onDelivery(){ 	
+	$.messager.confirm("提货确认", "是否确认该销售单据提货？", function(r) {
+		if (r) {
+			ConfirmDeliveryAction(m_sale_billId);
+		}
+	});
+}
+function ConfirmDeliveryAction(sId){
+	$.ajax({
+		url : "sale/confirmDelivery.do?id=" + sId,
+		type : "POST",
+		dataType : "json",
+		async : false,
+		success : function(req) {
+			$.messager.alert("系统提示", req.msg, "info");
+			$('#dgSaleDetail').datagrid("reload");
+		},
+		failer : function(a, b) {
+			$.messager.alert("消息提示", a, "info");
+		},
+		error : function(a) {
+			$.messager.alert("消息提示", a, "error");
+		}
+	});
+}
 function onSelGoods(goods) {
 	if (goods) {
 		var row = {};
@@ -459,7 +494,9 @@ function onSaveSaleBill() {
 		},
 		success : function(req) {
 			if (req.isSuccess) {
+				m_serial_number = $("#txtSerialNo").val();
 				m_sale_bill = req.data;
+				m_sale_billtime = req.data.saleTime;
 				// $("#policeInfoinportwindow").window("close");
 				$("#txtSerialNo").val(m_sale_bill.serialNo);
 				printSaleBill();
@@ -568,14 +605,12 @@ var CustomerSelectManage = {
 
 function printSaleBill(){
 	try{
-		var myDate = new Date();
+		//var myDate = new Date();
 		var orgname = $("#cmbSaleDetp").combobox("getText");
-		var serialNo = $("#txtSerialNo").val();
+		//var serialNo = $("#txtSerialNo").val();
 		$("#lbl_orgName").html(orgname+"欢迎您！");
-		$("#lbl_saleSerialNo").html(serialNo);
-		$("#lbl_saleTime").html(myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-"
-				+ myDate.getDate() + " " + myDate.getHours() + ":"
-				+ myDate.getMinutes());
+		$("#lbl_saleSerialNo").html(m_serial_number);
+		$("#lbl_saleTime").html(m_sale_billtime);
 		var data = $('#dgSaleDetail').datagrid('getData');
 		var goodsList = data.rows;
 		if(goodsList.length>0){

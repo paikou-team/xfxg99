@@ -151,10 +151,10 @@ public class RechargeController {
 			Organization og = new Organization();
 			og = organizationService.getOrganization(orgId);
 
-			if (!user.getIsAllDataPermission()) {
+			//if (!user.getIsAllDataPermission()) {
 				map.put("orgPath", og.getPath());
 				map.put("orgId", orgId);
-			}
+			//}
 			map.put("custname", custname);
 			map.put("isConfirm", isConfirm);
 			// map.put("confirmname", confirmname);

@@ -11,7 +11,7 @@
         </commentGenerator>
         
         <jdbcConnection driverClass="org.gjt.mm.mysql.Driver" 
-        connectionURL="jdbc:mysql://218.244.158.138.:3306/paikou?useUnicode=true&amp;characterEncoding=UTF-8" 
+        connectionURL="jdbc:mysql://218.244.158.138:3306/paikou?useUnicode=true&amp;characterEncoding=UTF-8" 
          userId="root" password="Paikou123_"/>  
          
         <!-- 指定生成的类型为java类型，避免数据库中number等类型字段 -->  

@@ -2,6 +2,7 @@ var m_sale_query={};
 var m_sale_dlg;
 var m_sale_orgId;
 var m_sale_obj = {};
+var m_sale_isdelivery ;
 $(function () {
 	var args = getUrlArgs();
 	m_sale_orgId = args.orgId;
@@ -37,6 +38,14 @@ $(function () {
                { title: 'id', field: 'id', align: 'left', width: 5, hidden: true },
                { title: 'orgId', field: 'orgId', align: 'left', width: 5, hidden: true },
                { title: 'custId', field: 'custId', align: 'left', width: 5, hidden: true },
+               { title: '是否提货', field: 'isdelivery', align: 'left', width: 150,
+          			formatter:function(value,rowData,index){
+        				if(value==2||value=="2"){
+        					return "已提货";
+        				}else {
+        					return "未提货";
+        				}
+        			} },
                { title: '单据号', field: 'serialNo', align: 'left', width: 150 },
                { title: '销售部门', field: 'orgName', align: 'left', width: 150 },
                { title: '注册账号', field: 'customerName', align: 'left', width: 100 },
@@ -79,6 +88,7 @@ function setSaleQueryTime(){
 
 
 function onSelRow(rowIndex, rowData){ 
+	m_sale_isdelivery = rowData.isdelivery;
 	SaleManage.packageObject(rowData);
 	SaleManage.ShowDialog();
 }
@@ -99,7 +109,13 @@ function packQuery(){
 	m_sale_query.beginTime = $('#dteBeginTime').datebox('getValue');
 	m_sale_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_sale_query.serialNo = $('#txtSerialNo').val();
-	m_sale_query.saletype = 1;
+	m_sale_query.saletype = 1;	
+	var isdeli = $("#cmbisdelivery").combobox("getValue");
+	if(isdeli == ""){
+		m_sale_query.isdelivery = 0;
+	}else{ 
+		m_sale_query.isdelivery =$("#cmbisdelivery").combobox("getValue");
+	}
 	var organId = $("#cmbSaleDept").combobox("getValue");
 	if(organId==undefined||organId ==""||organId == 0 || organId =="0"){
 		m_sale_query.orgId = m_sale_orgId;

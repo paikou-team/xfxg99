@@ -37,7 +37,7 @@
                 <input id="txtShopName" class="easyui-validatebox" style="width:180px" />
 			</li>
 			<li id="liStockOutOrgId" style="float: left; list-style: none; margin: 0px; padding: 2px;">
-				<label style="width: 70px">客户:</label>
+				<label style="width: 70px">真实姓名:</label>
                 <input id=txtCustName class="easyui-validatebox" style="width:180px" />
 			</li>
 			<li style="float: left; list-style: none; margin: 0px; padding: 0px;">

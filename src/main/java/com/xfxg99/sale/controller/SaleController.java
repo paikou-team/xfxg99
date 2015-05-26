@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
@@ -35,6 +36,7 @@ import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
 import com.xfxg99.core.Sms;
 import com.xfxg99.core.SmsInfo;
+import com.xfxg99.sale.model.Recharge;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.SaleService;
@@ -80,6 +82,7 @@ public class SaleController {
 
 		int orgId = joQuery.getInt("orgId");
 		int saletype = joQuery.getInt("saletype");
+		int isdelivery = joQuery.getInt("isdelivery");
 
 		Organization og = new Organization();
 		og = organizationService.getOrganization(orgId);
@@ -99,6 +102,9 @@ public class SaleController {
 		page = page == 0 ? 1 : page;
 
 		map.put("saletype", saletype);
+		if(isdelivery>0){ 
+			map.put("isdelivery", isdelivery);
+		}
 		if (!"".equals(beginTime)) {
 			map.put("beginDate", beginTime);
 		}
@@ -135,14 +141,15 @@ public class SaleController {
 
 			int orgId = joQuery.getInt("orgId");
 			int saletype = joQuery.getInt("saletype");
+			int isdelivery = joQuery.getInt("isdelivery");
 
 			Organization og = new Organization();
 			og = organizationService.getOrganization(orgId);
 
-			if (!user.getIsAllDataPermission()) {
+			//if (!user.getIsAllDataPermission()) {
 				map.put("orgPath", og.getPath());
 				map.put("orgId", orgId);
-			}
+			//}
 
 			String beginTime = joQuery.getString("beginTime");
 			String endTime = joQuery.getString("endTime");
@@ -151,6 +158,9 @@ public class SaleController {
 			String serialNo = joQuery.getString("serialNo");
 
 			map.put("saletype", saletype);
+			if(isdelivery>0){ 
+				map.put("isdelivery", isdelivery);
+			}
 			if (!"".equals(beginTime)) {
 				map.put("beginDate", beginTime);
 			}
@@ -416,6 +426,47 @@ public class SaleController {
 		return result.toJson();
 	}
 
+	/*
+	 * 确认充值信息逻辑
+	 */
+	@RequestMapping(value = "confirmDelivery.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String confirmDelivery(
+			@RequestParam(value = "id", required = true) Integer id,
+			HttpServletRequest request) throws Exception {
+		try {
+			SaleBill bill = new SaleBill();
+			HttpSession session = request.getSession();
+			UserVM user = (UserVM) session.getAttribute("user");
+			String message = "";
+			boolean isSessionExpired = false;
+			boolean isSuccess = false;
+			boolean isTimeout = false;
+			if (user != null) {
+				bill = saleService.selectByPrimaryKey(id);
+				if (bill != null) { 
+					bill.setIsdelivery(2);
+					saleService.updateByPrimaryKey(bill);
+					isSuccess = true;
+					message = "提货确认，成功";
+				} else {
+					isTimeout = true;
+					message = "获取数据失败";
+				}
+			} else {
+				isSessionExpired = true;
+				message = "Session过期，请重新登录";
+			}
+
+			Result<SaleBill> s = new Result<SaleBill>(bill, isSuccess,
+					isSessionExpired, isTimeout, message);
+			return s.toJson();
+		} catch (Exception ex) {
+			Result<SaleBill> s = new Result<SaleBill>(null, false, false,
+					false, "调用后台方法出错");
+			return s.toJson();
+		}
+	}
 	@RequestMapping(value = "sendVerifCode.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String sendVerifCode(

@@ -35,7 +35,7 @@
             <p id="tb_searchbox" style="margin-left:5px">
             	<label>确认状态:</label><input id="sch_isconfirm" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '已确认'},{id: 2,name: '未确认'}]" style="width:120px" />
             	<label>门店信息:</label><input id="sch_orgname" class="easyui-combobox" style="width:200px" />
-            	<label>用户姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />
+            	<label>真实姓名:</label><input id="sch_custname" class="easyui-validatebox" style="width:120px" />
             	<label>开始时间:</label><input id="sch_startTime" class="easyui-datebox" style="width:120px" />
             	<label>结束时间:</label><input id="sch_endTime" class="easyui-datebox" style="width:120px" />
             	<!-- <label>确认人:</label><input id="sch_username" class="easyui-validatebox" style="width:120px" />  -->

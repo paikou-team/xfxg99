@@ -32,6 +32,9 @@
             <!--<a id="btnCheckBill" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onCheckStockBill()">确认</a>-->
          </span>
             <a id="btnExit" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_close" plain="true" onclick="onExit()">退出</a>
+           <span id="tb_Deliverytb">
+            <a id="btnDelivery" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onDelivery()">提货确认</a>
+        	 </span>
         </p>
         <div class="easyui-tabs" data-options="tabWidth:120" style="width: 100%; height: 340px; border-left: 1px solid #D4D4D4; border-right: 1px solid #D4D4D4">
             <div title="基本信息" data-options="tabWidth:115" style="padding: 3px">
