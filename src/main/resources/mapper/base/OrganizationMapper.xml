@@ -185,6 +185,12 @@
     from t_organization
     where parent_id = #{parentId,jdbcType=INTEGER}
   </select>
+  <select id="getItemsByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_organization
+    where parent_id = #{parentId,jdbcType=INTEGER} or id =  #{parentId,jdbcType=INTEGER}
+  </select>
   <select id="getMaxId" resultType="java.lang.Integer">
     select 
     MAX(id)

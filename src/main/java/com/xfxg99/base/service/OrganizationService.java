@@ -75,4 +75,9 @@ public class OrganizationService{
 		// TODO Auto-generated method stub
 		return organizationMapper.getOrganList(parentId);
 	}
+
+	public List<Organization> getItemsByParentId(Integer id) {
+		// TODO Auto-generated method stub
+		return organizationMapper.getItemsByParentId(id);
+	}
 }

@@ -143,16 +143,10 @@ $(function() {
 				return 'color:red;';
 			}
 		}
-	});
-    $("#sch_orgname").combobox({
-        valueField: 'id',
-        textField: 'name',
-        editable: false,
-        panelHeight: 'auto',
-        onSelect: selectOrgName
-    }); 
-
-	loadOrgs();
+	}); 
+    $("#sch_orgname").combotree({
+    	url: 'organization/getTreeListByParentId.do?parentid='+m_charge_orgId 
+    });  
 
 	ChargeManage.getTotalChargeInfo();
 	$("#AddCharge").bind("click", ChargeManage.AddCharge);
@@ -171,27 +165,11 @@ function setSaleQueryTime(){
 	$("#sch_startTime").datebox('setValue',bt.toSimpleString());
 	$("#sch_endTime").datebox('setValue',et.toSimpleString());
 }
-
-function loadOrgs(){ 
-	var orgs =  loadAllOrgById(m_charge_orgId);
-	var a={id:0,name:'全部'};
-	orgs.splice(0, 0, a );
-	$("#sch_orgname").combobox('loadData',orgs); 
-	$("#sch_orgname").combobox('setValue',m_charge_orgId); 
-}
+ 
 function onSelRow(rowIndex, rowData) {
 	ChargeManage.packageObject(rowData);
 	ChargeManage.ShowDialog();
-}
-function selectOrgName(record) {
-	if(record.id>0){
-		m_charge_query.orgname = record.name;
-		m_charge_query.orgId = record.id;
-	}else{
-		m_charge_query.orgId = m_charge_orgId
-	}
-	
-}
+} 
 var ChargeManage = {
 	AddCharge : function() {
 		
@@ -330,6 +308,12 @@ var ChargeManage = {
 			m_charge_query.isconfirm = 0;
 		} else {
 			m_charge_query.isconfirm = $("#sch_isconfirm").combobox("getValue");
+		}
+		var organId = $("#sch_orgname").combotree("getValue");
+		if(organId==undefined||organId ==""||organId == 0 || organId =="0"){
+			m_charge_query.orgId = m_charge_orgId;
+		}else{
+			m_charge_query.orgId = $("#sch_orgname").combotree("getValue");
 		}
 	},
 	getTotalChargeInfo:function(){

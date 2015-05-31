@@ -30,8 +30,8 @@
 					<label style="width: 70px;vertical-align:middle">销售部门:</label>
 				</td>
 				<td>
-					<input id=cmbSaleDept class="easyui-combobox" style="width:100px" />
-				</td>
+					<input id="cmtSaleDept" class="easyui-combotree" style="width:200px" />
+				</td> 
 				<td>
 					<label style="width: 70px">单据编号:</label>
 				</td>

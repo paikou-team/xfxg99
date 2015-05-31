@@ -25,17 +25,17 @@
 				</td>
 				<td>
 					<input id="cmbisdelivery" class="easyui-combobox" data-options="editable:false,valueField:'id',textField:'name',data:[{id: 0,name: '全部'},{id: 1,name: '未提货'},{id: 2,name: '已提货'}]" style="width:100px" />
-				</td>
+				</td> 
 				<td>
 					<label style="width: 70px;vertical-align:middle">销售部门:</label>
 				</td>
 				<td>
-					<input id="cmbSaleDept" class="easyui-combobox" style="width:100px" />
+					<input id="cmtSaleDept" class="easyui-combotree" style="width:200px" />
 				</td> 
 				<td>
 					<label style="width: 70px">单据编号:</label>
 				</td>
-				<td  >
+				<td>
 					<input id="txtSerialNo" class="easyui-validatebox" style="width:100px"/>
 				</td>
 				<td>
