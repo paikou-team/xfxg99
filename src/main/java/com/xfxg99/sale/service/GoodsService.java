@@ -26,4 +26,12 @@ public class GoodsService {
 		
 		return result;
 	}
+
+	public ListResult<Goods> loadGoodsInfoByBarCode(String goodsBar) {
+		// TODO Auto-generated method stub
+		List<Goods> ls=goodsMapper.loadGoodsInfoByBarCode(goodsBar); 
+		ListResult<Goods> result=new ListResult<Goods>(1,ls);
+		
+		return result;
+	}
 }

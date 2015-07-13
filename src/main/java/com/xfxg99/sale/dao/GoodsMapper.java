@@ -13,4 +13,6 @@ public interface GoodsMapper {
 	List<Goods> loadListWithPage(Map<String,Object> map);
 	
 	int countByMap(Map<String,Object> map);
+
+	List<Goods> loadGoodsInfoByBarCode(String goodsBar);
 }

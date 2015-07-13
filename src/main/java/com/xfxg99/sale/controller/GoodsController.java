@@ -65,4 +65,24 @@ public class GoodsController {
 		
 		return rs.toJson();
 	}
+	
+	
+	/**
+	 * 
+	 * @param goodsBar 
+	 * @return
+	 */
+	@RequestMapping(value = "getGoodsInfoByBarCode.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getGoodsInfoByBarCode(
+			@RequestParam(value = "goodsBar", required = false) String goodsBar,
+			HttpServletRequest request
+			){
+		try{
+			ListResult<Goods> rs = goodsService.loadGoodsInfoByBarCode(goodsBar);
+		
+			return rs.toJson();
+		}catch(Exception ex){
+			return null;
+		}
+	}
 }

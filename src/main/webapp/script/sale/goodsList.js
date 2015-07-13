@@ -41,10 +41,7 @@ $(function () {
                          return value;
                      }
                }
-        ]],
-        onLoadSuccess:function(){
-        	doSearch(value);
-        }
+        ]]
     });
 });
 /**

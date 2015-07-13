@@ -106,6 +106,9 @@
 
                 <div>
                     <div id="dgSaleDetail"></div>
+                    <div id="dgSaleDetailToolBar" style="height:30px;padding:5px;">
+                    	<label>扫描商品条码：</label><input id="txtGoodsBar" class="easyui-validatebox" style="width:150px"></input>
+                	</div>
                 </div>
             </div>
         </div>

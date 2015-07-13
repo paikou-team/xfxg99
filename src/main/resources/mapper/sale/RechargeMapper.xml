@@ -92,7 +92,7 @@
 	<select id="selectCustomerList" resultType="com.xfxg99.base.viewmodel.CustomerVM">
 		select user_id as
 		id,user_name as name
-		from ecs_users order by user_id asc
+		from ecs_users order by is_special desc 
 	</select>
 	<select id="loadrechargeCustUserlist" resultType="com.xfxg99.base.viewmodel.CustomerVM">
 		select 
@@ -122,11 +122,12 @@
 		<if test="phone !=null">
 			and mobile_phone like CONCAT('%','${phone}','%' )
 		</if>
-
+			order by is_special desc 
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},
 			#{pageSize,jdbcType=INTEGER}
 		</if>
+		
 	</select>
 	<select id="getCustUserCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(*) from

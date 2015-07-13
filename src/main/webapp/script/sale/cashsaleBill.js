@@ -41,8 +41,9 @@ $(function() {
 		idField : 'id',
 		singleSelect : true,
 		editRowIndex : undefined,
+        toolbar: "#dgSaleDetailToolBar",
 		// onDblClickRow: viewStockDetail,
-		toolbar : "#saleDetailToolBar",
+		//toolbar : "#saleDetailToolBar",
 		columns : [ [ {
 			title : 'id',
 			field : 'id',
@@ -84,7 +85,7 @@ $(function() {
 			align : 'right',
 			width : 100,
 			formatter : function(value, row, index) {
-				return value.toFixed(2);
+				return parseInt(value).toFixed(2);
 			}
 		}, {
 			title : '金额',
@@ -92,7 +93,11 @@ $(function() {
 			align : 'right',
 			width : 100,
 			formatter : function(value, row, index) {
-				return value.toFixed(2);
+				value = row.goodsNumber*row.goodsPrice;
+				return parseInt(value).toFixed(2);
+			},
+			editor : {
+				type : 'numberbox'
 			}
 		} ] ],
 
@@ -125,7 +130,9 @@ $(function() {
 
 	CustomerSelectManage.InitCustGrid();
 	$("#btnSearchCustUser").bind("click", CustomerSelectManage.SearchCustUser);
-	
+	$("#txtGoodsBar").on('input',function(e){  
+  		 doSearch();
+	}); 
 }); 
 function loadOrgs() {
 //	var orgs = loadStockOrg();
@@ -584,3 +591,32 @@ function fmoney(s, n) {
 	} 
 	return t.split("").reverse().join("") + "." + r; 
 } 
+function doSearch(){ 
+	var goodsBar = $.trim($("#txtGoodsBar").val());
+	if(goodsBar.length>0){ 
+		$.ajax({
+			url : "goods/getGoodsInfoByBarCode.do",
+			type : "POST",
+			dataType : "json",
+			async : false,
+			data : {
+				'goodsBar' : goodsBar
+			},
+			success : function(req) {
+				if(req.isSuccess){
+					if(req.rows.length>0){
+						$.each(req.rows,function(index,value){
+							onSelGoods(value);
+						});
+					}
+					//else{
+					//	$.messager.alert("系统提示", "该条码没有相关商品信息，请确认是否录入", "info");
+					//}
+				}else{
+					$.messager.alert("系统提示", "根据条码加载商品出错，请联系管理员", "info");
+				}
+			}
+		});
+		$("#txtGoodsBar").val("");
+	} 
+}
