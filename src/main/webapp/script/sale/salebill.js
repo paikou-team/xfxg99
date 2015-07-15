@@ -88,7 +88,7 @@ $(function() {
 			align : 'right',
 			width : 100,
 			formatter : function(value, row, index) {
-				return parseInt(value).toFixed(2);
+				return value.toFixed(2);
 			}
 		}, {
 			title : '金额',
@@ -96,11 +96,15 @@ $(function() {
 			align : 'right',
 			width : 100,
 			formatter : function(value, row, index) {
-				 value = row.goodsNumber*row.goodsPrice;
-				return parseInt(value).toFixed(2);
+				if(row.realAmount != undefined){
+					value = row.realAmount * row.goodsNumber;
+				}else{
+					value = row.goodsPrice * row.goodsNumber;
+				}
+				return value.toFixed(2);
 			},
 			editor : {
-				type : 'numberbox'
+				type : 'validatebox'
 			}
 		} ] ],
 
@@ -132,9 +136,11 @@ $(function() {
 
 	CustomerSelectManage.InitCustGrid();
 	$("#btnSearchCustUser").bind("click", CustomerSelectManage.SearchCustUser);
-	$("#txtGoodsBar").on('input',function(e){  
-  		 doSearch();
-	}); 
+	$("#txtGoodsBar").keydown(function(){
+        	if(event.keyCode == 13){
+           		 doSearch();  
+		}
+    }); 
 }); 
 function loadOrgs() {
 //	var orgs = loadStockOrg();
@@ -295,12 +301,23 @@ function endEdit(rowIndex) {
 		field : 'goodsNumber'
 	});
 
+	var amt = $('#dgSaleDetail').datagrid('getEditor', {
+		index : rowIndex,
+		field : 'amount'
+	});
+
 	if (ed != null) {
 		var data = $('#dgSaleDetail').datagrid('getData');
 		var row = data.rows[rowIndex];
 		var number = $(ed.target).numberbox('getValue');
+		var realAmount = row.goodsPrice;
+		if(amt !=null){
+		 	realAmount = $(amt.target).val();
+		}
 		row.number = number;
-		row.amount = row.goodsPrice * row.number;
+		row.realAmount = realAmount;
+		row.goodsNumber = number;
+		row.amount = realAmount * row.number;
 		$('#dgSaleDetail').datagrid('endEdit', rowIndex);
 		$('#dgSaleDetail').datagrid('refreshRow', rowIndex);
 	}
@@ -630,9 +647,17 @@ function printSaleBill(){
 //				if(goodsName.length>7){
 //					goodsName = goodsName.substring(0,7)+"…";
 //				}
-				productHtml+="<tr><td style='text-align:left;width:95px'><label>"+goodsName+"</label></td><td style='text-align:center;width:30px'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+fmoney(obj.goodsPrice,2)+"</label></td></tr>"
+
+				var reallayPrice = 0 ;
+				if(obj.realAmount != undefined){
+					reallayPrice = fmoney(obj.realAmount,2);
+				}else{
+					reallayPrice = fmoney(obj.goodsPrice,2);
+				}
+				var reallyAmount = parseFloat(obj.goodsNumber * reallayPrice);
+				productHtml+="<tr><td style='text-align:left;width:95px'><label>"+goodsName+"</label></td><td style='text-align:center;width:30px'><label>"+obj.goodsNumber+"</label></td><td style='text-align:center;'><label>"+reallayPrice+"</label></td></tr>"
 				totalCount +=Number(obj.goodsNumber);
-				totalAmout +=obj.amount;
+				totalAmout += reallyAmount;
 			}
 			totalAmout = fmoney(totalAmout,2);
 			$("#tbl_productList").html(productHtml);
@@ -680,6 +705,7 @@ function doSearch(){
 						$.each(req.rows,function(index,value){
 							onSelGoods(value);
 						});
+						$("#txtGoodsBar").val("");
 					}
 					//else{
 					//	$.messager.alert("系统提示", "该条码没有相关商品信息，请确认是否录入", "info");
@@ -689,6 +715,5 @@ function doSearch(){
 				}
 			}
 		});
-		$("#txtGoodsBar").val("");
 	} 
 }
