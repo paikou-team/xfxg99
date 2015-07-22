@@ -26,6 +26,7 @@ import com.xfxg99.base.service.OrganizationService;
 import com.xfxg99.base.viewmodel.CustomerVM;
 import com.xfxg99.base.viewmodel.UserVM;
 
+import com.xfxg99.sale.viewmodel.GoodsSaleVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 
 import com.xfxg99.sale.viewmodel.SaleGoodsVM;
@@ -102,7 +103,7 @@ public class SaleController {
 		page = page == 0 ? 1 : page;
 
 		map.put("saletype", saletype);
-		if(isdelivery>0){ 
+		if (isdelivery > 0) {
 			map.put("isdelivery", isdelivery);
 		}
 		if (!"".equals(beginTime)) {
@@ -118,6 +119,48 @@ public class SaleController {
 		ListResult<SaleBillVM> ls = saleService.loadListWithPage(map);
 
 		return ls.toJson();
+	}
+
+	/**
+	 * 获取所有销售商品的记录数据列表
+	 * 
+	 * @param query
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "loadGoodsSaleList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody
+	String loadGoodsSaleList(
+			@RequestParam(value = "orgId", required = false) Integer orgId,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			HttpServletRequest request) {
+		try {
+			Result<GoodsSaleVM> result = new Result<GoodsSaleVM>();
+			UserVM user = (UserVM) request.getSession().getAttribute("user");
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			int pageBegin = rows * (page > 0 ? (page - 1) : 0);
+			if (user == null) {
+				result = new Result<GoodsSaleVM>(null, false, true, false,
+						"请从新登录!");
+				return result.toJson();
+			} 
+				Organization og = new Organization();
+				og = organizationService.getOrganization(orgId);
+				map.put("orgPath", og.getPath()); 
+			
+			map.put("pageStart",pageBegin);
+			map.put("pageSize", rows);
+			map.put("orgId", orgId);
+
+			ListResult<GoodsSaleVM> ls = saleService.loadGoodsSaleList(map); 
+			return ls.toJson();
+		} catch (Exception ex) {
+			Result<GoodsSaleVM> result = new Result<GoodsSaleVM>();
+			result = new Result<GoodsSaleVM>(null, false, false, false, "请从新登录!");
+			return result.toJson();
+		}
 	}
 
 	@RequestMapping(value = "getTotalPriceInfo.do", produces = "application/json;charset=UTF-8")
@@ -146,10 +189,10 @@ public class SaleController {
 			Organization og = new Organization();
 			og = organizationService.getOrganization(orgId);
 
-			//if (!user.getIsAllDataPermission()) {
-				map.put("orgPath", og.getPath());
-				map.put("orgId", orgId);
-			//}
+			// if (!user.getIsAllDataPermission()) {
+			map.put("orgPath", og.getPath());
+			map.put("orgId", orgId);
+			// }
 
 			String beginTime = joQuery.getString("beginTime");
 			String endTime = joQuery.getString("endTime");
@@ -158,7 +201,7 @@ public class SaleController {
 			String serialNo = joQuery.getString("serialNo");
 
 			map.put("saletype", saletype);
-			if(isdelivery>0){ 
+			if (isdelivery > 0) {
 				map.put("isdelivery", isdelivery);
 			}
 			if (!"".equals(beginTime)) {
@@ -444,7 +487,7 @@ public class SaleController {
 			boolean isTimeout = false;
 			if (user != null) {
 				bill = saleService.selectByPrimaryKey(id);
-				if (bill != null) { 
+				if (bill != null) {
 					bill.setIsdelivery(2);
 					saleService.updateByPrimaryKey(bill);
 					isSuccess = true;
@@ -467,6 +510,7 @@ public class SaleController {
 			return s.toJson();
 		}
 	}
+
 	@RequestMapping(value = "sendVerifCode.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody
 	String sendVerifCode(

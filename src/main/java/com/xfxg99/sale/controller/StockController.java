@@ -78,7 +78,7 @@ public class StockController {
 		String serialNo = joQuery.getString("serialNo").trim();
 		serialNo = "".equals(serialNo) ? null : serialNo;
 		String beginTime = joQuery.getString("beginTime");
-		String endTime = joQuery.getString("endTime");
+		String endTime = joQuery.getString("endTime")+" 23:59:59";
 		int confirmState = joQuery.getInt("confirmState");
 
 		page = page == 0 ? 1 : page;

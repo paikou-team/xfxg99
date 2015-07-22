@@ -154,6 +154,9 @@ function onTreeMenuDblClick(row) {
 	case "shop_cash_sale":
 		src = "view/sale/cashsaleList.jsp?orgId=" + m_index_orgId+"&permission="+m_index_permission;
 		break;
+	case "goods_sale_record":
+		src = "view/sale/goodsaleList.jsp?orgId=" + m_index_orgId+"&permission="+m_index_permission;
+		break;
 
 	}
 	if (user.isAllDataPermission == false) {

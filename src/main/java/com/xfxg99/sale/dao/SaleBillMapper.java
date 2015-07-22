@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.xfxg99.base.viewmodel.CustomerVM;
+import com.xfxg99.core.ListResult;
 import com.xfxg99.core.MyBatisRepository;
 import com.xfxg99.sale.model.OrderAction;
 import com.xfxg99.sale.model.OrderGoods;
 import com.xfxg99.sale.model.OrderInfo;
 import com.xfxg99.sale.model.PayLog;
 import com.xfxg99.sale.model.SaleBill;
+import com.xfxg99.sale.viewmodel.GoodsSaleVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 @MyBatisRepository
 public interface SaleBillMapper {
@@ -46,4 +48,10 @@ public interface SaleBillMapper {
 	SaleBillVM loadVMById(Integer id);
 
 	void saveEcsCustomerPayInfo(PayLog plog);
+
+	List<GoodsSaleVM> loadGoodsSaleList(Map<String, Object> map);
+
+	int loadGoodsSaleCount(Map<String, Object> map);
+
+	void updateGoodsStorageCount(Map<String, Object> map);
 }

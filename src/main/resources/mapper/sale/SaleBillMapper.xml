@@ -406,6 +406,9 @@
       	isdelivery = #{isdelivery,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	<update id="updateGoodsStorageCount"  parameterType="java.util.Map">
+	 	update ecs_goods set goods_number = (goods_number + (#{goodsNumber,jdbcType=INTEGER})) where goods_id = #{goodsId,jdbcType=INTEGER}
+	</update>
 	<select id="loadListWithPage" parameterType="java.util.Map"
 		resultMap="ViewModelResultMap">
 		select
@@ -488,5 +491,43 @@
   		left join	t_user			as pu	on	s.preparer_id		=pu.id
   	where s.id=  #{id,jdbcType=INTEGER}
   
-  </select>
+  </select> 
+  
+	<select id="loadGoodsSaleList"  parameterType="java.util.Map" resultType="com.xfxg99.sale.viewmodel.GoodsSaleVM">
+	 select sg.goods_id        as id,
+	 		o.name             as orgName,
+	 		g.goods_name       as goodsName,
+	 		sg.goods_number    as goodsNumber,
+	 		t.serial_no        as serialNo,
+	 		t.sale_time        as saleTime
+	 	from t_sale_goods sg 
+		left join t_sale  t on sg.sale_id = t.id
+		left join t_organization o on t.org_id = o.id
+		left join ecs_goods g on sg.goods_id = g.goods_id 
+		<if test="orgId !=null">
+			where o.id = #{orgId,jdbcType=INTEGER}
+		</if>
+		<if test="orgPath != null">
+			or o.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%')
+		</if>
+		
+			order by t.sale_time desc
+  		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+		</if>
+  </select> 
+	<select id="loadGoodsSaleCount"  parameterType="java.util.Map" resultType="java.lang.Integer">
+	 select count(*)
+	 	from t_sale_goods sg 
+		left join t_sale  t on sg.sale_id = t.id 
+		left join t_organization o on t.org_id = o.id
+		<if test="orgId !=null">
+			where o.id = #{orgId,jdbcType=INTEGER}
+		</if>
+		<if test="orgPath != null">
+			or o.path like CONCAT(#{orgPath,jdbcType=VARCHAR},'%')
+		</if>
+			order by t.org_id
+  </select> 
+  
 </mapper>

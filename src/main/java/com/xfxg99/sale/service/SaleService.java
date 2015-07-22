@@ -26,6 +26,7 @@ import com.xfxg99.sale.model.OrderInfo;
 import com.xfxg99.sale.model.PayLog;
 import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.model.SaleGoods;
+import com.xfxg99.sale.viewmodel.GoodsSaleVM;
 import com.xfxg99.sale.viewmodel.SaleBillVM;
 import com.xfxg99.sale.viewmodel.SaleGoodsVM;
 
@@ -130,7 +131,8 @@ public class SaleService {
 				gs.setGoodsNumber(sg.getGoodsNumber());
 				gs.setMarketPrice(sg.getMarketPrice());
 				gs.setGoodsPrice(sg.getGoodsPrice());
-				saleGoodsMapper.insert(gs);
+				saleGoodsMapper.insert(gs); 
+				updateGoodsStorageCount(sg.getGoodsId(),sg.getGoodsNumber());
 				glist.add(sg);
 			}
 		}
@@ -143,6 +145,14 @@ public class SaleService {
 			saveAccountLog(custId, goodsAmount);
 			saveEcsCustomerPayInfo(orderid, custId, goodsAmount);
 		}
+	}
+
+	private void updateGoodsStorageCount(Integer goodsId,
+			Integer goodsNumber) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("goodsId", goodsId);
+		map.put("goodsNumber", goodsNumber*-1);
+		saleBillMapper.updateGoodsStorageCount(map);
 	}
 
 	private void saveEcsCustomerPayInfo(int orderid, int custId,
@@ -367,5 +377,13 @@ public class SaleService {
 	public void updateByPrimaryKey(SaleBill bill) {
 		// TODO Auto-generated method stub
 		saleBillMapper.updateByPrimaryKey(bill);
+	}
+
+	public ListResult<GoodsSaleVM> loadGoodsSaleList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int total = saleBillMapper.loadGoodsSaleCount(map);
+		List<GoodsSaleVM> ls = saleBillMapper.loadGoodsSaleList(map);
+
+		return new ListResult<GoodsSaleVM>(total, ls); 
 	}
 }
