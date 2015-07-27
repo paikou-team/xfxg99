@@ -420,6 +420,7 @@
     <result column="org_name" jdbcType="VARCHAR" property="orgName" />
     <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
     <result column="goods_number" jdbcType="INTEGER" property="goodsNumber" />
+    <result column="goods_currentnumber" jdbcType="INTEGER" property="currentNumber" />
   </resultMap>
   
   
@@ -451,7 +452,8 @@
   		inv.goods_id		as goods_id,
   		inv.goods_number	as goods_number,
   		org.name			as org_name,
-  		g.goods_name		as goods_name
+  		g.goods_name		as goods_name,
+  		g.goods_number      as goods_currentnumber
   		
   	from t_inventory 			as inv
   	left join t_organization 	as org on inv.org_id=org.id

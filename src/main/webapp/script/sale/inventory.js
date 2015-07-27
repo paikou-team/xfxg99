@@ -40,7 +40,8 @@ $(function () {
                { title: '部门', field: 'orgName', align: 'left', width: 150 },
                { title: 'goodsId', field: 'goodsId', align: 'left', hidden: true },
                { title: '商品', field: 'goodsName', align: 'left', width: 120 },
-               { title: '数量', field: 'goodsNumber', align: 'right', width: 120,
+               { title: '现有数量', field: 'currentNumber', align: 'left', width: 120},
+               { title: '入库数量', field: 'goodsNumber', align: 'right', width: 120,
             	   formatter:function(value,index,orw){
             		   if(value<0){
             			   return '<span style="color:red;">'+value+'</span>'; 

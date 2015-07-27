@@ -7,6 +7,13 @@ public class InventoryVM extends Inventory{
 
 	private String orgName;
 	private String goodsName;
+	private Integer currentNumber; 
+	public Integer getCurrentNumber() {
+		return currentNumber;
+	}
+	public void setCurrentNumber(Integer currentNumber) {
+		this.currentNumber = currentNumber;
+	}
 	public String getOrgName() {
 		return orgName;
 	}
