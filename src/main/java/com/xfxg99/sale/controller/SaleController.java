@@ -154,7 +154,8 @@ public class SaleController {
 			map.put("pageSize", rows);
 			map.put("orgId", orgId);
 
-			ListResult<GoodsSaleVM> ls = saleService.loadGoodsSaleList(map); 
+			ListResult<GoodsSaleVM> ls = saleService.loadGoodsSaleList(map);  
+			 
 			return ls.toJson();
 		} catch (Exception ex) {
 			Result<GoodsSaleVM> result = new Result<GoodsSaleVM>();

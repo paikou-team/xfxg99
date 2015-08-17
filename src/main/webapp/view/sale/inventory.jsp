@@ -17,7 +17,8 @@
 		<ul>
 			<li id="liStockOutOrgId" style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px">部门:</label>
-                <input id="cmbDept" class="easyui-combobox" style="width:180px" />
+				<input id="cmbDept" class="easyui-combotree" style="width:200px" />
+                <!--<input id="cmbDept" class="easyui-combobox" style="width:180px" />-->
 			</li>
 			<li style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px">商品名称:</label>

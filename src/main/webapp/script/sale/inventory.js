@@ -1,23 +1,20 @@
 var m_inventory_query={};
 var m_inventory_user;
-
+var m_inventory_orgId ;
 $(function () {
 	//var args = getUrlArgs();
 	
 	m_inventory_user = getCurrentUser();
 	var args = getUrlArgs();
 	m_inventory_query.orgId = args.orgId;
-	loadOrgs();
-	setDept();
+	m_inventory_orgId = args.orgId;
+	//loadOrgs();
+	//setDept();
     packQuery();
 
-    $("#cmbDept").combobox({
-        valueField: 'id',
-        textField: 'name',
-        editable: false,
-        panelHeight: 'auto',
-        onSelect: selectDept
-    });
+    $("#cmbDept").combotree({ 
+    	url: 'organization/getTreeListByParentId.do?parentid='+m_inventory_orgId
+    }); 
 	
 	$('#dgInventory').datagrid({
 		url:'stock/loadInventoryList.do',
@@ -53,21 +50,21 @@ $(function () {
     });
 });
 
-function setDept(){
-	if(!m_inventory_user.isAllDataPermission){
-		$("#cmbDept").combobox('select',m_inventory_user.orgId);
-	}
-}
-function selectDept(record) {
-	 m_inventory_query.orgId = record.id;
-}
-function loadOrgs(){
-	var orgs=loadStockOrg();
-	var a={id:0,name:'全部'};
-	orgs.splice(0, 0, a );
-	$("#cmbDept").combobox('loadData',orgs);
-	$("#cmbDept").combobox('select',0);
-}
+//function setDept(){
+//	if(!m_inventory_user.isAllDataPermission){
+//		$("#cmbDept").combobox('select',m_inventory_user.orgId);
+//	}
+//}
+//function selectDept(record) {
+//	 m_inventory_query.orgId = record.id;
+//}
+//function loadOrgs(){
+//	var orgs=loadStockOrg();
+//	var a={id:0,name:'全部'};
+//	orgs.splice(0, 0, a );
+//	$("#cmbDept").combobox('loadData',orgs);
+//	$("#cmbDept").combobox('select',0);
+//}
 
 function loadInventory() {
     try {
@@ -81,6 +78,13 @@ function loadInventory() {
 }
 
 function packQuery(){
+	var m_orgId = $("#cmbDept").combotree("getValue");
+	if(m_orgId>0){
+		m_inventory_query.orgId = m_orgId;
+	}else{
+		m_inventory_query.orgId = m_inventory_orgId;
+	}
+	
 	m_inventory_query.goodsName=$('#txtGoodsName').val();;
 }
 

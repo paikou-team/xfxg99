@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
+import com.xfxg99.sale.model.Inventory;
 import com.xfxg99.sale.viewmodel.InventoryVM;
 import com.xfxg99.sale.viewmodel.StockBillVM;
 import com.xfxg99.sale.viewmodel.StockGoodsVM;
@@ -54,6 +55,10 @@ public class StockService {
 		
 		if(bill.getId()==0){
 			stockBillMapper.insert(bill);
+			if(bill.getBillType()==12){
+				Inventory ivt = new Inventory();
+				//ivt 
+			}
 			bill.setSerialNo(billSerialNoMapper.updateBillSerialNo(billNoMap));
 		}else{
 			stockBillMapper.updateByPrimaryKey(bill);

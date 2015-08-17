@@ -1,5 +1,6 @@
 package com.xfxg99.sale.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class StockController {
 		String serialNo = joQuery.getString("serialNo").trim();
 		serialNo = "".equals(serialNo) ? null : serialNo;
 		String beginTime = joQuery.getString("beginTime");
-		String endTime = joQuery.getString("endTime")+" 23:59:59";
+		String endTime = joQuery.getString("endTime") + " 23:59:59";
 		int confirmState = joQuery.getInt("confirmState");
 
 		page = page == 0 ? 1 : page;
@@ -94,8 +95,8 @@ public class StockController {
 			Organization org = orgService.getOrganization(user.getOrgId());
 			map.put("userOrgPath", org.getPath());
 		}
-		map.put("pageStart", (page - 1) * rows);
-		map.put("pageSize", rows);
+		//map.put("pageStart", (page - 1) * rows);
+		//map.put("pageSize", rows);
 
 		result = stockService.loadVMListWithPage(map);
 
@@ -287,25 +288,30 @@ public class StockController {
 		goodsName = "".equals(goodsName) ? null : goodsName;
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		 
+
 		map.put("goodsName", goodsName);
 		page = page == 0 ? 1 : page;
 
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
+		map.put("orgId", orgId);
 		if (!user.getIsAllDataPermission()) {
-			Organization org = orgService.getOrganization(user.getOrgId());
+			Organization org = orgService.getOrganization(orgId);
 			map.put("userOrgPath", org.getPath());
-			map.put("orgId", orgId);
 		}
 
 		// Object x=map.get("goodsName");
 
 		int total = stockService.loadInventoryCount(map);
-		
-		List<InventoryVM> ls = stockService.loadInventoryList(map);
 
-		result = new ListResult<InventoryVM>(total, ls, true);
+		List<InventoryVM> ls = stockService.loadInventoryList(map);
+		List<InventoryVM> list = new ArrayList<InventoryVM>();
+		for (InventoryVM iv : ls) {
+			if (iv.getGoodsName() != null && iv.getGoodsName().length() > 0) {
+				list.add(iv);
+			}
+		}
+		result = new ListResult<InventoryVM>(total, list, true);
 
 		return result.toJson();
 	}

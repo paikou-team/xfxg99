@@ -383,7 +383,12 @@ public class SaleService {
 		// TODO Auto-generated method stub
 		int total = saleBillMapper.loadGoodsSaleCount(map);
 		List<GoodsSaleVM> ls = saleBillMapper.loadGoodsSaleList(map);
-
-		return new ListResult<GoodsSaleVM>(total, ls); 
+		List<GoodsSaleVM> lst = new ArrayList<GoodsSaleVM>();
+		for(GoodsSaleVM gs : ls){
+			if(gs.getGoodsName()!=null&&gs.getGoodsName().length()>0){
+				lst.add(gs);
+			}
+		}
+		return new ListResult<GoodsSaleVM>(total, lst); 
 	}
 }
