@@ -1,5 +1,8 @@
 package com.xfxg99.sale.controller;
 
+/*import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;*/
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,8 +12,19 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+  
 
-import net.sf.json.JSONObject;
+/*import jxl.Workbook;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;*/
+import net.sf.json.JSONObject; 
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -25,7 +39,6 @@ import com.xfxg99.base.viewmodel.UserVM;
 import com.xfxg99.core.GeneralUtil;
 import com.xfxg99.core.ListResult;
 import com.xfxg99.core.Result;
-import com.xfxg99.sale.model.SaleBill;
 import com.xfxg99.sale.service.BillSerialNoService;
 import com.xfxg99.sale.service.StockService;
 import com.xfxg99.sale.viewmodel.InventoryVM;
@@ -54,8 +67,7 @@ public class StockController {
 	 * @return
 	 */
 	@RequestMapping(value = "loadStockList.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	String loadStockList(
+	public @ResponseBody String loadStockList(
 			@RequestParam(value = "stockQuery", required = false) String query,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -81,8 +93,10 @@ public class StockController {
 		String beginTime = joQuery.getString("beginTime");
 		String endTime = joQuery.getString("endTime") + " 23:59:59";
 		int confirmState = joQuery.getInt("confirmState");
+		String goodsSerial = joQuery.getString("goodsSerial").trim();
+		goodsSerial = "".equals(goodsSerial) ? null : goodsSerial;
 
-		page = page == 0 ? 1 : page;
+		// page = page == 0 ? 1 : page;
 
 		map.put("billType", billType);
 		map.put("stockInOrgId", stockInOrgId);
@@ -91,12 +105,13 @@ public class StockController {
 		map.put("beginTime", beginTime);
 		map.put("endTime", endTime);
 		map.put("confirmState", confirmState);
+		map.put("goodsSerial", goodsSerial);
 		if (user.getIsAllDataPermission()) {
 			Organization org = orgService.getOrganization(user.getOrgId());
 			map.put("userOrgPath", org.getPath());
 		}
-		//map.put("pageStart", (page - 1) * rows);
-		//map.put("pageSize", rows);
+		// map.put("pageStart", (page - 1) * rows);
+		// map.put("pageSize", rows);
 
 		result = stockService.loadVMListWithPage(map);
 
@@ -109,8 +124,7 @@ public class StockController {
 	 * @return
 	 */
 	@RequestMapping(value = "loadBill.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	String loadBill(
+	public @ResponseBody String loadBill(
 			@RequestParam(value = "billType", required = false) Integer billType,
 			@RequestParam(value = "id", required = false) Integer id,
 			HttpServletRequest request) {
@@ -137,8 +151,7 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "confirmBill.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	String confirmBill(
+	public @ResponseBody String confirmBill(
 			@RequestParam(value = "id", required = false) Integer id,
 			HttpServletRequest request) {
 
@@ -201,8 +214,7 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "saveStockBill.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	String saveStockBill(
+	public @ResponseBody String saveStockBill(
 			@RequestParam(value = "bill", required = false) String billJson,
 			HttpServletRequest request) {
 
@@ -238,8 +250,7 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "delStockBill.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	String delStockBill(
+	public @ResponseBody String delStockBill(
 			@RequestParam(value = "id", required = false) Integer id,
 			HttpServletRequest request) {
 
@@ -265,8 +276,7 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "loadInventoryList.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody
-	String loadInventoryList(
+	public @ResponseBody String loadInventoryList(
 			@RequestParam(value = "inventoryQuery", required = false) String query,
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -346,4 +356,112 @@ public class StockController {
 		return bill;
 	}
 
+/*	@RequestMapping(value = "exportexcel.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String exportexcel(
+//			@RequestParam(value = "columns", required = false) String columns,
+//			@RequestParam(value = "rows", required = false) String rows,
+			@RequestParam(value = "inventoryQuery", required = false) String query,
+			HttpServletRequest request) {
+		try{
+			JSONObject joQuery = JSONObject.fromObject(query);
+			int orgId = joQuery.getInt("orgId");
+			String goodsName = joQuery.getString("goodsName");
+			goodsName = "".equals(goodsName) ? null : goodsName;
+	
+			Map<String, Object> map = new HashMap<String, Object>();
+			User user = (User) request.getSession().getAttribute("user");
+	
+			if (user == null) {
+				return "{\"isSuccess\":false,\"path\":\"\",\"Message\":\"导出失败，请联系管理员\"}";
+			}
+			map.put("goodsName", goodsName);
+			map.put("orgId", orgId);
+			if (!user.getIsAllDataPermission()) {
+				Organization org = orgService.getOrganization(orgId);
+				map.put("userOrgPath", org.getPath());
+			} 
+	
+			List<InventoryVM> ls = stockService.loadInventoryList(map);
+			List<InventoryVM> list = new ArrayList<InventoryVM>();
+			for (InventoryVM iv : ls) {
+				if (iv.getGoodsName() != null && iv.getGoodsName().length() > 0) {
+					list.add(iv);
+				}
+			}
+			String serverPath = getClass().getResource("/").getFile().toString(); 
+			serverPath = serverPath.substring(0, (serverPath.length() - 16));
+			String path = createExcelFile(list,serverPath);
+			if("".equals(path)){
+				return "{\"isSuccess\":false,\"path\":\"\",\"Message\":\"创建文家出错，请联系管理员\"}";
+			}else{
+				return "{\"isSuccess\":true,\"path\":\""+path+"\",\"Message\":\"\"}";
+			}
+		}catch(Exception ex){
+			return "{\"isSuccess\":false,\"path\":\"\",\"Message\":\"导出失败，请联系管理员\"}";
+		}
+	}
+
+	private String createExcelFile(List<InventoryVM> list,String serverPath) throws WriteException, IOException {
+		// TODO Auto-generated method stub
+		String filePath = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		java.util.Date date = new java.util.Date();
+		String str = sdf.format(date);
+		filePath = "excelModel/" + str + "_StockData.xls";
+		String realPath = serverPath + filePath;
+		 WritableWorkbook wwb = Workbook.createWorkbook(new File(realPath));  
+		 WritableSheet ws = wwb.createSheet("商品库存数据汇总统计", 0);  
+         // 设置表格的列宽度  
+         ws.setColumnView(0, 50);// 第一列宽14 
+         ws.setColumnView(1, 50);// 第一列宽14  
+         ws.setColumnView(2, 50);// 第一列宽14  
+         ws.setColumnView(3, 50);// 第一列宽14  
+         ws.setColumnView(4, 50);// 第一列宽14  
+         ws.setColumnView(5, 50);// 第一列宽14  
+         ws.setColumnView(6, 50);// 第一列宽14   
+         ws.setColumnView(7, 50);// 第一列宽14   
+         ws.setColumnView(8, 50);// 第一列宽14   
+         // **************往工作表中添加数据*****************  
+         // 定义字体格式：字体为：微软雅黑，24号子，加粗  
+         WritableFont titleFont = new WritableFont(WritableFont.createFont("微软雅黑"), 24, WritableFont.NO_BOLD);  
+         WritableFont contentFont = new WritableFont(WritableFont.createFont("楷体 _GB2312"), 12, WritableFont.NO_BOLD);  
+         WritableCellFormat titleFormat = new WritableCellFormat(titleFont);  
+         WritableCellFormat contentFormat = new WritableCellFormat(contentFont);  
+         //WritableCellFormat contentFormat2 = new WritableCellFormat(contentFont);  
+
+         contentFormat.setBorder(Border.ALL, BorderLineStyle.THIN, Colour.BLACK);  
+         // 设置格式居中对齐  
+         titleFormat.setAlignment(jxl.format.Alignment.CENTRE);  
+         contentFormat.setAlignment(jxl.format.Alignment.CENTRE);  
+         
+         // ***************将定义好的单元格添加到工作表中*****************  
+         ws.mergeCells(0, 0, 16, 0);// 合并单元格A-G共7列  
+         ws.addCell(new Label(0, 0, "表1-1 商品库存数据汇总统计表[1]（商品库存、调拨、销售情况）", titleFormat));
+         ws.addCell(new Label(1, 1, "序号", contentFormat)); 
+         ws.addCell(new Label(2, 1, "部门名称", contentFormat));
+         ws.addCell(new Label(3, 1, "商品名称", contentFormat));
+         ws.addCell(new Label(4, 1, "现有数量", contentFormat));
+         ws.addCell(new Label(5, 1, "入库数量", contentFormat));
+         ws.addCell(new Label(6, 1, "出库数量", contentFormat));
+         ws.addCell(new Label(7, 1, "调拨数量", contentFormat)); 
+         ws.addCell(new Label(8, 1, "总销售量", contentFormat)); 
+         for (int j = 0; j <list.size(); j++) {  
+        	 InventoryVM inventory =list.get(j);   
+             ws.addCell(new Label(1, j+3, j+1+"", contentFormat));  
+             ws.addCell(new Label(2, j+3, "" + inventory.getOrgName(), contentFormat));  
+             ws.addCell(new Label(3, j+3, "" + inventory.getGoodsName(), contentFormat));  
+             ws.addCell(new Label(4, j+3, "" + inventory.getCurrentNumber(), contentFormat));  
+             ws.addCell(new Label(5, j+3, ""  +inventory.getGoodsNumber(), contentFormat));  
+             ws.addCell(new Label(6, j+3, "" + inventory.getStkOutNumber(), contentFormat));  
+             ws.addCell(new Label(7, j+3, ""+inventory.getStkDbNumber(), contentFormat));  
+             ws.addCell(new Label(8, j+3, "" +inventory.getSaleNumber(), contentFormat));   
+         }
+		try {
+			 wwb.write();  
+	         wwb.close();  
+		} catch (Exception e) {
+			return "";
+		}
+		return filePath;
+	}*/
 }

@@ -294,7 +294,7 @@
   	left join	t_user			as ru	on	s.confirmer_id		=ru.id
   	where 1=1 
   	<if test="billType != null" >
-  		and s.bill_type =#{billType,jdbcType=VARCHAR}
+  		and s.bill_type =#{billType,jdbcType=INTEGER}
   	</if>
   	<if test="serialNo != null" >
   	and s.serial_no like CONCAT( '%',#{serialNo,jdbcType=VARCHAR},'%')
@@ -324,6 +324,17 @@
   				(sio.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or sio.path=#{userOrgPath,jdbcType=VARCHAR})
   			or 	(soo.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or soo.path=#{userOrgPath,jdbcType=VARCHAR})
   			)
+  	</if>
+  	<if test="goodsSerial != null">
+  		 and s.serial_no in (
+				select st.serial_no from t_stock as st 
+				left join t_stock_goods as sg on st.id = sg.stock_id 
+				where st.bill_type = #{billType,jdbcType=VARCHAR}
+							and sg.goods_id in(
+												select eg.goods_id from ecs_goods eg 
+												left join ecs_goods_attr ega on eg.goods_id = ega.goods_id and ega.attr_value = #{goodsSerial,jdbcType=VARCHAR}
+												)
+			)
   	</if>
   </select>
   
@@ -373,6 +384,17 @@
   				(sio.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or sio.path=#{userOrgPath,jdbcType=VARCHAR})
   			or 	(soo.path like CONCAT(#{userOrgPath,jdbcType=VARCHAR},'.%') or soo.path=#{userOrgPath,jdbcType=VARCHAR})
   			)
+  	</if>
+  	<if test="goodsSerial != null">
+  		 and s.serial_no in (
+				select st.serial_no from t_stock as st 
+				left join t_stock_goods as sg on st.id = sg.stock_id 
+				where st.bill_type = #{billType,jdbcType=VARCHAR}
+							and sg.goods_id in(
+												select eg.goods_id from ecs_goods eg 
+												left join ecs_goods_attr ega on eg.goods_id = ega.goods_id and ega.attr_value = #{goodsSerial,jdbcType=VARCHAR}
+												)
+			)
   	</if>
   	
   	<if test="pageStart !=null">
@@ -450,10 +472,32 @@
   		inv.id				as id,
   		inv.org_id			as org_id,
   		inv.goods_id		as goods_id,
-  		inv.goods_number	as goods_number,
+  		(
+  			select sum(sg.goods_number) from t_stock_goods sg where sg.stock_id in
+
+			(select DISTINCT s.id from t_stock s where s.serial_no like 'RK%')
+			and sg.goods_id = inv.goods_id
+  		)					as goods_number, 
+  		(
+  			select sum(sg.goods_number) from t_stock_goods sg where sg.stock_id in
+
+			(select DISTINCT s.id from t_stock s where s.serial_no like 'CK%')
+			and sg.goods_id = inv.goods_id
+  			
+  		)					as stkOutNumber, 
+  		(
+  			select sum(sg.goods_number) from t_stock_goods sg where sg.stock_id in
+
+			(select DISTINCT s.id from t_stock s where s.serial_no like 'DB%')
+			and sg.goods_id = inv.goods_id
+  			
+  		)					as stkDbNumber, 
   		org.name			as org_name,
   		g.goods_name		as goods_name,
-  		g.goods_number      as goods_currentnumber
+  		g.goods_number      as goods_currentnumber,
+			(
+				select sum(sg.goods_number) from t_sale_goods sg where sg.goods_id = inv.goods_id 
+			)								as saleNumber
   		
   	from t_inventory 			as inv
   	left join t_organization 	as org on inv.org_id=org.id

@@ -17,12 +17,16 @@
 			<a id="btnEditStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_edit" plain="true" onclick="onStockBillEdit()">查看</a> 
 			<a id="btnConfirmStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_confirm" plain="true" onclick="onStockConfirm()">确认</a> 
 			<a id="btnDelStockBill"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_delete" plain="true" onclick="onStockDel()">删除</a>
-        </p>
+			  </p>
 	</div>
 	<br />
 	<div style="width: 100%; float: left;">
-	<div  style="margin-top:10px;">
+	<div  style="margin-top:10px;"> 
 		<ul>
+			<li id="ligoodsSerial" style="float: left; list-style: none; margin: 0px; padding: 2px;">
+				<label style="width: 70px;vertical-align:middle">商品条码:</label>
+                <input id="goodsSerial" class="easyui-validatabox" style="width:180px" />
+			</li>
 			<li id="liStockInOrgId" style="float: left; list-style: none; margin: 0px; padding: 2px;">
 				<label style="width: 70px;vertical-align:middle">入库部门:</label>
                 <input id="cmbStockInDept" class="easyui-combobox" style="width:180px" />

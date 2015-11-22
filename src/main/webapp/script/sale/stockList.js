@@ -56,7 +56,7 @@ $(function () {
         fitColumns: true,
         rownumbers: true,
         resizable: true,
-        pagination: true,
+        pagination: false,
         pageNumber: 1,
         pageSize: 10,
         nowrap: false,
@@ -160,6 +160,7 @@ function packQuery(){
 	m_stock_query.beginTime = $('#dteBeginTime').datebox('getValue');
 	m_stock_query.endTime = $('#dteEndTime').datebox('getValue');
 	m_stock_query.serialNo = $('#txtSerialNo').val();
+	m_stock_query.goodsSerial = $("#goodsSerial").val();
 }
 
 function onStockSearch(){
@@ -285,4 +286,3 @@ function onStockDel(){
 		$.messager.alert("提示", "请选择单据!", "info");
 	}
 }
-

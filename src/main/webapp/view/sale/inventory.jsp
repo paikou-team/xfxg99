@@ -11,7 +11,12 @@
 </head>
 
 <body  >
-
+<div > 
+		<p style="float: left; width:100%; height:10px">
+			 
+			<a href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon_xfxg_export" plain="true" onclick="onStockBillExport()">导出Excel</a> 
+        </p>
+	</div>
 	<br />
 	<div  style="margin-top:10px;">
 		<ul>

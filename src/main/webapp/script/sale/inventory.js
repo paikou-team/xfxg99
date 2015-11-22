@@ -26,7 +26,7 @@ $(function () {
         resizable: true,
         pagination: true,
         pageNumber: 1,
-        pageSize: 10,
+        pageSize: 20,
         nowrap: false,
         idField: 'id',
         singleSelect: true,
@@ -45,7 +45,24 @@ $(function () {
             		   }else{
             			   return value;
             		   }
-            	   }}
+            	   }},
+               { title: '出库数量', field: 'stkOutNumber', align: 'right', width: 120,
+            	   formatter:function(value,index,orw){
+            		   if(value<0){
+            			   return '<span style="color:red;">'+value+'</span>'; 
+            		   }else{
+            			   return value;
+            		   }
+            	   }},
+               { title: '调拨数量', field: 'stkDbNumber', align: 'right', width: 120,
+            	   formatter:function(value,index,orw){
+            		   if(value<0){
+            			   return '<span style="color:red;">'+value+'</span>'; 
+            		   }else{
+            			   return value;
+            		   }
+            	   }},
+            	{ title: '总销售量', field: 'saleNumber', align: 'right', width: 120}
         ]]
     });
 });
@@ -92,5 +109,22 @@ function onStockSearch(){
 	loadInventory();
 }
 
+function onStockBillExport(){
+	var rows = $('#dgInventory').datagrid('getRows');
+	if(rows.length == 0){
+		$.messager.alert("操作提示","无可操作数据","info");
+		return;
+	} 
+    packQuery();
+    $.post('stock/exportexcel.do', {
+    	inventoryQuery : JSON.stringify(m_inventory_query) 
+    }, function(json){ 
+		if(json.isSuccess){
+			window.location.href = json.path;
+		}else{
+			$.messager.alert("操作提示",json.Message,"error");
+	    }
+    });
+}
 
 
